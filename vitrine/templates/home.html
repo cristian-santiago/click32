@@ -1,0 +1,26 @@
+<!--vitrine/templates/home.html-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stores</title>
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    </head>
+    <body>
+        <h1> Top Stores</h1>
+        <div>
+            {% for store in stores %}
+            <div>
+                <h2> {{ store.name }}</h2>
+                <p>{{ store.description }}</p>
+                {% if store.image %}
+                    <img src="{{ store.image.url }}" alt="{{ store.name }}" width="300" height="180">
+                {% endif %}
+                <p><a href="{% url 'store_detail' store.id %}"> View Details</a> </p>
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>

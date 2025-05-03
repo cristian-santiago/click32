@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta>
+    <meta>
+    <title>{{ store.name }}</title>
+</head>
+<body>
+    <h1>{{ stpre.name }}</h1>
+    <p>{{ store.description }}</p>
+    {% if store.image %}
+        <img src="{{ store.image.url}}" alt="{{ store.name }}" width="200">
+    {% endif %}
+    <p><a href="{{ store.external_link}}" target="_blank"> Visit Store</a></p>
+</body>
+</html>

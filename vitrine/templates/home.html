@@ -15,8 +15,8 @@
             <div>
                 <h2> {{ store.name }}</h2>
                 <p>{{ store.description }}</p>
-                {% if store.image %}
-                    <img src="{{ store.image.url }}" alt="{{ store.name }}" width="300" height="180">
+                {% if store.main_banner %}
+                    <img src="{{ store.main_banner.url }}" alt="{{ store.name }}" width="300" height="180">
                 {% endif %}
                 <p><a href="{% url 'store_detail' store.id %}"> View Details</a> </p>
             </div>

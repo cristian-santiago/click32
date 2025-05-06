@@ -6,11 +6,38 @@
     <title>{{ store.name }}</title>
 </head>
 <body>
+
+    <div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px;">
+        {% if store.main_banner %}
+            <img src="{{store.main_banner.url}}" alt="Main Banner" style="height: 200px ;">
+        {% endif %}
+
+        {% if store.carousel_2 %}
+            <img src="{{store.carousel_2.url}}" alt="carousel_2" style="height: 200px;">
+        {% endif %}
+
+        {% if store.carousel_3 %}
+            <img src="{{store.carousel_3.url}}" alt="carousel_3" style="height: 200px;">
+        {% endif %}
+
+        {% if store.carousel_4 %}
+            <img src="{{store.carousel_4.url}}" alt="carousel_4" style="height: 200px;">
+        {% endif %}
+    </div>
     <h1>{{ stpre.name }}</h1>
     <p>{{ store.description }}</p>
-    {% if store.image %}
-        <img src="{{ store.image.url}}" alt="{{ store.name }}" width="200">
+    
+    {% if store.whatsapp_link %}
+        <li> <a href="{{store.whatsapp_link}}" target="_blank"> WhatsApp</a></li>
     {% endif %}
-    <p><a href="{{ store.external_link}}" target="_blank"> Visit Store</a></p>
+    {% if store.instagram_link %}
+        <li><a href="{{store.instagram_link}}" target="_blank"> Instagram</a></li>
+    {% endif %}
+    {% if store.facebook_link %}
+        <li> <a href="{{store.facebook_link}}" target="_blank"> Facebook </a></li>
+    {% endif %}
+    {% if store.website_link %}
+        <li> <a href="{{store.website_link}}" target="_blank"> Site Oficial</a></li>
+    {% endif %}
 </body>
 </html>

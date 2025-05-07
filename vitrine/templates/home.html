@@ -10,16 +10,13 @@
     </head>
     <body>
         <h1> Top Stores</h1>
-        <div>
+        <div class="store-list"> 
             {% for store in stores %}
-            <div>
-                <h2> {{ store.name }}</h2>
-                <p>{{ store.description }}</p>
                 {% if store.main_banner %}
-                    <img src="{{ store.main_banner.url }}" alt="{{ store.name }}" width="300" height="180">
+                <a href="{% url 'store_detail' store.id %}" class="store-banner">
+                    <img src="{{ store.main_banner.url }}" alt="{{ store.name }}">
+                </a>
                 {% endif %}
-                <p><a href="{% url 'store_detail' store.id %}"> View Details</a> </p>
-            </div>
             {% endfor %}
         </div>
     </body>

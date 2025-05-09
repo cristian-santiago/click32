@@ -1,29 +1,46 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta>
-    <meta>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ store.name }}</title>
+    
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/toolbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/store_detail.css' %}">
 </head>
 <body>
 
-    <div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px;">
-        {% if store.main_banner %}
-            <img src="{{store.main_banner.url}}" alt="Main Banner" style="height: 200px ;">
-        {% endif %}
-
-        {% if store.carousel_2 %}
-            <img src="{{store.carousel_2.url}}" alt="carousel_2" style="height: 200px;">
-        {% endif %}
-
-        {% if store.carousel_3 %}
-            <img src="{{store.carousel_3.url}}" alt="carousel_3" style="height: 200px;">
-        {% endif %}
-
-        {% if store.carousel_4 %}
-            <img src="{{store.carousel_4.url}}" alt="carousel_4" style="height: 200px;">
-        {% endif %}
+    {% include "_navbar.html" %}
+    <div class="carousel-wrapper">
+        <div class="carousel-container">
+            {% if store.main_banner %}
+            <div class="carousel-item">
+                <img src="{{store.main_banner.url}}" alt="Main Banner">
+            </div>            
+            {% endif %}
+    
+            {% if store.carousel_2 %}
+                <div class="carousel-item">
+                    <img src="{{store.carousel_2.url}}" alt="carousel_2">
+                </div>            
+            {% endif %}
+    
+            {% if store.carousel_3 %}
+                <div class="carousel-item">
+                    <img src="{{store.carousel_3.url}}" alt="carousel_3">
+                </div>            
+            {% endif %}
+    
+            {% if store.carousel_4 %}
+                <div class="carousel-item">
+                    <img src="{{store.carousel_4.url}}" alt="carousel_4">
+                </div>            
+            {% endif %}
+        </div>
     </div>
+    
     <h1>{{ stpre.name }}</h1>
     <p>{{ store.description }}</p>
     

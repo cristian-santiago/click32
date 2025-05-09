@@ -5,6 +5,9 @@
     padding: 10px;
     max-width: 600px;
     margin: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    
 }
 
 .store-banner {
@@ -14,6 +17,7 @@
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
+    
 }
 
 .store-banner:hover {
@@ -28,3 +32,8 @@
     display: block;
     border-radius: 10px;
 }
+body {
+    padding-top: 60px; /* ou um pouco mais, se necessário */
+    background-color: #f4f4f4;
+  }
+

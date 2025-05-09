@@ -1,0 +1,32 @@
+.carousel-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.carousel-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.carousel-container::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-item {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.carousel-item img {
+    width: 100%;
+    aspect-ratio: 16 / 5;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}

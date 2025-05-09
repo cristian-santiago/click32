@@ -1,15 +1,19 @@
 <!--vitrine/templates/home.html-->
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Stores</title>
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/toolbar.css' %}">
     </head>
     <body>
-        <h1> Top Stores</h1>
+        {% include "_navbar.html" %}
+        
         <div class="store-list"> 
             {% for store in stores %}
                 {% if store.main_banner %}

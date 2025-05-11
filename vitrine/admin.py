@@ -2,13 +2,14 @@ import os
 import shutil
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Store
+from .models import Store, Tag
 from django.utils.text import slugify
 import logging
 
 logger = logging.getLogger(__name__)
 
 @admin.register(Store)
+@admin.site.register(Tag)
 class StoreAdmin(admin.ModelAdmin):
     list_display = ('name', 'highlight')
     search_fields = ('name',)

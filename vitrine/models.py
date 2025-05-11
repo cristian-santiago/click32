@@ -2,6 +2,14 @@ import os
 from django.db import models
 from django.utils.text import slugify
 
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 def store_image_path(instance, filename):
     #create a path like: stores/store_id/banner.img
     
@@ -20,6 +28,9 @@ class Store(models.Model):
 
     # Customer premium section
     highlight = models.BooleanField(default=False)
+    
+    # filter the store by tags
+    tags = models.ManyToManyField(Tag, blank=True)
 
     # external links
     #external_link = models.URLField(help_text="Link para WPP, iFood")
@@ -31,3 +42,6 @@ class Store(models.Model):
     
     def __str__(self):
         return self.name
+    
+   
+    

@@ -12,3 +12,11 @@ def home(request):
 def store_detail(request, store_id):
     store = get_object_or_404(Store, id=store_id)
     return render(request, 'store_detail.html', {'store':store})
+
+def advertise(request):
+
+    return render(request, 'advertise.html')
+
+def about(request):
+    
+    return render(request, 'about.html')

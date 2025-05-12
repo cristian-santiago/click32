@@ -121,7 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -131,17 +130,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+
     'handlers': {
-        'file': {
-            'level': 'DEBUG',  # Pode ser DEBUG, INFO, WARNING, ERROR, CRITICAL
-            'class': 'logging.FileHandler',
-            'filename': 'logs/store_admin.log',  # Caminho e nome do arquivo de log
+        'console': {
+            'class': 'logging.StreamHandler',
         },
     },
+
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',  
+    },
+
     'loggers': {
+        # Desativa log de queries SQL
+        'django.db.backends': {
+            'level': 'WARNING',  
+            'handlers': ['console'],
+            'propagate': False,
+        },
         'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
+            'handlers': ['console'],
+            'level': 'WARNING',  
             'propagate': True,
         },
     },

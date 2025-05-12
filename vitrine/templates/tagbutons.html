@@ -1,0 +1,14 @@
+<div class="tag-buttons-w">
+    <div class="tag-buttons">
+        <a href=".">
+            <button class="tag-btn">Todas as Lojas</button>
+        </a>
+        {% for tag in tags %}
+            <a href="?filter={{ tag.name }}">
+            <button class="tag-btn {% if tag.name == selected_tag %}active{% endif %}">
+                {{ tag.name }}
+            </button>
+            </a>
+        {% endfor %}
+    </div>
+</div>

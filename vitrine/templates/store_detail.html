@@ -1,59 +1,53 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ store.name }}</title>
-    
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">    
-    <link rel="stylesheet" href="{% static 'css/store_detail.css' %}">
-</head>
-<body>
 
-    {% include "_navbar.html" %}
-    <div class="carousel-wrapper">
-        <div class="carousel-container">
-            {% if store.main_banner %}
-            <div class="carousel-item">
-                <img src="{{store.main_banner.url}}" alt="Main Banner">
-            </div>            
-            {% endif %}
-    
-            {% if store.carousel_2 %}
-                <div class="carousel-item">
-                    <img src="{{store.carousel_2.url}}" alt="carousel_2">
-                </div>            
-            {% endif %}
-    
-            {% if store.carousel_3 %}
-                <div class="carousel-item">
-                    <img src="{{store.carousel_3.url}}" alt="carousel_3">
-                </div>            
-            {% endif %}
-    
-            {% if store.carousel_4 %}
-                <div class="carousel-item">
-                    <img src="{{store.carousel_4.url}}" alt="carousel_4">
-                </div>            
-            {% endif %}
+{% block title %}{{ store.name }}{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/store_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="carousel-wrapper">
+    <div class="carousel-container">
+      {% if store.main_banner %}
+        <div class="carousel-item">
+          <img src="{{ store.main_banner.url }}" alt="Main Banner">
         </div>
+      {% endif %}
+      {% if store.carousel_2 %}
+        <div class="carousel-item">
+          <img src="{{ store.carousel_2.url }}" alt="Carousel 2">
+        </div>
+      {% endif %}
+      {% if store.carousel_3 %}
+        <div class="carousel-item">
+          <img src="{{ store.carousel_3.url }}" alt="Carousel 3">
+        </div>
+      {% endif %}
+      {% if store.carousel_4 %}
+        <div class="carousel-item">
+          <img src="{{ store.carousel_4.url }}" alt="Carousel 4">
+        </div>
+      {% endif %}
     </div>
-    
-    <h1>{{ stpre.name }}</h1>
-    <p>{{ store.description }}</p>
-    
+  </div>
+
+  <h1>{{ store.name }}</h1>
+  <p>{{ store.description }}</p>
+
+  <ul>
     {% if store.whatsapp_link %}
-        <li> <a href="{{store.whatsapp_link}}" target="_blank"> WhatsApp</a></li>
+      <li><a href="{{ store.whatsapp_link }}" target="_blank">WhatsApp</a></li>
     {% endif %}
     {% if store.instagram_link %}
-        <li><a href="{{store.instagram_link}}" target="_blank"> Instagram</a></li>
+      <li><a href="{{ store.instagram_link }}" target="_blank">Instagram</a></li>
     {% endif %}
     {% if store.facebook_link %}
-        <li> <a href="{{store.facebook_link}}" target="_blank"> Facebook </a></li>
+      <li><a href="{{ store.facebook_link }}" target="_blank">Facebook</a></li>
     {% endif %}
     {% if store.website_link %}
-        <li> <a href="{{store.website_link}}" target="_blank"> Site Oficial</a></li>
+      <li><a href="{{ store.website_link }}" target="_blank">Site Oficial</a></li>
     {% endif %}
-</body>
-</html>
+  </ul>
+{% endblock %}

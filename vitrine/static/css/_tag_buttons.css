@@ -1,0 +1,33 @@
+.tag-buttons-wrapper {
+  max-width: 1200px; 
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.tag-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 10px 0;
+  scroll-snap-type: x mandatory;
+}
+
+.tag-btn {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  background-color: #eee;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.tag-btn:hover {
+  background-color: #ccc;
+}
+
+.tag-btn.active {
+  background-color: #4caf50;
+  color: white;
+}

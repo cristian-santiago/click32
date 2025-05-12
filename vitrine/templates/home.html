@@ -1,27 +1,44 @@
-<!--vitrine/templates/home.html-->
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Stores</title>
-        <link rel="stylesheet" href="{% static 'css/home.css' %}">
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        
-    </head>
-    <body>
-        {% include "_navbar.html" %}
-        
-        <div class="store-list"> 
-            {% for store in stores %}
-                {% if store.main_banner %}
-                <a href="{% url 'store_detail' store.id %}" class="store-banner">
-                    <img src="{{ store.main_banner.url }}" alt="{{ store.name }}">
-                </a>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </body>
-</html>
+{% block title %}Página Inicial{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}">
+{% endblock %}
+
+{% block content %}
+  {% include '_tag_buttons.html' %}
+
+  <div class="store-list"> 
+    {% for store in stores %}
+      {% if store.main_banner %}
+        <a href="{% url 'store_detail' store.id %}" class="store-banner">
+          <img src="{{ store.main_banner.url }}" alt="{{ store.name }}">
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+  
+{% endblock %}
+{% block extra_js %}
+    <script>
+    const tagContainer = document.querySelector('.tag-buttons');
+
+    // Salva a posição horizontal da rolagem antes de sair da página
+    window.addEventListener('beforeunload', () => {
+        if (tagContainer) {
+        localStorage.setItem('tagScrollLeft', tagContainer.scrollLeft);
+        }
+    });
+
+    // Restaura a posição da rolagem ao carregar
+    window.addEventListener('load', () => {
+        const savedScroll = localStorage.getItem('tagScrollLeft');
+        if (tagContainer && savedScroll !== null) {
+        tagContainer.scrollLeft = parseInt(savedScroll, 10);
+        }
+    });
+    </script>
+{% endblock %}

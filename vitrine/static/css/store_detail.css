@@ -30,3 +30,14 @@
     border-radius: 10px;
     display: block;
 }
+
+@media (min-width: 1600px) {
+  .carousel-wrapper {
+    max-width: 1000px;
+  }
+
+  .carousel-item img {
+    aspect-ratio: 16 / 4; /* banners maiores também aqui */
+    max-height: 500px;
+  }
+}

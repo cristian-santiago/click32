@@ -3,8 +3,8 @@
     flex-direction: column;
     gap: 20px;
     padding: 10px;
-    max-width: 600px;
-    margin: auto;
+    max-width: 1200px;
+    margin:  auto;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     
@@ -37,3 +37,14 @@ body {
     background-color: #f4f4f4;
   }
 
+@media (min-width: 1600px) {
+  .store-list,
+  .tag-buttons-wrapper {
+    max-width: 1440px;
+  }
+
+  .store-banner img {
+    aspect-ratio: 16 / 4; /* um pouco mais alto para telas grandes */
+    max-height: 500px;
+  }
+}

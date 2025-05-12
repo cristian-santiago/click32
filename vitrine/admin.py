@@ -9,9 +9,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 @admin.register(Store)
-@admin.site.register(Tag)
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'highlight')
+    list_display = ('name','highlight', 'display_tags')
+    filter_horizontal = ('tags',)
     search_fields = ('name',)
     readonly_fields = (
         'main_banner_preview',
@@ -22,7 +22,7 @@ class StoreAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields':('name', 'description', 'highlight')
+            'fields':('name', 'description', 'highlight', 'tags')
         }),
         ('Links de Contato', {
             'fields': (
@@ -48,7 +48,18 @@ class StoreAdmin(admin.ModelAdmin):
         }),
     )
 
+    # TAGS DISPLAYED
+    def get_queryset(self, request):
+        
+        qs = super().get_queryset(request)
+        return qs.prefetch_related('tags') # improve performance
+    
+    def display_tags(self, obj):
+        return ', '.join(tag.name for tag in obj.tags.all()) 
+    display_tags.short_description = 'Tags' # column name
 
+
+    #BANNERS & CAROUSEL
     def main_banner_preview(self, obj):
         if obj.main_banner:
             return format_html('<img src="{}" width="200" />', obj.main_banner.url)
@@ -73,7 +84,7 @@ class StoreAdmin(admin.ModelAdmin):
         return "No image"
     carousel_4_preview.short_description = "Carousel 4 preview"
 
-    
+    # DELETE 
     def delete_model(self, request, obj):
         # Delete images from file system
         for image_field in [obj.main_banner, obj.carousel_2, obj.carousel_3, obj.carousel_4]:
@@ -95,3 +106,7 @@ class StoreAdmin(admin.ModelAdmin):
 
         # Delete the object from the database
         super().delete_model(request, obj)
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ['name']

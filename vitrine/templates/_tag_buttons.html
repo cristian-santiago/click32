@@ -1,0 +1,14 @@
+<div class="tag-groups">
+  {% for group_name, tags in tag_groups.items %}
+    <div class="tag-dropdown">
+      <button class="tag-main">{{ group_name }}</button>
+      <div class="tag-submenu">
+        {% for tag in tags %}
+          <a href="{% url 'início' %}?tag={{ tag }}">{{ tag }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+     

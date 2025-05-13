@@ -1,14 +1,58 @@
-<div class="tag-groups">
-  {% for group_name, tags in tag_groups.items %}
-    <div class="tag-dropdown">
-      <button class="tag-main">{{ group_name }}</button>
-      <div class="tag-submenu">
-        {% for tag in tags %}
-          <a href="{% url 'início' %}?tag={{ tag }}">{{ tag }}</a>
-        {% endfor %}
-      </div>
-    </div>
-  {% endfor %}
-</div>
+{%load static%}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard Responsivo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <button class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </button>
 
-     
+        <div class="profile">
+            <h2>Click32</h2>
+            <p>Comercios & Serviços</p>
+        </div>
+
+        <input type="text" class="search-bar" placeholder="Search..." />
+
+        <ul class="menu">
+            <li><i class="fas fa-utensils"></i><span class="menu-text">Comidas</span></li>
+            <li><i class="fas fa-store"></i><span class="menu-text">Comércios</span></li>
+            <li><i class="fas fa-tools"></i><span class="menu-text">Serviços</span></li>
+            <li><i class="fas fa-spa"></i><span class="menu-text">Moda & Beleza</span></li>
+            <li><i class="fas fa-heartbeat"></i><span class="menu-text">Saúde</span></li>
+            <li><i class="fas fa-graduation-cap"></i><span class="menu-text">Educação</span></li>
+            <li><i class="fas fa-th-large"></i><span class="menu-text">Outros</span></li>
+        </ul>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleBtn');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            toggleBtn.innerHTML = sidebar.classList.contains('collapsed')
+                ? '<i class="fas fa-chevron-right"></i>'
+                : '<i class="fas fa-chevron-left"></i>';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 &&
+                !sidebar.contains(e.target) &&
+                e.target !== toggleBtn &&
+                !sidebar.classList.contains('collapsed')) {
+                sidebar.classList.add('collapsed');
+                toggleBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            }
+        });
+        
+    </script>
+</body>
+</html>

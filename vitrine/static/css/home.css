@@ -1,3 +1,4 @@
+
 .store-list {
     display: flex;
     flex-direction: column;
@@ -48,3 +49,10 @@ body {
     max-height: 500px;
   }
 }
+@media (max-width: 768px) {
+  .store-list {
+    width: calc(100% - 40px);
+    margin-left: 40px;
+  }
+}
+

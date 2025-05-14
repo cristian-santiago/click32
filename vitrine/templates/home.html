@@ -22,23 +22,4 @@
   </div>
   
 {% endblock %}
-{% block extra_js %}
-    <script>
-    const tagContainer = document.querySelector('.tag-buttons');
 
-    // Salva a posição horizontal da rolagem antes de sair da página
-    window.addEventListener('beforeunload', () => {
-        if (tagContainer) {
-        localStorage.setItem('tagScrollLeft', tagContainer.scrollLeft);
-        }
-    });
-
-    // Restaura a posição da rolagem ao carregar
-    window.addEventListener('load', () => {
-        const savedScroll = localStorage.getItem('tagScrollLeft');
-        if (tagContainer && savedScroll !== null) {
-        tagContainer.scrollLeft = parseInt(savedScroll, 10);
-        }
-    });
-    </script>
-{% endblock %}

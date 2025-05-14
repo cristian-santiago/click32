@@ -14,9 +14,13 @@ def home(request):
 
     # Agrupamento de tags por setor
     tag_groups = {
+        'Comidas': ['Comidas','Pizzas', 'Lanches', 'Açaiterias'],
+        'Comércios': ['Bazares', 'PetShops', 'Padarias', 'Auto Peças'],    
+        'Serviços': ['Encanador', 'Pintor', 'Pedreiro','Técnico de Informática'],
         'Beleza': ['Beleza', 'Manicure', 'Salão de Beleza', 'Maquiadora'],
-        'Alimentação': ['Alimentação', 'Lanches', 'Restaurantes', 'Açaiterias'],
-        'Serviços': ['Encanador', 'Pintor', 'Pedreiro','Técnico de Informática']
+        'Saúde' :['Psicólogos', 'Fisioterapeutas', 'Nutricionista', 'Fonoaudiólogo'],
+        'Educação': ['Alfabetização','Música', 'Inglês', 'Aulas Particulares'],
+        'Outros': ['Aluguéis', 'Vendas', 'Trocas', 'Parcerias']
         # Adicione mais grupos conforme necessário
     }
 

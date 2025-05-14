@@ -11,9 +11,15 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Arial', sans-serif;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
 }
 
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    overflow-x: hidden;
+}
 
 .sidebar {
     width: 200px;
@@ -23,21 +29,13 @@
     background: var(--sidebar-bg);
     color: var(--text-light);
     z-index: 1000;
-    height: 100dvh;   
+    height: 100%;
+    min-height: 100vh;
     overflow-x: hidden;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
 }
 
 .sidebar.collapsed {
-    display: flex;
     width: 40px;
-    overflow-y: auto;
-    flex-direction: column;
-    height: 100dvh;
-    overflow: hidden;
 }
 
 .sidebar.collapsed .menu-text,
@@ -48,27 +46,11 @@
     display: none;
 }
 
-.sidebar.collapsed .menu {
-    flex-grow: 1;
-    overflow-y: auto;
-    height: 100dvh;
+.sidebar.collapsed .menu li {
+    justify-content: center;
+    padding: 12px 0;
 }
 
-.sidebar.collapsed .menu > li {
-    display: flex;
-    justify-content: center !important;    
-    margin: 0 !important;
-    border-radius: 0 !important;
-    width: 100% !important;
-    height: 48px !important; /* Altura fixa para consistência */
-    overflow: visible !important;
-}
-
-.sidebar,
-.sidebar.collapsed,
-.menu {
-    -webkit-overflow-scrolling: touch;
-}
 .toggle-btn {
     position: absolute;
     right: -15px;
@@ -91,7 +73,6 @@
     margin-left: 200px;
     flex: 1;
     padding: 20px;
-    transition: margin-left 0.s ease;
 }
 
 .sidebar.collapsed ~ .main-content {
@@ -99,34 +80,22 @@
 }
 
 .sidebar.collapsed .menu i {
-    font-size: 1.2rem !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    display: block !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center !important;
-    line-height: 1 !important;
-}
-
-.sidebar.collapsed .menu > li {
-    height: 48px;
-    padding: 0;
+    font-size: 1rem;
+    margin-right: 0;
+    width: 100%;
+    text-align: center;
 }
 
 .profile {
-    padding: 10px 0;
+    padding: 30px 20px;
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    flex-shrink: 0;
 }
 
 .profile h2 {
     font-size: 1.2rem;
     white-space: nowrap;
     overflow: hidden;
-    flex-shrink: 0;
 }
 
 .profile p {
@@ -135,25 +104,19 @@
     margin-top: 5px;
 }
 
-/*.search-bar {
+.search-bar {
     width: calc(100% - 20px);
     margin: 15px 10px;
     padding: 10px 15px;
     border-radius: 5px;
     border: none;
     background: var(--sidebar-hover);
-    color: white; 
-}*/
+    color: white;
+}
 
 .menu {
     list-style: none;
     padding: 10px 0;
-    display: flex;
-    flex-direction: column;
-    margin: 0;   
-    overflow-y: auto;
-    flex-grow: 1;
-    
 }
 
 
@@ -163,12 +126,13 @@
 }
 
 .menu i {
-    margin-right: 10px;    
-    font-size: 1rem;
-    width: 24px;             /* FIXO: igual para todos os ícones */
+    margin-right: 10px;
+    font-size: 1.2rem;
+    width: 24px;
     min-width: 24px;
-    text-overflow: ellipsis;
-    
+    text-align: center;
+    display: inline-block;
+    flex-shrink: 0;
 }
 
 .menu-item {
@@ -177,19 +141,10 @@
 
 .menu-header {
     display: flex;
-    margin-left: 20px;
     align-items: center;
-    padding: 10px 10px;
+    padding: 12px 15px;
     cursor: pointer;
-    overflow: hidden;    
-    max-width: 100%;    
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.sidebar.collapsed .menu-header {
-    margin-left: 0;
-    margin-right: 4px;
+    width: 100%;
 }
 
 .menu-header:hover {
@@ -238,8 +193,7 @@
     background: var(--sidebar-hover);
 }
 
-
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .sidebar {
         width: 40px;
     }
@@ -275,31 +229,4 @@
         opacity: 1 !important;
         color: var(--text-light) !important;
     }
-
-    .sidebar.collapsed .menu > li {
-        display: flex;
-        justify-content: center !important;
-        align-items: center !important;
-        padding: 20px 0 !important;
-        margin: 0 !important;
-        border-radius: 0 !important;
-        width: 100% !important;
-        height: 48px !important;
-        overflow: visible !important;
-    }
-
-  .sidebar.collapsed .menu i {
-    font-size: 1.2rem !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    
-    display: block !important;
-    
-    
-    text-align: center !important;
-    line-height: 1 !important;
 }
-
-
-
-}   

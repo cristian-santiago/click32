@@ -5,7 +5,8 @@
     gap: 20px;
     padding: 10px;
     max-width: 1200px;
-    margin:  auto;
+    margin: auto;
+    
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     
@@ -49,10 +50,12 @@ body {
     max-height: 500px;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .store-list {
+    margin-left: 40px; /* Compensa a sidebar recolhida */
     width: calc(100% - 40px);
-    margin-left: 40px;
+    padding-right: 10px;
+    padding-left: 10px;
   }
 }
 

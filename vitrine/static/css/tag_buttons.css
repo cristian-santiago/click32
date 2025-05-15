@@ -11,7 +11,8 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Arial', sans-serif;
-    transition: all 0.5s ease;
+    transition: 0.3s;
+    
 }
 
 
@@ -79,8 +80,7 @@
     border: none;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+    border-radius: 50%;    
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,7 +91,7 @@
     margin-left: 200px;
     flex: 1;
     padding: 20px;
-    transition: margin-left 0.s ease;
+    
 }
 
 .sidebar.collapsed ~ .main-content {
@@ -100,14 +100,8 @@
 
 .sidebar.collapsed .menu i {
     font-size: 1.2rem !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    display: block !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center !important;
-    line-height: 1 !important;
+    margin: auto;
+    width: 100% !important;   
 }
 
 .sidebar.collapsed .menu > li {
@@ -157,17 +151,15 @@
 }
 
 
-
 .menu li:hover {
     background: var(--sidebar-hover);
 }
 
 .menu i {
     margin-right: 10px;    
-    font-size: 1rem;
+    font-size: 1.2rem;
     width: 24px;             /* FIXO: igual para todos os ícones */
-    min-width: 24px;
-    text-overflow: ellipsis;
+    
     
 }
 
@@ -177,42 +169,50 @@
 
 .menu-header {
     display: flex;
-    margin-left: 20px;
-    align-items: center;
-    padding: 10px 10px;
-    cursor: pointer;
-    overflow: hidden;    
-    max-width: 100%;    
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    margin-left: 20px;    
+    padding: 10px;    
+    
+    overflow: hidden;     
+   
+   
 }
 
 .sidebar.collapsed .menu-header {
-    margin-left: 0;
-    margin-right: 4px;
+    display: flex;    
+    margin-left:0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-right: 0px;
+    padding-left: 0px;
+    
 }
 
 .menu-header:hover {
     background: var(--sidebar-hover);
 }
 
-.dropdown-toggle {
-    margin-left: auto;
-    font-size: 0.8rem;
-}
+
 
 .dropdown {
     list-style: none;
     padding: 0;
     margin: 0;
     background: var(--dropdown-bg);
-    display: none;
+    display: block;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease-out, opacity 0.9s;
+    opacity: 0;
+    visibility: hidden;
 }
 
-.dropdown.open, .dropdown[style*="display: block"] {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+.dropdown.open  {
+    max-height: 1000px; /* Ajuste conforme necessário */
+    opacity: 1;
+    visibility: visible;
+    transition: max-height 2.5s ease, opacity 0.9s ease !important; 
+    
 }
 
 .dropdown li {
@@ -222,7 +222,8 @@
     overflow: visible;
     white-space: normal;
     text-overflow: clip;
-    cursor: default;
+    
+    
 }
 
 .dropdown-item {
@@ -230,16 +231,25 @@
     color: var(--text-light);
     display: block;
     font-size: 0.9rem;
-    visibility: visible !important;
-    opacity: 1 !important;
+    visibility: visible ;
+    opacity: 1 ;
+    
 }
 
 .dropdown-item:hover {
     background: var(--sidebar-hover);
+    
 }
 
+.sidebar.collapsed .dropdown {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+}
 
-@media (max-width: 1024px) {
+@media (max-width: 1920px) {
     .sidebar {
         width: 40px;
     }
@@ -258,14 +268,15 @@
     }
 
     .dropdown {
-        display: none;
+        max-height: 0;
+        opacity: 0;
+        display: block !important; /
     }
 
-    .sidebar:not(.collapsed) .dropdown.open, 
-    .sidebar:not(.collapsed) .dropdown[style*="display: block"] {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
+     .dropdown.open {
+        max-height: 1000px;
+        opacity: 1;
+        visibility: visible;
     }
 
     .dropdown li,
@@ -287,19 +298,6 @@
         height: 48px !important;
         overflow: visible !important;
     }
-
-  .sidebar.collapsed .menu i {
-    font-size: 1.2rem !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    
-    display: block !important;
-    
-    
-    text-align: center !important;
-    line-height: 1 !important;
-}
-
 
 
 }   

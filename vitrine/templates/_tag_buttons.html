@@ -1,156 +1,138 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Responsivo</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}">
-</head>
-<body>
-    <div class="sidebar collapsed" id="sidebar">
-        <button class="toggle-btn" id="toggleBtn">
-            <i class="fas fa-chevron-left"></i>
-        </button>
+{% block extra_css %}
+ 
+  <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+<div class="sidebar collapsed" id="sidebar">
+    <button class="toggle-btn" id="toggleBtn">
+        <i class="fas fa-chevron-left"></i>
+    </button>
 
-        <div class="profile">
-            <h2>Click32</h2>            
-        </div>
-
-        <!--<input type="text" class="search-bar" placeholder="Search...">-->
-
-        <ul class="menu">
-            {% for group, tags in tag_groups.items %}
-                <li class="menu-item">
-                    <div class="menu-header" data-dropdown="{{ group }}" >
-                        <i class="fas {% if group == 'Comidas' %}fa-utensils
-                                     {% elif group == 'Comércios' %}fa-store
-                                     {% elif group == 'Serviços' %}fa-tools
-                                     {% elif group == 'Beleza' %}fa-spa
-                                     {% elif group == 'Saúde' %}fa-heartbeat
-                                     {% elif group == 'Educação' %}fa-graduation-cap
-                                     {% elif group == 'Outros' %}fa-th
-                                     {% else  %}fa-th{% endif %}"></i>
-                        <span class="menu-text">{{ group }}</span>
-                        
-                    </div>
-                    <ul class="dropdown" style="display: none;">
-                        {% for tag in tags %}
-                            <li>
-                                <a href="?tag={{ tag }}" class="dropdown-item">{{ tag }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="profile">
+        <h2>Click32</h2>            
     </div>
+
+    <ul class="menu">
+        {% for group, tags in tag_groups.items %}
+            <li class="menu-item">
+                <div class="menu-header" data-dropdown="{{ group }}">
+                    <i class="fas {% if group == 'Comidas' %}fa-utensils
+                                 {% elif group == 'Comércios' %}fa-store
+                                 {% elif group == 'Serviços' %}fa-tools
+                                 {% elif group == 'Beleza' %}fa-spa
+                                 {% elif group == 'Saúde' %}fa-heartbeat
+                                 {% elif group == 'Educação' %}fa-graduation-cap
+                                 {% elif group == 'Outros' %}fa-th
+                                 {% else %}fa-th{% endif %}"></i>
+                    <span class="menu-text">{{ group }}</span>
+                </div>
+                <ul class="dropdown" style="display: none;">
+                    {% for tag in tags %}
+                        <li>
+                            <a href="{% url 'home' %}?tag={{ tag }}" class="dropdown-item">{{ tag }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleBtn');
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleBtn');
 
-    // 1. Configuração inicial
-    // Sidebar começa com class="collapsed" no HTML. Expandir apenas se desktop e usuário expandiu antes
-    const isMobile = window.innerWidth <= 768;
-    if (!isMobile && localStorage.getItem('sidebar-expanded') === 'true') {
-        sidebar.classList.remove('collapsed');
-    }
-
-    // Restaurar dropdown ativo se sidebar estiver expandido
-    const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
-    if (lastOpenDropdown && !sidebar.classList.contains('collapsed')) {
-        openDropdown(lastOpenDropdown);
-    }
-
-    updateToggleIcon();
-
-    // Funções auxiliares
-    function updateToggleIcon() {
-        toggleBtn.innerHTML = sidebar.classList.contains('collapsed')
-            ? '<i class="fas fa-chevron-right"></i>'
-            : '<i class="fas fa-chevron-left"></i>';
-    }
-
-    function openDropdown(group) {
-        const target = document.querySelector(`[data-dropdown="${group}"]`);
-        if (target) {
-            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-            target.nextElementSibling.classList.add('open');
+        // 1. Configuração inicial
+        const isMobile = window.innerWidth <= 768;
+        if (!isMobile && localStorage.getItem('sidebar-expanded') === 'true') {
+            sidebar.classList.remove('collapsed');
         }
-    }
 
-    function collapseSidebar() {
-        sidebar.classList.add('collapsed');
-        localStorage.setItem('sidebar-expanded', 'false');
-        updateToggleIcon();
-    }
-
-    // 2. Evento de clique no toggle button
-    toggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-
-        const wasCollapsed = sidebar.classList.contains('collapsed');
-        sidebar.classList.toggle('collapsed');
-
-        localStorage.setItem('sidebar-expanded', wasCollapsed ? 'true' : 'false');
-
-        if (wasCollapsed && lastOpenDropdown) {
+        const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
+        if (lastOpenDropdown && !sidebar.classList.contains('collapsed')) {
             openDropdown(lastOpenDropdown);
         }
 
         updateToggleIcon();
-    });
 
-    // 3. Evento de clique nos itens do menu
-    document.querySelectorAll('.menu-header').forEach(header => {
-        header.addEventListener('click', (e) => {
-            const group = header.getAttribute('data-dropdown');
-            if (!group) return;
+        // Funções auxiliares
+        function updateToggleIcon() {
+            toggleBtn.innerHTML = sidebar.classList.contains('collapsed')
+                ? '<i class="fas fa-chevron-right"></i>'
+                : '<i class="fas fa-chevron-left"></i>';
+        }
 
-            if (sidebar.classList.contains('collapsed')) {
-                // Sidebar recolhida: redirecionar sem expandir
-                e.preventDefault();
-                e.stopPropagation();
-                localStorage.setItem('sidebar-last-dropdown', group);
-                window.location.href = `?tag=${encodeURIComponent(group)}`;
-            } else {
-                // Sidebar expandida: toggle dropdown
-                const dropdown = header.nextElementSibling;
-                const isOpen = dropdown.classList.contains('open');
-
+        function openDropdown(group) {
+            const target = document.querySelector(`[data-dropdown="${group}"]`);
+            if (target) {
                 document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+                target.nextElementSibling.classList.add('open');
+            }
+        }
 
-                if (!isOpen) {
-                    dropdown.classList.add('open');
+        function collapseSidebar() {
+            sidebar.classList.add('collapsed');
+            localStorage.setItem('sidebar-expanded', 'false');
+            updateToggleIcon();
+        }
+
+        // 2. Evento de clique no toggle button
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const wasCollapsed = sidebar.classList.contains('collapsed');
+            sidebar.classList.toggle('collapsed');
+            localStorage.setItem('sidebar-expanded', wasCollapsed ? 'true' : 'false');
+            if (wasCollapsed && lastOpenDropdown) {
+                openDropdown(lastOpenDropdown);
+            }
+            updateToggleIcon();
+        });
+
+        // 3. Evento de clique nos itens do menu
+        document.querySelectorAll('.menu-header').forEach(header => {
+            header.addEventListener('click', (e) => {
+                const group = header.getAttribute('data-dropdown');
+                if (!group) return;
+
+                if (sidebar.classList.contains('collapsed')) {
+                    // Sidebar recolhida: redirecionar para home com tag
+                    e.preventDefault();
+                    e.stopPropagation();
                     localStorage.setItem('sidebar-last-dropdown', group);
+                    window.location.href = `{% url 'home' %}?tag=${encodeURIComponent(group)}`;
                 } else {
-                    localStorage.removeItem('sidebar-last-dropdown');
+                    // Sidebar expandida: toggle dropdown
+                    const dropdown = header.nextElementSibling;
+                    const isOpen = dropdown.classList.contains('open');
+                    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+                    if (!isOpen) {
+                        dropdown.classList.add('open');
+                        localStorage.setItem('sidebar-last-dropdown', group);
+                    } else {
+                        localStorage.removeItem('sidebar-last-dropdown');
+                    }
                 }
+            });
+        });
+
+        // 4. Clique nos itens do dropdown
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const group = item.closest('.dropdown').previousElementSibling.getAttribute('data-dropdown');
+                localStorage.setItem('sidebar-last-dropdown', group);
+                collapseSidebar();
+            });
+        });
+
+        // 5. Fechar sidebar ao clicar fora (mobile)
+        document.addEventListener('click', (e) => {
+            if (isMobile && !sidebar.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target) && !e.target.closest('.menu-header')) {
+                collapseSidebar();
             }
         });
     });
-
-    // 4. Clique nos itens do dropdown
-    document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const group = item.closest('.dropdown').previousElementSibling.getAttribute('data-dropdown');
-            localStorage.setItem('sidebar-last-dropdown', group);
-            collapseSidebar();
-        });
-    });
-
-    // 5. Fechar sidebar ao clicar fora (mobile)
-    document.addEventListener('click', (e) => {
-        if (isMobile && !sidebar.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target) && !e.target.closest('.menu-header')) {
-            collapseSidebar();
-        }
-    });
-});
 </script>
-
-</body>
-</html>

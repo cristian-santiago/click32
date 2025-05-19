@@ -29,7 +29,9 @@ class StoreAdmin(admin.ModelAdmin):
                 'whatsapp_link',
                 'instagram_link',
                 'facebook_link',
-                'youtube_link',
+                'youtube_link', 
+                'x_link',
+                'google_maps_link',     
                 'website_link',
             ),
             'description': 'Fill only with the available contacts.'
@@ -84,7 +86,7 @@ class StoreAdmin(admin.ModelAdmin):
         return "No image"
     carousel_4_preview.short_description = "Carousel 4 preview"
 
-    # DELETE 
+    # WHEN DELETE DELETE THE STORE
     def delete_model(self, request, obj):
         # Delete images from file system
         for image_field in [obj.main_banner, obj.carousel_2, obj.carousel_3, obj.carousel_4]:
@@ -106,6 +108,24 @@ class StoreAdmin(admin.ModelAdmin):
 
         # Delete the object from the database
         super().delete_model(request, obj)
+
+    # DELETE OLD IMGs WHEN UPLOADIN NEW ONES
+    def save_model(self, request, obj, form, change):
+        if change:
+            old_obj = Store.objects.get(pk=obj.pk)
+            for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']:
+                old_file = getattr(old_obj, field_name)
+                new_file = getattr(obj, field_name)
+
+                if old_file and old_file != new_file:
+                    if os.path.isfile(old_file.path):
+                        try:
+                            os.remove(old_file.path)
+                            logger.info(f"Deleted old file: {old_file.path}")
+                        except Exception as e:
+                            logger.error(f"Error deleting old file {old_file.path}: {e}")
+                        
+        super().save_model(request, obj, form, change)
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):

@@ -1,7 +1,9 @@
 .carousel-wrapper {
-    max-width: 600px;
+    max-width: 500px;
     margin: 0 auto;
-    padding: 0 10px;
+    padding: 0px 5px;
+    padding-left: 45px;
+    
 }
 
 .carousel-container {
@@ -25,19 +27,78 @@
 
 .carousel-item img {
     width: 100%;
-    aspect-ratio: 16 / 5;
+    aspect-ratio: 4 / 3 ;
     object-fit: cover;
     border-radius: 10px;
     display: block;
 }
 
-@media (min-width: 1600px) {
-  .carousel-wrapper {
-    max-width: 1000px;
-  }
+/* Estilizar os ícones */
+.social-icons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 45px  ;
+    margin: 50px 0;
+    justify-content: center;
+    
 
-  .carousel-item img {
-    aspect-ratio: 16 / 4; /* banners maiores também aqui */
-    max-height: 500px;
-  }
+}
+
+.social-icons li {
+    display: inline-block;
+}
+
+.social-icons img {
+    width: 40px; /* Tamanho padrão para ícones */
+    height: 40px;
+    object-fit: contain; /* Preserva proporções */
+    transition: transform 0.2s ease;
+}
+
+.social-icons img:hover {
+    transform: scale(1.1); /* Efeito hover */
+}
+
+.description h1, h2 {
+    color: #333333;
+    text-align: center;
+    padding-left: 40px;
+}
+
+.description p {
+    color: #4A4A4A;
+    text-align: center;
+    padding-left: 60px;
+    padding-right: 40px;
+    text-align: justify;
+    margin-top: 10px;
+}
+
+.description {
+    margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+    .social-icons img {
+        width: 50px; /* Maior em desktop */
+        height: 50px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .carousel-wrapper {
+        max-width: 1000px;
+    }
+
+    .carousel-item img {
+        aspect-ratio: 16 / 4;
+        max-height: 500px;
+    }
+
+    .social-icons img {
+        width: 60px; /* Ainda maior em telas grandes */
+        height: 60px;
+    }
 }

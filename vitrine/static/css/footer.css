@@ -1,0 +1,12 @@
+footer {
+    color: red;
+    font-size: 10px;
+    text-align: center;
+    padding-left: 45px;
+    display: flex;
+}
+
+footer p {
+margin-bottom: 50px;
+
+}

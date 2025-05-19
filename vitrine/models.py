@@ -37,6 +37,8 @@ class Store(models.Model):
     whatsapp_link = models.URLField("WhatsApp", blank=True, null=True)
     instagram_link = models.URLField("Instagram", blank=True, null=True)
     facebook_link = models.URLField("Facebook", blank=True, null=True)
+    x_link = models.URLField("X", blank=True, null=True)
+    google_maps_link = models.URLField("Google Maps", max_length=300, blank=True, null=True)
     youtube_link = models.URLField("Youtube", blank=True, null=True)
     website_link = models.URLField("Site Oficial", blank=True, null=True)
     

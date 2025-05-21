@@ -70,7 +70,7 @@
 .menu {
     -webkit-overflow-scrolling: touch;
 }
-.toggle-btn {
+/* .toggle-btn {
     position: absolute;
     right: -15px;
     top: 20px;
@@ -85,6 +85,77 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}*/
+
+/* button */
+
+.toggle-btn {
+    position: absolute;
+    top: 10px; /* Mantém acima dos ícones */
+    z-index: 2000;
+    background: var(--sidebar-bg);
+    border: none;
+    width: 30px; /* Mesmo tamanho */
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 6px;
+}
+
+/* Centraliza no estado colapsado */
+.sidebar.collapsed .toggle-btn {
+    left: 0;
+    right: 0;
+    margin: 0 auto; /* Centraliza nos 40px */
+}
+
+/* Posiciona no canto direito no estado aberto */
+.sidebar:not(.collapsed) .toggle-btn {
+    right: 10px; /* Alinha à direita com margem */
+}
+
+/* Estilizar as três listras */
+.toggle-btn::before,
+.toggle-btn::after,
+.toggle-btn span {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 2px;
+    background: var(--text-light);
+    margin: 2px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Estado colapsado: três listras */
+.sidebar.collapsed .toggle-btn::before {
+    transform: translateY(0) rotate(0);
+}
+
+.sidebar.collapsed .toggle-btn::after {
+    transform: translateY(0) rotate(0);
+}
+
+.sidebar.collapsed .toggle-btn span {
+    opacity: 1;
+}
+
+/* Estado expandido: transformar em "X" */
+.sidebar:not(.collapsed) .toggle-btn::before {
+    transform: translateY(6px) rotate(45deg); /* Ajustado para formar "X" simétrico */
+}
+
+.sidebar:not(.collapsed) .toggle-btn::after {
+    transform: translateY(-6px) rotate(-45deg); /* Ajustado para formar "X" simétrico */
+}
+
+.sidebar:not(.collapsed) .toggle-btn span {
+    opacity: 0; /* Esconde a linha do meio */
 }
 
 .main-content {
@@ -109,11 +180,20 @@
     padding: 0;
 }
 
+.sidebar.collapsed .profile {
+    
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+.sidebar.collapsed .profile h2 {
+    display: none;
+}
 .profile {
-    padding: 10px 0;
+    height: 48px;
     text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
+    align-items: center;
+    padding-top: 11px;
 }
 
 .profile h2 {
@@ -121,6 +201,9 @@
     white-space: nowrap;
     overflow: hidden;
     flex-shrink: 0;
+    color: aqua;    
+    
+    
 }
 
 .profile p {
@@ -141,7 +224,6 @@
 
 .menu {
     list-style: none;
-    padding: 10px 0;
     display: flex;
     flex-direction: column;
     margin: 0;   

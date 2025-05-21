@@ -7,6 +7,10 @@
     margin: auto;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+ 
+}
+.store-list::-webkit-scrollbar{
+    display: none;
 }
 
 .store-banner {

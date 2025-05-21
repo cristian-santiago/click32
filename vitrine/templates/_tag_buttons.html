@@ -5,9 +5,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 <div class="sidebar collapsed" id="sidebar">
-    <button class="toggle-btn" id="toggleBtn">
-        <i class="fas fa-chevron-left"></i>
-    </button>
+    <button class="toggle-btn" id="toggleBtn"><span></span></button>
 
     <div class="profile">
         <h2>Click32</h2>            
@@ -40,99 +38,98 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.getElementById('toggleBtn');
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleBtn');
 
-        // 1. Configuração inicial
-        const isMobile = window.innerWidth <= 768;
-        if (!isMobile && localStorage.getItem('sidebar-expanded') === 'true') {
-            sidebar.classList.remove('collapsed');
-        }
+    // 1. Configuração inicial
+    const isMobile = window.innerWidth <= 768;
+    const isExpanded = localStorage.getItem('sidebar-expanded') === 'true';
 
-        const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
-        if (lastOpenDropdown && !sidebar.classList.contains('collapsed')) {
-            openDropdown(lastOpenDropdown);
-        }
+    // Definir estado inicial do sidebar
+    if (!isMobile && isExpanded) {
+        sidebar.classList.remove('collapsed');
+    } else {
+        sidebar.classList.add('collapsed'); // Garantir estado colapsado por padrão
+    }
 
-        updateToggleIcon();
+    // Restaurar último dropdown aberto, se sidebar não estiver colapsada
+    const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
+    if (lastOpenDropdown && !sidebar.classList.contains('collapsed')) {
+        openDropdown(lastOpenDropdown);
+    }
 
-        // Funções auxiliares
-        function updateToggleIcon() {
-            toggleBtn.innerHTML = sidebar.classList.contains('collapsed')
-                ? '<i class="fas fa-chevron-right"></i>'
-                : '<i class="fas fa-chevron-left"></i>';
-        }
-
-        function openDropdown(group) {
-            const target = document.querySelector(`[data-dropdown="${group}"]`);
-            if (target) {
-                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-                target.nextElementSibling.classList.add('open');
-            }
-        }
-
-        function collapseSidebar() {
-            sidebar.classList.add('collapsed');
-            localStorage.setItem('sidebar-expanded', 'false');
-            updateToggleIcon();
-        }
-
-        // 2. Evento de clique no toggle button
-        toggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            const wasCollapsed = sidebar.classList.contains('collapsed');
-            sidebar.classList.toggle('collapsed');
-            localStorage.setItem('sidebar-expanded', wasCollapsed ? 'true' : 'false');
-            if (wasCollapsed && lastOpenDropdown) {
+    // 2. Evento de clique no toggleBtn
+    toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        sidebar.classList.toggle('collapsed');
+        localStorage.setItem('sidebar-expanded', !sidebar.classList.contains('collapsed'));
+        // Abrir o último dropdown ao expandir
+        if (!sidebar.classList.contains('collapsed')) {
+            const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
+            if (lastOpenDropdown) {
                 openDropdown(lastOpenDropdown);
             }
-            updateToggleIcon();
-        });
+        }
+    });
 
-        // 3. Evento de clique nos itens do menu
-        document.querySelectorAll('.menu-header').forEach(header => {
-            header.addEventListener('click', (e) => {
-                const group = header.getAttribute('data-dropdown');
-                if (!group) return;
+    // Funções auxiliares
+    function openDropdown(group) {
+        const target = document.querySelector(`[data-dropdown="${group}"]`);
+        if (target) {
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+            target.nextElementSibling.classList.add('open');
+        }
+    }
 
-                if (sidebar.classList.contains('collapsed')) {
-                    // Sidebar recolhida: redirecionar para home com tag
-                    e.preventDefault();
-                    e.stopPropagation();
-                    localStorage.setItem('sidebar-last-dropdown', group);
-                    window.location.href = `{% url 'home' %}?tag=${encodeURIComponent(group)}`;
-                } else {
-                    // Sidebar expandida: toggle dropdown
-                    const dropdown = header.nextElementSibling;
-                    const isOpen = dropdown.classList.contains('open');
-                    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-                    if (!isOpen) {
-                        dropdown.classList.add('open');
-                        localStorage.setItem('sidebar-last-dropdown', group);
-                    } else {
-                        localStorage.removeItem('sidebar-last-dropdown');
-                    }
-                }
-            });
-        });
+    function collapseSidebar() {
+        sidebar.classList.add('collapsed');
+        localStorage.setItem('sidebar-expanded', 'false');
+    }
 
-        // 4. Clique nos itens do dropdown
-        document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', (e) => {
+    // 3. Evento de clique nos itens do menu
+    document.querySelectorAll('.menu-header').forEach(header => {
+        header.addEventListener('click', (e) => {
+            const group = header.getAttribute('data-dropdown');
+            if (!group) return;
+
+            if (sidebar.classList.contains('collapsed')) {
+                // Sidebar recolhida: redirecionar para home com tag
+                e.preventDefault();
                 e.stopPropagation();
-                const group = item.closest('.dropdown').previousElementSibling.getAttribute('data-dropdown');
                 localStorage.setItem('sidebar-last-dropdown', group);
-                collapseSidebar();
-            });
-        });
-
-        // 5. Fechar sidebar ao clicar fora (mobile)
-        document.addEventListener('click', (e) => {
-            if (isMobile && !sidebar.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target) && !e.target.closest('.menu-header')) {
-                collapseSidebar();
+                window.location.href = `{% url 'home' %}?tag=${encodeURIComponent(group)}`;
+            } else {
+                // Sidebar expandida: toggle dropdown
+                const dropdown = header.nextElementSibling;
+                const isOpen = dropdown.classList.contains('open');
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+                if (!isOpen) {
+                    dropdown.classList.add('open');
+                    localStorage.setItem('sidebar-last-dropdown', group);
+                } else {
+                    localStorage.removeItem('sidebar-last-dropdown');
+                }
             }
         });
     });
+
+    // 4. Clique nos itens do dropdown
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const group = item.closest('.dropdown').previousElementSibling.getAttribute('data-dropdown');
+            localStorage.setItem('sidebar-last-dropdown', group);
+            collapseSidebar();
+        });
+    });
+
+    // 5. Fechar sidebar ao clicar fora (mobile)
+    document.addEventListener('click', (e) => {
+        if (isMobile && !sidebar.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target) && !e.target.closest('.menu-header')) {
+            collapseSidebar();
+        }
+    });
+});
 </script>

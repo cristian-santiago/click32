@@ -3,7 +3,7 @@
     margin: 0 auto;
     padding: 0px 5px;
     padding-left: 45px;
-    
+    padding-top: 13px;
 }
 
 .carousel-container {
@@ -12,6 +12,11 @@
     gap: 20px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    -webkit-scroll-snap-type: x mandatory;
+    touch-action: pan-x;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -27,7 +32,7 @@
 
 .carousel-item img {
     width: 100%;
-    aspect-ratio: 4 / 3 ;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     border-radius: 10px;
     display: block;
@@ -39,11 +44,9 @@
     gap: 15px;
     flex-wrap: wrap;
     list-style: none;
-    padding-left: 45px  ;
+    padding-left: 45px;
     margin: 50px 0;
     justify-content: center;
-    
-
 }
 
 .social-icons li {
@@ -51,29 +54,69 @@
 }
 
 .social-icons img {
-    width: 40px; /* Tamanho padrão para ícones */
+    width: 40px;
     height: 40px;
-    object-fit: contain; /* Preserva proporções */
-    transition: transform 0.2s ease;
+    object-fit: contain;
+    transition: transform 0.2s ease; /* Para hover */
+    /* Animação de salto com pausa */
+    animation: jumpWave 3.5s ease-in-out infinite;
+    -webkit-animation: jumpWave 3.5s ease-in-out infinite;
+    will-change: transform;
+}
+
+/* Atraso progressivo para cada ícone */
+.social-icons li:nth-child(1) img { animation-delay: 0s; -webkit-animation-delay: 0s; }
+.social-icons li:nth-child(2) img { animation-delay: 0.1s; -webkit-animation-delay: 0.1s; }
+.social-icons li:nth-child(3) img { animation-delay: 0.2s; -webkit-animation-delay: 0.2s; }
+.social-icons li:nth-child(4) img { animation-delay: 0.3s; -webkit-animation-delay: 0.3s; }
+.social-icons li:nth-child(5) img { animation-delay: 0.4s; -webkit-animation-delay: 0.4s; }
+.social-icons li:nth-child(6) img { animation-delay: 0.5s; -webkit-animation-delay: 0.5s; }
+
+/* Animação de salto com pausa */
+@keyframes jumpWave {
+    0%, 10% {
+        transform: translateY(0); /* Posição inicial */
+    }
+    5% {
+        transform: translateY(-10px); /* Pico do salto */
+    }
+    10.1%, 100% {
+        transform: translateY(0); /* Pausa até o fim */
+    }
+}
+
+@-webkit-keyframes jumpWave {
+    0%, 10% {
+        -webkit-transform: translateY(0);
+    }
+    5% {
+        -webkit-transform: translateY(-10px);
+    }
+    10.1%, 100% {
+        -webkit-transform: translateY(0);
+    }
 }
 
 .social-icons img:hover {
-    transform: scale(1.1); /* Efeito hover */
+    transform: scale(1.1);
 }
 
 .description h1, h2 {
     color: #333333;
     text-align: center;
-    padding-left: 40px;
+    padding-left: 60px;
+    height: 56px;
+    padding-right: 20px;
 }
 
 .description p {
     color: #4A4A4A;
-    text-align: center;
     padding-left: 60px;
-    padding-right: 40px;
+    padding-right: 20px;
     text-align: justify;
     margin-top: 10px;
+    display: block;
+    height: 180px;
 }
 
 .description {
@@ -82,7 +125,7 @@
 
 @media (min-width: 768px) {
     .social-icons img {
-        width: 50px; /* Maior em desktop */
+        width: 50px;
         height: 50px;
     }
 }
@@ -98,7 +141,7 @@
     }
 
     .social-icons img {
-        width: 60px; /* Ainda maior em telas grandes */
+        width: 60px;
         height: 60px;
     }
 }

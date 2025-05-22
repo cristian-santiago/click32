@@ -1,33 +1,48 @@
+.main-content {
+    margin-left: 200px;
+    padding: 20px;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    z-index: 1;
+}
+
+.sidebar.collapsed ~ .main-content {
+    margin-left: 40px;
+}
+
 .store-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 12px;
     padding: 10px;
     max-width: 1200px;
-    margin: auto;
+    margin-top: 16px;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
- 
+    overflow-x: hidden;
+    touch-action: pan-y;
+    box-sizing: border-box;
 }
-.store-list::-webkit-scrollbar{
+
+.sidebar:not(.collapsed) ~ .main-content {
+    touch-action: none; /* Bloqueia toques no main-content quando sidebar expandido */
+}
+
+.store-list::-webkit-scrollbar {
     display: none;
 }
 
 .store-banner {
     display: block;
     width: 100%;
+    max-width: 100%;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* Remover transition para evitar conflitos com animação */
-    /* transition: transform 0.2s ease; */
-    /* Animação com prefixos */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     animation: slideInFromRight 0.6s ease-out forwards;
     -webkit-animation: slideInFromRight 0.6s ease-out forwards;
-    will-change: transform, opacity; /* Otimizar para mobile */
+    will-change: transform, opacity;
 }
 
-/* Atraso progressivo usando :nth-child */
 .store-banner:nth-child(1) { animation-delay: 0s; -webkit-animation-delay: 0s; }
 .store-banner:nth-child(2) { animation-delay: 0.1s; -webkit-animation-delay: 0.1s; }
 .store-banner:nth-child(3) { animation-delay: 0.2s; -webkit-animation-delay: 0.2s; }
@@ -36,11 +51,9 @@
 .store-banner:nth-child(6) { animation-delay: 0.5s; -webkit-animation-delay: 0.5s; }
 .store-banner:nth-child(7) { animation-delay: 0.6s; -webkit-animation-delay: 0.6s; }
 .store-banner:nth-child(8) { animation-delay: 0.7s; -webkit-animation-delay: 0.7s; }
-/* Adicione mais se necessário, ou use JS para mais banners */
 
 .store-banner:hover {
     transform: scale(1.01);
-    /* Reativar transition apenas para hover */
     transition: transform 0.2s ease;
     -webkit-transition: transform 0.2s ease;
 }
@@ -52,9 +65,10 @@
     object-fit: cover;
     display: block;
     border-radius: 10px;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
-/* Animação com prefixos */
 @keyframes slideInFromRight {
     from {
         transform: translateX(100%);
@@ -79,17 +93,11 @@
     }
 }
 
-body {
-    padding-top: 60px;
-    background-color: #f4f4f4;
-}
-
 @media (min-width: 1600px) {
     .store-list,
     .tag-buttons-wrapper {
         max-width: 1440px;
     }
-
     .store-banner img {
         aspect-ratio: 16 / 4;
         max-height: 500px;

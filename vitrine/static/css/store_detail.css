@@ -4,6 +4,7 @@
     padding: 0px 5px;
     padding-left: 45px;
     padding-top: 13px;
+    position: relative;
 }
 
 .carousel-container {
@@ -17,6 +18,7 @@
     touch-action: pan-x;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -28,6 +30,7 @@
     scroll-snap-align: start;
     border-radius: 10px;
     overflow: hidden;
+    
 }
 
 .carousel-item img {
@@ -36,6 +39,43 @@
     object-fit: cover;
     border-radius: 10px;
     display: block;
+    border: 2px solid #ffffff15;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.carousel-item:hover img {
+    transform: scale(1.02);
+}
+
+/* Dots de navegação */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    position: absolute;
+    bottom: 10px;
+    left: calc(50% + 22.5px); /* Centraliza compensando o padding-left: 45px */
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-dot.active {
+    background: #ffffff;
+    transform: scale(1.4);
+}
+
+.carousel-dot:hover {
+    background: #ffffffcc;
 }
 
 /* Estilizar os ícones */
@@ -58,7 +98,6 @@
     height: 40px;
     object-fit: contain;
     transition: transform 0.2s ease; /* Para hover */
-    /* Animação de salto com pausa */
     animation: jumpWave 3.5s ease-in-out infinite;
     -webkit-animation: jumpWave 3.5s ease-in-out infinite;
     will-change: transform;
@@ -143,5 +182,9 @@
     .social-icons img {
         width: 60px;
         height: 60px;
+    }
+
+    .carousel-dots {
+        left: calc(50% + 22.5px); /* Mantém centralização em telas grandes */
     }
 }

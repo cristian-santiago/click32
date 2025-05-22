@@ -6,16 +6,6 @@
     --dropdown-bg: #34495e;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-    transition: 0.3s;
-    
-}
-
-
 .sidebar {
     width: 200px;
     position: fixed;
@@ -23,22 +13,23 @@
     left: 0;
     background: var(--sidebar-bg);
     color: var(--text-light);
-    z-index: 1000;
-    height: 100dvh;   
+    z-index: 2000;
+    height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    will-change: transform;
 }
 
 .sidebar.collapsed {
-    display: flex;
     width: 40px;
-    overflow-y: auto;
-    flex-direction: column;
-    height: 100dvh;
-    overflow: hidden;
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
 }
 
 .sidebar.collapsed .menu-text,
@@ -52,17 +43,23 @@
 .sidebar.collapsed .menu {
     flex-grow: 1;
     overflow-y: auto;
-    height: 100dvh;
 }
 
 .sidebar.collapsed .menu > li {
     display: flex;
-    justify-content: center !important;    
-    margin: 0 !important;
-    border-radius: 0 !important;
-    width: 100% !important;
-    height: 48px !important; /* Altura fixa para consistência */
-    overflow: visible !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+    height: 48px;
+    overflow: visible;
+}
+.sidebar.collapsed .menu i {
+    margin: 0; /* Remove margens para centralizar */
+    font-size: 1.2rem;
+    width: auto; /* Remove largura fixa para centralização */
+    line-height: 48px; /* Alinha verticalmente com altura do li */
 }
 
 .sidebar,
@@ -70,32 +67,14 @@
 .menu {
     -webkit-overflow-scrolling: touch;
 }
-/* .toggle-btn {
-    position: absolute;
-    right: -15px;
-    top: 20px;
-    z-index: 2000;
-    background: var(--sidebar-bg);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}*/
-
-/* button */
 
 .toggle-btn {
     position: absolute;
-    top: 10px; /* Mantém acima dos ícones */
-    z-index: 2000;
+    top: 10px;
+    right: 10px;
     background: var(--sidebar-bg);
     border: none;
-    width: 30px; /* Mesmo tamanho */
+    width: 30px;
     height: 30px;
     border-radius: 8px;
     display: flex;
@@ -107,19 +86,12 @@
     padding: 6px;
 }
 
-/* Centraliza no estado colapsado */
 .sidebar.collapsed .toggle-btn {
     left: 0;
     right: 0;
-    margin: 0 auto; /* Centraliza nos 40px */
+    margin: 0 auto;
 }
 
-/* Posiciona no canto direito no estado aberto */
-.sidebar:not(.collapsed) .toggle-btn {
-    right: 10px; /* Alinha à direita com margem */
-}
-
-/* Estilizar as três listras */
 .toggle-btn::before,
 .toggle-btn::after,
 .toggle-btn span {
@@ -132,61 +104,26 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Estado colapsado: três listras */
 .sidebar.collapsed .toggle-btn::before {
     transform: translateY(0) rotate(0);
 }
-
 .sidebar.collapsed .toggle-btn::after {
     transform: translateY(0) rotate(0);
 }
-
 .sidebar.collapsed .toggle-btn span {
     opacity: 1;
 }
 
-/* Estado expandido: transformar em "X" */
 .sidebar:not(.collapsed) .toggle-btn::before {
-    transform: translateY(6px) rotate(45deg); /* Ajustado para formar "X" simétrico */
+    transform: translateY(6px) rotate(45deg);
 }
-
 .sidebar:not(.collapsed) .toggle-btn::after {
-    transform: translateY(-6px) rotate(-45deg); /* Ajustado para formar "X" simétrico */
+    transform: translateY(-6px) rotate(-45deg);
 }
-
 .sidebar:not(.collapsed) .toggle-btn span {
-    opacity: 0; /* Esconde a linha do meio */
+    opacity: 0;
 }
 
-.main-content {
-    margin-left: 200px;
-    flex: 1;
-    padding: 20px;
-    
-}
-
-.sidebar.collapsed ~ .main-content {
-    margin-left: 40px;
-}
-
-.sidebar.collapsed .menu i {
-    font-size: 1.2rem !important;
-    margin: auto;
-    width: 100% !important;   
-}
-
-.sidebar.collapsed .menu > li {
-    height: 48px;
-    padding: 0;
-}
-
-.sidebar.collapsed .profile {
-    
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-}
-.sidebar.collapsed .profile h2 {
-    display: none;
-}
 .profile {
     height: 48px;
     text-align: center;
@@ -201,48 +138,31 @@
     white-space: nowrap;
     overflow: hidden;
     flex-shrink: 0;
-    color: aqua;    
-    
-    
+    color: aqua;
 }
 
-.profile p {
-    color: var(--text-gray);
-    font-size: 0.9rem;
-    margin-top: 5px;
+.sidebar.collapsed .profile h2 {
+    display: none;
 }
-
-/*.search-bar {
-    width: calc(100% - 20px);
-    margin: 15px 10px;
-    padding: 10px 15px;
-    border-radius: 5px;
-    border: none;
-    background: var(--sidebar-hover);
-    color: white; 
-}*/
 
 .menu {
     list-style: none;
     display: flex;
     flex-direction: column;
-    margin: 0;   
+    margin: 0;
     overflow-y: auto;
-    flex-grow: 1;
-    
+    flex: 1;
+    min-height: 100%;
 }
-
 
 .menu li:hover {
     background: var(--sidebar-hover);
 }
 
 .menu i {
-    margin-right: 10px;    
+    margin-right: 10px;
     font-size: 1.2rem;
-    width: 24px;             /* FIXO: igual para todos os ícones */
-    
-    
+    width: 24px;
 }
 
 .menu-item {
@@ -251,30 +171,24 @@
 
 .menu-header {
     display: flex;
-    margin-left: 20px;    
-    padding: 10px;    
-    
-    overflow: hidden;     
-   
-   
+    margin-left: 20px;
+    padding: 10px;
+    overflow: hidden;
 }
 
 .sidebar.collapsed .menu-header {
-    display: flex;    
-    margin-left:0;
+    display: flex;
+    margin-left: 0;
     margin-right: 0;
     margin-top: 0;
     margin-bottom: 0;
     padding-right: 0px;
     padding-left: 0px;
-    
 }
 
 .menu-header:hover {
     background: var(--sidebar-hover);
 }
-
-
 
 .dropdown {
     list-style: none;
@@ -289,12 +203,11 @@
     visibility: hidden;
 }
 
-.dropdown.open  {
-    max-height: 1000px; /* Ajuste conforme necessário */
+.dropdown.open {
+    max-height: 1000px;
     opacity: 1;
     visibility: visible;
-    transition: max-height 2.5s ease, opacity 0.9s ease !important; 
-    
+    transition: max-height 2.5s ease, opacity 0.9s ease;
 }
 
 .dropdown li {
@@ -304,8 +217,6 @@
     overflow: visible;
     white-space: normal;
     text-overflow: clip;
-    
-    
 }
 
 .dropdown-item {
@@ -313,14 +224,12 @@
     color: var(--text-light);
     display: block;
     font-size: 0.9rem;
-    visibility: visible ;
-    opacity: 1 ;
-    
+    visibility: visible;
+    opacity: 1;
 }
 
 .dropdown-item:hover {
     background: var(--sidebar-hover);
-    
 }
 
 .sidebar.collapsed .dropdown {
@@ -331,36 +240,49 @@
     pointer-events: none !important;
 }
 
+.footer-sidebar {
+    margin-top: auto;
+    color: #fafafa;
+    font-size: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: center;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+.footer-sidebar .p {
+    margin-bottom: 0px;
+}
+
+.sidebar.collapsed .footer-sidebar,
+.sidebar.collapsed .footer-sidebar .p {
+    display: none;
+}
+
 @media (max-width: 1920px) {
     .sidebar {
         width: 40px;
     }
-
     .sidebar:not(.collapsed) {
         width: 200px;
-        position: fixed;
     }
-
     .sidebar.collapsed ~ .main-content {
         margin-left: 40px;
     }
-
     .main-content {
         margin-left: 40px;
     }
-
     .dropdown {
         max-height: 0;
         opacity: 0;
-        display: block !important; /
+        display: block !important;
     }
-
-     .dropdown.open {
+    .dropdown.open {
         max-height: 1000px;
         opacity: 1;
         visibility: visible;
     }
-
     .dropdown li,
     .dropdown-item {
         display: block !important;
@@ -368,18 +290,15 @@
         opacity: 1 !important;
         color: var(--text-light) !important;
     }
-
     .sidebar.collapsed .menu > li {
         display: flex;
-        justify-content: center !important;
-        align-items: center !important;
-        padding: 20px 0 !important;
-        margin: 0 !important;
-        border-radius: 0 !important;
-        width: 100% !important;
-        height: 48px !important;
-        overflow: visible !important;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+        width: 100%;
+        height: 48px;
+        overflow: visible;
     }
-
-
-}   
+}

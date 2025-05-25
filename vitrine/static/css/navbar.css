@@ -79,6 +79,9 @@
 @media (min-width: 1600px) {
     .toolbar-container {
         max-width: 1200px;
+        font-size: 2rem;
+        width: 48px;
+        height: 48px;
     }
 }
 

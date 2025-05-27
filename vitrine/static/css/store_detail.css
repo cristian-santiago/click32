@@ -1,10 +1,10 @@
 .carousel-wrapper {
     max-width: 500px;
     margin: 0 auto;
-    padding: 0px 5px;
-    padding-left: 45px;
-    padding-top: 13px;
+    padding: 0 5px;
+    padding-left: 45px;    
     position: relative;
+    background-color: transparent;
 }
 
 .carousel-container {
@@ -17,8 +17,8 @@
     -webkit-scroll-snap-type: x mandatory;
     touch-action: pan-x;
     scrollbar-width: none;
-    -ms-overflow-style: none;
-    
+    -ms-overflow-style: none;  
+
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -38,9 +38,7 @@
     aspect-ratio: 4 / 3;
     object-fit: cover;
     border-radius: 10px;
-    display: block;
-    border: 2px solid #ffffff15;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: block;    
     transition: transform 0.3s ease;
 }
 
@@ -144,7 +142,7 @@
     color: #333333;
     text-align: center;
     padding-left: 60px;
-    height: 56px;
+    height: 50px;
     padding-right: 20px;
 }
 

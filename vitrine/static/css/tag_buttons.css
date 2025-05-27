@@ -63,7 +63,7 @@
     margin: 0; /* Remove margens para centralizar */
     font-size: 1.2rem;
     width: auto; /* Remove largura fixa para centralização */
-    line-height: 48px; /* Alinha verticalmente com altura do li */
+    line-height: 25px; /* Alinha verticalmente com altura do li */
 }
 
 .sidebar,

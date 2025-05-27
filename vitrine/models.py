@@ -44,6 +44,27 @@ class Store(models.Model):
     
     def __str__(self):
         return self.name
-    
-   
-    
+
+class ClickTrack(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicks')
+    element_type = models.CharField(max_length=50, choices=[
+        ('main_banner', 'Main Banner'),
+        ('carousel_2', 'Carousel 2'),
+        ('carousel_3', 'Carousel 3'),
+        ('carousel_4', 'Carousel 4'),
+        ('whatsapp_link', 'WhatsApp Link'),
+        ('instagram_link', 'Instagram Link'),
+        ('facebook_link', 'Facebook Link'),
+        ('youtube_link', 'YouTube Link'),
+        ('x_link', 'X Link'),
+        ('google_maps_link', 'Google Maps Link'),
+        ('website_link', 'Website Link'),
+    ])
+    click_count = models.PositiveIntegerField(default=0)
+    last_clicked = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('store', 'element_type')
+
+    def __str__(self):
+        return f"{self.store.name} - {self.element_type} - {self.click_count} clicks"

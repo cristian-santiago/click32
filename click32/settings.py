@@ -44,12 +44,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',  # Necessário para sessões
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # Necessário para autenticação
+    'django.contrib.messages.middleware.MessageMiddleware',  # Necessário para mensagens
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'vitrine.middleware.ClickTrackingMiddleware',  # Middleware de rastreamento de cliques
 ]
 
 ROOT_URLCONF = 'click32.urls'
@@ -116,6 +117,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)

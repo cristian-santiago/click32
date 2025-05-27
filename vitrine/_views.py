@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Store, Tag
+from .models import Store, Tag, ClickTrack
 #from django.http import HttpResponse
 
 
@@ -32,3 +32,12 @@ def advertise(request):
 def about(request):
     
     return render(request, 'about.html')
+
+def clicks_dashboard(request):
+    clicks_data = ClickTrack.objects.values('store__name', 'element_type').annotate(
+        total_clicks=Sum('click_count')
+    ).order_by('-total_clicks')
+    
+    return render(request, 'admin/clicks_dashboard.html', {
+        'clicks_data': clicks_data,
+    })

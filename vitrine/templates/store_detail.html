@@ -45,35 +45,35 @@
   <ul class="social-icons">
     {% if store.whatsapp_link %}
       <li>
-        <a href="{{ store.whatsapp_link }}" target="_blank">
+        <a href="{{ store.whatsapp_link }}?store_id={{ store.id }}&element_type=whatsapp_link" target="_blank">
           <img src="/media/icons/whatsapp_icon.png" alt="WhatsApp">
         </a>
       </li>
     {% endif %}
     {% if store.instagram_link %}
       <li>
-        <a href="{{ store.instagram_link }}" target="_blank">
+        <a href="{{ store.instagram_link }}?store_id={{ store.id }}&element_type=instagram_link" target="_blank">
           <img src="/media/icons/instagram_icon.png" alt="Instagram">
         </a>
       </li>
     {% endif %}
     {% if store.facebook_link %}
       <li>
-        <a href="{{ store.facebook_link }}" target="_blank">
+        <a href="{{ store.facebook_link }}?store_id={{ store.id }}&element_type=facebook_link" target="_blank">
           <img src="/media/icons/facebook_icon.png" alt="Facebook">
         </a>
       </li>
     {% endif %}
     {% if store.website_link %}
       <li>
-        <a href="{{ store.website_link }}" target="_blank">
+        <a href="{{ store.website_link }}?store_id={{ store.id }}&element_type=website_link" target="_blank">
           <img src="/media/icons/website_icon.png" alt="Site Oficial">
         </a>
       </li>
     {% endif %}
     {% if store.x_link %}
       <li>
-        <a href="{{ store.x_link }}" target="_blank">
+        <a href="{{ store.x_link }}?store_id={{ store.id }}&element_type=x_link" target="_blank">
           <img src="/media/icons/x_icon.png" alt="X">
         </a>
       </li>

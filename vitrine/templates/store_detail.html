@@ -14,11 +14,6 @@
   
   <div class="carousel-wrapper">
     <div class="carousel-container">
-     <!-- {% if store.main_banner %}
-        <div class="carousel-item">
-          <img src="{{ store.main_banner.url }}" alt="Main Banner">
-        </div>
-      {% endif %} --> 
       {% if store.carousel_2 %}
         <div class="carousel-item">
           <img src="{{ store.carousel_2.url }}" alt="Carousel 2">
@@ -45,42 +40,42 @@
   <ul class="social-icons">
     {% if store.whatsapp_link %}
       <li>
-        <a href="{{ store.whatsapp_link }}?store_id={{ store.id }}&element_type=whatsapp_link" target="_blank">
+        <a href="{% url 'track_click' store.id 'whatsapp_link' %}" target="_blank" data-redirect="{{ store.whatsapp_link }}">
           <img src="/media/icons/whatsapp_icon.png" alt="WhatsApp">
         </a>
       </li>
     {% endif %}
     {% if store.instagram_link %}
       <li>
-        <a href="{{ store.instagram_link }}?store_id={{ store.id }}&element_type=instagram_link" target="_blank">
+        <a href="{% url 'track_click' store.id 'instagram_link' %}" target="_blank" data-redirect="{{ store.instagram_link }}">
           <img src="/media/icons/instagram_icon.png" alt="Instagram">
         </a>
       </li>
     {% endif %}
     {% if store.facebook_link %}
       <li>
-        <a href="{{ store.facebook_link }}?store_id={{ store.id }}&element_type=facebook_link" target="_blank">
+        <a href="{% url 'track_click' store.id 'facebook_link' %}" target="_blank" data-redirect="{{ store.facebook_link }}">
           <img src="/media/icons/facebook_icon.png" alt="Facebook">
         </a>
       </li>
     {% endif %}
     {% if store.website_link %}
       <li>
-        <a href="{{ store.website_link }}?store_id={{ store.id }}&element_type=website_link" target="_blank">
+        <a href="{% url 'track_click' store.id 'website_link' %}" target="_blank" data-redirect="{{ store.website_link }}">
           <img src="/media/icons/website_icon.png" alt="Site Oficial">
         </a>
       </li>
     {% endif %}
     {% if store.x_link %}
       <li>
-        <a href="{{ store.x_link }}?store_id={{ store.id }}&element_type=x_link" target="_blank">
+        <a href="{% url 'track_click' store.id 'x_link' %}" target="_blank" data-redirect="{{ store.x_link }}">
           <img src="/media/icons/x_icon.png" alt="X">
         </a>
       </li>
     {% endif %}
     {% if store.google_maps_link %}
       <li>
-        <a href="{{ store.google_maps_link }}" target="_blank">
+        <a href="{% url 'track_click' store.id 'google_maps_link' %}" target="_blank" data-redirect="{{ store.google_maps_link }}">
           <img src="/media/icons/google_maps_icon.png" alt="Google Maps">
         </a>
       </li>
@@ -123,6 +118,20 @@
         document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
             dot.classList.toggle('active', index === activeIndex);
         });
+    });
+
+    // Handle social link clicks
+    document.querySelectorAll('.social-icons a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const trackUrl = this.getAttribute('href');
+        const redirectUrl = this.getAttribute('data-redirect');
+        // Track click without waiting for response
+        fetch(trackUrl, { method: 'GET' })
+          .catch(error => console.error('Error tracking click:', error));
+        // Immediately open the redirect URL
+        window.open(redirectUrl, '_blank');
+      });
     });
 });
   </script>

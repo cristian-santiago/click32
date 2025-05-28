@@ -1,87 +1,96 @@
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect, HttpResponse
+from django.db.models import Sum, Max, Q
 from .models import Store, Tag, ClickTrack
 import logging
 
 logger = logging.getLogger(__name__)
 
-def get_tag_groups():
-    return {
-        'Comidas': ['Comidas', 'Pizzas', 'Lanches', 'Açaiterias'],
-        'Comércios': ['Bazares', 'PetShops', 'Padarias', 'Auto Peças'],    
-        'Serviços': ['Encanador', 'Pintor', 'Pedreiro', 'Técnico de Informática'],
-        'Beleza': ['Beleza', 'Manicure', 'Salão de Beleza', 'Maquiadora'],
-        'Saúde': ['Psicólogos', 'Fisioterapeutas', 'Nutricionista', 'Fonoaudiólogo'],
-        'Educação': ['Alfabetização', 'Música', 'Inglês', 'Aulas Particulares'],
-        'Outros': ['Aluguéis', 'Vendas', 'Trocas', 'Parcerias']
-    }
-
 def home(request):
-    selected_tag = request.GET.get('tag')
-    if selected_tag:
-        stores = Store.objects.filter(tags__name=selected_tag).distinct().order_by('-highlight', 'name')
-    else:
-        stores = Store.objects.all().order_by('-highlight', 'name')
-    
-    context = {'stores': stores, 'tag_groups': get_tag_groups()}
-    return render(request, 'home.html', context)
+    tag_name = request.GET.get('filter')
+    tags = Tag.objects.all()
 
+    if tag_name:
+        stores = Store.objects.filter(tags__name=tag_name).distinct()
+    else:
+        stores = Store.objects.all()
+
+    stores = stores.order_by('-highlight', 'name')
+    return render(request, 'home.html', {
+        'stores': stores,
+        'tags': tags,
+        'selected_tag': tag_name
+    })
 
 def store_detail(request, store_id):
     store = get_object_or_404(Store, id=store_id)
-    context = {'store': store, 'tag_groups': get_tag_groups()}
-    return render(request, 'store_detail.html', context)
+    return render(request, 'store_detail.html', {'store': store})
 
 def advertise(request):
-    
-    context = {'tag_groups': get_tag_groups()}
-    return render(request, 'advertise.html', context)
+    return render(request, 'advertise.html')
 
 def about(request):
-    context = {'tag_groups': get_tag_groups()}
-    return render(request, 'about.html', context)    
+    return render(request, 'about.html')
 
+def clicks_dashboard(request):
+    # Obter todos os comércios (stores)
+    stores = Store.objects.all()
 
+    # Lista para armazenar os dados consolidados
+    clicks_data = []
+
+    # Para cada comércio, buscar os cliques e consolidar
+    for store in stores:
+        click_entries = ClickTrack.objects.filter(store=store)
+        store_data = {
+            'store_name': store.name,
+            'main_banner': click_entries.filter(element_type='main_banner').aggregate(total=Sum('click_count'))['total'] or 0,
+            'whatsapp': click_entries.filter(element_type='whatsapp_link').aggregate(total=Sum('click_count'))['total'] or 0,
+            'instagram': click_entries.filter(element_type='instagram_link').aggregate(total=Sum('click_count'))['total'] or 0,
+            'facebook': click_entries.filter(element_type='facebook_link').aggregate(total=Sum('click_count'))['total'] or 0,
+            'youtube': click_entries.filter(element_type='youtube_link').aggregate(total=Sum('click_count'))['total'] or 0,
+            'x_link': click_entries.filter(element_type='x_link').aggregate(total=Sum('click_count'))['total'] or 0,
+            'google_maps': click_entries.filter(element_type='google_maps_link').aggregate(total=Sum('click_count'))['total'] or 0,
+            'website': click_entries.filter(element_type='website_link').aggregate(total=Sum('click_count'))['total'] or 0,
+            'last_clicked': click_entries.aggregate(last=Max('last_clicked'))['last']
+        }
+        clicks_data.append(store_data)
+
+    # Log para depuração
+    logger.info(f"Consolidated clicks data: {clicks_data}")
+
+    return render(request, 'admin/clicks_dashboard.html', {
+        'clicks_data': clicks_data,
+    })
 
 def track_click(request, store_id, element_type):
     try:
-        store = Store.objects.get(id=store_id)
-        valid_elements = [choice[0] for choice in ClickTrack.element_type.field.choices]
-        
+        store = get_object_or_404(Store, id=store_id)
+        valid_elements = [
+            'main_banner', 'whatsapp_link', 'instagram_link', 'facebook_link',
+            'youtube_link', 'x_link', 'google_maps_link', 'website_link'
+        ]
         if element_type not in valid_elements:
-            logger.error(f"Invalid element_type: {element_type}")
-            return HttpResponse("Invalid element type")
+            return HttpResponse(status=400)
 
         click_track, created = ClickTrack.objects.get_or_create(
             store=store,
             element_type=element_type,
-            defaults={'click_count': 0}
+            defaults={'click_count': 1}
         )
-        click_track.click_count += 1
-        click_track.save()
-        logger.info(f"Tracked click for store_id={store_id}, element_type={element_type}, count={click_track.click_count}")
+        if not created:
+            click_track.click_count += 1
+            click_track.save()
+        logger.info(f"Click tracked: {store.name} - {element_type}")
 
-        # Map element_type to the corresponding URL field
-        url_field_map = {
-            'main_banner': store.website_link,  # Adjust if main_banner should redirect elsewhere
-            'carousel_2': store.website_link,   # Adjust as needed
-            'carousel_3': store.website_link,   # Adjust as needed
-            'carousel_4': store.website_link,   # Adjust as needed
-            'whatsapp_link': store.whatsapp_link,
-            'instagram_link': store.instagram_link,
-            'facebook_link': store.facebook_link,
-            'youtube_link': store.youtube_link,
-            'x_link': store.x_link,
-            'google_maps_link': store.google_maps_link,
-            'website_link': store.website_link,
-        }
-        redirect_url = url_field_map.get(element_type, '/')
-        if not redirect_url:
-            logger.warning(f"No URL defined for {element_type} on store {store.name}")
-            return redirect('/')
-        return redirect(redirect_url)
-    except Store.DoesNotExist:
-        logger.error(f"Store not found: store_id={store_id}")
-        return HttpResponse("Store not found")
+        if element_type == 'main_banner':
+            return render(request, 'store_detail.html', {'store': store})
+        else:
+            link_field = f"{element_type}"
+            link = getattr(store, link_field, None)
+            if link:
+                return HttpResponseRedirect(link)
+            return HttpResponse(status=404)
     except Exception as e:
         logger.error(f"Error tracking click: {e}")
-        return HttpResponse("Error processing click")
+        return HttpResponse(status=500)

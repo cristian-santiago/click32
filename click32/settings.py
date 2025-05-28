@@ -133,29 +133,47 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'verbose',  # Formato detalhado
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',  # Salva logs em um arquivo
+            'formatter': 'verbose',
         },
     },
-
     'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',  
+        'handlers': ['console', 'file'],  # Exibe no console e salva em arquivo
+        'level': 'DEBUG',  # Nível mais baixo para capturar tudo
     },
-
     'loggers': {
-        # Desativa log de queries SQL
-        'django.db.backends': {
-            'level': 'WARNING',  
-            'handlers': ['console'],
+        # Logger específico para sua app (substitua 'stores' pelo nome da sua app)
+        'stores': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',  # Loga tudo (DEBUG, INFO, WARNING, ERROR)
             'propagate': False,
         },
+        # Log de queries SQL (útil para debug de banco de dados)
+        'django.db.backends': {
+            'level': 'DEBUG',  # Mostra queries SQL
+            'handlers': ['console'],
+        },
+        # Logs gerais do Django
         'django': {
             'handlers': ['console'],
-            'level': 'WARNING',  
-            'propagate': True,
+            'level': 'INFO',  # Info + Warnings + Errors
         },
     },
 }

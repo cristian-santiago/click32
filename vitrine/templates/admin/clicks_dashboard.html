@@ -7,33 +7,54 @@
     table {
         border-collapse: collapse;
         width: 100%;
+        margin-bottom: 20px;
     }
     th, td {
         border: 1px solid #ddd;
         padding: 8px;
-        text-align: left;
+        text-align: center;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .empty {
+        color: #888;
     }
 </style>
 
 <table role="grid" aria-describedby="clicks-table-desc">
-    <caption id="clicks-table-desc" class="visually-hidden">Clicks data by store and element</caption>
+    <caption id="clicks-table-desc" class="visually-hidden">Consolidated clicks data by store</caption>
     <thead>
         <tr>
-            <th>Store</th>
-            <th>Element</th>
-            <th>Total Clicks</th>
+            <th>Comércio</th>
+            <th>Main Banner</th>
+            <th>WhatsApp</th>
+            <th>Instagram</th>
+            <th>Facebook</th>
+            <th>YouTube</th>
+            <th>X</th>
+            <th>Google Maps</th>
+            <th>Website</th>
+            <th>Último Clique</th>
         </tr>
     </thead>
     <tbody>
         {% for data in clicks_data %}
         <tr>
-            <td>{{ data.store__name }}</td>
-            <td>{{ data.element_type }}</td>
-            <td>{{ data.total_clicks }}</td>
+            <td>{% if data.store_name %}{{ data.store_name }}{% else %}N/A{% endif %}</td>
+            <td>{% if data.main_banner is not None %}{{ data.main_banner }}{% else %}0{% endif %}</td>
+            <td>{% if data.whatsapp is not None %}{{ data.whatsapp }}{% else %}0{% endif %}</td>
+            <td>{% if data.instagram is not None %}{{ data.instagram }}{% else %}0{% endif %}</td>
+            <td>{% if data.facebook is not None %}{{ data.facebook }}{% else %}0{% endif %}</td>
+            <td>{% if data.youtube is not None %}{{ data.youtube }}{% else %}0{% endif %}</td>
+            <td>{% if data.x_link is not None %}{{ data.x_link }}{% else %}0{% endif %}</td>
+            <td>{% if data.google_maps is not None %}{{ data.google_maps }}{% else %}0{% endif %}</td>
+            <td>{% if data.website is not None %}{{ data.website }}{% else %}0{% endif %}</td>
+            <td>{% if data.last_clicked %}{{ data.last_clicked|date:"M d, Y, H:i p" }}{% else %}N/A{% endif %}</td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="3">No click data available</td>
+            <td colspan="10">No click data available</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -41,7 +62,7 @@
 
 {% if clicks_data %}
 <div style="width: 100%; max-width: 600px;">
-    <canvas id="clicksChart" aria-label="Bar chart showing clicks per element" role="img"></canvas>
+    <canvas id="clicksChart" aria-label="Bar chart showing clicks per store" role="img"></canvas>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 <script>
@@ -50,26 +71,92 @@
         const data = {
             labels: [
                 {% for data in clicks_data %}
-                "{{ data.store__name|escapejs }} - {{ data.element_type|escapejs }}"{% if not forloop.last %},{% endif %}
+                "{{ data.store_name|default:'Unknown'|slice:':15'|escapejs }}"
+                {% if not forloop.last %},{% endif %}
                 {% endfor %}
             ],
-            datasets: [{
-                label: 'Clicks',
-                data: [
-                    {% for data in clicks_data %}
-                    {{ data.total_clicks }}{% if not forloop.last %},{% endif %}
-                    {% endfor %}
-                ],
-                backgroundColor: [
-                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                    '#9966FF', '#FF9F40', '#C9CBCF', '#7BC225'
-                ],
-                borderColor: [
-                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                    '#9966FF', '#FF9F40', '#C9CBCF', '#7BC225'
-                ],
-                borderWidth: 1
-            }]
+            datasets: [
+                {
+                    label: 'Main Banner',
+                    data: [
+                        {% for data in clicks_data %}
+                        {{ data.main_banner|default:0 }}
+                        {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: '#FF6384',
+                },
+                {
+                    label: 'WhatsApp',
+                    data: [
+                        {% for data in clicks_data %}
+                        {{ data.whatsapp|default:0 }}
+                        {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: '#36A2EB',
+                },
+                {
+                    label: 'Instagram',
+                    data: [
+                        {% for data in clicks_data %}
+                        {{ data.instagram|default:0 }}
+                        {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: '#FFCE56',
+                },
+                {
+                    label: 'Facebook',
+                    data: [
+                        {% for data in clicks_data %}
+                        {{ data.facebook|default:0 }}
+                        {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: '#4BC0C0',
+                },
+                {
+                    label: 'YouTube',
+                    data: [
+                        {% for data in clicks_data %}
+                        {{ data.youtube|default:0 }}
+                        {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: '#9966FF',
+                },
+                {
+                    label: 'X',
+                    data: [
+                        {% for data in clicks_data %}
+                        {{ data.x_link|default:0 }}
+                        {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: '#FF9F40',
+                },
+                {
+                    label: 'Google Maps',
+                    data: [
+                        {% for data in clicks_data %}
+                        {{ data.google_maps|default:0 }}
+                        {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: '#C9CBCF',
+                },
+                {
+                    label: 'Website',
+                    data: [
+                        {% for data in clicks_data %}
+                        {{ data.website|default:0 }}
+                        {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: '#7BC225',
+                }
+            ]
         };
         new Chart(ctx, {
             type: 'bar',
@@ -83,12 +170,12 @@
                         title: { display: true, text: 'Number of Clicks' }
                     },
                     x: {
-                        title: { display: true, text: 'Store - Element' }
+                        title: { display: true, text: 'Store' }
                     }
                 },
                 plugins: {
                     legend: { display: true },
-                    title: { display: true, text: 'Clicks per Element' }
+                    title: { display: true, text: 'Clicks per Element by Store' }
                 }
             }
         });

@@ -33,7 +33,7 @@ class Store(models.Model):
         return self.name
 
 class ClickTrack(models.Model):
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicks')
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicktrack')
     element_type = models.CharField(max_length=50, choices=[
         ('main_banner', 'Main Banner'),
         ('whatsapp_link', 'WhatsApp Link'),

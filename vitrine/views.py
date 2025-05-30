@@ -1,68 +1,98 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Sum, Max, Q
-from .models import Store, Tag, ClickTrack
+from .models import Store, ClickTrack
 import logging
 
 logger = logging.getLogger(__name__)
 
+
+def get_tag_groups():
+    return {
+        'Comidas': ['Comidas', 'Pizzas', 'Lanches', 'Açaiterias'],
+        'Comércios': ['Bazares', 'PetShops', 'Padarias', 'Auto Peças'],    
+        'Serviços': ['Encanador', 'Pintor', 'Pedreiro', 'Técnico de Informática'],
+        'Beleza': ['Beleza', 'Manicure', 'Salão de Beleza', 'Maquiadora'],
+        'Saúde': ['Psicólogos', 'Fisioterapeutas', 'Nutricionista', 'Fonoaudiólogo'],
+        'Educação': ['Alfabetização', 'Música', 'Inglês', 'Aulas Particulares'],
+        'Outros': ['Aluguéis', 'Vendas', 'Trocas', 'Parcerias']
+    }
+
 def home(request):
-    tag_name = request.GET.get('filter')
-    tags = Tag.objects.all()
-
-    if tag_name:
-        stores = Store.objects.filter(tags__name=tag_name).distinct()
+    selected_tag = request.GET.get('tag')
+    if selected_tag:
+        stores = Store.objects.filter(tags__name=selected_tag).distinct().order_by('-highlight', 'name')
     else:
-        stores = Store.objects.all()
-
-    stores = stores.order_by('-highlight', 'name')
-    return render(request, 'home.html', {
-        'stores': stores,
-        'tags': tags,
-        'selected_tag': tag_name
-    })
+        stores = Store.objects.all().order_by('-highlight', 'name')
+    
+    context = {'stores': stores, 'tag_groups': get_tag_groups()}
+    return render(request, 'home.html', context)
 
 def store_detail(request, store_id):
     store = get_object_or_404(Store, id=store_id)
-    return render(request, 'store_detail.html', {'store': store})
+    context = {'store': store, 'tag_groups': get_tag_groups()}
+    return render(request, 'store_detail.html', context)
 
 def advertise(request):
-    return render(request, 'advertise.html')
+    context = {'tag_groups': get_tag_groups()}
+    return render(request, 'advertise.html', context)
 
 def about(request):
-    return render(request, 'about.html')
+    context = {'tag_groups': get_tag_groups()}
+    return render(request, 'about.html', context)
+#-------------------------------
 
-def clicks_dashboard(request):
-    # Obter todos os comércios (stores)
-    stores = Store.objects.all()
+#def clicks_dashboard(request):
+    print(">>> Entrou na clicks_dashboard <<<")
+    # Agregações diretamente nos objetos Store
+    stores = (
+        Store.objects
+        .annotate(
+            main_banner_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='main_banner')),
+            whatsapp_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='whatsapp_link')),
+            instagram_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='instagram_link')),
+            facebook_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='facebook_link')),
+            youtube_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='youtube_link')),
+            x_link_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='x_link')),
+            google_maps_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='google_maps_link')),
+            website_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='website_link')),
+            last_clicked=Max('clicktrack__last_clicked')
+        )
+    )
 
-    # Lista para armazenar os dados consolidados
     clicks_data = []
-
-    # Para cada comércio, buscar os cliques e consolidar
     for store in stores:
-        click_entries = ClickTrack.objects.filter(store=store)
-        store_data = {
-            'store_name': store.name,
-            'main_banner': click_entries.filter(element_type='main_banner').aggregate(total=Sum('click_count'))['total'] or 0,
-            'whatsapp': click_entries.filter(element_type='whatsapp_link').aggregate(total=Sum('click_count'))['total'] or 0,
-            'instagram': click_entries.filter(element_type='instagram_link').aggregate(total=Sum('click_count'))['total'] or 0,
-            'facebook': click_entries.filter(element_type='facebook_link').aggregate(total=Sum('click_count'))['total'] or 0,
-            'youtube': click_entries.filter(element_type='youtube_link').aggregate(total=Sum('click_count'))['total'] or 0,
-            'x_link': click_entries.filter(element_type='x_link').aggregate(total=Sum('click_count'))['total'] or 0,
-            'google_maps': click_entries.filter(element_type='google_maps_link').aggregate(total=Sum('click_count'))['total'] or 0,
-            'website': click_entries.filter(element_type='website_link').aggregate(total=Sum('click_count'))['total'] or 0,
-            'last_clicked': click_entries.aggregate(last=Max('last_clicked'))['last']
-        }
-        clicks_data.append(store_data)
+        # Usa 0 para valores nulos
+        main_banner = store.main_banner_clicks or 0
+        whatsapp = store.whatsapp_clicks or 0
+        instagram = store.instagram_clicks or 0
+        facebook = store.facebook_clicks or 0
+        youtube = store.youtube_clicks or 0
+        x_link = store.x_link_clicks or 0
+        google_maps = store.google_maps_clicks or 0
+        website = store.website_clicks or 0
 
-    # Log para depuração
-    logger.info(f"Consolidated clicks data: {clicks_data}")
+        total_clicks = main_banner + whatsapp + instagram + facebook + youtube + x_link + google_maps + website
+
+        clicks_data.append({
+            'store': store,  # agora é um objeto Store
+            'main_banner': main_banner,
+            'whatsapp': whatsapp,
+            'instagram': instagram,
+            'facebook': facebook,
+            'youtube': youtube,
+            'x_link': x_link,
+            'google_maps': google_maps,
+            'website': website,
+            'total_clicks': total_clicks,
+            'last_clicked': store.last_clicked
+        })
 
     return render(request, 'admin/clicks_dashboard.html', {
         'clicks_data': clicks_data,
     })
 
+#--------------------------------
 def track_click(request, store_id, element_type):
     try:
         store = get_object_or_404(Store, id=store_id)
@@ -94,3 +124,7 @@ def track_click(request, store_id, element_type):
     except Exception as e:
         logger.error(f"Error tracking click: {e}")
         return HttpResponse(status=500)
+    
+def teste_print(request):
+    print(">>> DEBUG: view teste_print foi chamada <<<")
+    return HttpResponse("Teste de print no console OK!")

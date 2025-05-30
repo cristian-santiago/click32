@@ -1,0 +1,10 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div style="margin-top: 20px;">
+        <h2>Dashboard Customizado</h2>
+        <a class="button" href="{% url 'clicks_dashboard' %}">Ver Dashboard de Cliques</a>
+    </div>
+{% endblock %}

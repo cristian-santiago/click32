@@ -7,6 +7,13 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    tags = models.ManyToManyField(Tag, blank=True, related_name='categories')
+
+    def __str__(self):
+        return self.name
 
 def store_image_path(instance, filename):
     store_slug = slugify(instance.name or "no-name")

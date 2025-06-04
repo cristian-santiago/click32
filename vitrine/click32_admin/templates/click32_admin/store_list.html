@@ -1,0 +1,26 @@
+{% extends "click32_admin/base.html" %}
+{% load static %}
+{% block extra_css %}
+ 
+{%endblock%}
+{% block title %}Lista de Lojas{% endblock %}
+
+
+{% block content %}
+<main class="admin-main-content">
+    <h2>Lojas</h2>
+    <a href="{% url 'click32_admin:store_create' %}">Criar nova loja</a>
+    <ul>
+        {% for store in stores %}
+            <li>
+                {{ store.name }} -
+                <a href="{% url 'click32_admin:store_edit' store.id %}">Editar</a>
+                
+
+            </li>
+        {% endfor %}
+    </ul>
+
+</main>
+
+{% endblock %}

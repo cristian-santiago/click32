@@ -12,7 +12,6 @@ urlpatterns = [
     path('track-click/<int:store_id>/<str:element_type>/', views.track_click, name='track_click'),
     path('teste-print/', views.teste_print, name='teste-print'),
     
-    
    # path('dashboard-cliques/', views.clicks_dashboard, name='clicks_dashboard'),
 
 ]

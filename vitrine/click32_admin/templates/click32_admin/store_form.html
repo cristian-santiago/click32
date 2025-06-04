@@ -1,0 +1,138 @@
+{% extends "click32_admin/base.html" %}
+{% load admin_tags %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/store_form.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+<main class="admin-main-content store-form">
+
+  <h1>{% if store %}Editar Loja: {{ store.name }}{% else %}Criar nova loja{% endif %}</h1>
+
+  <form method="post" enctype="multipart/form-data" class="admin-form">
+    {% csrf_token %}
+    {% if form.errors %}
+      <div class="form-errors">
+        <ul>
+          {% for field in form %}
+            {% for error in field.errors %}
+              <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <li><strong>Erro:</strong> {{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <section>
+      <h2>Informações principais</h2>
+      <div class="form-row">{{ form.name.label_tag }} {{ form.name }}</div>
+      <div class="form-row">{{ form.description.label_tag }} {{ form.description }}</div>
+      <div class="form-row">{{ form.highlight.label_tag }} {{ form.highlight }}</div>
+    </section>
+
+    <section>
+      <h2>Tags</h2>
+      <div class="tags-container">
+        <div>
+          <label for="available-tags">Disponíveis</label>
+          <select id="available-tags" multiple size="10">
+            {% for tag in form.fields.tags.queryset %}
+              {% if store and tag not in store.tags.all %}
+                <option value="{{ tag.id }}">{{ tag.name }}</option>
+              {% elif not store %}
+                <option value="{{ tag.id }}">{{ tag.name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="tags-buttons">
+          <button type="button" onclick="addTag()">→</button>
+          <button type="button" onclick="removeTag()">←</button>
+        </div>
+
+        <div>
+          <label for="selected-tags">Selecionadas</label>
+          <select id="selected-tags" name="tags" multiple size="10">
+            {% if store %}
+              {% for tag in store.tags.all %}
+                <option value="{{ tag.id }}" selected>{{ tag.name }}</option>
+              {% endfor %}
+            {% endif %}
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Contatos</h2>
+      <div class="form-row">{{ form.whatsapp_link.label_tag }} {{ form.whatsapp_link }}</div>
+      <div class="form-row">{{ form.instagram_link.label_tag }} {{ form.instagram_link }}</div>
+      <div class="form-row">{{ form.facebook_link.label_tag }} {{ form.facebook_link }}</div>
+      <div class="form-row">{{ form.youtube_link.label_tag }} {{ form.youtube_link }}</div>
+      <div class="form-row">{{ form.x_link.label_tag }} {{ form.x_link }}</div>
+      <div class="form-row">{{ form.google_maps_link.label_tag }} {{ form.google_maps_link }}</div>
+      <div class="form-row">{{ form.website_link.label_tag }} {{ form.website_link }}</div>
+    </section>
+
+    <section>
+      <h2>Imagens</h2>
+      {% for campo in imagens %}
+        {% with form|get_field:campo as field %}
+          <div class="form-row">
+            {{ field.label_tag }} {{ field }}
+            {% if store|get_field_url:campo %}
+              <div class="image-preview">
+                <img src="{{ store|get_field_url:campo }}" width="200">
+              </div>
+            {% endif %}
+          </div>
+        {% endwith %}
+      {% endfor %}
+    </section>    
+  
+    <div class="form-actions">
+    <button type="submit" class="btn-primary">Salvar</button>
+    </div>
+</form>
+
+        {% if store %}
+        <form action="{% url 'click32_admin:store_delete' store.pk %}" method="post"
+                onsubmit="return confirm('Tem certeza que deseja excluir esta loja?');"
+                style="display: inline-block; margin-top: 1rem;">
+            {% csrf_token %}
+            <button type="submit" class="btn-danger">Excluir Loja</button>
+        </form>
+        {% endif %}
+            </div>
+</main>
+
+<script>
+function addTag() {
+  const available = document.getElementById('available-tags');
+  const selected = document.getElementById('selected-tags');
+
+  Array.from(available.selectedOptions).forEach(option => {
+    available.removeChild(option);
+    selected.appendChild(option);
+  });
+}
+
+function removeTag() {
+  const available = document.getElementById('available-tags');
+  const selected = document.getElementById('selected-tags');
+
+  Array.from(selected.selectedOptions).forEach(option => {
+    selected.removeChild(option);
+    available.appendChild(option);
+  });
+}
+</script>
+{% endblock %}

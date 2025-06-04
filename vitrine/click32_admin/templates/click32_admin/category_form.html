@@ -1,0 +1,26 @@
+{% extends "click32_admin/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/category_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="admin-main-content category-form">
+  <h1>{% if form.instance.id %}Editar Categoria{% else %}Adicionar Categoria{% endif %}</h1>
+  <form method="post" >
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="{% url 'click32_admin:category_list' %}" class="btn btn-cancel">Cancelar</a>
+  </form>
+
+  {% if form.instance.pk %}
+       <form action="{% url 'click32_admin:category_delete' form.instance.pk %}"  method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta categoria?');">
+           {% csrf_token %}
+           <button type="submit" class="btn btn-danger">Excluir</button>
+       </form>
+   {% endif %}
+
+</main>
+{% endblock %}

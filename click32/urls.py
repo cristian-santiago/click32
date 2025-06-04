@@ -22,7 +22,8 @@ from vitrine.admin_site import click32_admin_site
 
 
 urlpatterns = [
-    path("admin/", click32_admin_site.urls),
+    path("admin/", include("vitrine.click32_admin.urls")), # redireciona para novas urls do novo admin.
+
     path('', include('vitrine.urls')), # redirecionando a raiz para o app
 ]
 

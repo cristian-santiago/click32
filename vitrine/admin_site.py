@@ -15,7 +15,7 @@ class Click32AdminSite(AdminSite):
         urls = super().get_urls()
         custom_urls = [
             path(
-                'clicks-dashboard/',
+                'admin/clicks-dashboard/',
                 self.admin_view(self.clicks_dashboard_view),
                 name='clicks-dashboard',
             ),
@@ -36,31 +36,43 @@ class Click32AdminSite(AdminSite):
                 clicks_website=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='website_link')),
                 last_clicked=Max('clicktrack__last_clicked')
             )
+            .values(
+                'name',
+                'clicks_main_banner',
+                'clicks_whatsapp',
+                'clicks_instagram',
+                'clicks_facebook',
+                'clicks_youtube',
+                'clicks_x',
+                'clicks_google_maps',
+                'clicks_website',
+                'last_clicked'
+            )
         )
 
         clicks_data = []
         for store in stores_data:
             clicks_data.append({
-                'store_name': store.name,
-                'main_banner': store.clicks_main_banner or 0,
-                'whatsapp': store.clicks_whatsapp or 0,
-                'instagram': store.clicks_instagram or 0,
-                'facebook': store.clicks_facebook or 0,
-                'youtube': store.clicks_youtube or 0,
-                'x_link': store.clicks_x or 0,
-                'google_maps': store.clicks_google_maps or 0,
-                'website': store.clicks_website or 0,
+                'store_name': store['name'],
+                'main_banner': store['clicks_main_banner'] or 0,
+                'whatsapp': store['clicks_whatsapp'] or 0,
+                'instagram': store['clicks_instagram'] or 0,
+                'facebook': store['clicks_facebook'] or 0,
+                'youtube': store['clicks_youtube'] or 0,
+                'x_link': store['clicks_x'] or 0,
+                'google_maps': store['clicks_google_maps'] or 0,
+                'website': store['clicks_website'] or 0,
                 'total_clicks': sum([
-                    store.clicks_main_banner or 0,
-                    store.clicks_whatsapp or 0,
-                    store.clicks_instagram or 0,
-                    store.clicks_facebook or 0,
-                    store.clicks_youtube or 0,
-                    store.clicks_x or 0,
-                    store.clicks_google_maps or 0,
-                    store.clicks_website or 0,
+                    store['clicks_main_banner'] or 0,
+                    store['clicks_whatsapp'] or 0,
+                    store['clicks_instagram'] or 0,
+                    store['clicks_facebook'] or 0,
+                    store['clicks_youtube'] or 0,
+                    store['clicks_x'] or 0,
+                    store['clicks_google_maps'] or 0,
+                    store['clicks_website'] or 0,
                 ]),
-                'last_clicked': store.last_clicked
+                'last_clicked': store['last_clicked']
             })
 
         context = dict(
@@ -68,8 +80,6 @@ class Click32AdminSite(AdminSite):
             clicks_data=clicks_data,
             title="Clicks Dashboard",
         )
-
         return TemplateResponse(request, "admin/clicks_dashboard.html", context)
-
 
 click32_admin_site = Click32AdminSite(name='click32_admin')

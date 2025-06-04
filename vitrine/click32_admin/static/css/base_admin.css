@@ -1,0 +1,9 @@
+body{
+  background-color: #e1e6eb;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.admin-main-content {
+    margin-left: 160px; /* largura do sidebar */
+    padding: 20px;
+}

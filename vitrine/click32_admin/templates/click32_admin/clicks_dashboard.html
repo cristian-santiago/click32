@@ -1,0 +1,60 @@
+{% extends "click32_admin/base.html" %}
+{% load admin_tags %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/clicks-dashboard.css' %}">
+  <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+<main class="admin-main-content clicks-dashboard">
+  <h1 class="dashboard-title">Tabela de Cliques</h1>
+
+  <div class="table-container">
+    <table class="clicks-table">    
+      <thead>
+        <tr>
+          <th>Store</th>
+          <th>Main Banner</th>
+          <th>WhatsApp</th>
+          <th>Instagram</th>
+          <th>Facebook</th>
+          <th>YouTube</th>
+          <th>X</th>
+          <th>Google Maps</th>
+          <th>Website</th>
+          <th>Total</th>
+          <th>Último Clique</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for store in clicks_data %}
+        <tr>
+          <td>{{ store.store }}</td>
+          <td>{{ store.main_banner }}</td>
+          <td>{{ store.whatsapp }}</td>
+          <td>{{ store.instagram }}</td>
+          <td>{{ store.facebook }}</td>
+          <td>{{ store.youtube }}</td>
+          <td>{{ store.x_link }}</td>
+          <td>{{ store.google_maps }}</td>
+          <td>{{ store.website }}</td>
+          <td>{{ store.total_clicks }}</td>
+          <td>
+            {% if store.last_clicked %}
+              {{ store.last_clicked|date:"M d, Y, P" }}
+            {% else %}
+              —
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+
+
+{% endblock %}

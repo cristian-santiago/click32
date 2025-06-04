@@ -1,0 +1,45 @@
+{% load static %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/sidebar_admin.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+<div class="admin-sidebar">
+    <div class="admin-profile">
+        <h2>Admin Click32</h2>
+    </div>
+
+    <ul class="admin-menu">
+        <li class="admin-menu-item">
+            <a href="{% url 'click32_admin:dashboard' %}">
+                <i class="fas fa-chart-line"></i>
+                <span class="admin-menu-text">Dashboard</span>
+            </a>
+        </li>
+        <li class="admin-menu-item">
+            <a href="{% url 'click32_admin:clicks-dashboard' %}">
+                <i class="fas fa-chart-line"></i>
+                <span class="admin-menu-text">Click Table</span>
+            </a>
+        </li>
+        <li class="admin-menu-item">
+            <a href="{% url 'click32_admin:store_list' %}">
+                <i class="fas fa-store"></i>
+                <span class="admin-menu-text">Lojas</span>
+            </a>
+        </li>
+        <li class="admin-menu-item">
+            <a href="{% url 'click32_admin:category_list' %}">
+                <i class="fa-solid fa-list"></i>
+                <span class="admin-menu-text">Categorias</span>
+            </a>
+        </li>
+          <li class="admin-menu-item">
+            <a href="{% url 'click32_admin:tag_list' %}">
+                <i class="fa-solid fa-tags"></i>
+                <span class="admin-menu-text">Tags</span>
+            </a>
+        </li>
+        <!-- Mais itens -->
+    </ul>
+</div>

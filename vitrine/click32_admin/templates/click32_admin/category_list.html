@@ -1,0 +1,31 @@
+{% extends "click32_admin/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/category_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="admin-main-content category-list">
+  <h1>Categorias</h1>
+  <a href="{% url 'click32_admin:category_create' %}" class="btn-create">Adicionar Categoria</a>
+  <div class="category-grid">
+    {% for category in categories %}
+    <div class="category-card">
+      <div class="category-header">
+        <a href="{% url 'click32_admin:category_edit' category.id %}" class="category-name">{{ category.name }}</a>
+      </div>
+      <div class="category-tags">
+        {% for tag in category.tags.all %}
+          <span class="tag-item">{{ tag.name }}</span>
+        {% empty %}
+          <span class="tag-empty">Nenhuma tag associada</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% empty %}
+    <p class="no-categories">Nenhuma categoria encontrada.</p>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "click32_admin/base.html" %}
+{% load static %}
+
+{% block title %}Lista de Tags{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/tag_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="admin-main-content tag-list">
+  <h2>Lista de Tags</h2>
+  <a href="{% url 'click32_admin:tag_create' %}" class="btn-create">Criar nova tag</a>
+  <div class="tag-container">
+    {% for tag in tags %}
+      <a href="{% url 'click32_admin:tag_edit' tag.id %}" class="tag-list-item">{{ tag.name }}</a>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

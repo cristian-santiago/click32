@@ -1,0 +1,21 @@
+{% extends "click32_admin/base.html" %}
+{% load admin_tags %}
+
+{% block content %}
+<main class="admin-main-content">
+   <h1>{% if form.instance.pk %}Editar tag{% else %}Criar nova tag{% endif %}</h1>
+
+   <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+   </form>
+
+   {% if form.instance.pk %}
+       <form action="{% url 'click32_admin:tag_delete' form.instance.pk %}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir esta tag?');">
+           {% csrf_token %}
+           <button type="submit" style="margin-top: 1rem; color: red;">Excluir</button>
+       </form>
+   {% endif %}
+</main>
+{% endblock %}

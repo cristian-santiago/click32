@@ -1,0 +1,231 @@
+/* Estilo geral do container principal */
+.admin-main-content.store-form {
+  max-width: 960px;
+  margin-left: 160px;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Estilo do título principal */
+.store-form h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 2rem;
+  border-bottom: 3px solid #e2e8f0;
+  padding-bottom: 0.75rem;
+  letter-spacing: -0.025em;
+}
+
+/* Estilo dos subtítulos */
+.store-form h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 2rem 0 1.25rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+/* Estilo das linhas do formulário */
+.form-row {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-row label {
+  font-weight: 500;
+  color: #2d3748;
+  font-size: 0.95rem;
+}
+
+.form-row input,
+.form-row textarea,
+.form-row select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  width: 100%;
+  max-width: 600px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  
+}
+
+.form-row input:focus,
+.form-row textarea:focus,
+.form-row select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-row textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* file style */
+
+
+
+/* Estilo do container de tags */
+.tags-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.tags-container select {
+  width: 240px;
+  height: 200px;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.tags-container select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.tags-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tags-buttons button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(90deg, #4b5563, #6b7280);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.tags-buttons button:hover {
+  background: linear-gradient(90deg, #6b7280, #9ca3af);
+  transform: translateY(-2px);
+}
+
+.tags-buttons button:active {
+  transform: translateY(0);
+}
+
+/* Estilo da pré-visualização de imagens */
+.image-preview {
+  margin-top: 0.75rem;
+}
+
+.image-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilo dos erros do formulário */
+.form-errors {
+  background-color: #fef2f2;
+  border: 1px solid #f87171;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  color: #991b1b;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.form-errors ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* Estilo das ações do formulário */
+.form-actions {
+  margin-top: 3rem;
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 0.85rem 2rem;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-danger {
+  padding: 0.85rem 2rem;
+  background: linear-gradient(90deg, #dc2626, #ef4444);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+}
+
+/* Estilo responsivo */
+@media (max-width: 768px) {
+  .admin-main-content.store-form {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .tags-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tags-container select {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .form-row input,
+  .form-row textarea,
+  .form-row select {
+    max-width: 100%;
+  }
+}

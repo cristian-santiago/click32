@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Widgets</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            margin: 0;
+            padding: 30px;
+        }
+        .dashboard-container {
+            margin-left: 160px;
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .widget {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: box-shadow 0.3s;
+        }
+        .widget:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        .widget h2 {
+            margin: 0 0 15px;
+            font-size: 1.5em;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        .summary-card {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 15px;
+        }
+        .summary-item {
+            text-align: center;
+            background: #b7c8cb;
+            padding: 15px;
+            border-radius: 8px;
+            flex: 1;
+        }
+        .summary-item i {
+            font-size: 2em;
+            color: #34495e;
+        }
+        .summary-item h3 {
+            margin: 10px 0 5px;
+            font-size: 2em;
+            color: #2c3e50;
+        }
+        .summary-item p {
+            margin: 0;
+            color: #34495e;
+            font-size: 0.9em;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        th {
+            background: #34495e;
+            color: #ecf0f1;
+            font-weight: 500;
+            border-radius: 6px 6px 0 0;
+        }
+        td {
+            background: #ffffff;
+            color: #2c3e50;
+        }
+        .trend-up::before {
+            content: "↑";
+            color: #00ff00;
+            margin-right: 5px;
+        }
+        .trend-down::before {
+            content: "↓";
+            color: #ff0000;
+            margin-right: 5px;
+        }
+        canvas {
+            max-height: 250px;
+        }
+        .ranking-widget {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+        .ranking-widget table {
+            min-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Widget de Resumo de Lojas -->
+        <div class="widget">
+            <h2>Resumo de Lojas</h2>
+            <div class="summary-card">
+                <div class="summary-item">
+                    <i class="fas fa-store"></i>
+                    <h3>{{ store_count }}</h3>
+                    <p>Quantidade de Lojas</p>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-mouse-pointer"></i>
+                    <h3>{{ global_clicks }}</h3>
+                    <p>Cliques Globais</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico de Barras de Cliques por Link -->
+        <div class="widget">
+            <h2>Cliques por Link</h2>
+            <canvas id="barChart"></canvas>
+        </div>
+
+        <!-- Widget de Ranking de Lojas -->
+        <div class="widget ranking-widget">
+            <h2>Ranking de Lojas (Top 10)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Loja</th>
+                        <th>Cliques Globais</th>
+                        <th>Acessos ao Perfil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in clicks_data|slice:":10" %}
+                    <tr>
+                        <td class="{% if data.secondary_clicks > data.main_banner %}trend-up{% else %}trend-down{% endif %}">{{ data.store.name }}</td>                        <td>{{ data.total_clicks }}</td>
+                        <td>{{ data.main_banner }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">Sem dados disponíveis</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Gráfico de Pizza de Distribuição de Cliques -->
+        <div class="widget">
+            <h2>Distribuição de Cliques</h2>
+            <canvas id="pieChart"></canvas>
+        </div>
+    </div>
+
+<script>
+    const summary = JSON.parse('{{ clicks_summary_json|safe }}');
+
+    // Gráfico de Barras
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Main Banner', 'WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+            datasets: [{
+                label: 'Cliques',
+                data: [
+                    summary.main_banner,
+                    summary.whatsapp,
+                    summary.instagram,
+                    summary.facebook,
+                    summary.youtube,
+                    summary.x_link,
+                    summary.google_maps,
+                    summary.website
+                ],
+                backgroundColor: ['#b7c8cb', '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#34495e'],
+                borderColor: ['#95a5a6', '#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#2c3e50'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#bdc3c7' },
+                    ticks: { color: '#2c3e50' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#2c3e50' }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+            }
+        }
+    });
+
+    // Gráfico de Pizza
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Main Banner', 'WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+            datasets: [{
+                data: [
+                    summary.main_banner,
+                    summary.whatsapp,
+                    summary.instagram,
+                    summary.facebook,
+                    summary.youtube,
+                    summary.x_link,
+                    summary.google_maps,
+                    summary.website
+                ],
+                backgroundColor: ['#b7c8cb', '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#34495e'],
+                borderColor: ['#95a5a6', '#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#2c3e50'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#2c3e50' }
+                }
+            }
+        }
+    });
+</script>
+
+
+
+</body>
+</html>

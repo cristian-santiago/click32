@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Widgets</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #ecf0f1;
+            margin: 0;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        .dashboard-container {
+            margin-left: 160px;
+            max-width: 1600px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+        .widget {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+            padding: 25px;
+            transition: box-shadow 0.3s;
+            min-height: 350px;
+        }
+        .widget:hover {
+            box-shadow: 0 6px 18px rgba(44, 62, 80, 0.15);
+        }
+        .widget h2 {
+            margin: 0 0 20px;
+            font-size: 1.8em;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        .single-metric {
+            text-align: center;
+            background: #b7c8cb;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .single-metric i {
+            font-size: 2.5em;
+            color: #34495e;
+        }
+        .single-metric h3 {
+            margin: 15px 0 10px;
+            font-size: 2.5em;
+            color: #2c3e50;
+        }
+        .single-metric p {
+            margin: 0;
+            color: #34495e;
+            font-size: 1em;
+        }
+        .heatmap-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .heatmap-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        .heatmap-item.high {
+            background: linear-gradient(to right, #b7c8cb, #95a5a6);
+        }
+        .heatmap-item.medium {
+            background: linear-gradient(to right, #bdc3c7, #95a5a6);
+        }
+        .heatmap-item.low {
+            background: linear-gradient(to right, #6b7280, #bdc3c7);
+        }
+        canvas {
+            max-height: 300px;
+        }
+        .store-highlight {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #b7c8cb;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 200px;
+        }
+        .store-highlight p {
+            margin: 0;
+            color: #34495e;
+            font-size: 1.1em;
+        }
+        .store-highlight span {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .progress-container {
+            text-align: center;
+            background: #b7c8cb;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .progress-container h3 {
+            margin: 15px 0 20px;
+            font-size: 2.5em;
+            color: #2c3e50;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #34495e;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #bdc3c7;
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Indicador de Acessos ao Perfil -->
+        <div class="widget">
+            <h2>Indicador de Acessos</h2>
+            <div class="single-metric">
+                <i class="fas fa-user"></i>
+                <h3>{{ profile_accesses }}</h3>
+                <p>Acessos ao banner principal</p>
+            </div>
+        </div>
+
+        <!-- Mapa de Calor de Atividade por Loja -->
+        <div class="widget">
+            <h2>Atividade por Loja</h2>
+            <div class="heatmap-list">
+                {% for item in heatmap_data %}
+                <div class="heatmap-item {{ item.intensity }}">
+                    <span>{{ item.store_name }}</span>
+                    <span>{{ item.clicks }} cliques</span>
+                </div>
+                {% empty %}
+                <div class="heatmap-item low">
+                    <span>Sem dados</span>
+                    <span>0 cliques</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Linha do Tempo de Cliques -->
+        <div class="widget">
+            <h2>Linha do Tempo de Cliques</h2>
+            <canvas id="lineChart"></canvas>
+        </div>
+
+        <!-- Widget de Comparação de Links por Loja -->
+        <div class="widget">
+            <h2>Comparação de Links por Loja</h2>
+            <canvas id="groupedBarChart"></canvas>
+        </div>
+
+        <!-- Cartão de Destaque de Loja -->
+        <div class="widget">
+            <h2>Destaque: {{ store_highlight.store_name }}</h2>
+            <div class="store-highlight">
+                <p>Main Banner: <span>{{ store_highlight.main_banner }} cliques</span></p>
+                <p>WhatsApp: <span>{{ store_highlight.whatsapp }} cliques</span></p>
+                <p>Instagram: <span>{{ store_highlight.instagram }} cliques</span></p>
+                <p>Facebook: <span>{{ store_highlight.facebook }} cliques</span></p>
+                <p>YouTube: <span>{{ store_highlight.youtube }} cliques</span></p>
+                <p>X Link: <span>{{ store_highlight.x_link }} cliques</span></p>
+                <p>Google Maps: <span>{{ store_highlight.google_maps }} cliques</span></p>
+                <p>Website: <span>{{ store_highlight.website }} cliques</span></p>
+            </div>
+        </div>
+
+        <!-- Indicador de Engajamento Relativo -->
+        <div class="widget">
+            <h2>Engajamento Relativo</h2>
+            <div class="progress-container">
+                <h3>{{ engagement_rate }}%</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ engagement_rate }}%;"></div>
+                </div>
+                <p>Taxa de cliques em relação aos acessos</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gráfico de Linha
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        const timelineData = {
+            labels: {{ timeline_data.labels|default:"[]"|safe }},
+            datasets: [
+                {
+                    label: 'Main Banner',
+                    data: {{ timeline_data.links.main_banner|default:"[]"|safe }},
+                    borderColor: '#b7c8cb',
+                    backgroundColor: '#b7c8cb',
+                    fill: false
+                },
+                {
+                    label: 'WhatsApp',
+                    data: {{ timeline_data.links.whatsapp|default:"[]"|safe }},
+                    borderColor: '#bdc3c7',
+                    backgroundColor: '#bdc3c7',
+                    fill: false
+                },
+                {
+                    label: 'Instagram',
+                    data: {{ timeline_data.links.instagram|default:"[]"|safe }},
+                    borderColor: '#95a5a6',
+                    backgroundColor: '#95a5a6',
+                    fill: false
+                },
+                {
+                    label: 'Facebook',
+                    data: {{ timeline_data.links.facebook|default:"[]"|safe }},
+                    borderColor: '#6b7280',
+                    backgroundColor: '#6b7280',
+                    fill: false
+                },
+                {
+                    label: 'YouTube',
+                    data: {{ timeline_data.links.youtube|default:"[]"|safe }},
+                    borderColor: '#34495e',
+                    backgroundColor: '#34495e',
+                    fill: false
+                },
+                {
+                    label: 'X Link',
+                    data: {{ timeline_data.links.x_link|default:"[]"|safe }},
+                    borderColor: '#2c3e50',
+                    backgroundColor: '#2c3e50',
+                    fill: false
+                },
+                {
+                    label: 'Google Maps',
+                    data: {{ timeline_data.links.google_maps|default:"[]"|safe }},
+                    borderColor: '#b7c8cb',
+                    backgroundColor: '#b7c8cb',
+                    fill: false
+                },
+                {
+                    label: 'Website',
+                    data: {{ timeline_data.links.website|default:"[]"|safe }},
+                    borderColor: '#bdc3c7',
+                    backgroundColor: '#bdc3c7',
+                    fill: false
+                }
+            ]
+        };
+        new Chart(lineCtx, {
+            type: 'line',
+            data: timelineData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#bdc3c7' },
+                        ticks: { color: '#2c3e50' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#2c3e50' }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#2c3e50' } }
+                }
+            }
+        });
+
+        // Gráfico de Barras Agrupadas
+        const groupedBarCtx = document.getElementById('groupedBarChart').getContext('2d');
+        const comparisonData = [
+            {% for data in comparison_data %}
+            {
+                label: '{{ data.store.name|safe }}',
+                data: [
+                    {{ data.main_banner|default:0 }},
+                    {{ data.whatsapp|default:0 }},
+                    {{ data.instagram|default:0 }},
+                    {{ data.facebook|default:0 }},
+                    {{ data.youtube|default:0 }},
+                    {{ data.x_link|default:0 }},
+                    {{ data.google_maps|default:0 }},
+                    {{ data.website|default:0 }}
+                ],
+                backgroundColor: {% if forloop.counter0 == 0 %}'#b7c8cb'{% elif forloop.counter0 == 1 %}'#bdc3c7'{% else %}'#95a5a6'{% endif %},
+                borderColor: '#2c3e50',
+                borderWidth: 1
+            }{% if not forloop.last %},{% endif %}
+            {% empty %}
+            {
+                label: 'Sem dados',
+                data: [0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: '#b7c8cb',
+                borderColor: '#2c3e50',
+                borderWidth: 1
+            }
+            {% endfor %}
+        ];
+        new Chart(groupedBarCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Main Banner', 'WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+                datasets: comparisonData
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#bdc3c7' },
+                        ticks: { color: '#2c3e50' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#2c3e50' }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#2c3e50' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

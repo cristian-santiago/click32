@@ -7,6 +7,8 @@ urlpatterns = [
 # Dashboards
     path('', views.dashboard, name='dashboard'),
     path('clicks-dashboard/', views.clicks_dashboard, name='clicks-dashboard'),
+    path('widgets-dashboard/', views.widgets_dashboard, name='widgets-dashboard'),
+    path('global-dashboard/', views.global_widgets_dashboard, name='global-dashboard'),
     path('login/', views.login_view, name='login'),
 # Stores URL
     path('stores/', views.store_list, name='store_list'),

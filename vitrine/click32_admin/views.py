@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum, Max, Q
 from django.utils.text import slugify
+import json
+from django.utils.safestring import mark_safe
+from .functions import get_clicks_data, get_store_count, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate
 
 from .forms import StoreForm
 
@@ -117,52 +120,48 @@ def store_delete(request, store_id):
    # return render(request, 'click32_admin/confirm_delete.html', {'store': store})
 
 def clicks_dashboard(request):
-    stores = (
-        Store.objects
-        .annotate(
-            main_banner_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='main_banner')),
-            whatsapp_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='whatsapp_link')),
-            instagram_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='instagram_link')),
-            facebook_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='facebook_link')),
-            youtube_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='youtube_link')),
-            x_link_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='x_link')),
-            google_maps_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='google_maps_link')),
-            website_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='website_link')),
-            last_clicked=Max('clicktrack__last_clicked')
-        )
-    )
-
-    clicks_data = []
-    for store in stores:
-        total_clicks = sum([
-            store.main_banner_clicks or 0,
-            store.whatsapp_clicks or 0,
-            store.instagram_clicks or 0,
-            store.facebook_clicks or 0,
-            store.youtube_clicks or 0,
-            store.x_link_clicks or 0,
-            store.google_maps_clicks or 0,
-            store.website_clicks or 0
-        ])
-
-        clicks_data.append({
-            'store': store,
-            'main_banner': store.main_banner_clicks or 0,
-            'whatsapp': store.whatsapp_clicks or 0,
-            'instagram': store.instagram_clicks or 0,
-            'facebook': store.facebook_clicks or 0,
-            'youtube': store.youtube_clicks or 0,
-            'x_link': store.x_link_clicks or 0,
-            'google_maps': store.google_maps_clicks or 0,
-            'website': store.website_clicks or 0,
-            'total_clicks': total_clicks,
-            'last_clicked': store.last_clicked
-        })
-
+      
+    clicks_data = get_clicks_data()
     return render(request, 'click32_admin/clicks_dashboard.html', {
         'clicks_data': clicks_data,
     })
 
+
+
+def global_widgets_dashboard(request):
+   clicks_data = get_clicks_data()
+   clicks_summary = {
+        'main_banner': sum(data['main_banner'] for data in clicks_data),
+        'whatsapp': sum(data['whatsapp'] for data in clicks_data),
+        'instagram': sum(data['instagram'] for data in clicks_data),
+        'facebook': sum(data['facebook'] for data in clicks_data),
+        'youtube': sum(data['youtube'] for data in clicks_data),
+        'x_link': sum(data['x_link'] for data in clicks_data),
+        'google_maps': sum(data['google_maps'] for data in clicks_data),
+        'website': sum(data['website'] for data in clicks_data),
+    }
+   context = {
+        'store_count': get_store_count(),
+        'global_clicks': get_global_clicks(),
+        'clicks_data': clicks_data,
+        'clicks_summary': clicks_summary,
+        'clicks_summary_json': mark_safe(json.dumps(clicks_summary)),
+    }
+   return render(request, 'click32_admin/global_dashboard.html', context)
+
+def widgets_dashboard(request):
+    context = {
+        'store_count': get_store_count(),
+        'global_clicks': get_global_clicks(),
+        'profile_accesses': get_profile_accesses(),
+        'heatmap_data': get_heatmap_data(),
+        'timeline_data': get_timeline_data(),
+        'comparison_data': get_comparison_data(),
+        'store_highlight': get_store_highlight_data(),
+        'engagement_rate': get_engagement_rate()
+    }
+    return render(request, 'click32_admin/dashboard_widgets.html', context)
+#----------
 
 def login_view(request):
     return render(request, 'click32_admin/login.html')

@@ -26,6 +26,8 @@ urlpatterns = [
     path('categories/<int:category_id>/edit/', views.category_edit, name='category_edit'),
     path('categories/<int:category_id>/delete/', views.category_delete, name='category_delete'),
 
-
+# APIS
+    path('api/total-clicks-by-link-type/', views.total_clicks_by_link_type_api, name='total_clicks_by_link_type_api'),
+    path('api/timeline-data/', views.timeline_data_api, name='timeline_data_api'),
 
 ]

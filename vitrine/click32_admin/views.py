@@ -2,6 +2,7 @@ import os
 import shutil
 import logging
 from django.urls import path
+from django.http import JsonResponse
 from .forms import StoreForm, TagForm, CategoryForm
 from vitrine.models import Store, Tag, Category
 from django.views.decorators.http import require_POST
@@ -11,7 +12,7 @@ from django.db.models import Sum, Max, Q
 from django.utils.text import slugify
 import json
 from django.utils.safestring import mark_safe
-from .functions import get_clicks_data, get_store_count, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate
+from .functions import get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate
 
 from .forms import StoreForm
 
@@ -139,14 +140,16 @@ def global_widgets_dashboard(request):
         'x_link': sum(data['x_link'] for data in clicks_data),
         'google_maps': sum(data['google_maps'] for data in clicks_data),
         'website': sum(data['website'] for data in clicks_data),
-    }
+   }
+   site_metrics = get_site_metrics()            
    context = {
-        'store_count': get_store_count(),
-        'global_clicks': get_global_clicks(),
-        'clicks_data': clicks_data,
-        'clicks_summary': clicks_summary,
-        'clicks_summary_json': mark_safe(json.dumps(clicks_summary)),
-    }
+            'store_count': get_store_count(),
+            'global_clicks': get_global_clicks(),
+            'clicks_data': clicks_data, 
+            'clicks_summary': clicks_summary,
+            'home_accesses': site_metrics['home_accesses'],
+            'clicks_summary_json': mark_safe(json.dumps(clicks_summary)),
+        }
    return render(request, 'click32_admin/global_dashboard.html', context)
 
 def widgets_dashboard(request):
@@ -155,10 +158,8 @@ def widgets_dashboard(request):
         'global_clicks': get_global_clicks(),
         'profile_accesses': get_profile_accesses(),
         'heatmap_data': get_heatmap_data(),
-        'timeline_data': get_timeline_data(),
-        'comparison_data': get_comparison_data(),
         'store_highlight': get_store_highlight_data(),
-        'engagement_rate': get_engagement_rate()
+        'site_metrics': get_site_metrics(),
     }
     return render(request, 'click32_admin/dashboard_widgets.html', context)
 #----------
@@ -240,3 +241,14 @@ def category_delete(request, category_id):
         category.delete()
         return redirect('click32_admin:category_list')
     return render(request, 'click32_admin/category_confirm_delete.html', {'category': category})
+
+#-----------#
+# API
+
+def total_clicks_by_link_type_api(request):
+    data = get_total_clicks_by_link_type()
+    return JsonResponse(data)
+
+def timeline_data_api(request):
+    data = get_timeline_data()
+    return JsonResponse(data)

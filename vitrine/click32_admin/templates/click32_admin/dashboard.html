@@ -1,8 +1,19 @@
 {% extends "click32_admin/base.html" %}
 
 {% block content %}    
-    <div class="admin-main-content">
-        <h1>Dashboard Admin</h1>
-        <p>Conteúdo do dashboard aqui.</p>
-    </div>
+<main class="admin-main-content">
+    <h2>Dashboards</h2>
+    
+    <ul>        
+        <li>               
+            <a href="{% url 'click32_admin:widgets-dashboard' %}">Widgets Dashboard</a>
+        </li>        
+    </ul>
+     <ul>        
+        <li>               
+            <a href="{% url 'click32_admin:global-dashboard' %}">Global Dashboard</a>
+        </li>        
+    </ul>
+
+</main>
 {% endblock %}

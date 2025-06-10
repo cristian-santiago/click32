@@ -27,4 +27,4 @@ class CategoryForm(forms.ModelForm):
 
     class Meta:
         model = Category
-        fields = ['name', 'tags']
+        fields = ['name', 'icon', 'tags']

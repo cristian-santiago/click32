@@ -1,8 +1,59 @@
 from django.db.models import Sum, Max, Q
-from vitrine.models import Store, ClickTrack
+from vitrine.models import Store, ClickTrack, Category
 from django.utils import timezone
 from datetime import timedelta
 
+
+def get_category_tags():
+    categories = Category.objects.prefetch_related('tags').all()
+    return [
+        {
+            'name': category.name,
+            'icon': category.icon or 'fa-th',
+            'tags': [tag.name for tag in category.tags.all()]
+        }
+        for category in categories
+    ]
+
+def get_timeline_data():
+    end_date = timezone.now().date()
+    start_date = end_date - timedelta(days=5)
+    dates = [start_date + timedelta(days=x) for x in range(6)]
+    
+    timeline_data = {
+        'labels': [date.strftime('%d/%m') for date in dates],
+        'links': {
+            'main_banner': [0] * 6,
+            'whatsapp': [0] * 6,
+            'instagram': [0] * 6,
+            'facebook': [0] * 6,
+            'youtube': [0] * 6,
+            'x_link': [0] * 6,
+            'google_maps': [0] * 6,
+            'website': [0] * 6
+        }
+    }
+    
+    for i, date in enumerate(dates):
+        daily_clicks = ClickTrack.objects.filter(
+            last_clicked__date=date
+        ).aggregate(
+            main_banner=Sum('click_count', filter=Q(element_type='main_banner')),
+            whatsapp=Sum('click_count', filter=Q(element_type='whatsapp_link')),
+            instagram=Sum('click_count', filter=Q(element_type='instagram_link')),
+            facebook=Sum('click_count', filter=Q(element_type='facebook_link')),
+            youtube=Sum('click_count', filter=Q(element_type='youtube_link')),
+            x_link=Sum('click_count', filter=Q(element_type='x_link')),
+            google_maps=Sum('click_count', filter=Q(element_type='google_maps_link')),
+            website=Sum('click_count', filter=Q(element_type='website_link'))
+        )
+        for key in timeline_data['links']:
+            value = daily_clicks[key]
+            timeline_data['links'][key][i] = int(value) if value is not None and isinstance(value, (int, float)) else 0
+    
+    return timeline_data
+
+# Outras funções permanecem inalteradas
 def get_clicks_data():
     stores = (
         Store.objects
@@ -31,7 +82,7 @@ def get_clicks_data():
             store.google_maps_clicks or 0,
             store.website_clicks or 0
         ])
-        secondary_clicks = total_clicks - (store.main_banner_clicks or 0)  # Cliques nos links secundários
+        secondary_clicks = total_clicks - (store.main_banner_clicks or 0)
         clicks_data.append({
             'store': store,
             'main_banner': store.main_banner_clicks or 0,
@@ -49,26 +100,30 @@ def get_clicks_data():
     
     return clicks_data
 
+def get_site_metrics():
+    home_accesses = ClickTrack.objects.filter(
+        element_type='home_access', store__isnull=True
+    ).aggregate(total=Sum('click_count'))['total'] or 0
+    return {
+        'home_accesses': home_accesses
+    }
+
 def get_store_count():
-    """Retorna a quantidade total de lojas."""
     return Store.objects.count()
 
 def get_global_clicks():
-    """Retorna o somatório de todos os cliques de todas as lojas."""
     clicks_data = get_clicks_data()
     return sum(data['total_clicks'] for data in clicks_data)
 
 def get_profile_accesses():
-    """Retorna o total de cliques no main_banner (acessos ao perfil)."""
     clicks_data = get_clicks_data()
     return sum(data['main_banner'] for data in clicks_data)
 
 def get_heatmap_data():
-    """Retorna dados para o mapa de calor com base em cliques globais."""
     clicks_data = get_clicks_data()
     max_clicks = max((data['total_clicks'] for data in clicks_data), default=1)
     heatmap_data = []
-    for data in clicks_data[:10]:  # Limita a 10 lojas para o widget
+    for data in clicks_data[:10]:
         intensity = data['total_clicks'] / max_clicks if max_clicks > 0 else 0
         heatmap_data.append({
             'store_name': data['store'].name,
@@ -77,53 +132,13 @@ def get_heatmap_data():
         })
     return heatmap_data
 
-def get_timeline_data():
-    """Retorna dados para a linha do tempo de cliques (últimos 6 dias)."""
-    end_date = timezone.now().date()
-    start_date = end_date - timedelta(days=5)
-    dates = [start_date + timedelta(days=x) for x in range(6)]
-    
-    timeline_data = {
-        'labels': [date.strftime('%d/%m') for date in dates],
-        'links': {
-            'main_banner': [],
-            'whatsapp': [],
-            'instagram': [],
-            'facebook': [],
-            'youtube': [],
-            'x_link': [],
-            'google_maps': [],
-            'website': []
-        }
-    }
-    
-    for date in dates:
-        daily_clicks = ClickTrack.objects.filter(
-            last_clicked__date=date
-        ).aggregate(
-            main_banner=Sum('click_count', filter=Q(element_type='main_banner')),
-            whatsapp=Sum('click_count', filter=Q(element_type='whatsapp_link')),
-            instagram=Sum('click_count', filter=Q(element_type='instagram_link')),
-            facebook=Sum('click_count', filter=Q(element_type='facebook_link')),
-            youtube=Sum('click_count', filter=Q(element_type='youtube_link')),
-            x_link=Sum('click_count', filter=Q(element_type='x_link')),
-            google_maps=Sum('click_count', filter=Q(element_type='google_maps_link')),
-            website=Sum('click_count', filter=Q(element_type='website_link'))
-        )
-        for key in timeline_data['links']:
-            timeline_data['links'][key].append(daily_clicks[key] or 0)
-    
-    return timeline_data
-
 def get_comparison_data(store_ids=None):
-    """Retorna dados para comparação de cliques por loja (até 3 lojas)."""
     clicks_data = get_clicks_data()
     if store_ids:
         clicks_data = [data for data in clicks_data if data['store'].id in store_ids]
-    return clicks_data[:3]  # Limita a 3 lojas para o widget
+    return clicks_data[:3]
 
 def get_store_highlight_data(store_id=None):
-    """Retorna dados para destacar uma loja específica."""
     clicks_data = get_clicks_data()
     store_data = clicks_data[0] if clicks_data else {}
     if store_id:
@@ -141,8 +156,32 @@ def get_store_highlight_data(store_id=None):
     }
 
 def get_engagement_rate():
-    """Retorna a taxa de engajamento (cliques totais / acessos ao perfil)."""
     clicks_data = get_clicks_data()
     total_clicks = sum(data['total_clicks'] for data in clicks_data)
     profile_accesses = sum(data['main_banner'] for data in clicks_data)
     return round((total_clicks / profile_accesses * 100) if profile_accesses > 0 else 0, 1)
+
+def get_total_clicks_by_link_type():
+    clicks = ClickTrack.objects.aggregate(
+        
+        whatsapp=Sum('click_count', filter=Q(element_type='whatsapp_link')),
+        instagram=Sum('click_count', filter=Q(element_type='instagram_link')),
+        facebook=Sum('click_count', filter=Q(element_type='facebook_link')),
+        youtube=Sum('click_count', filter=Q(element_type='youtube_link')),
+        x_link=Sum('click_count', filter=Q(element_type='x_link')),
+        google_maps=Sum('click_count', filter=Q(element_type='google_maps_link')),
+        website=Sum('click_count', filter=Q(element_type='website_link'))
+    )
+    return {
+        'labels': ['WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+        'data': [
+            
+            clicks.get('whatsapp', 0) or 0,
+            clicks.get('instagram', 0) or 0,
+            clicks.get('facebook', 0) or 0,
+            clicks.get('youtube', 0) or 0,
+            clicks.get('x_link', 0) or 0,
+            clicks.get('google_maps', 0) or 0,
+            clicks.get('website', 0) or 0
+        ]
+    }

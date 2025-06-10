@@ -11,35 +11,26 @@
         <h2>Click32</h2>            
     </div>
 
-    <ul class="menu">
-        {% for group, tags in tag_groups.items %}
-            <li class="menu-item">
-                <div class="menu-header" data-dropdown="{{ group }}">
-                    <i class="fas {% if group == 'Comidas' %}fa-utensils
-                                 {% elif group == 'Comércios' %}fa-store
-                                 {% elif group == 'Serviços' %}fa-tools
-                                 {% elif group == 'Beleza' %}fa-spa
-                                 {% elif group == 'Saúde' %}fa-heartbeat
-                                 {% elif group == 'Educação' %}fa-graduation-cap
-                                 {% elif group == 'Outros' %}fa-th
-                                 {% else %}fa-th{% endif %}"></i>
-                    <span class="menu-text">{{ group }}</span>
-                </div>
-                <ul class="dropdown" style="display: none;">
-                    {% for tag in tags %}
-                        <li>
-                            <a href="{% url 'home' %}?tag={{ tag }}" class="dropdown-item">{{ tag }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
-     <!-- <footer class = "footer-sidebar">    
-            <p>&copy; 2025 Click32. Todos os direitos reservados.</p>    
-        
-        </footer>-->   
-        
-    </ul>
+       
+            <ul class="menu">
+                {% for category in category_tags %}
+                    <li class="menu-item">
+                        <div class="menu-header" data-dropdown="{{ category.name }}">
+                            <i class="fas {{ category.icon }}"></i>
+                            <span class="menu-text">{{ category.name }}</span>
+                        </div>
+                        <ul class="dropdown" style="display: none;">
+                            {% for tag in category.tags %}
+                                <li>
+                                    <a href="{% url 'home' %}?tag={{ tag|urlencode }}" class="dropdown-item">{{ tag }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+
+
     
 </div>
 
@@ -58,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isMobile && isExpanded) {
         sidebar.classList.remove('collapsed');
     } else {
-        sidebar.classList.add('collapsed'); // Garantir estado colapsado por padrão
+        sidebar.classList.add('collapsed');
     }
 
     // Restaurar último dropdown aberto, se sidebar não estiver colapsada
@@ -84,7 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Funções auxiliares
     function openDropdown(group) {
-        const target = document.querySelector(`[data-dropdown="${group}"]`);
+        // Escapar caracteres especiais no seletor
+        const escapedGroup = CSS.escape(group);
+        const target = document.querySelector(`[data-dropdown="${escapedGroup}"]`);
         if (target) {
             document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
             target.nextElementSibling.classList.add('open');
@@ -137,6 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         if (isMobile && !sidebar.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target) && !e.target.closest('.menu-header')) {
             collapseSidebar();
+            // Fechar todos os dropdowns ao colapsar
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
         }
     });
 });

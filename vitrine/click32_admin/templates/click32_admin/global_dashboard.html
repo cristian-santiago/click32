@@ -1,3 +1,5 @@
+{% extends "click32_admin/base.html" %}
+{%block content%}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -120,6 +122,11 @@
                     <h3>{{ global_clicks }}</h3>
                     <p>Cliques Globais</p>
                 </div>
+                <div class="summary-item">
+                    <i class="fas fa-home"></i>
+                    <h3>{{ home_accesses }}</h3>
+                    <p>Acessos à Home</p>
+                </div>
             </div>
         </div>
 
@@ -170,11 +177,10 @@
     new Chart(barCtx, {
         type: 'bar',
         data: {
-            labels: ['Main Banner', 'WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+            labels: ['WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
             datasets: [{
                 label: 'Cliques',
                 data: [
-                    summary.main_banner,
                     summary.whatsapp,
                     summary.instagram,
                     summary.facebook,
@@ -183,8 +189,8 @@
                     summary.google_maps,
                     summary.website
                 ],
-                backgroundColor: ['#b7c8cb', '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#34495e'],
-                borderColor: ['#95a5a6', '#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#2c3e50'],
+                backgroundColor: ['#b7c8cb', '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb'],
+                borderColor: ['#95a5a6', '#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6'],
                 borderWidth: 1
             }]
         },
@@ -212,10 +218,10 @@
     new Chart(pieCtx, {
         type: 'pie',
         data: {
-            labels: ['Main Banner', 'WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+            labels: ['WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
             datasets: [{
                 data: [
-                    summary.main_banner,
+                    
                     summary.whatsapp,
                     summary.instagram,
                     summary.facebook,
@@ -224,8 +230,8 @@
                     summary.google_maps,
                     summary.website
                 ],
-                backgroundColor: ['#b7c8cb', '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#34495e'],
-                borderColor: ['#95a5a6', '#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#2c3e50'],
+                backgroundColor: [  '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#34495e'],
+                borderColor: ['#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#2c3e50'],
                 borderWidth: 1
             }]
         },
@@ -239,8 +245,6 @@
         }
     });
 </script>
-
-
-
 </body>
 </html>
+{%endblock%}

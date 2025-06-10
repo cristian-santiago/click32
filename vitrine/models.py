@@ -10,6 +10,7 @@ class Tag(models.Model):
     
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    icon = models.CharField(max_length=50, blank=True, default='fa-th')
     tags = models.ManyToManyField(Tag, blank=True, related_name='categories')
 
     def __str__(self):
@@ -40,7 +41,7 @@ class Store(models.Model):
         return self.name
 
 class ClickTrack(models.Model):
-    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicktrack')
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicktrack', null=True, blank=True)
     element_type = models.CharField(max_length=50, choices=[
         ('main_banner', 'Main Banner'),
         ('whatsapp_link', 'WhatsApp Link'),
@@ -50,6 +51,7 @@ class ClickTrack(models.Model):
         ('x_link', 'X Link'),
         ('google_maps_link', 'Google Maps Link'),
         ('website_link', 'Website Link'),
+        ('home_access', 'Home Access'),
     ])
     click_count = models.PositiveIntegerField(default=0)
     last_clicked = models.DateTimeField(auto_now=True)
@@ -58,4 +60,5 @@ class ClickTrack(models.Model):
         unique_together = ('store', 'element_type')
 
     def __str__(self):
-        return f"{self.store.name} - {self.element_type} - {self.click_count} clicks"
+        store_name = self.store.name if self.store else 'No Store'
+        return f"{store_name} - {self.element_type} - {self.click_count} clicks"

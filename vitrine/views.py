@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Sum, Max, Q
-from .models import Store, ClickTrack
+from .models import Store, ClickTrack, Category
 import logging
+from .click32_admin.functions import get_category_tags, get_site_metrics
 
 logger = logging.getLogger(__name__)
 
@@ -20,12 +21,26 @@ def get_tag_groups():
 
 def home(request):
     selected_tag = request.GET.get('tag')
+    stores = Store.objects.all()
+
     if selected_tag:
-        stores = Store.objects.filter(tags__name=selected_tag).distinct().order_by('-highlight', 'name')
+        category = Category.objects.filter(name=selected_tag).first()
+        if category:
+            stores = stores.filter(tags__in=category.tags.all()).distinct()
+        else:
+            stores = stores.filter(tags__name=selected_tag).distinct()
     else:
-        stores = Store.objects.all().order_by('-highlight', 'name')
+        # Rastrear acesso à home apenas quando não há filtros
+        track_click(request, element_type='home_access')
+
+    stores = stores.order_by('-highlight', 'name')
     
-    context = {'stores': stores, 'tag_groups': get_tag_groups()}
+    context = {
+        'stores': stores,
+        'category_tags': get_category_tags(),
+        'selected_tag': selected_tag,
+    }
+
     return render(request, 'home.html', context)
 
 def store_detail(request, store_id):
@@ -40,87 +55,49 @@ def advertise(request):
 def about(request):
     context = {'tag_groups': get_tag_groups()}
     return render(request, 'about.html', context)
-#-------------------------------
-
-#def clicks_dashboard(request):
-    print(">>> Entrou na clicks_dashboard <<<")
-    # Agregações diretamente nos objetos Store
-    stores = (
-        Store.objects
-        .annotate(
-            main_banner_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='main_banner')),
-            whatsapp_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='whatsapp_link')),
-            instagram_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='instagram_link')),
-            facebook_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='facebook_link')),
-            youtube_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='youtube_link')),
-            x_link_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='x_link')),
-            google_maps_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='google_maps_link')),
-            website_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='website_link')),
-            last_clicked=Max('clicktrack__last_clicked')
-        )
-    )
-
-    clicks_data = []
-    for store in stores:
-        # Usa 0 para valores nulos
-        main_banner = store.main_banner_clicks or 0
-        whatsapp = store.whatsapp_clicks or 0
-        instagram = store.instagram_clicks or 0
-        facebook = store.facebook_clicks or 0
-        youtube = store.youtube_clicks or 0
-        x_link = store.x_link_clicks or 0
-        google_maps = store.google_maps_clicks or 0
-        website = store.website_clicks or 0
-
-        total_clicks = main_banner + whatsapp + instagram + facebook + youtube + x_link + google_maps + website
-
-        clicks_data.append({
-            'store': store,  # agora é um objeto Store
-            'main_banner': main_banner,
-            'whatsapp': whatsapp,
-            'instagram': instagram,
-            'facebook': facebook,
-            'youtube': youtube,
-            'x_link': x_link,
-            'google_maps': google_maps,
-            'website': website,
-            'total_clicks': total_clicks,
-            'last_clicked': store.last_clicked
-        })
-
-    return render(request, 'admin/clicks_dashboard.html', {
-        'clicks_data': clicks_data,
-    })
 
 #--------------------------------
-def track_click(request, store_id, element_type):
+def track_click(request, store_id=None, element_type=None):
     try:
-        store = get_object_or_404(Store, id=store_id)
         valid_elements = [
             'main_banner', 'whatsapp_link', 'instagram_link', 'facebook_link',
-            'youtube_link', 'x_link', 'google_maps_link', 'website_link'
+            'youtube_link', 'x_link', 'google_maps_link', 'website_link', 'home_access'
         ]
         if element_type not in valid_elements:
             return HttpResponse(status=400)
 
-        click_track, created = ClickTrack.objects.get_or_create(
-            store=store,
-            element_type=element_type,
-            defaults={'click_count': 1}
-        )
-        if not created:
-            click_track.click_count += 1
-            click_track.save()
-        logger.info(f"Click tracked: {store.name} - {element_type}")
-
-        if element_type == 'main_banner':
-            return render(request, 'store_detail.html', {'store': store})
+        if element_type == 'home_access':
+            # Não associa a uma loja específica para acessos à home
+            click_track, created = ClickTrack.objects.get_or_create(
+                store=None,  # Nenhum store associado
+                element_type='home_access',
+                defaults={'click_count': 1}
+            )
+            if not created:
+                click_track.click_count += 1
+                click_track.save()
+            logger.info(f"Click tracked: Home Access")
+            return None  # Retorna None para não interferir na renderização
         else:
-            link_field = f"{element_type}"
-            link = getattr(store, link_field, None)
-            if link:
-                return HttpResponseRedirect(link)
-            return HttpResponse(status=404)
+            store = get_object_or_404(Store, id=store_id)
+            click_track, created = ClickTrack.objects.get_or_create(
+                store=store,
+                element_type=element_type,
+                defaults={'click_count': 1}
+            )
+            if not created:
+                click_track.click_count += 1
+                click_track.save()
+            logger.info(f"Click tracked: {store.name} - {element_type}")
+
+            if element_type == 'main_banner':
+                return render(request, 'store_detail.html', {'store': store})
+            else:
+                link_field = element_type
+                link = getattr(store, link_field, None)
+                if link:
+                    return HttpResponseRedirect(link)
+                return HttpResponse(status=404)
     except Exception as e:
         logger.error(f"Error tracking click: {e}")
         return HttpResponse(status=500)

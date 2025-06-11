@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.db.models import Sum, Max, Q
 from .models import Store, ClickTrack, Category
+from django.core.mail import send_mail
 import logging
 from .click32_admin.functions import get_category_tags, get_site_metrics
 
@@ -45,15 +46,18 @@ def home(request):
 
 def store_detail(request, store_id):
     store = get_object_or_404(Store, id=store_id)
-    context = {'store': store, 'tag_groups': get_tag_groups()}
+    context = {
+        'store': store,
+        'category_tags': get_category_tags()
+    }
     return render(request, 'store_detail.html', context)
 
 def advertise(request):
-    context = {'tag_groups': get_tag_groups()}
+    context = {'category_tags': get_category_tags()}
     return render(request, 'advertise.html', context)
 
 def about(request):
-    context = {'tag_groups': get_tag_groups()}
+    context = {'category_tags': get_category_tags()}
     return render(request, 'about.html', context)
 
 #--------------------------------
@@ -102,6 +106,34 @@ def track_click(request, store_id=None, element_type=None):
         logger.error(f"Error tracking click: {e}")
         return HttpResponse(status=500)
     
+
+
+
+
+
+# view inactivated #
+def submit_advertise(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        business = request.POST.get('business')
+        message = request.POST.get('message')
+        # Exemplo: salvar ou enviar e-mail
+        send_mail(
+            f'Novo Anunciante: {business}',
+            f'Nome: {name}\nE-mail: {email}\nNegócio: {business}\nMensagem: {message}',
+            'no-reply@click32.com',
+            ['contato@click32.com'],
+            fail_silently=True,
+        )
+        return redirect('advertise_success')  
+    return render(request, 'advertise.html')
+
+# view inactivated #
+def advertise_success(request):
+    return render(request, 'advertise_success.html')
+
+
 def teste_print(request):
     print(">>> DEBUG: view teste_print foi chamada <<<")
     return HttpResponse("Teste de print no console OK!")

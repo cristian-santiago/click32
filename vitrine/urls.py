@@ -10,6 +10,7 @@ urlpatterns = [
     path('anuncie/', views.advertise, name='anuncie'),
     path('sobre/', views.about, name='sobre'),
     path('track-click/<int:store_id>/<str:element_type>/', views.track_click, name='track_click'),
-    
+    #path('advertise/submit/', views.submit_advertise, name='submit_advertise'),
+    #path('advertise/success/', views.advertise_success, name='advertise_success'),
 
 ]

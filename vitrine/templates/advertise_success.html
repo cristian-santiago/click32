@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sucesso! - Click32</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            text-align: center;
+            padding: 40px 16px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff2e63, #00f7ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 16px;
+        }
+        p {
+            font-size: 1.125rem;
+            color: #d1d5db;
+            margin-bottom: 24px;
+        }
+        .cta {
+            display: inline-block;
+            background: linear-gradient(90deg, #ff2e63, #ff6b6b);
+            color: #fff;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 40px;
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include '_navbar.html' %}
+    <div class="container">
+        <h1>Parabéns! Sua Jornada Começou!</h1>
+        <p>Recebemos seu interesse em anunciar no Click32. Nossa equipe vai entrar em contato rapidinho para fazer sua loja brilhar no KM32!</p>
+        <a href="{% url 'home' %}" class="cta">Voltar ao Início</a>
+    </div>
+    <footer>
+        {% include '_footer.html' %}
+    </footer>
+</body>
+</html>

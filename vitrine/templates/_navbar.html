@@ -1,4 +1,4 @@
-{%load static %}
+{% load static %}
 <html>
     <head>
         <meta charset="UTF-8">
@@ -11,9 +11,9 @@
     <body>
         <div class="toolbar">
             <div class="toolbar-container">
-                <a href="{% url 'home' %}" title="Início"><i class="fas fa-house"></i></a>
-                <a href="{% url 'anuncie' %}" title="Anuncie"><i class="fas fa-bullhorn"></i></a>
-                <a href="{% url 'sobre' %}" title="Sobre"><i class="fas fa-info-circle"></i></a>
+                <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
+                <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie"><i class="fas fa-bullhorn"></i></a>
+                <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>
             </div>
         </div>
         {% block content %}

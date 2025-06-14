@@ -16,26 +16,88 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Outfit', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
-            scroll-behavior: smooth;
+            background: #ecf0f1;
+            color: #2c3e50;
             width: 100%;
             max-width: 100vw;
             overflow-x: hidden;
+            padding-top: 48px;
+            margin-left: 0;
+            position: relative;
+        }
+
+        .toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(44, 62, 80, 0.95);
+            z-index: 1000;
+            height: 48px;
+            overflow: visible;
+        }
+
+        .toolbar-container {
+            max-width: 720px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .toolbar-container a {
+            color: #d1e8f0;
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            transition: transform 0.3s ease;
+        }
+
+        .toolbar-container a i {
+            line-height: 1;
+        }
+
+        .toolbar-container a.tooltip {
+            position: relative;
+        }
+
+        .toolbar-container a.tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #34495e;
+            color: #ecf0f1;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 0 16px;
-            width: 100%;
-            box-sizing: border-box;
         }
 
         .hero {
-            min-height: 70vh;
+            min-height: calc(100vh - 48px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -52,126 +114,116 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.95) 0%, rgba(59, 86, 110, 0.85) 30%, rgba(102, 211, 243, 0.75) 80%, rgba(0, 204, 255, 0.65) 100%);
             z-index: -1;
         }
 
         .hero-content {
-            max-width: 600px;
-            padding: 16px;
-            animation: fadeInUp 1s ease-out;
+            max-width: 100%;
+            padding: 24px;
+            animation: fadeIn 1.2s ease-out;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
             line-height: 1.1;
-            background: linear-gradient(90deg, #ff2e63, #00f7ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: #ecf0f1;
             margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .hero p {
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 300;
-            color: #d1d5db;
+            color: #d1e8f0;
             margin-bottom: 24px;
         }
 
         .cta-primary {
             display: inline-flex;
             align-items: center;
-            background: linear-gradient(90deg, #ff2e63, #ff6b6b);
-            color: #fff;
+            background: linear-gradient(135deg, #00ccff 0%, #00b7eb 100%);
+            color: #2c3e50;
             padding: 14px 28px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 700;
             border-radius: 40px;
             text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-            touch-action: manipulation;
+            box-shadow: 0 6px 16px rgba(0, 204, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s ease;
         }
 
         .cta-primary i {
-            margin-left: 8px;
-        }
-
-        .cta-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 46, 99, 0.4);
+            margin-left: 10px;
         }
 
         .vision-section {
-            padding: 60px 16px;
-            background: #111111;
+            padding: 40px 16px;
+            background: #ffffff;
             position: relative;
             z-index: 1;
         }
 
-        .vision-section::before {
-            content: '';
-            position: absolute;
-            top: -60px;
-            right: -60px;
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle, rgba(255, 46, 99, 0.2), transparent);
-            z-index: -1;
+        .vision-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
         }
 
-        .vision-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
+        .vision-text {
+            text-align: center;
         }
 
         .vision-text h2 {
             font-size: 2rem;
             font-weight: 900;
-            color: #fff;
+            color: #2c3e50;
             margin-bottom: 12px;
-            text-align: center;
         }
 
         .vision-text p {
             font-size: 1rem;
-            color: #9ca3af;
-            margin-bottom: 20px;
-            text-align: center;
+            color: #34495e;
+            line-height: 1.6;
+            margin-bottom: 16px;
         }
 
         .vision-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 16px;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            width: 100%;
         }
 
         .stat-card {
             padding: 16px;
-            background: #1c1c1c;
+            background: #ecf0f1;
             border-radius: 10px;
             text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .stat-card h3 {
             font-size: 1.75rem;
             font-weight: 700;
-            color: #ff2e63;
+            color: #00ccff;
             margin-bottom: 6px;
         }
 
         .stat-card p {
-            font-size: 0.75rem;
-            color: #9ca3af;
+            font-size: 0.85rem;
+            color: #34495e;
         }
 
         .power-section {
-            padding: 60px 16px;
-            background: #fff;
-            color: #111827;
+            padding: 40px 16px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3b566e 30%, #66d3f3 80%, #00ccff 100%);
+            color: #ecf0f1;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .power-section h2 {
@@ -183,123 +235,83 @@
         .power-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 16px;
         }
 
         .power-card {
-            padding: 20px;
-            background: #f9fafb;
+            padding: 24px;
+            background: #ffffff;
             border-radius: 12px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .power-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #ff2e63, #00f7ff);
-        }
-
-        .power-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .power-card i {
-            font-size: 2.25rem;
-            color: #ff2e63;
+            font-size: 2rem;
+            color: #00ccff;
             margin-bottom: 12px;
         }
 
         .power-card h3 {
             font-size: 1.25rem;
             font-weight: 700;
+            color: #2c3e50;
             margin-bottom: 8px;
         }
 
         .power-card p {
-            font-size: 0.75rem;
-            color: #6b7280;
+            font-size: 0.9rem;
+            color: #34495e;
+            line-height: 1.5;
         }
 
         .connect-section {
-            padding: 80px 16px 40px; /* Reduced bottom padding */
-            background: linear-gradient(180deg, #0a0a0a, #1c1c1c);
+            padding: 40px 16px;
+            background: #ecf0f1;
             text-align: center;
             position: relative;
-        }
-
-        .connect-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(255, 46, 99, 0.1), transparent 70%);
-            z-index: 0;
+            z-index: 1;
         }
 
         .connect-section h2 {
-            font-size: 2.25rem;
+            font-size: 2rem;
             font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 16px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #2c3e50;
+            margin-bottom: 12px;
         }
 
         .connect-section p {
             font-size: 1rem;
-            color: #e5e7eb;
-            max-width: 500px;
-            margin: 0 auto 40px;
-            position: relative;
-            z-index: 1;
+            color: #34495e;
+            max-width: 90%;
+            margin: 0 auto 24px;
             font-weight: 300;
         }
 
         .connect-links {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            flex-direction: column;
             gap: 16px;
-            max-width: 700px;
+            max-width: 90%;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
         .connect-link {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
-            background: #2d2d2d;
-            border-radius: 16px;
+            padding: 16px;
+            background: #ffffff;
+            border-radius: 10px;
             text-decoration: none;
-            color: #ffffff;
-            font-size: 0.875rem;
+            color: #2c3e50;
+            font-size: 0.95rem;
             font-weight: 500;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            touch-action: manipulation;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .connect-link:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(255, 46, 99, 0.3);
-            background: #3a3a3a;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .connect-link i {
             font-size: 2rem;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .connect-link.whatsapp i {
@@ -307,14 +319,11 @@
         }
 
         .connect-link.instagram i {
-            background: linear-gradient(45deg, #833AB4, #FD1D1D, #FCB045);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: #E4405F;
         }
 
         .connect-link.email i {
-            color: #ff2e63;
+            color: #00ccff;
         }
 
         .connect-link span {
@@ -322,25 +331,22 @@
         }
 
         footer {
-            width: 100%;
-            background: #1c1c1c;
-            color: #ffffff;
+            background: #2c3e50;
+            color: #ecf0f1;
             text-align: center;
-            padding: 16px 0;
-            font-size: 0.875rem;
+            padding: 16px;
+            font-size: 0.85rem;
             font-weight: 300;
         }
 
         footer p {
             margin: 0;
-            padding: 0;
-            color: #e5e7eb;
         }
 
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(24px);
             }
             to {
                 opacity: 1;
@@ -348,178 +354,156 @@
             }
         }
 
-        @media (min-width: 769px) {
-            .vision-content {
-                grid-template-columns: 1fr 1fr;
+        @media (min-width: 768px) {
+            .toolbar-container {
+                max-width: 720px;
+                gap: 40px;
             }
-
-            .power-grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            .toolbar-container a {
+                font-size: 1.2rem;
+                width: 40px;
+                height: 40px;
             }
-        }
-
-        @media (max-width: 768px) {
-            .hero {
-                min-height: 50vh;
+            .container {
+                max-width: 720px;
             }
-
             .hero h1 {
-                font-size: 2rem;
+                font-size: 3rem;
             }
-
             .hero p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
-
-            .cta-primary {
-                padding: 12px 24px;
-                font-size: 0.875rem;
-            }
-
-            .vision-section,
-            .power-section,
-            .connect-section {
-                padding: 40px 16px 32px;
-            }
-
             .vision-text h2,
             .power-section h2,
             .connect-section h2 {
-                font-size: 1.75rem;
+                font-size: 2.25rem;
             }
-
-            .vision-text p,
-            .connect-section p {
-                font-size: 0.875rem;
+            .vision-stats {
+                grid-template-columns: repeat(3, 1fr);
             }
-
-            .stat-card h3 {
-                font-size: 1.5rem;
+            .power-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-
-            .stat-card p {
-                font-size: 0.7rem;
-            }
-
-            .power-card i {
-                font-size: 2rem;
-            }
-
-            .power-card h3 {
-                font-size: 1.125rem;
-            }
-
-            .power-card p {
-                font-size: 0.7rem;
-            }
-
             .connect-links {
-                grid-template-columns: 1fr;
-                gap: 12px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
             }
-
-            footer {
-                padding: 12px 0;
-                font-size: 0.75rem;
+            .connect-link {
+                min-width: 200px;
             }
         }
 
         @media (max-width: 480px) {
+            .toolbar-container {
+                gap: 24px;
+            }
+            .toolbar-container a {
+                font-size: 1rem;
+                width: 32px;
+                height: 32px;
+            }
+            .toolbar-container a.tooltip::after {
+                font-size: 0.8rem;
+                padding: 3px 6px;
+                bottom: -26px;
+            }
             .container {
                 padding: 0 12px;
             }
-
             .hero {
-                min-height: 40vh;
+                min-height: calc(80vh - 48px);
             }
-
             .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 0.9rem;
+            }
+            .cta-primary {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+            .vision-section,
+            .power-section,
+            .connect-section {
+                padding: 32px 12px;
+            }
+            .vision-text h2,
+            .power-section h2,
+            .connect-section h2 {
                 font-size: 1.75rem;
             }
-
-            .hero p {
-                font-size: 0.875rem;
+            .vision-text p,
+            .connect-section p {
+                font-size: 0.9rem;
             }
-
-            .cta-primary {
-                padding: 10px 20px;
-                font-size: 0.75rem;
+            .stat-card h3 {
+                font-size: 1.5rem;
             }
-
-            .vision-section::before,
-            .connect-section::before {
-                width: 140px;
-                height: 140px;
+            .power-card h3 {
+                font-size: 1.1rem;
             }
-
-            .vision-section::before {
-                top: -50px;
-                right: -50px;
-            }
-
-            .connect-section::before {
-                top: 0;
-                left: 0;
-            }
-
-            .vision-stats {
-                grid-template-columns: 1fr;
-            }
-
             .connect-link {
-                font-size: 0.75rem;
-                padding: 16px;
+                padding: 12px;
+                font-size: 0.85rem;
             }
-
             .connect-link i {
                 font-size: 1.75rem;
             }
-
             footer {
-                padding: 10px 0;
-                font-size: 0.7rem;
+                padding: 12px;
+                font-size: 0.8rem;
             }
         }
 
         @media (max-width: 320px) {
+            .toolbar-container {
+                gap: 16px;
+            }
+            .toolbar-container a {
+                font-size: 0.9rem;
+                width: 28px;
+                height: 28px;
+            }
             .hero h1 {
-                font-size: 1.5rem;
+                font-size: 1.75rem;
             }
-
             .hero p {
-                font-size: 0.75rem;
+                font-size: 0.85rem;
             }
-
             .cta-primary {
-                padding: 8px 16px;
-                font-size: 0.7rem;
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
-
             .vision-text h2,
             .power-section h2,
             .connect-section h2 {
                 font-size: 1.5rem;
             }
-
             .stat-card h3 {
                 font-size: 1.25rem;
             }
-
             footer {
-                padding: 8px 0;
-                font-size: 0.65rem;
+                font-size: 0.75rem;
             }
         }
     </style>
 </head>
 <body>
-    {% include '_navbar.html' %}
+    <div class="toolbar">
+        <div class="toolbar-container">
+            <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
+            <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie"><i class="fas fa-bullhorn"></i></a>
+            <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>
+        </div>
+    </div>
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>KM32. Seu Negócio. Um Clique para a Glória.</h1>
-                <p>Click32 é o palco onde sua loja no KM32 se torna lendária. Anuncie e faça cada clique contar!</p>
-                <a href="#connect" class="cta-primary">Exploda no KM32! <i class="fas fa-rocket"></i></a>
+                <h1>KM32: Brilhe com Click32</h1>
+                <p>Transforme sua loja em uma estrela no KM32. Conecte-se com clientes e impulsione suas vendas!</p>
+                <a href="#connect" class="cta-primary">Comece Agora! <i class="fas fa-rocket"></i></a>
             </div>
         </div>
     </section>
@@ -528,21 +512,21 @@
         <div class="container">
             <div class="vision-content">
                 <div class="vision-text">
-                    <h2>Reescreva a História do Seu Negócio</h2>
-                    <p>No KM32, cada esquina tem uma história. Com o Click32, a sua loja vira protagonista, conectando-se com clientes que querem viver o que você oferece. Somos a ponte entre o seu sonho e o sucesso real.</p>
+                    <h2>Sua Loja, Nossa Missão</h2>
+                    <p>Cada negócio no KM32 tem uma história única. Com o Click32, conectamos sua loja aos clientes certos, criando oportunidades reais de crescimento.</p>
                 </div>
                 <div class="vision-stats">
                     <div class="stat-card">
-                        <h3>20K+</h3>
-                        <p>Clientes no KM32</p>
+                        <h3>25K+</h3>
+                        <p>Visitantes Mensais</p>
                     </div>
                     <div class="stat-card">
-                        <h3>10K+</h3>
-                        <p>Cliques Diários</p>
+                        <h3>15K+</h3>
+                        <p>Interações Diárias</p>
                     </div>
                     <div class="stat-card">
-                        <h3>95%</h3>
-                        <p>Engajamento Local</p>
+                        <h3>90%</h3>
+                        <p>Conversão Local</p>
                     </div>
                 </div>
             </div>
@@ -551,27 +535,27 @@
 
     <section class="power-section">
         <div class="container">
-            <h2>O Poder do Click32 no KM32</h2>
+            <h2>Por que Escolher Click32?</h2>
             <div class="power-grid">
                 <div class="power-card">
                     <i class="fas fa-bolt"></i>
-                    <h3>Conexão Instantânea</h3>
-                    <p>Seu cliente clica e chega ao seu WhatsApp, Instagram ou loja física em minutos.</p>
+                    <h3>Conexão Rápida</h3>
+                    <p>Clientes chegam ao seu WhatsApp ou loja em um clique.</p>
                 </div>
                 <div class="power-card">
                     <i class="fas fa-eye"></i>
-                    <h3>Visibilidade Explosiva</h3>
-                    <p>Destaque-se com banners e categorias que fazem sua loja brilhar no KM32.</p>
+                    <h3>Visibilidade Máxima</h3>
+                    <p>Seu negócio em destaque com banners personalizados.</p>
                 </div>
                 <div class="power-card">
                     <i class="fas fa-users"></i>
-                    <h3>Comunidade Viva</h3>
-                    <p>Junte-se a uma rede que pulsa com a energia dos negócios locais.</p>
+                    <h3>Comunidade Local</h3>
+                    <p>Faça parte de uma rede vibrante no KM32.</p>
                 </div>
                 <div class="power-card">
                     <i class="fas fa-chart-line"></i>
-                    <h3>Resultados Reais</h3>
-                    <p>Veja suas vendas crescerem com relatórios de cliques e engajamento.</p>
+                    <h3>Crescimento Real</h3>
+                    <p>Relatórios detalhados para acompanhar seu sucesso.</p>
                 </div>
             </div>
         </div>
@@ -579,8 +563,8 @@
 
     <section class="connect-section" id="connect">
         <div class="container">
-            <h2>Conecte-se à Click32</h2>
-            <p>Exploda sua loja no KM32 com um toque: rápido pelo WhatsApp, moderno pelo Instagram ou direto por email.</p>
+            <h2>Entre em Contato</h2>
+            <p>Está pronto para destacar sua loja no KM32? Conecte-se com a gente agora mesmo!</p>
             <div class="connect-links">
                 <a href="https://wa.me/5511999999999?text=Quero%21" class="connect-link whatsapp" target="_blank">
                     <i class="bi bi-whatsapp"></i>
@@ -590,8 +574,8 @@
                     <i class="bi bi-instagram"></i>
                     <span>Instagram</span>
                 </a>
-                <a href="mailto:contato@click32.com.br?subject=Quero%20Anunciar%20no%20Click32!&body=Olá! Quero saber como posso destacar minha loja no KM32 com o Click32. Me conte mais!" class="connect-link email">
-                    <i class="fas fa-envelope"></i>
+                <a href="mailto:contato@click32.com.br?subject=Quero%20Anunciar!&body=Olá! Quero destacar minha loja no KM32 com o Click32!" class="connect-link email">
+                    <i class="bi bi-envelope"></i>
                     <span>Email</span>
                 </a>
             </div>
@@ -599,7 +583,7 @@
     </section>
 
     <footer>
-        {% include '_footer.html' %}
+        <p>© 2025 Click32. Todos os direitos reservados.</p>
     </footer>
 </body>
 </html>

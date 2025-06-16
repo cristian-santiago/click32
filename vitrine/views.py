@@ -23,6 +23,7 @@ def get_tag_groups():
 def home(request):
     selected_tag = request.GET.get('tag')
     stores = Store.objects.all()
+    stores_vip = None  # Inicializa como None para evitar exibição com filtros
 
     if selected_tag:
         category = Category.objects.filter(name=selected_tag).first()
@@ -31,13 +32,15 @@ def home(request):
         else:
             stores = stores.filter(tags__name=selected_tag).distinct()
     else:
-        # Rastrear acesso à home apenas quando não há filtros
+        # Rastrear acesso à home e carregar lojas VIP apenas sem filtros
         track_click(request, element_type='home_access')
+        stores_vip = Store.objects.filter(is_vip=True)[:10]  # Limita a 10 lojas VIP
 
     stores = stores.order_by('-highlight', 'name')
     
     context = {
         'stores': stores,
+        'stores_vip': stores_vip,  # Será None se houver filtro
         'category_tags': get_category_tags(),
         'selected_tag': selected_tag,
     }

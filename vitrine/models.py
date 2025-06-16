@@ -28,6 +28,7 @@ class Store(models.Model):
     carousel_3 = models.ImageField(upload_to=store_image_path, blank=True, null=True)
     carousel_4 = models.ImageField(upload_to=store_image_path, blank=True, null=True)
     highlight = models.BooleanField(default=False)
+    is_vip = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag, blank=True)
     whatsapp_link = models.URLField("WhatsApp", blank=True, null=True)
     instagram_link = models.URLField("Instagram", blank=True, null=True)

@@ -34,7 +34,6 @@
 }
 
 .sidebar.collapsed .menu-text,
-.sidebar.collapsed .profile p,
 .sidebar.collapsed .search-bar,
 .sidebar.collapsed .dropdown,
 .sidebar.collapsed .dropdown-toggle {
@@ -130,21 +129,17 @@
 
 .profile {
     height: 48px;
-    text-align: center;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    flex-shrink: 0;
-    padding-top: 11px;
+    width: 120px;
+    
 }
 
-.profile h2 {
-    font-size: 1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    flex-shrink: 0;
-    color: aqua;
+.profile img {
+    height: 40px!important;
+    width: 110px!important;
+    padding-bottom: 3px;
+    
 }
-
-.sidebar.collapsed .profile h2 {
+.sidebar.collapsed profile img{
     display: none;
 }
 

@@ -4,7 +4,7 @@
   src: url('../fonts/OpenSans/OpenSans-Regular.ttf'); 
 }
 
-.admin-main-content.clicks-dashboard {
+.clicks-dashboard {
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 

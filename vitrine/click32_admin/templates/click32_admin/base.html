@@ -9,12 +9,14 @@
     <title>{% block title %}Click32 Admin{% endblock %}</title>
 </head>
 <body>
+    {% if request.user.is_authenticated %}
     <header>
         {% include 'click32_admin/sidebar_admin.html' %}
         
     </header>
-    <main>
+    <main class="admin-main-content">
         {% block content %}{% endblock %}
     </main>
+    {%endif%}
 </body>
 </html>

@@ -1,0 +1,25 @@
+{% extends "click32_admin/base.html" %}
+{% block content %}
+<h1>Lista de Grupos</h1>
+<a href="{% url 'click32_admin:group_create' %}">Adicionar Grupo</a>
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Ações</th>
+    </tr>
+    {% for group in groups %}
+    <tr>
+        <td>{{ group.name }}</td>
+        <td>
+            <a href="{% url 'click32_admin:group_edit' group.id %}">Editar</a>
+            <a href="{% url 'click32_admin:group_delete' group.id %}">Excluir</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="2">Nenhum grupo cadastrado.</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'click32_admin:dashboard' %}">Voltar ao Dashboard</a>
+{% endblock %}

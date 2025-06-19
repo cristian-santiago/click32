@@ -10,24 +10,29 @@
     </div>
 
     <ul class="admin-menu">
+        {% if perms.vitrine.view_store %}
         <li class="admin-menu-item">
             <a href="{% url 'click32_admin:dashboard' %}">
                 <i class="fas fa-chart-line"></i>
                 <span class="admin-menu-text">Dashboard</span>
             </a>
         </li>
+        {%endif%}
+        {% if request.user.is_superuser %}
         <li class="admin-menu-item">
             <a href="{% url 'click32_admin:clicks-dashboard' %}">
                 <i class="fas fa-chart-line"></i>
                 <span class="admin-menu-text">Click Table</span>
             </a>
         </li>
+        
         <li class="admin-menu-item">
             <a href="{% url 'click32_admin:store_list' %}">
                 <i class="fas fa-store"></i>
                 <span class="admin-menu-text">Lojas</span>
             </a>
         </li>
+        
         <li class="admin-menu-item">
             <a href="{% url 'click32_admin:category_list' %}">
                 <i class="fa-solid fa-list"></i>
@@ -46,7 +51,7 @@
                 <span class="admin-menu-text">Sair</span>
             </a>
         </li>
-
+        {%endif%}
 
 
         

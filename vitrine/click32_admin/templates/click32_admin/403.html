@@ -1,0 +1,9 @@
+{% extends "click32_admin/base.html" %}
+{% block content %}
+<main class="admin-main-content">
+    <h2>Acesso Negado</h2>
+    <p>Você não tem permissão para acessar esta página.</p>
+    <a href="{% url 'click32_admin:dashboard' %}">Voltar ao Dashboard</a>
+    <a href="{% url 'click32_admin:logout' %}">Sair</a>
+</main>
+{% endblock %}

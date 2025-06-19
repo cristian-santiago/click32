@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<main class="admin-main-content category-form">
+<main class="category-form">
   <h1>{% if form.instance.id %}Editar Categoria{% else %}Adicionar Categoria{% endif %}</h1>
   <form method="post" >
     {% csrf_token %}

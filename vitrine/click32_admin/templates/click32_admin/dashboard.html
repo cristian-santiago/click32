@@ -1,7 +1,7 @@
 {% extends "click32_admin/base.html" %}
-
-{% block content %}    
-<main class="admin-main-content">
+{% block content %}  
+ {% if can_view_stores %}
+<main >
     <h2>Dashboards</h2>
     
     <ul>        
@@ -14,6 +14,15 @@
             <a href="{% url 'click32_admin:global-dashboard' %}">Global Dashboard</a>
         </li>        
     </ul>
+      <ul>        
+        <li>               
+            <a href="{% url 'click32_admin:admin-dashboard' %}">Admin Dashboard</a>
+        </li>        
+    </ul>
 
 </main>
+{% else %}
+<p>Acesso negado: você não tem permissão para visualizar esta página.</p>
+
+{%endif%}
 {% endblock %}

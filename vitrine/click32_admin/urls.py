@@ -1,12 +1,14 @@
 from django.urls import path
+
 from . import views
 
+handler403 = views.permission_denied
 app_name = "click32_admin"
 
 urlpatterns = [
     # Dashboards
     path('', views.dashboard, name='dashboard'),  # Raiz do admin
-    #path('dashboard/', views.admin_dashboard, name='admin_dashboard'),  # Dashboard alternativo
+    path('admin-dashboard/', views.admin_dashboard, name='admin-dashboard'),  # Dashboard alternativo
     path('clicks-dashboard/', views.clicks_dashboard, name='clicks-dashboard'),
     path('widgets-dashboard/', views.widgets_dashboard, name='widgets-dashboard'),
     path('global-dashboard/', views.global_widgets_dashboard, name='global-dashboard'),
@@ -14,6 +16,19 @@ urlpatterns = [
     # Login
     path('login/', views.admin_login, name='admin_login'),  # Consolidado login
     path('logout/', views.admin_logout, name='logout'),
+
+    # Users
+    path('users/', views.user_list, name='user_list'),
+    path('users/create/', views.user_create, name='user_create'),
+    path('users/<int:user_id>/edit/', views.user_edit, name='user_edit'),
+    path('users/<int:user_id>/delete/', views.user_delete, name='user_delete'),
+    path('users/<int:user_id>/password/', views.user_change_password, name='user_change_password'),
+    
+    # Groups
+    path('groups/', views.group_list, name='group_list'),
+    path('groups/create/', views.group_create, name='group_create'),
+    path('groups/<int:group_id>/edit/', views.group_edit, name='group_edit'),
+    path('groups/<int:group_id>/delete/', views.group_delete, name='group_delete'),
     
     # Stores URL
     path('stores/', views.store_list, name='store_list'),

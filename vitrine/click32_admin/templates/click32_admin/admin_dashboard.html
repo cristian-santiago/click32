@@ -1,0 +1,14 @@
+{% extends "click32_admin/base.html" %}
+{% block content %}
+{% if perms.vitrine.view_store %}
+<h1>Users & Groups</h1>
+
+<ul class="">
+    <li><a href="{% url 'click32_admin:user_list' %}">Gerenciar Usuários</a></li>
+    <li><a href="{% url 'click32_admin:group_list' %}">Gerenciar Grupos</a></li>
+</ul>
+{% else %}
+<p>Acesso negado: você não tem permissão para visualizar esta página.</p>
+<a href="{% url 'click32_admin:logout' %}">Sair</a>
+{% endif %}
+{% endblock %}

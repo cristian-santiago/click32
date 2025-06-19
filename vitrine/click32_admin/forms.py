@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import Group
 from vitrine.models import Store, Tag, Category
 
 
@@ -28,3 +29,8 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name', 'icon', 'tags']
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['name', 'permissions']

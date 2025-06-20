@@ -18,9 +18,10 @@ Including another URLconf
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from vitrine.admin_site import click32_admin_site
+#from vitrine.admin_site import click32_admin_site
+from vitrine.click32_admin.views import permission_denied
 
-
+handler403 = permission_denied
 urlpatterns = [
     path("admin/", include("vitrine.click32_admin.urls")), # redireciona para novas urls do novo admin.
 

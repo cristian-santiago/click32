@@ -1,10 +1,12 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
 from django.utils.safestring import mark_safe
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.utils.text import slugify
 import os
@@ -17,30 +19,43 @@ from .functions import get_site_metrics, get_clicks_data, get_store_count, get_t
 
 logger = logging.getLogger(__name__)
 
+# Decorador personalizado para verificar permissões
+def check_permission(permission_check, login_url='/admin/login/'):
+    def decorator(view_func):
+        @login_required(login_url=login_url)
+        def wrapper(request, *args, **kwargs):
+            if permission_check(request.user):
+                return view_func(request, *args, **kwargs)
+            else:
+                raise PermissionDenied
+        return wrapper
+    return decorator
+
+# Manipulador de erro 403
 def permission_denied(request, exception):
     return render(request, '403.html', status=403)
 
-@login_required
-@user_passes_test(lambda u: u.is_staff)
+@check_permission(lambda u: u.is_staff)
 def dashboard(request):
     context = {
         'can_view_stores': request.user.has_perm('vitrine.view_store'),
     }
     return render(request, 'click32_admin/dashboard.html', context)
 
-@login_required
-@user_passes_test(lambda u: u.has_perm('vitrine.view_store'))
+@check_permission(lambda u: u.is_superuser)
+def click_dashboard(request):
+    return render(request, 'click32_admin/click_dashboard.html')
+
+@check_permission(lambda u: u.has_perm('vitrine.view_store'))
 def admin_dashboard(request):
     return render(request, 'click32_admin/admin_dashboard.html')
 
-@login_required
-@user_passes_test(lambda u: u.has_perm('vitrine.view_store'))
+@check_permission(lambda u: u.is_superuser)
 def store_list(request):
     stores = Store.objects.all()
     return render(request, 'click32_admin/store_list.html', {'stores': stores})
 
-@login_required
-@user_passes_test(lambda u: u.has_perm('vitrine.view_store'))
+@check_permission(lambda u: u.is_superuser)
 def store_create(request):
     if request.method == 'POST':
         form = StoreForm(request.POST, request.FILES)
@@ -59,8 +74,7 @@ def store_create(request):
         'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4'],
     })
 
-@login_required
-@user_passes_test(lambda u: u.has_perm('vitrine.view_store'))
+@check_permission(lambda u: u.is_superuser)
 def store_edit(request, store_id):
     store = get_object_or_404(Store, pk=store_id)
     if request.method == "POST":
@@ -92,8 +106,7 @@ def store_edit(request, store_id):
         'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']
     })
 
-@login_required
-@user_passes_test(lambda u: u.has_perm('vitrine.view_store'))
+@check_permission(lambda u: u.is_superuser)
 @require_POST
 def store_delete(request, store_id):
     store = get_object_or_404(Store, pk=store_id)
@@ -114,16 +127,14 @@ def store_delete(request, store_id):
     store.delete()
     return redirect('click32_admin:store_list')
 
-@login_required
-@user_passes_test(lambda u: u.has_perm('vitrine.view_store'))
+@check_permission(lambda u: u.is_superuser)
 def clicks_dashboard(request):
     clicks_data = get_clicks_data()
     return render(request, 'click32_admin/clicks_dashboard.html', {
         'clicks_data': clicks_data,
     })
 
-@login_required
-@user_passes_test(lambda u: u.has_perm('vitrine.view_store'))
+@check_permission(lambda u: u.has_perm('vitrine.view_store'))
 def global_widgets_dashboard(request):
     clicks_data = get_clicks_data()
     clicks_summary = {
@@ -147,8 +158,7 @@ def global_widgets_dashboard(request):
     }
     return render(request, 'click32_admin/global_dashboard.html', context)
 
-@login_required
-@user_passes_test(lambda u: u.has_perm('vitrine.view_store'))
+@check_permission(lambda u: u.has_perm('vitrine.view_store'))
 def widgets_dashboard(request):
     context = {
         'store_count': get_store_count(),
@@ -160,17 +170,66 @@ def widgets_dashboard(request):
     }
     return render(request, 'click32_admin/dashboard_widgets.html', context)
 
-def login_view(request):
-    return render(request, 'click32_admin/login.html')
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        logger.info(f"Tentativa de login com username: {username}")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            logger.info(f"Usuário autenticado: {user.username}, is_staff: {user.is_staff}, is_superuser: {user.is_superuser}")
+            if user.is_staff or user.is_superuser:
+                login(request, user)
+                logger.info("Login bem-sucedido")
+                next_url = request.POST.get('next') or request.GET.get('next') or reverse('click32_admin:dashboard')
+                # Ensure next_url is not empty and is safe
+                if not next_url or next_url == '':
+                    next_url = reverse('click32_admin:dashboard')
+                # Restrict access to certain URLs for non-superusers
+                if any(x in next_url for x in ['tags', 'categories', 'users', 'groups']):
+                    if not user.is_superuser:
+                        logger.info(f"Usuário {user.username} sem permissão para {next_url}, redirecionando para dashboard")
+                        next_url = reverse('click32_admin:dashboard')
+                return redirect(next_url)
+            else:
+                logger.info("Usuário não é administrador")
+                response = render(request, 'click32_admin/login.html', {
+                    'error': 'Acesso negado: usuário não é administrador',
+                    'next': request.POST.get('next', request.GET.get('next', ''))
+                })
+        else:
+            logger.info("Falha na autenticação")
+            response = render(request, 'click32_admin/login.html', {
+                'error': 'Credenciais inválidas',
+                'next': request.POST.get('next', request.GET.get('next', ''))
+            })
+    else:
+        response = render(request, 'click32_admin/login.html', {
+            'next': request.GET.get('next', '')
+        })
+    
+    # Prevent caching of the login page
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+def admin_logout(request):
+    logout(request)
+    request.session.flush()  # Clear the session to invalidate CSRF token
+    response = redirect('click32_admin:admin_login')
+    # Prevent caching of the login page after logout
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
+
+@check_permission(lambda u: u.is_superuser)
 def tag_list(request):
     tags = Tag.objects.all()
     return render(request, 'click32_admin/tag_list.html', {'tags': tags})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def tag_create(request):
     if request.method == 'POST':
         form = TagForm(request.POST)
@@ -181,8 +240,7 @@ def tag_create(request):
         form = TagForm()
     return render(request, 'click32_admin/tag_form.html', {'form': form})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def tag_edit(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
     if request.method == 'POST':
@@ -194,8 +252,7 @@ def tag_edit(request, tag_id):
         form = TagForm(instance=tag)
     return render(request, 'click32_admin/tag_form.html', {'form': form})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def tag_delete(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
     if request.method == 'POST':
@@ -203,14 +260,12 @@ def tag_delete(request, tag_id):
         return redirect('click32_admin:tag_list')
     return render(request, 'click32_admin/tag_confirm_delete.html', {'tag': tag})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def category_list(request):
     categories = Category.objects.prefetch_related('tags').all()
     return render(request, 'click32_admin/category_list.html', {'categories': categories})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def category_create(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -221,8 +276,7 @@ def category_create(request):
         form = CategoryForm()
     return render(request, 'click32_admin/category_form.html', {'form': form})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def category_edit(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
     if request.method == 'POST':
@@ -234,8 +288,7 @@ def category_edit(request, category_id):
         form = CategoryForm(instance=category)
     return render(request, 'click32_admin/category_form.html', {'form': form})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def category_delete(request, category_id):
     category = get_object_or_404(Category, pk=category_id)
     if request.method == 'POST':
@@ -243,50 +296,22 @@ def category_delete(request, category_id):
         return redirect('click32_admin:category_list')
     return render(request, 'click32_admin/category_confirm_delete.html', {'category': category})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def total_clicks_by_link_type_api(request):
     data = get_total_clicks_by_link_type()
     return JsonResponse(data)
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def timeline_data_api(request):
     data = get_timeline_data()
     return JsonResponse(data)
 
-def admin_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        logger.info(f"Tentativa de login com username: {username}")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            logger.info(f"Usuário autenticado: {user.username}, is_staff: {user.is_staff}, is_superuser: {user.is_superuser}")
-            if user.is_staff or user.is_superuser:
-                login(request, user)
-                logger.info("Login bem-sucedido, redirecionando para dashboard")
-                return redirect('click32_admin:dashboard')
-            else:
-                logger.info("Usuário não é administrador")
-                return render(request, 'click32_admin/login.html', {'error': 'Acesso negado: usuário não é administrador'})
-        else:
-            logger.info("Falha na autenticação")
-            return render(request, 'click32_admin/login.html', {'error': 'Credenciais inválidas'})
-    return render(request, 'click32_admin/login.html')
-
-def admin_logout(request):
-    logout(request)
-    return redirect('click32_admin:admin_login')
-
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def user_list(request):
     users = User.objects.all()
     return render(request, 'click32_admin/user_list.html', {'users': users})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def user_create(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -297,8 +322,7 @@ def user_create(request):
         form = UserCreationForm()
     return render(request, 'click32_admin/user_form.html', {'form': form, 'title': 'Criar Usuário'})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def user_edit(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == 'POST':
@@ -310,8 +334,7 @@ def user_edit(request, user_id):
         form = UserChangeForm(instance=user)
     return render(request, 'click32_admin/user_form.html', {'form': form, 'title': 'Editar Usuário', 'user': user})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def user_delete(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == 'POST':
@@ -319,8 +342,7 @@ def user_delete(request, user_id):
         return redirect('click32_admin:user_list')
     return render(request, 'click32_admin/user_confirm_delete.html', {'user': user})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def user_change_password(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == 'POST':
@@ -332,14 +354,12 @@ def user_change_password(request, user_id):
         form = PasswordChangeForm(user)
     return render(request, 'click32_admin/user_change_password.html', {'form': form, 'user': user})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def group_list(request):
     groups = Group.objects.all()
     return render(request, 'click32_admin/group_list.html', {'groups': groups})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def group_create(request):
     if request.method == 'POST':
         form = GroupForm(request.POST)
@@ -350,8 +370,7 @@ def group_create(request):
         form = GroupForm()
     return render(request, 'click32_admin/group_form.html', {'form': form, 'title': 'Criar Grupo'})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def group_edit(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     if request.method == 'POST':
@@ -363,8 +382,7 @@ def group_edit(request, group_id):
         form = GroupForm(instance=group)
     return render(request, 'click32_admin/group_form.html', {'form': form, 'title': 'Editar Grupo', 'group': group})
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser)
 def group_delete(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     if request.method == 'POST':

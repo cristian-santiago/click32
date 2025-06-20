@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-handler403 = views.permission_denied
+
 app_name = "click32_admin"
 
 urlpatterns = [

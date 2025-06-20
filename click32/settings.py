@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     
 ]
 
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',  # Necessário para sessões

@@ -85,18 +85,21 @@
 
     <section>
       <h2>Imagens</h2>
-      {% for campo in imagens %}
-        {% with form|get_field:campo as field %}
-          <div class="form-row">
-            {{ field.label_tag }} {{ field }}
-            {% if store|get_field_url:campo %}
-              <div class="image-preview">
-                <img src="{{ store|get_field_url:campo }}" width="200">
-              </div>
-            {% endif %}
-          </div>
-        {% endwith %}
-      {% endfor %}
+      <div class="image-grid">
+        {% for campo in imagens %}
+                {% with form|get_field:campo as field %}
+                  <div class="form-row">
+                    {{ field.label_tag }} {{ field }}
+                    {% if store|get_field_url:campo %}
+                      <div class="image-preview">
+                        <img src="{{ store|get_field_url:campo }}" width="200">
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endwith %}
+              {% endfor %}
+      </div>
+     
     </section>    
   
     <div class="form-actions">
@@ -115,14 +118,71 @@
             </div>
 </main>
 
+
 <script>
+// Desativa Ctrl+A nos selects de tags
+document.addEventListener('keydown', function(event) {
+  if (event.ctrlKey && (event.key === 'a' || event.key === 'A')) {
+    const activeElement = document.activeElement;
+    if (activeElement.id === 'available-tags' || activeElement.id === 'selected-tags') {
+      event.preventDefault();
+    }
+  }
+});
+
+// Controla a seleção nos selects
+['available-tags', 'selected-tags'].forEach(selectId => {
+  const select = document.getElementById(selectId);
+  select.addEventListener('mousedown', function(event) {
+    const clickedOption = event.target;
+    if (clickedOption.tagName !== 'OPTION') return;
+
+    // Impede o comportamento padrão para controle total
+    event.preventDefault();
+
+    if (event.ctrlKey) {
+      // Ctrl+clique: alterna a seleção da opção clicada
+      clickedOption.selected = !clickedOption.selected;
+    } else {
+      // Clique simples: seleciona ou desseleciona a opção clicada, desseleciona as demais
+      const shouldSelect = !clickedOption.selected;
+      Array.from(select.options).forEach(option => {
+        option.selected = (option === clickedOption) ? shouldSelect : false;
+      });
+    }
+
+    // Garante que o select tenha foco e a seleção seja refletida
+    select.focus();
+    // Força a atualização da seleção visual
+    const changeEvent = new Event('change');
+    select.dispatchEvent(changeEvent);
+  });
+});
+
+// Seleciona todas as opções do #selected-tags antes de enviar o formulário
+document.getElementById('store-form').addEventListener('submit', function(event) {
+  const selected = document.getElementById('selected-tags');
+  const selectedTagIds = Array.from(selected.options).map(option => option.value);
+  console.log('Tags selecionadas para envio:', selectedTagIds); // Log para depuração
+  Array.from(selected.options).forEach(option => {
+    option.selected = true; // Marca todas as opções como selecionadas
+  });
+});
+
 function addTag() {
   const available = document.getElementById('available-tags');
   const selected = document.getElementById('selected-tags');
 
+  // Move as opções selecionadas
   Array.from(available.selectedOptions).forEach(option => {
     available.removeChild(option);
     selected.appendChild(option);
+    option.selected = true; // Mantém selecionada para envio
+  });
+
+  // Desseleciona opções em "Disponíveis" para evitar highlight
+  Array.from(available.options).forEach(option => {
+    option.selected = false;
   });
 }
 
@@ -130,9 +190,16 @@ function removeTag() {
   const available = document.getElementById('available-tags');
   const selected = document.getElementById('selected-tags');
 
+  // Move as opções selecionadas
   Array.from(selected.selectedOptions).forEach(option => {
     selected.removeChild(option);
     available.appendChild(option);
+    option.selected = false; // Desseleciona em "Disponíveis"
+  });
+
+  // Garante que opções em "Selecionadas" permaneçam selecionadas para envio
+  Array.from(selected.options).forEach(option => {
+    option.selected = true;
   });
 }
 </script>

@@ -22,7 +22,7 @@ class Click32AdminSite(AdminSite):
         ]
         return custom_urls + urls
 
-    def clicks_dashboard_view(self, request):
+    #def clicks_dashboard_view(self, request):
         stores_data = (
             Store.objects
             .annotate(

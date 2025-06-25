@@ -22,13 +22,24 @@
             </a>
           </div>
         {% endif %}
+        
       {% endfor %}
+      <!-- AD_Banner vip
+      <div class="carousel-item">
+        <a href="https://wa.me/5521980555851" target="_blank">
+        <img src="/static/ad_banner.jpeg" alt="Advertisement Banner">
+        </a>
+      </div>
+      
+      -->
+      
+           
     </div>
     <div class="carousel-dots"></div>
   </div>
   {% endif %}
 
-  <div class="store-list"> 
+  <div class="store-list">  
     {% for store in stores %}
       {% if store.main_banner %}
         <a href="{% url 'store_detail' store.id %}?store_id={{ store.id }}&element_type=main_banner" class="store-banner">
@@ -36,7 +47,15 @@
         </a>
       {% endif %}
     {%endfor%}
-    </div>
+
+
+    <!--  # AD_Banner list
+      <a href="https://wa.me/5521980555851" target="_blank" class="store-banner">
+        <img src="/static/ad_banner.jpeg" alt="Advertisement Banner">
+        </a>
+    
+    -->
+      
   </div>
 
 <script>

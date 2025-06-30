@@ -30,109 +30,308 @@
         </div>
       {% endif %}
     </div>
+    <div class="carousel-dots"></div>
   </div>
   <div class="description">
     <h2>{{ store.name }}</h2>
     <p>{{ store.description }}</p>
   </div>
   
-
   <ul class="social-icons">
     {% if store.whatsapp_link %}
       <li>
-        <a href="{% url 'track_click' store.id 'whatsapp_link' %}" target="_blank" data-redirect="{{ store.whatsapp_link }}">
+        <a href="{% url 'track_click' store.id 'whatsapp_link' %}" target="_blank" data-redirect="{{ store.whatsapp_link }}" class="social-link">
           <img src="/media/icons/whatsapp_icon.png" alt="WhatsApp">
         </a>
       </li>
     {% endif %}
     {% if store.instagram_link %}
       <li>
-        <a href="{% url 'track_click' store.id 'instagram_link' %}" target="_blank" data-redirect="{{ store.instagram_link }}">
+        <a href="{% url 'track_click' store.id 'instagram_link' %}" target="_blank" data-redirect="{{ store.instagram_link }}" class="social-link">
           <img src="/media/icons/instagram_icon.png" alt="Instagram">
         </a>
       </li>
     {% endif %}
     {% if store.facebook_link %}
       <li>
-        <a href="{% url 'track_click' store.id 'facebook_link' %}" target="_blank" data-redirect="{{ store.facebook_link }}">
+        <a href="{% url 'track_click' store.id 'facebook_link' %}" target="_blank" data-redirect="{{ store.facebook_link }}" class="social-link">
           <img src="/media/icons/facebook_icon.png" alt="Facebook">
         </a>
       </li>
     {% endif %}
     {% if store.website_link %}
       <li>
-        <a href="{% url 'track_click' store.id 'website_link' %}" target="_blank" data-redirect="{{ store.website_link }}">
+        <a href="{% url 'track_click' store.id 'website_link' %}" target="_blank" data-redirect="{{ store.website_link }}" class="social-link">
           <img src="/media/icons/website_icon.png" alt="Site Oficial">
         </a>
       </li>
     {% endif %}
     {% if store.x_link %}
       <li>
-        <a href="{% url 'track_click' store.id 'x_link' %}" target="_blank" data-redirect="{{ store.x_link }}">
+        <a href="{% url 'track_click' store.id 'x_link' %}" target="_blank" data-redirect="{{ store.x_link }}" class="social-link">
           <img src="/media/icons/x_icon.png" alt="X">
         </a>
       </li>
     {% endif %}
     {% if store.google_maps_link %}
       <li>
-        <a href="{% url 'track_click' store.id 'google_maps_link' %}" target="_blank" data-redirect="{{ store.google_maps_link }}">
+        <a href="{% url 'track_click' store.id 'google_maps_link' %}" target="_blank" data-redirect="{{ store.google_maps_link }}" class="social-link">
           <img src="/media/icons/google_maps_icon.png" alt="Google Maps">
+        </a>
+      </li>
+    {% endif %}
+    {% if store.flyer_pdf %}
+      <li>
+        <a href="#" class="open-flyer-modal" data-store-id="{{ store.id }}" title="Visualizar encarte na página">
+          <img src="/media/icons/flyer.png" alt="Encarte">
         </a>
       </li>
     {% endif %}
   </ul>
 
+  <!-- Flyer Modal -->
+  <div class="modal fade flyer-modal" id="flyerModal" tabindex="-1" aria-labelledby="flyerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
+          <div id="flyerCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false" data-bs-touch="true">
+            <div class="carousel-inner" id="flyerCarouselInner"></div>
+            <div class="carousel-indicators" id="flyerIndicators"></div>
+            <div class="loading-spinner">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {% include '_footer.html' %}
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const carouselContainer = document.querySelector('.carousel-container');
-    const carouselItems = document.querySelectorAll('.carousel-item');
-    const carouselWrapper = document.querySelector('.carousel-wrapper');
+      console.log('DOM loaded, setting up event listeners for store_detail');
+      const modalElement = document.getElementById('flyerModal');
+      const loadingSpinner = document.querySelector('.flyer-modal .loading-spinner');
+      let isFetching = false;
 
-    // Create dots container
-    const dotsContainer = document.createElement('div');
-    dotsContainer.className = 'carousel-dots';
-    carouselWrapper.appendChild(dotsContainer);
+      if (modalElement) {
+        console.log('Escondendo modal na inicialização');
+        modalElement.classList.remove('show');
+        modalElement.style.display = 'none';
+        modalElement.setAttribute('aria-hidden', 'true');
+        loadingSpinner.classList.remove('active');
+      }
 
-    // Create a dot for each carousel item
-    carouselItems.forEach((item, index) => {
-        const dot = document.createElement('div');
-        dot.className = 'carousel-dot';
-        if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => {
+      // Carrossel de banners da loja
+      const carouselContainer = document.querySelector('.carousel-container');
+      const carouselItems = document.querySelectorAll('.carousel-container .carousel-item');
+      const carouselWrapper = document.querySelector('.carousel-wrapper');
+      if (carouselContainer && carouselItems.length > 0) {
+        const dotsContainer = document.querySelector('.carousel-dots');
+        carouselItems.forEach((item, index) => {
+          const dot = document.createElement('div');
+          dot.className = 'carousel-dot';
+          if (index === 0) dot.className += ' active';
+          dot.addEventListener('click', () => {
             carouselContainer.scrollTo({
-                left: item.offsetLeft - carouselContainer.offsetLeft,
-                behavior: 'smooth'
+              left: item.offsetLeft - carouselContainer.offsetLeft,
+              behavior: 'smooth'
             });
-            document.querySelectorAll('.carousel-dot').forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.carousel-dots .carousel-dot').forEach(d => d.classList.remove('active'));
             dot.classList.add('active');
+          });
+          dotsContainer.appendChild(dot);
         });
-        dotsContainer.appendChild(dot);
-    });
 
-    // Update active dot on scroll
-    carouselContainer.addEventListener('scroll', () => {
-        const scrollLeft = carouselContainer.scrollLeft;
-        const itemWidth = carouselItems[0].offsetWidth + 20; // Includes gap
-        const activeIndex = Math.round(scrollLeft / itemWidth);
-        document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+        carouselContainer.addEventListener('scroll', () => {
+          const scrollLeft = carouselContainer.scrollLeft;
+          const itemWidth = carouselItems[0].offsetWidth + 20;
+          const activeIndex = Math.round(scrollLeft / itemWidth);
+          document.querySelectorAll('.carousel-dots .carousel-dot').forEach((dot, index) => {
             dot.classList.toggle('active', index === activeIndex);
+          });
         });
-    });
+      }
 
-    // Handle social link clicks
-    document.querySelectorAll('.social-icons a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const trackUrl = this.getAttribute('href');
-        const redirectUrl = this.getAttribute('data-redirect');
-        // Track click without waiting for response
-        fetch(trackUrl, { method: 'GET' })
-          .catch(error => console.error('Error tracking click:', error));
-        // Immediately open the redirect URL
-        window.open(redirectUrl, '_blank');
+      // Carrossel do modal de encarte
+      document.querySelectorAll('.open-flyer-modal').forEach(link => {
+        console.log('Link do encarte encontrado:', link);
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (isFetching) return;
+          isFetching = true;
+          console.log('Link do encarte clicado, buscando páginas');
+          const storeId = this.getAttribute('data-store-id');
+          const carouselInner = document.getElementById('flyerCarouselInner');
+          const indicatorsContainer = document.getElementById('flyerIndicators');
+          if (!carouselInner || !indicatorsContainer) {
+            console.error('Elemento #flyerCarouselInner ou #flyerIndicators não encontrado');
+            isFetching = false;
+            return;
+          }
+          loadingSpinner.classList.add('active');
+          carouselInner.innerHTML = '';
+          indicatorsContainer.innerHTML = '';
+          modalElement.classList.add('show');
+          modalElement.style.display = 'flex';
+          modalElement.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          
+          fetch(`/fetch-flyer-pages/${storeId}/`, { method: 'GET' })
+            .then(response => {
+              console.log('Resposta do fetch:', response);
+              return response.json();
+            })
+            .then(data => {
+              console.log('Dados recebidos:', data);
+              if (data.error) {
+                alert(data.error);
+                loadingSpinner.classList.remove('active');
+                modalElement.classList.remove('show');
+                modalElement.style.display = 'none';
+                modalElement.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = 'auto';
+                isFetching = false;
+                return;
+              }
+
+              // Pré-carregar imagens
+              const preloadImages = data.page_urls.map(url => {
+                return new Promise((resolve, reject) => {
+                  const img = new Image();
+                  img.src = url;
+                  img.onload = resolve;
+                  img.onerror = reject;
+                });
+              });
+
+              // Aguardar pré-carregamento ou 3 segundos
+              Promise.all([...preloadImages, new Promise(resolve => setTimeout(resolve, 2000))])
+                .then(() => {
+                  carouselInner.innerHTML = '';
+                  indicatorsContainer.innerHTML = '';
+                  data.page_urls.forEach((url, index) => {
+                    const div = document.createElement('div');
+                    div.className = `carousel-item ${index === 0 ? 'active' : ''}`;
+                    div.style.transform = index === 0 ? 'translateX(0)' : 'translateX(100%)';
+                    div.innerHTML = `<img src="${url}" class="d-block w-100 h-100" alt="Página ${index + 1} do encarte">`;
+                    carouselInner.appendChild(div);
+                    const indicator = document.createElement('button');
+                    indicator.type = 'button';
+                    indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
+                    indicator.setAttribute('aria-label', `Slide ${index + 1}`);
+                    indicator.addEventListener('click', () => {
+                      const items = document.querySelectorAll('.flyer-modal .carousel-item');
+                      const indicators = document.querySelectorAll('.flyer-modal .carousel-indicator');
+                      items.forEach((item, i) => {
+                        item.classList.remove('active');
+                        item.style.transform = i < index ? 'translateX(-100%)' : 'translateX(100%)';
+                        item.style.opacity = '0';
+                      });
+                      items[index].classList.add('active');
+                      items[index].style.transform = 'translateX(0)';
+                      items[index].style.opacity = '1';
+                      indicators.forEach(ind => ind.classList.remove('active'));
+                      indicator.classList.add('active');
+                      currentFlyerIndex = index;
+                    });
+                    indicatorsContainer.appendChild(indicator);
+                  });
+                  loadingSpinner.classList.remove('active');
+                  isFetching = false;
+                })
+                .catch(error => {
+                  console.error('Erro ao pré-carregar imagens:', error);
+                  alert('Erro ao carregar as imagens do encarte.');
+                  loadingSpinner.classList.remove('active');
+                  modalElement.classList.remove('show');
+                  modalElement.style.display = 'none';
+                  modalElement.setAttribute('aria-hidden', 'true');
+                  document.body.style.overflow = 'auto';
+                  isFetching = false;
+                });
+            })
+            .catch(error => {
+              console.error('Erro ao buscar páginas do encarte:', error);
+              alert('Erro ao carregar o encarte.');
+              loadingSpinner.classList.remove('active');
+              modalElement.classList.remove('show');
+              modalElement.style.display = 'none';
+              modalElement.setAttribute('aria-hidden', 'true');
+              document.body.style.overflow = 'auto';
+              isFetching = false;
+            });
+        });
       });
+
+      if (modalElement) {
+        modalElement.querySelector('.btn-close').addEventListener('click', () => {
+          modalElement.classList.remove('show');
+          modalElement.style.display = 'none';
+          modalElement.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = 'auto';
+          loadingSpinner.classList.remove('active');
+          isFetching = false;
+          modalElement.querySelector('.btn-close').blur();
+        });
+      }
+
+      let currentFlyerIndex = 0;
+      const flyerCarouselInner = document.getElementById('flyerCarouselInner');
+      if (flyerCarouselInner) {
+        let startX = 0;
+        flyerCarouselInner.addEventListener('touchstart', (e) => {
+          startX = e.touches[0].clientX;
+        });
+        flyerCarouselInner.addEventListener('touchend', (e) => {
+          const endX = e.changedTouches[0].clientX;
+          const deltaX = endX - startX;
+          const items = document.querySelectorAll('.flyer-modal .carousel-item');
+          const indicators = document.querySelectorAll('.flyer-modal .carousel-indicator');
+          if (deltaX > 50 && currentFlyerIndex > 0) {
+            items[currentFlyerIndex].classList.remove('active');
+            items[currentFlyerIndex].style.transform = 'translateX(100%)';
+            items[currentFlyerIndex].style.opacity = '0';
+            indicators[currentFlyerIndex].classList.remove('active');
+            currentFlyerIndex--;
+            items[currentFlyerIndex].classList.add('active');
+            items[currentFlyerIndex].style.transform = 'translateX(0)';
+            items[currentFlyerIndex].style.opacity = '1';
+            indicators[currentFlyerIndex].classList.add('active');
+          } else if (deltaX < -50 && currentFlyerIndex < items.length - 1) {
+            items[currentFlyerIndex].classList.remove('active');
+            items[currentFlyerIndex].style.transform = 'translateX(-100%)';
+            items[currentFlyerIndex].style.opacity = '0';
+            indicators[currentFlyerIndex].classList.remove('active');
+            currentFlyerIndex++;
+            items[currentFlyerIndex].classList.add('active');
+            items[currentFlyerIndex].style.transform = 'translateX(0)';
+            items[currentFlyerIndex].style.opacity = '1';
+            indicators[currentFlyerIndex].classList.add('active');
+          }
+        });
+
+        flyerCarouselInner.addEventListener('transitionend', () => {
+          const items = document.querySelectorAll('.flyer-modal .carousel-item');
+          const indicators = document.querySelectorAll('.flyer-modal .carousel-indicator');
+          if (items.length > 0 && indicators.length > 0) {
+            items.forEach((item, index) => {
+              if (item.classList.contains('active')) {
+                indicators.forEach(ind => ind.classList.remove('active'));
+                if (indicators[index]) {
+                  indicators[index].classList.add('active');
+                  currentFlyerIndex = index;
+                }
+              }
+            });
+          }
+        });
+      }
     });
-});
   </script>
 {% endblock %}

@@ -120,17 +120,29 @@
   margin-top: 0.5rem;
 }
 
-/* Style for Currently link */
+/* Style for Currently link and PDF preview */
 .form-row a[href^="/media/"] {
   display: block;
   margin-top: 0.5rem;
   font-size: 0.9rem;
   color: #1d4ed8;
   text-decoration: none;
+  padding: 0.5rem 0;
 }
 
 .form-row a[href^="/media/"]:hover {
   text-decoration: underline;
+  color: #3b82f6;
+}
+
+/* Specific styling for PDF preview link */
+.form-row a[href$=".pdf"] {
+  font-weight: 600;
+  background: #f9fafb;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  display: inline-block;
 }
 
 /* Remove unwanted line breaks */
@@ -142,7 +154,8 @@
 .form-row label[for$="main_banner"],
 .form-row label[for$="carousel_2"],
 .form-row label[for$="carousel_3"],
-.form-row label[for$="carousel_4"] {
+.form-row label[for$="carousel_4"],
+.form-row label[for$="flyer_pdf"] {
   margin-top: 0.75rem;
   display: block;
 }
@@ -215,7 +228,6 @@
   background: none;
 }
 
-/* Move clear checkbox below image preview */
 .image-grid .form-row .image-preview {
   margin-top: 0.5rem;
   order: 1;

@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from django.utils.text import slugify
+from django.core.validators import FileExtensionValidator
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
@@ -37,7 +38,9 @@ class Store(models.Model):
     google_maps_link = models.URLField("Google Maps", max_length=300, blank=True, null=True)
     youtube_link = models.URLField("YouTube", blank=True, null=True)
     website_link = models.URLField("Site Oficial", blank=True, null=True)
-
+    flyer_pdf = models.FileField(upload_to='flyers/', blank=True, null=True, validators=[
+        FileExtensionValidator(allowed_extensions=['pdf'])
+    ])
     def __str__(self):
         return self.name
 
@@ -53,6 +56,7 @@ class ClickTrack(models.Model):
         ('google_maps_link', 'Google Maps Link'),
         ('website_link', 'Website Link'),
         ('home_access', 'Home Access'),
+        ('flyer_pdf', 'flyer PDF'),
     ])
     click_count = models.PositiveIntegerField(default=0)
     last_clicked = models.DateTimeField(auto_now=True)

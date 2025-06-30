@@ -71,7 +71,7 @@ def store_create(request):
     return render(request, 'click32_admin/store_form.html', {
         'form': form,
         'store': None,
-        'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4'],
+        'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf'],
     })
 
 @check_permission(lambda u: u.is_superuser)
@@ -82,7 +82,7 @@ def store_edit(request, store_id):
         if form.is_valid():
             old_obj = Store.objects.get(pk=store.pk)
             new_obj = form.save(commit=False)
-            for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']:
+            for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4','flyer_pdf']:
                 old_file = getattr(old_obj, field_name)
                 new_file = getattr(new_obj, field_name)
                 cleared = request.POST.get(f"{field_name}-clear")
@@ -103,14 +103,14 @@ def store_edit(request, store_id):
     return render(request, 'click32_admin/store_form.html', {
         'form': form,
         'store': store,
-        'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']
+        'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']
     })
 
 @check_permission(lambda u: u.is_superuser)
 @require_POST
 def store_delete(request, store_id):
     store = get_object_or_404(Store, pk=store_id)
-    for image_field in [store.main_banner, store.carousel_2, store.carousel_3, store.carousel_4]:
+    for image_field in [store.main_banner, store.carousel_2, store.carousel_3, store.carousel_4, store.flyer_pdf]:
         if image_field and os.path.exists(image_field.path):
             try:
                 os.remove(image_field.path)

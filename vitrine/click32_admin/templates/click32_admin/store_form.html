@@ -83,24 +83,35 @@
       <div class="form-row">{{ form.website_link.label_tag }} {{ form.website_link }}</div>
     </section>
 
-    <section>
-      <h2>Imagens</h2>
+   <section>
+      <h2>Imagens e Encarte</h2>
       <div class="image-grid">
         {% for campo in imagens %}
-                {% with form|get_field:campo as field %}
-                  <div class="form-row">
-                    {{ field.label_tag }} {{ field }}
-                    {% if store|get_field_url:campo %}
-                      <div class="image-preview">
-                        <img src="{{ store|get_field_url:campo }}" width="200">
-                      </div>
-                    {% endif %}
-                  </div>
-                {% endwith %}
-              {% endfor %}
+          {% with form|get_field:campo as field %}
+            <div class="form-row">
+              {{ field.label_tag }} {{ field }}
+              {% if store|get_field_url:campo %}
+                <div class="image-preview">
+                  {% if campo == 'flyer_pdf' %}
+                    <a href="{{ store|get_field_url:campo }}" target="_blank">Visualizar Encarte (PDF)</a>
+                    <div class="clear-checkbox-wrapper">
+                      <input type="checkbox" id="{{ campo }}-clear_id" name="{{ campo }}-clear">
+                      <label for="{{ campo }}-clear_id">Remover Encarte</label>
+                    </div>
+                  {% else %}
+                    <img src="{{ store|get_field_url:campo }}" width="200">
+                    <div class="clear-checkbox-wrapper">
+                      <input type="checkbox" id="{{ campo }}-clear_id" name="{{ campo }}-clear">
+                      <label for="{{ campo }}-clear_id">Remover Imagem</label>
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          {% endwith %}
+        {% endfor %}
       </div>
-     
-    </section>    
+    </section>
   
     <div class="form-actions">
     <button type="submit" class="btn-primary">Salvar</button>

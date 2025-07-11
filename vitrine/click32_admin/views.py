@@ -15,6 +15,7 @@ import logging
 import json
 from .forms import StoreForm, TagForm, CategoryForm, GroupForm
 from vitrine.models import Store, Tag, Category
+from vitrine.views import cleanup_temp_files
 from .functions import get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate
 
 logger = logging.getLogger(__name__)
@@ -82,7 +83,7 @@ def store_edit(request, store_id):
         if form.is_valid():
             old_obj = Store.objects.get(pk=store.pk)
             new_obj = form.save(commit=False)
-            for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4','flyer_pdf']:
+            for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']:
                 old_file = getattr(old_obj, field_name)
                 new_file = getattr(new_obj, field_name)
                 cleared = request.POST.get(f"{field_name}-clear")
@@ -91,10 +92,16 @@ def store_edit(request, store_id):
                         os.remove(old_file.path)
                         logger.info(f"Cleared field and deleted file: {old_file.path}")
                     setattr(new_obj, field_name, None)
+                    # Limpar imagens temporárias se o campo for flyer_pdf
+                    if field_name == 'flyer_pdf':
+                        cleanup_temp_files(store_id)
                 elif old_file and old_file != new_file:
                     if os.path.isfile(old_file.path):
                         os.remove(old_file.path)
                         logger.info(f"Replaced file: {old_file.path}")
+                    # Limpar imagens temporárias se o campo for flyer_pdf
+                    if field_name == 'flyer_pdf':
+                        cleanup_temp_files(store_id)
             new_obj.save()
             form.save_m2m()
             return redirect('click32_admin:store_list')

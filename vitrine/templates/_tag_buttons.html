@@ -154,4 +154,42 @@
             }
         });
     });
+
+    function shouldBlockScroll(el, deltaY) {
+  const scrollTop = el.scrollTop;
+  const scrollHeight = el.scrollHeight;
+  const clientHeight = el.clientHeight;
+
+  const isScrollingDown = deltaY > 0;
+  const isScrollingUp = deltaY < 0;
+
+  const atTop = scrollTop === 0;
+  const atBottom = scrollTop + clientHeight >= scrollHeight;
+
+  return (isScrollingDown && atBottom) || (isScrollingUp && atTop);
+}
+
+const scrollContainer = document.querySelector('.menu');
+
+// Mouse scroll
+scrollContainer.addEventListener('wheel', function(e) {
+  if (shouldBlockScroll(this, e.deltaY)) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+// Touch scroll
+let touchStartY = 0;
+scrollContainer.addEventListener('touchstart', function(e) {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+scrollContainer.addEventListener('touchmove', function(e) {
+  const currentY = e.touches[0].clientY;
+  const deltaY = touchStartY - currentY;
+
+  if (shouldBlockScroll(this, deltaY)) {
+    e.preventDefault();
+  }
+}, { passive: false });
 </script>

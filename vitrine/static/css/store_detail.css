@@ -1,3 +1,4 @@
+
 .carousel-wrapper {
   max-width: 500px;
   margin: 0 auto;
@@ -5,6 +6,7 @@
   padding-left: 45px;    
   position: relative;
   background-color: transparent;
+  
 }
 
 .carousel-container {
@@ -18,6 +20,7 @@
   touch-action: pan-x;
   scrollbar-width: none;
   -ms-overflow-style: none;  
+  
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -74,13 +77,18 @@
 }
 
 .social-icons {
+  position: fixed;
+  bottom: 60px; /* distância do rodapé */
+  left: 0;
+  width: 100%;
+  padding-left: 40px; /* compensa o espaço do sidebar */
+  
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
-  list-style: none;
   justify-content: center;
-  
-  
+  list-style: none;
+  z-index: 1000;
 }
 
 .social-icons li {
@@ -172,7 +180,7 @@
 @media (min-width: 768px) {
 
   .social-icons{
-    margin-top: 25px;
+    margin-top: calc(60% - 15px)
   }
 
   .social-icons img {
@@ -386,13 +394,16 @@
 }
 
 @media (max-width: 768px) {
+
+
   .carousel-wrapper {
     max-width: 100%;
     padding-left: 45px;
   }
   .social-icons {
     padding-left: 40px;
-    margin-top: 25px;  /* alterar altura dos icones */
+   
+    
   }
   .description h2 {
     padding-left: 40px;

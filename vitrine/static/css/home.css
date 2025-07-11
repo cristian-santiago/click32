@@ -4,6 +4,7 @@
     overflow-y: auto;
     overscroll-behavior-y: contain;
     z-index: 1;
+    height: 100dvh;
 }
 
 .sidebar.collapsed ~ .main-content {

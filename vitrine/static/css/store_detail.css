@@ -1,4 +1,3 @@
-
 .carousel-wrapper {
   max-width: 500px;
   margin: 0 auto;
@@ -6,7 +5,6 @@
   padding-left: 45px;    
   position: relative;
   background-color: transparent;
-  
 }
 
 .carousel-container {
@@ -20,7 +18,6 @@
   touch-action: pan-x;
   scrollbar-width: none;
   -ms-overflow-style: none;  
-  
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -82,7 +79,6 @@
   left: 0;
   width: 100%;
   padding-left: 40px; /* compensa o espaço do sidebar */
-  
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
@@ -155,22 +151,41 @@
   opacity: 0;
 }
 
-.description h1, .description h2 {
+.description h2 {
   color: #333333;
   text-align: center;
-  padding-left: 60px;
+  padding-left: 48px;
   height: 50px;
   padding-right: 20px;
+  font-family: "Roboto", sans-serif;
 }
 
 .description p {
+  position: relative; /* necessário para o ::before */
   color: #4A4A4A;
   padding-left: 60px;
-  padding-right: 20px;
+  padding-right: 48px;
   text-align: justify;
   margin-top: 10px;
   display: block;
   height: 180px;
+  font-size: 1.1rem;           /* Aumenta um pouco a fonte */
+  font-family: "Roboto", sans-serif;
+  line-height: 18px;
+  overflow-y: auto;            /* Permite rolagem se ultrapassar altura */
+}
+
+/* Sombra no topo da descrição quando tem scroll pra cima */
+.description p.scroll-shadow-top::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px; /* mais altura pra sombra ficar visível */
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent);
+  z-index: 10;
 }
 
 .description {
@@ -178,9 +193,8 @@
 }
 
 @media (min-width: 768px) {
-
-  .social-icons{
-    margin-top: calc(60% - 15px)
+  .social-icons {
+    margin-top: calc(60% - 15px);
   }
 
   .social-icons img {
@@ -394,23 +408,19 @@
 }
 
 @media (max-width: 768px) {
-
-
   .carousel-wrapper {
     max-width: 100%;
     padding-left: 45px;
   }
   .social-icons {
     padding-left: 40px;
-   
-    
   }
   .description h2 {
-    padding-left: 40px;
+    padding-left: 48px;
     padding-right: 10px;
   }
   .description p {
-    padding-left: 40px;
+    padding-left: 48px;
     padding-right: 10px;
   }
   .flyer-modal .modal-dialog {
@@ -418,7 +428,6 @@
     margin: 0;
   }
   .flyer-modal .btn-close {
-    
     right: 8px;
     font-size: 2.0rem;
     width: 25px;
@@ -429,7 +438,7 @@
     max-height: 75%;
   }
   .flyer-modal .carousel-indicators {
-    bottom: calc(3% + 15px);
+    bottom: calc(6% + 20px);
     padding: 8px 15px;
   }
   .flyer-modal .carousel-indicator {
@@ -440,5 +449,118 @@
     width: 48px;
     height: 48px;
     font-size: 48px;
+  }
+}
+
+.store-info {
+  padding-top: 10px;
+  position: fixed;
+  bottom: 125px; /* acima dos 60px do .social-icons */
+  left: 0;
+  width: 100%;
+  padding-left: 48px;
+  font-size: 0.9rem;  
+  color: #4A4A4A;
+  background-color: #f4f4f4;
+  font-family: "Roboto", sans-serif;
+  line-height: 18px;
+  list-style: none;  
+  justify-content: center;
+  gap: 10px;
+  z-index: 1001; /* acima do .social-icons */
+}
+
+/* sombra externa no topo da store-info para indicar conteúdo acima */
+.store-info.scroll-shadow-top {
+  box-shadow: 0 -8px 15px -6px rgba(0, 0, 0, 0.3);
+}
+
+.store-info li {
+  margin-bottom: 2px;
+  font-size: 0.95rem;
+}
+
+:root {
+  --store-info-height: 90px;
+}
+
+@media (max-height: 720px) {
+  .description p {
+    padding-bottom: calc(var(--store-info-height) + 15px); /* 15px de respiro */
+  }
+}
+
+/* Estilos para pinch zoom */
+.pinch-zoom-container {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Impede que a imagem com zoom ultrapasse os limites */
+  touch-action: none; /* Impede comportamento padrão de toque para pinch zoom */
+}
+
+.pinch-zoom-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Garante que a imagem se ajuste ao contêiner */
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Estilos para controles de zoom */
+.zoom-controls {
+  position: absolute;
+  top: 40px; /* Posiciona no topo da imagem */
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translateX(-50%); /* Ajusta para o centro */
+  display: flex;
+  gap: 10px;
+  z-index: 2200;
+}
+
+.zoom-controls button {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.zoom-controls button:hover {
+  background: #0056b3;
+}
+
+/* Estilo para mensagem de erro */
+.flyer-modal .error-message {
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  padding: 10px;
+  background: rgba(255, 0, 0, 0.8);
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .pinch-zoom-container {
+    height: 75vh; /* Alinha com o max-height da imagem no modal */
+  }
+
+  .zoom-controls {
+    top: 40px; /* Ajusta para telas menores */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .zoom-controls button {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
   }
 }

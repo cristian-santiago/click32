@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import mimetypes
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +27,10 @@ SECRET_KEY = 'django-insecure-hb5jxlm&rk4^i8@#-ozu)i+33wm993_9=heooz1_y5l4!pv&+q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = ['*']  # Aceita tudo para facilitar testes
+else:
+    ALLOWED_HOSTS = ['seu-dominio.com']
 
 
 # Application definition
@@ -58,6 +62,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'vitrine.middleware.ClickTrackingMiddleware',  # Middleware de rastreamento de cliques
 ]
+
+
+mimetypes.add_type("application/manifest+json", ".json")
+
+
 
 ROOT_URLCONF = 'click32.urls'
 
@@ -132,6 +141,8 @@ LOGIN_URL = '/admin/login/'
 STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

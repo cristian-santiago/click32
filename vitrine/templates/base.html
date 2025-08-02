@@ -2,21 +2,39 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <link rel="icon" href="{% static 'favicon.png' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'icons/icon-192x192.png' %}" type="image/png" sizes="192x192">
+    <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Click32">
+    <meta name="theme-color" content="#2c3e50">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Stores{% endblock %}</title>
-
+    
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <!-- <link rel="stylesheet" href="{% static 'css/toolbar.css' %}"> -->
 
     {% block extra_css %}{% endblock %}
+    <title>Click32</title>
   </head>
+  
   <body>
     {% include '_navbar.html' %}
     {% block content %}{% endblock %}
     {% block extra_js %}{% endblock %}
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/static/service-worker.js')
+        .then(reg => console.log('ServiceWorker registrado:', reg.scope))
+        .catch(err => console.error('Erro no ServiceWorker:', err));
+    });
+  }
+</script>
   </body>
 
   
 </html>
+

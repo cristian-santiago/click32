@@ -1,23 +1,76 @@
 # Ambiente virtual
 venv/
+.env/
+.env.*        # arquivos como .env.dev, .env.prod
 
 # Arquivos de compilação do Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 
-# Arquivos de configuração do Visual Studio Code
+# Arquivos de configuração do VS Code
 .vscode/
 
-# Arquivos do banco de dados SQLite
+# Arquivos de banco de dados
 db.sqlite3
+*.sqlite3
 
 # Arquivos de log
 *.log
+*.bak
+*.tmp
 
 # Arquivos de cache e temporários
 *.pot
 *.mo
 *.swp
+*.swo
+*~
 
-# media
-/media/
+# Arquivos de migração não rastreados
+# **Cuidado**: comente para versionar as migrações
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# Arquivos de mídia (uploads)
+media/
+MEDIA/
+uploads/
+
+# Arquivos estáticos
+staticfiles/
+static/
+static_root/
+STATIC/
+build/
+dist/
+
+# Coverage (testes)
+htmlcov/
+.coverage
+.coverage.*
+.cache
+.noseids
+
+# Pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# Django Debug Toolbar
+debug.log
+
+# MacOS
+.DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Docker
+*.pid

@@ -10,6 +10,7 @@ from django.conf import settings
 import logging
 from .click32_admin.functions import get_category_tags, get_site_metrics
 import os
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -27,25 +28,42 @@ def get_tag_groups():
 
 def home(request):
     selected_tag = request.GET.get('tag')
-    stores = Store.objects.all()
     stores_vip = None  # Inicializa como None para evitar exibição com filtros
 
     if selected_tag:
+        stores = Store.objects.all()
         category = Category.objects.filter(name=selected_tag).first()
         if category:
             stores = stores.filter(tags__in=category.tags.all()).distinct()
         else:
             stores = stores.filter(tags__name=selected_tag).distinct()
-    else:
-        # Rastrear acesso à home e carregar lojas VIP apenas sem filtros
-        track_click(request, element_type='home_access')
-        stores_vip = Store.objects.filter(is_vip=True)[:10]  # Limita a 10 lojas VIP
 
-    stores = stores.order_by('-highlight', 'name')
-    
+        # Separa os dois grupos
+        highlights = list(stores.filter(highlight=True))
+        non_highlights = list(stores.filter(highlight=False))
+
+        # Embaralha ambos
+        random.shuffle(highlights)
+        random.shuffle(non_highlights)
+
+        # Junta os dois grupos, destaques primeiro
+        stores = highlights + non_highlights
+
+    else:
+        # Home sem filtro
+        track_click(request, element_type='home_access')
+
+        # VIP embaralhadas
+        stores_vip = list(Store.objects.filter(is_vip=True)[:10])
+        random.shuffle(stores_vip)
+
+        # Demais lojas embaralhadas
+        stores = list(Store.objects.all())
+        random.shuffle(stores)
+
     context = {
         'stores': stores,
-        'stores_vip': stores_vip,  # Será None se houver filtro
+        'stores_vip': stores_vip,
         'category_tags': get_category_tags(),
         'selected_tag': selected_tag,
     }
@@ -240,3 +258,26 @@ def fetch_flyer_pages(request, store_id):
     except Exception as e:
         logger.error(f"Error processing flyer for store {store_id}: {str(e)}")
         return JsonResponse({'error': f'Erro ao processar o encarte: {str(e)}'}, status=500)
+    
+
+def manifest(request):
+    return JsonResponse({
+        "name": "Click32",
+        "short_name": "Click32",
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#ffffff",
+        "theme_color": "#2c3e50",
+        "icons": [
+            {
+                "src": "/static/icons/icon-192x192.png",
+                "sizes": "192x192",
+                "type": "image/png"
+            },
+            {
+                "src": "/static/icons/icon-512x512.png",
+                "sizes": "512x512",
+                "type": "image/png"
+            }
+        ]
+    })

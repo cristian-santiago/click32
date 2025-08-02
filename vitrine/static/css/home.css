@@ -21,6 +21,20 @@
     touch-action: pan-y;
     box-sizing: border-box;
     padding-bottom: 8px;
+    padding-top: 220px;
+}
+
+.store-list-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 1200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    touch-action: pan-y;
+    box-sizing: border-box;
+    padding-bottom: 8px;
+    
 }
 
 .sidebar:not(.collapsed) ~ .main-content {
@@ -38,6 +52,7 @@
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s ease;
     animation: slideInFromRight 0.6s ease-out forwards;
     -webkit-animation: slideInFromRight 0.6s ease-out forwards;
     will-change: transform, opacity;
@@ -74,17 +89,50 @@
 
 /*-----CARROUSEL VIP ----*/
 .carousel-wrapper {
+    position: fixed;
     max-width: 1100px;
     margin: 10px 0 15px;
     width: calc(100% - 60px); /* Account for 50px left + 10px right padding */
     margin-left: 50px;
-    position: relative;
+    
     overflow: hidden;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     padding: 0;
     z-index: 10; /* Above sidebar (z-index: 1 in main-content) */
+}
+
+.hide-banners{
+  position: fixed;
+  top: calc(200px - 200px); 
+  left: 40px;
+  width: calc(100% - 40px);
+  height: 267px;
+  background: #f4f4f4;
+  z-index: 9;
+  pointer-events: none;
+}
+
+
+.carousel-fade-mask {
+  position: fixed;
+  top: calc(200px - -65px);
+  left: 40px;
+  width: calc(100% - 40px);
+  height: 20px;
+    background: linear-gradient(
+    to top,
+    rgba(244, 244, 244, 0) 0%,   
+    rgba(244, 244, 244, 1) 100%
+    );
+
+  z-index: 9;
+  pointer-events: none;
+   
+}
+.carousel-fade-mask.hidden {
+  opacity: 0;
 }
 
 .carousel-container {
@@ -234,7 +282,7 @@
 }
 
 @media (min-width: 1600px) {
-    .store-list,
+    .store-list,.store-list-filter
     .tag-buttons-wrapper {
         max-width: 1440px;
     }
@@ -245,7 +293,7 @@
 }
 
 @media (max-width: 1024px) {
-    .store-list {
+    .store-list,.store-list-filter {
         margin-left: 40px;
         width: calc(100% - 40px);
         padding-right: 10px;

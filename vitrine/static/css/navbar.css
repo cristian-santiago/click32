@@ -40,6 +40,11 @@
     position: relative;
 }
 
+.hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .toolbar-container a.tooltip::after {
     content: attr(data-tooltip);
     position: absolute;

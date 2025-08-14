@@ -6,16 +6,25 @@
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    </head>
+        <link rel="manifest" href="{% static 'manifest.json' %}">
+        <meta name="theme-color" content="#2c3e50">
+        </head>
     <body>
         <div class="toolbar">
             <div class="toolbar-container">
                 <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
                 <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie"><i class="fas fa-bullhorn"></i></a>
-                <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>
+                <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>                
+                  <a href="#" id="installBtn" class="tooltip hidden" data-tooltip="Instalar App"><i class="fas fa-download"></i>
+  </a>
+    
+                
             </div>
         </div>
         {% block content %}
         {% endblock %}
+    <script src="{% static 'js/serviceWorkerRegister.js' %}"></script>
+    <script src="{% static 'js/pwaInstall.js' %}"></script>
+
     </body>
 </html>

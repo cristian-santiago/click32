@@ -24,7 +24,9 @@ def get_timeline_data():
         'labels': [date.strftime('%d/%m') for date in dates],
         'links': {
             'main_banner': [0] * 6,
-            'whatsapp': [0] * 6,
+            'whatsapp_1': [0] * 6,
+            'whatsapp_2': [0] * 6,
+            'phone': [0] * 6,
             'instagram': [0] * 6,
             'facebook': [0] * 6,
             'youtube': [0] * 6,
@@ -39,7 +41,9 @@ def get_timeline_data():
             last_clicked__date=date
         ).aggregate(
             main_banner=Sum('click_count', filter=Q(element_type='main_banner')),
-            whatsapp=Sum('click_count', filter=Q(element_type='whatsapp_link')),
+            whatsapp_1=Sum('click_count', filter=Q(element_type='whatsapp_link_1')),
+            whatsapp_2=Sum('click_count', filter=Q(element_type='whatsapp_link_2')),
+            phone=Sum('click_count', filter=Q(element_type='phone_link')),
             instagram=Sum('click_count', filter=Q(element_type='instagram_link')),
             facebook=Sum('click_count', filter=Q(element_type='facebook_link')),
             youtube=Sum('click_count', filter=Q(element_type='youtube_link')),
@@ -59,7 +63,9 @@ def get_clicks_data():
         Store.objects
         .annotate(
             main_banner_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='main_banner')),
-            whatsapp_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='whatsapp_link')),
+            whatsapp_1_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='whatsapp_link_1')),
+            whatsapp_2_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='whatsapp_link_2')),
+            phone_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='phone_link')),
             instagram_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='instagram_link')),
             facebook_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='facebook_link')),
             youtube_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='youtube_link')),
@@ -74,7 +80,9 @@ def get_clicks_data():
     for store in stores:
         total_clicks = sum([
             store.main_banner_clicks or 0,
-            store.whatsapp_clicks or 0,
+            store.whatsapp_1_clicks or 0,
+            store.whatsapp_2_clicks or 0,
+            store.phone_clicks or 0,
             store.instagram_clicks or 0,
             store.facebook_clicks or 0,
             store.youtube_clicks or 0,
@@ -86,7 +94,9 @@ def get_clicks_data():
         clicks_data.append({
             'store': store,
             'main_banner': store.main_banner_clicks or 0,
-            'whatsapp': store.whatsapp_clicks or 0,
+            'whatsapp_1': store.whatsapp_1_clicks or 0,
+            'whatsapp_2': store.whatsapp_2_clicks or 0,
+            'phone': store.phone_clicks or 0,
             'instagram': store.instagram_clicks or 0,
             'facebook': store.facebook_clicks or 0,
             'youtube': store.youtube_clicks or 0,
@@ -146,7 +156,9 @@ def get_store_highlight_data(store_id=None):
     return {
         'store_name': store_data.get('store').name if store_data.get('store') else 'N/A',
         'main_banner': store_data.get('main_banner', 0),
-        'whatsapp': store_data.get('whatsapp', 0),
+        'whatsapp_1': store_data.get('whatsapp_1', 0),
+        'whatsapp_2': store_data.get('whatsapp_2', 0),
+        'phone': store_data.get('phone', 0),
         'instagram': store_data.get('instagram', 0),
         'facebook': store_data.get('facebook', 0),
         'youtube': store_data.get('youtube', 0),
@@ -164,7 +176,9 @@ def get_engagement_rate():
 def get_total_clicks_by_link_type():
     clicks = ClickTrack.objects.aggregate(
         
-        whatsapp=Sum('click_count', filter=Q(element_type='whatsapp_link')),
+        whatsapp_1=Sum('click_count', filter=Q(element_type='whatsapp_link_1')),
+        whatsapp_2=Sum('click_count', filter=Q(element_type='whatsapp_link_2')),
+        phone=Sum('click_count', filter=Q(element_type='phone_link')),
         instagram=Sum('click_count', filter=Q(element_type='instagram_link')),
         facebook=Sum('click_count', filter=Q(element_type='facebook_link')),
         youtube=Sum('click_count', filter=Q(element_type='youtube_link')),
@@ -173,10 +187,12 @@ def get_total_clicks_by_link_type():
         website=Sum('click_count', filter=Q(element_type='website_link'))
     )
     return {
-        'labels': ['WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+        'labels': ['WhatsApp 1', 'WhatsApp 2','Telefone' ,'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
         'data': [
             
-            clicks.get('whatsapp', 0) or 0,
+            clicks.get('whatsapp_1', 0) or 0,
+            clicks.get('whatsapp_2', 0) or 0,
+            clicks.get('phone', 0) or 0,
             clicks.get('instagram', 0) or 0,
             clicks.get('facebook', 0) or 0,
             clicks.get('youtube', 0) or 0,

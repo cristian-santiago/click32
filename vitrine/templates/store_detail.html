@@ -8,6 +8,8 @@
 {% endblock %}
 
 {% block content %}
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
   {% include '_tag_buttons.html' %}
   
   <div class="carousel-wrapper">
@@ -39,22 +41,45 @@
   <div class="store-info">
     <p>
       <strong>Atendimento:</strong><br>
-      Seg–Sex 09h–19h<br>
-      Sáb 09h–17h<br>
-      Dom 09h–12h<br>
-      <strong>Endereço:</strong> Rua Nossa Senhora das Graças, 59<br>
+      {% for hour in store.opening_hours.all %}
+          {{ hour.day_range }}: {{ hour.time_range }}<br>
+      {% empty %}
+          <strong> Sem horários cadastrados.</strong><br>
+      {% endfor %}
+      {% if store.address %}
+      <strong>Endereço:</strong> {{ store.address }}<br>
+      {%endif%}
       <strong>Links disponíveis:</strong> 
     </p>
   </div>
 
   <ul class="social-icons">
-    {% if store.whatsapp_link %}
+    {% if store.whatsapp_link_1 %}
       <li>
-        <a href="{% url 'track_click' store.id 'whatsapp_link' %}" target="_blank" data-redirect="{{ store.whatsapp_link }}" class="social-link">
-          <img src="/media/icons/whatsapp_icon.png" alt="WhatsApp">
+        <a href="{% url 'track_click' store.id 'whatsapp_link_1' %}" target="_blank" data-redirect="{{ store.whatsapp_link_1 }}" class="social-link">
+          <img src="/media/icons/whatsapp_icon_1.png" alt="WhatsApp 1">
         </a>
       </li>
     {% endif %}
+     {% if store.whatsapp_link_2 %}
+      <li>
+        <a href="{% url 'track_click' store.id 'whatsapp_link_2' %}" target="_blank" data-redirect="{{ store.whatsapp_link_2 }}" class="social-link">
+          <img src="/media/icons/whatsapp_icon_2.png" alt="WhatsApp 2">
+        </a>
+      </li>
+    {% endif %}
+{% if store.phone_link %}
+      {% with phone_url=store.phone_link|escapejs %}
+        {% url 'track_click' store.id 'phone_link' as track_url %}
+        <li>
+          <a href="#" class="social-link"
+            onclick="handlePhoneClick(event, '{{ track_url }}', '{{ phone_url }}')">
+            <img src="/media/icons/phone_icon.png" alt="Telefone">
+          </a>
+        </li>
+      {% endwith %}
+    {% endif %}
+    
     {% if store.instagram_link %}
       <li>
         <a href="{% url 'track_click' store.id 'instagram_link' %}" target="_blank" data-redirect="{{ store.instagram_link }}" class="social-link">
@@ -128,6 +153,42 @@
   {% include '_footer.html' %}
 
   <script>
+      const CSRF_TOKEN = '{{ csrf_token }}';
+  </script>
+
+  <script>
+
+    // Phone click handler
+
+    
+
+  function handlePhoneClick(event, trackUrl, phoneLink) {
+  event.preventDefault();
+
+  if (!CSRF_TOKEN) {
+    console.error('Token CSRF não encontrado. Redirecionando diretamente.');
+    window.location.href = phoneLink;
+    return;
+  }
+
+  fetch(trackUrl, {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': CSRF_TOKEN,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ type: 'phone_link' }),
+  })
+    .then(response => {
+      window.location.href = phoneLink;
+    })
+    .catch(error => {
+      console.error('Erro ao rastrear clique:', error);
+      window.location.href = phoneLink;
+    });
+}
+
+
     document.addEventListener('DOMContentLoaded', () => {
       const modalElement = document.getElementById('flyerModal');
       const loadingSpinner = document.querySelector('.flyer-modal .loading-spinner');

@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import Group
 from django.core.validators import FileExtensionValidator
-from vitrine.models import Store, Tag, Category
+from django.forms import inlineformset_factory
+from vitrine.models import Store, Tag, Category, StoreOpeningHour
 
 class StoreForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
@@ -18,8 +19,8 @@ class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
         fields = [
-            'name', 'description', 'main_banner', 'carousel_2', 'carousel_3', 'carousel_4',
-            'highlight', 'is_vip', 'tags', 'whatsapp_link', 'instagram_link', 'facebook_link',
+            'name', 'description','address', 'main_banner', 'carousel_2', 'carousel_3', 'carousel_4',
+            'highlight', 'is_vip', 'tags', 'whatsapp_link_1','whatsapp_link_2','phone_link' , 'instagram_link', 'facebook_link',
             'x_link', 'google_maps_link', 'youtube_link', 'website_link', 'flyer_pdf'
         ]
         widgets = {
@@ -46,3 +47,15 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['name', 'permissions']
+
+
+
+
+StoreOpeningHourFormSet = inlineformset_factory(
+    Store,
+    StoreOpeningHour,
+    fields=('day_range', 'time_range'),
+    extra=1,
+    max_num=3,
+    can_delete=True
+)

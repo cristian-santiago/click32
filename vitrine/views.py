@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_protect
 from django.db.models import Sum, Max, Q
 from .models import Store, ClickTrack, Category
 from django.core.mail import send_mail
@@ -87,10 +88,11 @@ def about(request):
     return render(request, 'about.html', context)
 
 #--------------------------------
+@csrf_protect
 def track_click(request, store_id=None, element_type=None):
     try:
         valid_elements = [
-            'main_banner', 'whatsapp_link', 'instagram_link', 'facebook_link',
+            'main_banner', 'whatsapp_link_1','whatsapp_link_2','phone_link', 'instagram_link', 'facebook_link',
             'youtube_link', 'x_link', 'google_maps_link', 'website_link', 'home_access', 'flyer_pdf'
         ]
         if element_type not in valid_elements:
@@ -114,6 +116,10 @@ def track_click(request, store_id=None, element_type=None):
                 element_type=element_type,
                 defaults={'click_count': 1}
             )
+
+            if element_type == 'phone_link':
+                return JsonResponse({'status': 'click tracked'})
+
             if not created:
                 click_track.click_count += 1
                 click_track.save()

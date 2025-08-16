@@ -13,7 +13,7 @@ import os
 import shutil
 import logging
 import json
-from .forms import StoreForm, TagForm, CategoryForm, GroupForm
+from .forms import StoreForm, TagForm, CategoryForm, GroupForm, StoreOpeningHourFormSet
 from vitrine.models import Store, Tag, Category
 from vitrine.views import cleanup_temp_files
 from .functions import get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate
@@ -60,27 +60,31 @@ def store_list(request):
 def store_create(request):
     if request.method == 'POST':
         form = StoreForm(request.POST, request.FILES)
-        if form.is_valid():
-            store = form.save(commit=False)
-            store.save()
+        formset = StoreOpeningHourFormSet(request.POST, instance=Store())
+        if form.is_valid() and formset.is_valid():
+            store = form.save()
+            formset.instance = store
+            formset.save()
             tags_raw = request.POST.get('tags', '')
             tag_ids = [int(t) for t in tags_raw.split(',') if t.isdigit()]
             store.tags.set(tag_ids)
             return redirect('click32_admin:store_list')
     else:
         form = StoreForm()
+        formset = StoreOpeningHourFormSet(instance=Store())
     return render(request, 'click32_admin/store_form.html', {
         'form': form,
+        'formset': formset,
         'store': None,
         'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf'],
     })
-
 @check_permission(lambda u: u.is_superuser)
 def store_edit(request, store_id):
     store = get_object_or_404(Store, pk=store_id)
     if request.method == "POST":
         form = StoreForm(request.POST, request.FILES, instance=store)
-        if form.is_valid():
+        formset = StoreOpeningHourFormSet(request.POST, instance=store)
+        if form.is_valid() and formset.is_valid():
             old_obj = Store.objects.get(pk=store.pk)
             new_obj = form.save(commit=False)
             for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']:
@@ -92,23 +96,24 @@ def store_edit(request, store_id):
                         os.remove(old_file.path)
                         logger.info(f"Cleared field and deleted file: {old_file.path}")
                     setattr(new_obj, field_name, None)
-                    # Limpar imagens temporárias se o campo for flyer_pdf
                     if field_name == 'flyer_pdf':
                         cleanup_temp_files(store_id)
                 elif old_file and old_file != new_file:
                     if os.path.isfile(old_file.path):
                         os.remove(old_file.path)
                         logger.info(f"Replaced file: {old_file.path}")
-                    # Limpar imagens temporárias se o campo for flyer_pdf
                     if field_name == 'flyer_pdf':
                         cleanup_temp_files(store_id)
             new_obj.save()
             form.save_m2m()
+            formset.save()
             return redirect('click32_admin:store_list')
     else:
         form = StoreForm(instance=store)
+        formset = StoreOpeningHourFormSet(instance=store)
     return render(request, 'click32_admin/store_form.html', {
         'form': form,
+        'formset': formset,
         'store': store,
         'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']
     })
@@ -146,7 +151,9 @@ def global_widgets_dashboard(request):
     clicks_data = get_clicks_data()
     clicks_summary = {
         'main_banner': sum(data['main_banner'] for data in clicks_data),
-        'whatsapp': sum(data['whatsapp'] for data in clicks_data),
+        'whatsapp_1': sum(data['whatsapp_1'] for data in clicks_data),
+        'whatsapp_2': sum(data['whatsapp_2'] for data in clicks_data),
+        'phone': sum(data['phone'] for data in clicks_data),
         'instagram': sum(data['instagram'] for data in clicks_data),
         'facebook': sum(data['facebook'] for data in clicks_data),
         'youtube': sum(data['youtube'] for data in clicks_data),

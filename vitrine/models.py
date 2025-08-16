@@ -24,6 +24,7 @@ def store_image_path(instance, filename):
 class Store(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
+    address = models.CharField(max_length=255, blank=True)
     main_banner = models.ImageField(upload_to=store_image_path, blank=True, null=True)
     carousel_2 = models.ImageField(upload_to=store_image_path, blank=True, null=True)
     carousel_3 = models.ImageField(upload_to=store_image_path, blank=True, null=True)
@@ -31,18 +32,30 @@ class Store(models.Model):
     highlight = models.BooleanField(default=False)
     is_vip = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag, blank=True)
-    whatsapp_link = models.URLField("WhatsApp", blank=True, null=True)
+    whatsapp_link_1 = models.URLField("WhatsApp_1", blank=True, null=True)
+    whatsapp_link_2 = models.URLField("WhatsApp_2", blank=True, null=True)
+    phone_link = models.CharField(max_length=20, blank=True, null=True)
     instagram_link = models.URLField("Instagram", blank=True, null=True)
     facebook_link = models.URLField("Facebook", blank=True, null=True)
     x_link = models.URLField("X", blank=True, null=True)
     google_maps_link = models.URLField("Google Maps", max_length=300, blank=True, null=True)
     youtube_link = models.URLField("YouTube", blank=True, null=True)
+    #anota_Ai_link = models.URLField("Anota Ai", blank=True, null=True)
+    #ifood_link = models.URLField("iFood", blank=True, null=True)
     website_link = models.URLField("Site Oficial", blank=True, null=True)
     flyer_pdf = models.FileField(upload_to='flyers/', blank=True, null=True, validators=[
         FileExtensionValidator(allowed_extensions=['pdf'])
     ])
     def __str__(self):
         return self.name
+
+class StoreOpeningHour(models.Model):
+    store = models.ForeignKey('Store', on_delete=models.CASCADE, related_name='opening_hours')
+    day_range = models.CharField(max_length=50)  # Ex: "Seg–Sex", "Sáb", "Dom"
+    time_range = models.CharField(max_length=50) # Ex: "09h–19h"
+
+    def __str__(self):
+        return f"{self.day_range} {self.time_range}"
 
 class ClickTrack(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicktrack', null=True, blank=True)

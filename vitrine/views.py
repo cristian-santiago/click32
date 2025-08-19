@@ -266,24 +266,3 @@ def fetch_flyer_pages(request, store_id):
         return JsonResponse({'error': f'Erro ao processar o encarte: {str(e)}'}, status=500)
     
 
-def manifest(request):
-    return JsonResponse({
-        "name": "Click32",
-        "short_name": "Click32",
-        "start_url": "/",
-        "display": "standalone",
-        "background_color": "#ffffff",
-        "theme_color": "#2c3e50",
-        "icons": [
-            {
-                "src": "/static/icons/icon-192x192.png",
-                "sizes": "192x192",
-                "type": "image/png"
-            },
-            {
-                "src": "/static/icons/icon-512x512.png",
-                "sizes": "512x512",
-                "type": "image/png"
-            }
-        ]
-    })

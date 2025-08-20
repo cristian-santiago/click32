@@ -14,7 +14,8 @@
         {% for store in stores_vip %}
           {% if store.main_banner %}
             <div class="carousel-item">
-              <a href="{% url 'store_detail' store.id %}?store_id={{ store.id }}&element_type=main_banner" >
+              <a href="{% url 'store_detail_by_id' store.id %}?store_id={{ store.id }}&element_type=main_banner" class="store-banner">
+
                 <img src="{{ store.main_banner.url }}" alt="{{ store.name }}">
               </a>
             </div>
@@ -41,7 +42,8 @@
         <div class="store-list">  
       {% for store in stores %}
         {% if store.main_banner %}
-          <a href="{% url 'store_detail' store.id %}?store_id={{ store.id }}&element_type=main_banner" class="store-banner">
+          <a href="{% url 'store_detail_by_id' store.id %}?store_id={{ store.id }}&element_type=main_banner" class="store-banner">
+
             <img src="{{ store.main_banner.url }}" alt="{{ store.name }}">
           </a>
         {% endif %}
@@ -53,7 +55,8 @@
     <div class="store-list-filter">  
       {% for store in stores %}
         {% if store.main_banner %}
-          <a href="{% url 'store_detail' store.id %}?store_id={{ store.id }}&element_type=main_banner" class="store-banner">
+          <a href="{% url 'store_detail_by_id' store.id %}?store_id={{ store.id }}&element_type=main_banner" class="store-banner">
+
             <img src="{{ store.main_banner.url }}" alt="{{ store.name }}">
           </a>
         {% endif %}

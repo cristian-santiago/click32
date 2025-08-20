@@ -174,6 +174,17 @@
     overflow: hidden;
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent; /* ou rgba(0, 0, 0, 0.1) se quiser escurecer */
+    z-index: 998; /* abaixo do sidebar (que deve ter z-index maior) */
+    display: none;
+}
+
 .sidebar.collapsed .menu-header {
     display: flex;
     margin-left: 0;

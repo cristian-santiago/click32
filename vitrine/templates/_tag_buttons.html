@@ -2,6 +2,7 @@
 {% block extra_css %}
 {% load static %}
   
+    
   <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
@@ -35,21 +36,22 @@
 
     
 </div>
-
-
+<div class="overlay" id="overlay"></div>
 
 <script>
-    
     const homeUrl = "{% url 'home' %}";
+
     document.addEventListener('DOMContentLoaded', () => {
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleBtn');
+        const overlay = document.getElementById('overlay');
+
         console.log('Script carregado');
         console.log('Sidebar:', sidebar);
         console.log('ToggleBtn:', toggleBtn);
 
-        if (!sidebar || !toggleBtn) {
-            console.error('Sidebar ou ToggleBtn não encontrados');
+        if (!sidebar || !toggleBtn || !overlay) {
+            console.error('Sidebar, ToggleBtn ou Overlay não encontrados');
             return;
         }
 
@@ -58,8 +60,10 @@
 
         if (!isMobile && isExpanded) {
             sidebar.classList.remove('collapsed');
+            overlay.style.display = 'block';
         } else {
             sidebar.classList.add('collapsed');
+            overlay.style.display = 'none';
         }
 
         const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
@@ -71,13 +75,21 @@
             e.stopPropagation();
             e.preventDefault();
             sidebar.classList.toggle('collapsed');
-            localStorage.setItem('sidebar-expanded', !sidebar.classList.contains('collapsed'));
-            if (!sidebar.classList.contains('collapsed')) {
+            const isNowExpanded = !sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebar-expanded', isNowExpanded);
+            overlay.style.display = isNowExpanded ? 'block' : 'none';
+
+            if (isNowExpanded) {
                 const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
                 if (lastOpenDropdown) {
                     openDropdown(lastOpenDropdown);
                 }
             }
+        });
+
+        overlay.addEventListener('click', () => {
+            collapseSidebar();
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
         });
 
         function openDropdown(group) {
@@ -93,6 +105,7 @@
 
         function collapseSidebar() {
             sidebar.classList.add('collapsed');
+            overlay.style.display = 'none';
             localStorage.setItem('sidebar-expanded', 'false');
         }
 
@@ -155,40 +168,42 @@
     });
 
     function shouldBlockScroll(el, deltaY) {
-  const scrollTop = el.scrollTop;
-  const scrollHeight = el.scrollHeight;
-  const clientHeight = el.clientHeight;
+        const scrollTop = el.scrollTop;
+        const scrollHeight = el.scrollHeight;
+        const clientHeight = el.clientHeight;
 
-  const isScrollingDown = deltaY > 0;
-  const isScrollingUp = deltaY < 0;
+        const isScrollingDown = deltaY > 0;
+        const isScrollingUp = deltaY < 0;
 
-  const atTop = scrollTop === 0;
-  const atBottom = scrollTop + clientHeight >= scrollHeight;
+        const atTop = scrollTop === 0;
+        const atBottom = scrollTop + clientHeight >= scrollHeight;
 
-  return (isScrollingDown && atBottom) || (isScrollingUp && atTop);
-}
+        return (isScrollingDown && atBottom) || (isScrollingUp && atTop);
+    }
 
-const scrollContainer = document.querySelector('.menu');
+    const scrollContainer = document.querySelector('.menu');
 
-// Mouse scroll
-scrollContainer.addEventListener('wheel', function(e) {
-  if (shouldBlockScroll(this, e.deltaY)) {
-    e.preventDefault();
-  }
-}, { passive: false });
+    if (scrollContainer) {
+        // Mouse scroll
+        scrollContainer.addEventListener('wheel', function(e) {
+            if (shouldBlockScroll(this, e.deltaY)) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
-// Touch scroll
-let touchStartY = 0;
-scrollContainer.addEventListener('touchstart', function(e) {
-  touchStartY = e.touches[0].clientY;
-}, { passive: true });
+        // Touch scroll
+        let touchStartY = 0;
+        scrollContainer.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
 
-scrollContainer.addEventListener('touchmove', function(e) {
-  const currentY = e.touches[0].clientY;
-  const deltaY = touchStartY - currentY;
+        scrollContainer.addEventListener('touchmove', function(e) {
+            const currentY = e.touches[0].clientY;
+            const deltaY = touchStartY - currentY;
 
-  if (shouldBlockScroll(this, deltaY)) {
-    e.preventDefault();
-  }
-}, { passive: false });
+            if (shouldBlockScroll(this, deltaY)) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    }
 </script>

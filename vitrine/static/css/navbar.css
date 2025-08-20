@@ -32,35 +32,10 @@
     transition: transform 0.3s ease;
 }
 
-.toolbar-container a i {
-    line-height: 1;
-}
-
-.toolbar-container a.tooltip {
-    position: relative;
-}
-
 .hidden {
-  visibility: hidden;
-  pointer-events: none;
+  display: none !important;
 }
 
-.toolbar-container a.tooltip::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #f4f4f4;
-    color: #2c3e50;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
 
 @media (min-width: 768px) {
     .toolbar-container {

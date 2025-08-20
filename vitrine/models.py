@@ -2,6 +2,7 @@ import os
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
+import uuid
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
@@ -22,7 +23,20 @@ def store_image_path(instance, filename):
     return f"stores/{store_slug}/{filename}"
 
 class Store(models.Model):
+    qr_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            slug = base_slug
+            n = 1
+            # Evita duplicidade de slug
+            while Store.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{n}"
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
     description = models.TextField(blank=True)
     address = models.CharField(max_length=255, blank=True)
     main_banner = models.ImageField(upload_to=store_image_path, blank=True, null=True)

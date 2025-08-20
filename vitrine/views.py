@@ -71,12 +71,26 @@ def home(request):
 
     return render(request, 'home.html', context)
 
-def store_detail(request, store_id):
-    store = get_object_or_404(Store, id=store_id)
+def store_detail(request, slug):
+    store = get_object_or_404(Store, slug=slug)
     context = {
         'store': store,
-        'category_tags': get_category_tags()
+        'category_tags': get_category_tags(),
     }
+    return render(request, 'store_detail.html', context)
+
+
+def store_detail_by_id(request, store_id):
+    store = get_object_or_404(Store, id=store_id)
+    return redirect('store_detail', slug=store.slug)
+
+def store_detail_by_uuid(request, qr_uuid):
+    store = get_object_or_404(Store, qr_uuid=qr_uuid)
+    context = {
+        'store': store,
+        'category_tags': get_category_tags(),
+    }
+    # Aqui você pode renderizar o template com o store, igual na sua view por id
     return render(request, 'store_detail.html', context)
 
 def advertise(request):

@@ -30,41 +30,41 @@ def get_tag_groups():
 def home(request):
     selected_tag = request.GET.get('tag')
     stores_vip = None  # Inicializa como None para evitar exibição com filtros
+    stores_deactivated = None
 
     if selected_tag:
-        stores = Store.objects.all()
+        stores = Store.objects.filter(is_deactivated=False)
         category = Category.objects.filter(name=selected_tag).first()
         if category:
             stores = stores.filter(tags__in=category.tags.all()).distinct()
         else:
             stores = stores.filter(tags__name=selected_tag).distinct()
 
-        # Separa os dois grupos
+        stores_deactivated = list(Store.objects.filter(is_deactivated=True))  # pode ajustar para tag se quiser
+
         highlights = list(stores.filter(highlight=True))
         non_highlights = list(stores.filter(highlight=False))
 
-        # Embaralha ambos
         random.shuffle(highlights)
         random.shuffle(non_highlights)
 
-        # Junta os dois grupos, destaques primeiro
         stores = highlights + non_highlights
 
     else:
-        # Home sem filtro
         track_click(request, element_type='home_access')
 
-        # VIP embaralhadas
-        stores_vip = list(Store.objects.filter(is_vip=True)[:10])
+        stores_vip = list(Store.objects.filter(is_vip=True, is_deactivated=False)[:10])
         random.shuffle(stores_vip)
 
-        # Demais lojas embaralhadas
-        stores = list(Store.objects.all())
+        stores_deactivated = list(Store.objects.filter(is_deactivated=True))
+
+        stores = list(Store.objects.filter(is_deactivated=False))
         random.shuffle(stores)
 
     context = {
         'stores': stores,
         'stores_vip': stores_vip,
+        'stores_deactivated': stores_deactivated,
         'category_tags': get_category_tags(),
         'selected_tag': selected_tag,
     }
@@ -73,6 +73,9 @@ def home(request):
 
 def store_detail(request, slug):
     store = get_object_or_404(Store, slug=slug)
+    if store.is_deactivated:
+        return redirect('home')  # redireciona para a home se estiver desativada
+
     context = {
         'store': store,
         'category_tags': get_category_tags(),
@@ -82,15 +85,19 @@ def store_detail(request, slug):
 
 def store_detail_by_id(request, store_id):
     store = get_object_or_404(Store, id=store_id)
+    if store.is_deactivated:
+        return redirect('home')
     return redirect('store_detail', slug=store.slug)
 
 def store_detail_by_uuid(request, qr_uuid):
     store = get_object_or_404(Store, qr_uuid=qr_uuid)
+    if store.is_deactivated:
+        return redirect('home')
+
     context = {
         'store': store,
         'category_tags': get_category_tags(),
     }
-    # Aqui você pode renderizar o template com o store, igual na sua view por id
     return render(request, 'store_detail.html', context)
 
 def advertise(request):

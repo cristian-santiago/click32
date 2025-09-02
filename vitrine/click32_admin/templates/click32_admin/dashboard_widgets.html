@@ -161,7 +161,10 @@
                 <p>YouTube: <span>{{ store_highlight.youtube }} cliques</span></p>
                 <p>X Link: <span>{{ store_highlight.x_link }} cliques</span></p>
                 <p>Google Maps: <span>{{ store_highlight.google_maps }} cliques</span></p>
-                <p>Website: <span>{{ store_highlight.website }} cliques</span></p>
+                <p>Anota AI: <span>{{ store_highlight.anota_ai }} cliques</span></p>
+                <p>Ifood: <span>{{ store_highlight.ifood }} cliques</span></p>
+                <p>Flyer: <span>{{ store_highlight.flyer }} cliques</p>
+
             </div>
         </div>
     </div>
@@ -199,7 +202,9 @@
                     { label: 'YouTube', data: Array.isArray(data.links?.youtube) ? data.links.youtube : [], borderColor: '#34495e', backgroundColor: '#34495e', fill: false },
                     { label: 'X Link', data: Array.isArray(data.links?.x_link) ? data.links.x_link : [], borderColor: '#2c3e50', backgroundColor: '#2c3e50', fill: false },
                     { label: 'Google Maps', data: Array.isArray(data.links?.google_maps) ? data.links.google_maps : [], borderColor: '#b7c8cb', backgroundColor: '#b7c8cb', fill: false },
-                    { label: 'Website', data: Array.isArray(data.links?.website) ? data.links.website : [], borderColor: '#bdc3c7', backgroundColor: '#bdc3c7', fill: false }
+                    { label: 'Anota AI', data: Array.isArray(data.links?.anota_ai) ? data.links.anota_ai : [], borderColor: '#bdc3c7', backgroundColor: '#bdc3c7', fill: false },
+                    { label: 'Ifood', data: Array.isArray(data.links?.ifood) ? data.links.ifood : [], borderColor: '#bdc3c7', backgroundColor: '#bdc3c7', fill: false },
+                    { label: 'Flyer', data: Array.isArray(data.links?.flyer_pdf) ? data.links.flyer_pdf : [], borderColor: '#95a5a6', backgroundColor: '#95a5a6', fill: false },
                 ]
             };
 
@@ -227,7 +232,7 @@
                 labels: Array.isArray(data.labels) ? data.labels : [],
                 datasets: [{
                     data: Array.isArray(data.data) ? data.data : [],
-                    backgroundColor: ['#b7c8cb', '#bdc3c7','#bdc3c7','#bdc3c7', '#95a5a6', '#6b7280', '#34495e', '#2c3e50', '#b7c8cb', '#bdc3c7'],
+                    backgroundColor: ['#b7c8cb', '#bdc3c7','#bdc3c7','#bdc3c7', '#95a5a6', '#6b7280', '#34495e', '#2c3e50', '#b7c8cb', '#bdc3c7', '#bdc3c7', '#95a5a6'],
                     borderColor: '#2c3e50',
                     borderWidth: 1
                 }]

@@ -47,6 +47,7 @@ class Store(models.Model):
     is_vip = models.BooleanField(default=False)
     is_deactivated = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag, blank=True)
+    # Links 
     whatsapp_link_1 = models.URLField("WhatsApp_1", blank=True, null=True)
     whatsapp_link_2 = models.URLField("WhatsApp_2", blank=True, null=True)
     phone_link = models.CharField(max_length=20, blank=True, null=True)
@@ -55,9 +56,8 @@ class Store(models.Model):
     x_link = models.URLField("X", blank=True, null=True)
     google_maps_link = models.URLField("Google Maps", max_length=300, blank=True, null=True)
     youtube_link = models.URLField("YouTube", blank=True, null=True)
-    #anota_Ai_link = models.URLField("Anota Ai", blank=True, null=True)
-    #ifood_link = models.URLField("iFood", blank=True, null=True)
-    website_link = models.URLField("Site Oficial", blank=True, null=True)
+    anota_ai_link = models.URLField("Anota Ai", blank=True, null=True)
+    ifood_link = models.URLField("iFood", blank=True, null=True)
     flyer_pdf = models.FileField(upload_to='flyers/', blank=True, null=True, validators=[
         FileExtensionValidator(allowed_extensions=['pdf'])
     ])
@@ -76,13 +76,16 @@ class ClickTrack(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicktrack', null=True, blank=True)
     element_type = models.CharField(max_length=50, choices=[
         ('main_banner', 'Main Banner'),
-        ('whatsapp_link', 'WhatsApp Link'),
+        ('whatsapp_link_1', 'WhatsApp Link 1'),
+        ('whatsapp_link_2', 'WhatsApp Link 2'),
         ('instagram_link', 'Instagram Link'),
         ('facebook_link', 'Facebook Link'),
         ('youtube_link', 'YouTube Link'),
         ('x_link', 'X Link'),
         ('google_maps_link', 'Google Maps Link'),
-        ('website_link', 'Website Link'),
+        ('anota_ai_link', 'Anota Ai Link'),
+        ('ifood_link', 'iFood Link'),
+        ('phone_link', 'Phone Link'),
         ('home_access', 'Home Access'),
         ('flyer_pdf', 'flyer PDF'),
     ])

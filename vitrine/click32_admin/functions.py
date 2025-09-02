@@ -31,8 +31,10 @@ def get_timeline_data():
             'facebook': [0] * 6,
             'youtube': [0] * 6,
             'x_link': [0] * 6,
+            'ifood': [0] * 6,
+            'anota_ai': [0] * 6,         
             'google_maps': [0] * 6,
-            'website': [0] * 6
+            'flyer': [0] * 6
         }
     }
     
@@ -49,7 +51,8 @@ def get_timeline_data():
             youtube=Sum('click_count', filter=Q(element_type='youtube_link')),
             x_link=Sum('click_count', filter=Q(element_type='x_link')),
             google_maps=Sum('click_count', filter=Q(element_type='google_maps_link')),
-            website=Sum('click_count', filter=Q(element_type='website_link'))
+            anota_ai=Sum('click_count', filter=Q(element_type='anota_ai_link')),
+            ifood=Sum('click_count', filter=Q(element_type='ifood_link')),
         )
         for key in timeline_data['links']:
             value = daily_clicks[key]
@@ -71,7 +74,9 @@ def get_clicks_data():
             youtube_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='youtube_link')),
             x_link_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='x_link')),
             google_maps_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='google_maps_link')),
-            website_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='website_link')),
+            ifood_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='ifood_link')),
+            anota_ai_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='anota_ai_link')),
+            flyer_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='flyer_pdf')),
             last_clicked=Max('clicktrack__last_clicked')
         )
     )
@@ -88,7 +93,9 @@ def get_clicks_data():
             store.youtube_clicks or 0,
             store.x_link_clicks or 0,
             store.google_maps_clicks or 0,
-            store.website_clicks or 0
+            store.ifood_clicks or 0,
+            store.anota_ai_clicks or 0,
+            store.flyer_clicks or 0
         ])
         secondary_clicks = total_clicks - (store.main_banner_clicks or 0)
         clicks_data.append({
@@ -102,7 +109,9 @@ def get_clicks_data():
             'youtube': store.youtube_clicks or 0,
             'x_link': store.x_link_clicks or 0,
             'google_maps': store.google_maps_clicks or 0,
-            'website': store.website_clicks or 0,
+            'ifood': store.ifood_clicks or 0,
+            'anota_ai': store.anota_ai_clicks or 0,
+            'flyer': store.flyer_clicks or 0,
             'total_clicks': total_clicks,
             'secondary_clicks': secondary_clicks,
             'last_clicked': store.last_clicked
@@ -164,7 +173,9 @@ def get_store_highlight_data(store_id=None):
         'youtube': store_data.get('youtube', 0),
         'x_link': store_data.get('x_link', 0),
         'google_maps': store_data.get('google_maps', 0),
-        'website': store_data.get('website', 0)
+        'ifood': store_data.get('ifood', 0),
+        'anota_ai': store_data.get('anota_ai', 0),
+        'flyer_pdf': store_data.get('flyer_pdf', 0)
     }
 
 def get_engagement_rate():
@@ -184,10 +195,12 @@ def get_total_clicks_by_link_type():
         youtube=Sum('click_count', filter=Q(element_type='youtube_link')),
         x_link=Sum('click_count', filter=Q(element_type='x_link')),
         google_maps=Sum('click_count', filter=Q(element_type='google_maps_link')),
-        website=Sum('click_count', filter=Q(element_type='website_link'))
+        ifood=Sum('click_count', filter=Q(element_type='ifood_link')),
+        anota_ai=Sum('click_count', filter=Q(element_type='anota_ai_link')),
+        flyer=Sum('click_count', filter=Q(element_type='flyer_pdf')),
     )
     return {
-        'labels': ['WhatsApp 1', 'WhatsApp 2','Telefone' ,'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+        'labels': ['WhatsApp 1', 'WhatsApp 2','Telefone' ,'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Anota Ai', 'iFood'],
         'data': [
             
             clicks.get('whatsapp_1', 0) or 0,
@@ -198,6 +211,8 @@ def get_total_clicks_by_link_type():
             clicks.get('youtube', 0) or 0,
             clicks.get('x_link', 0) or 0,
             clicks.get('google_maps', 0) or 0,
-            clicks.get('website', 0) or 0
+            clicks.get('anota_ai', 0) or 0,
+            clicks.get('ifood', 0) or 0,
+            clicks.get('flyer_pdf', 0) or 0,
         ]
     }

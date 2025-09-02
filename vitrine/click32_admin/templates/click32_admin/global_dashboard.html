@@ -176,20 +176,23 @@
     new Chart(barCtx, {
         type: 'bar',
         data: {
-            labels: ['WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+            labels: ['WhatsApp_1','WhatsApp_2', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Flyer', 'Ifood', 'Anota Ai'],
             datasets: [{
                 label: 'Cliques',
                 data: [
-                    summary.whatsapp,
+                    summary.whatsapp_1,
+                    summary.whatsapp_2,
                     summary.instagram,
                     summary.facebook,
                     summary.youtube,
                     summary.x_link,
                     summary.google_maps,
-                    summary.website
+                    summary.flyer,
+                    summary.ifood,
+                    summary.anota_ai
                 ],
-                backgroundColor: ['#b7c8cb', '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb'],
-                borderColor: ['#95a5a6', '#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6'],
+                backgroundColor: ['#b7c8cb', '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#bdc3c7', '#95a5a6', '#6b7280'],
+                borderColor: ['#95a5a6', '#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#7f8c8d', '#4b5563', '#2c3e50'],
                 borderWidth: 1
             }]
         },
@@ -217,20 +220,23 @@
     new Chart(pieCtx, {
         type: 'pie',
         data: {
-            labels: ['WhatsApp', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Website'],
+            labels: ['WhatsApp_1','WhatsApp_2', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Ifood', 'Anota Ai', 'Flyer'],
             datasets: [{
                 data: [
                     
-                    summary.whatsapp,
+                    summary.whatsapp_1,
+                    summary.whatsapp_2,
                     summary.instagram,
                     summary.facebook,
                     summary.youtube,
                     summary.x_link,
                     summary.google_maps,
-                    summary.website
+                    summary.ifood,
+                    summary.anota_ai,
+                    summary.flyer
                 ],
-                backgroundColor: [  '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#34495e'],
-                borderColor: ['#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#2c3e50'],
+                backgroundColor: [  '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#34495e', '#2c3e50', '#95a5a6', '#6b7280'],
+                borderColor: ['#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#2c3e50', '#1a252f', '#7f8c8d', '#4b5563'],
                 borderWidth: 1
             }]
         },

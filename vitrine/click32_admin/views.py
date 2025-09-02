@@ -159,7 +159,9 @@ def global_widgets_dashboard(request):
         'youtube': sum(data['youtube'] for data in clicks_data),
         'x_link': sum(data['x_link'] for data in clicks_data),
         'google_maps': sum(data['google_maps'] for data in clicks_data),
-        'website': sum(data['website'] for data in clicks_data),
+        'anota_ai': sum(data['anota_ai'] for data in clicks_data),
+        'ifood': sum(data['ifood'] for data in clicks_data),
+        'flyer': sum(data['flyer'] for data in clicks_data),
     }
     site_metrics = get_site_metrics()
     context = {

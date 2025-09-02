@@ -33,7 +33,9 @@ class Click32AdminSite(AdminSite):
                 clicks_youtube=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='youtube_link')),
                 clicks_x=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='x_link')),
                 clicks_google_maps=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='google_maps_link')),
-                clicks_website=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='website_link')),
+                clicks_ifood=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='ifood_link')),
+                clicks_anota_ai=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='anota_ai_link')),                    
+                clicks_flyer=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='flyer_pdf')),
                 last_clicked=Max('clicktrack__last_clicked')
             )
             .values(
@@ -45,7 +47,8 @@ class Click32AdminSite(AdminSite):
                 'clicks_youtube',
                 'clicks_x',
                 'clicks_google_maps',
-                'clicks_website',
+                'clicks_ifood',
+                'clicks_anota_ai',                
                 'last_clicked'
             )
         )
@@ -61,7 +64,9 @@ class Click32AdminSite(AdminSite):
                 'youtube': store['clicks_youtube'] or 0,
                 'x_link': store['clicks_x'] or 0,
                 'google_maps': store['clicks_google_maps'] or 0,
-                'website': store['clicks_website'] or 0,
+                'ifood': store['clicks_ifood'] or 0,
+                'anota_ai': store['clicks_anota_ai'] or 0,
+                'flyer': store['clicks_flyer'] or 0,
                 'total_clicks': sum([
                     store['clicks_main_banner'] or 0,
                     store['clicks_whatsapp'] or 0,
@@ -70,7 +75,9 @@ class Click32AdminSite(AdminSite):
                     store['clicks_youtube'] or 0,
                     store['clicks_x'] or 0,
                     store['clicks_google_maps'] or 0,
-                    store['clicks_website'] or 0,
+                    store['clicks_ifood'] or 0,
+                    store['clicks_anota_ai'] or 0,
+                    store['clicks_flyer'] or 0,
                 ]),
                 'last_clicked': store['last_clicked']
             })

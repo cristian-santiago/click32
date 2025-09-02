@@ -114,7 +114,7 @@ def track_click(request, store_id=None, element_type=None):
     try:
         valid_elements = [
             'main_banner', 'whatsapp_link_1','whatsapp_link_2','phone_link', 'instagram_link', 'facebook_link',
-            'youtube_link', 'x_link', 'google_maps_link', 'website_link', 'home_access', 'flyer_pdf'
+            'youtube_link', 'x_link', 'google_maps_link', 'ifood_link', 'anota_ai_link', 'home_access', 'flyer_pdf'
         ]
         if element_type not in valid_elements:
             return HttpResponse(status=400)

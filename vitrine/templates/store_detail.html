@@ -87,20 +87,22 @@
         </a>
       </li>
     {% endif %}
+    
+      {% if store.youtube_link %}
+      <li>
+        <a href="{% url 'track_click' store.id 'youtube_link' %}" target="_blank" data-redirect="{{ store.youtube_link }}" class="social-link">
+          <img src="/media/icons/youtube_icon.png" alt="Youtube">
+        </a>
+      </li>
+    {% endif %}
+
     {% if store.facebook_link %}
       <li>
         <a href="{% url 'track_click' store.id 'facebook_link' %}" target="_blank" data-redirect="{{ store.facebook_link }}" class="social-link">
           <img src="/media/icons/facebook_icon.png" alt="Facebook">
         </a>
       </li>
-    {% endif %}
-    {% if store.website_link %}
-      <li>
-        <a href="{% url 'track_click' store.id 'website_link' %}" target="_blank" data-redirect="{{ store.website_link }}" class="social-link">
-          <img src="/media/icons/website_icon.png" alt="Site Oficial">
-        </a>
-      </li>
-    {% endif %}
+    {% endif %}    
     {% if store.x_link %}
       <li>
         <a href="{% url 'track_click' store.id 'x_link' %}" target="_blank" data-redirect="{{ store.x_link }}" class="social-link">
@@ -115,6 +117,23 @@
         </a>
       </li>
     {% endif %}
+
+      {% if store.anota_ai_link %}
+      <li>
+        <a href="{% url 'track_click' store.id 'anota_ai_link' %}" target="_blank" data-redirect="{{ store.anota_ai_link }}" class="social-link">
+          <img src="/media/icons/anota_ai_icon.png" alt="Anota Ai">
+        </a>
+      </li>
+    {% endif %}
+      {% if store.ifood_link %}
+      <li>
+        <a href="{% url 'track_click' store.id 'ifood_link' %}" target="_blank" data-redirect="{{ store.ifood_link }}" class="social-link">
+          <img src="/media/icons/ifood_icon.png" alt="iFood">
+        </a>
+      </li>
+    {% endif %}
+
+    
     {% if store.flyer_pdf %}
       <li>
         <a href="#" class="open-flyer-modal" data-store-id="{{ store.id }}" title="Visualizar encarte na página">

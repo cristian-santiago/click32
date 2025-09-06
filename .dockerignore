@@ -1,0 +1,48 @@
+# Ambiente virtual
+venv/
+.env/
+.env.*
+
+# Arquivos de compilação Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Editor
+.vscode/
+*~
+*.swp
+*.swo
+
+# DB e logs
+db.sqlite3
+*.sqlite3
+*.log
+*.bak
+*.tmp
+
+# Mídia que não deve ir para a imagem
+media/
+media/flyers/
+media/stores/
+!media/icons/
+
+# Arquivos estáticos e build
+staticfiles/
+static_root/
+build/
+dist/
+
+# Testes e coverage
+htmlcov/
+.coverage
+.pytest_cache/
+.mypy_cache/
+
+# Docker
+*.pid
+
+# Sistema
+.DS_Store
+Thumbs.db
+Desktop.ini

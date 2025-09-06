@@ -15,6 +15,10 @@ __pycache__/
 db.sqlite3
 *.sqlite3
 
+vitrine/migrations/
+!vitrine/migrations/__init__.py  # mantém o __init__ para o Django reconhecer o pacote
+
+
 # Arquivos de log
 *.log
 *.bak
@@ -32,9 +36,13 @@ db.sqlite3
 # */migrations/*.py
 # !*/migrations/__init__.py
 
-# Arquivos de mídia (uploads)
+# Ignorar uploads dinâmicos e pastas de mídia que não devem ir para o Git
+media/
+media/flyers/
+media/stores/
 
-uploads/
+# Mas manter os ícones versionados
+!media/icons/
 
 # Arquivos estáticos
 staticfiles/

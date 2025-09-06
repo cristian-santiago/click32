@@ -10,6 +10,13 @@ COPY requirements.txt .
 # Instalar dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Instala dependências do sistema necessárias para psycopg
+RUN apt-get update && apt-get install -y \
+    libpq-dev gcc \
+    && pip install --upgrade pip \
+    && pip install -r requirements.txt \
+    && apt-get clean
+
 # Copiar todo o projeto
 COPY . .
 

@@ -34,14 +34,11 @@ db.sqlite3
 
 # Arquivos de mídia (uploads)
 
-MEDIA/
 uploads/
 
 # Arquivos estáticos
 staticfiles/
-static/
 static_root/
-STATIC/
 build/
 dist/
 

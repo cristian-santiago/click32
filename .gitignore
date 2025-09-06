@@ -33,7 +33,7 @@ db.sqlite3
 # !*/migrations/__init__.py
 
 # Arquivos de mídia (uploads)
-media/
+
 MEDIA/
 uploads/
 

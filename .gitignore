@@ -3,6 +3,8 @@ venv/
 .env/
 .env.*        # arquivos como .env.dev, .env.prod
 
+click32/settings.py
+
 # Arquivos de compilação do Python
 __pycache__/
 *.py[cod]

@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Instala dependências do sistema necessárias para psycopg2
 RUN apt-get update && apt-get install -y \
-    libpq-dev gcc postgresql-client \
+    libpq-dev gcc postgresql-client poppler-utils\
     && apt-get clean
 
 

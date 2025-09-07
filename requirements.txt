@@ -6,4 +6,4 @@ pillow==10.4.0
 poppler-utils==0.1.0
 sqlparse==0.5.3
 typing-extensions==4.13.2
-psycopg==3.1.8
+psycopg2-binary

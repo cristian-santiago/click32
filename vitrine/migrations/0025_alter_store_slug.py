@@ -7,11 +7,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='store',
-            name='slug',
-            field=models.CharField(max_length=200, null=True),
-        ),
         migrations.RunSQL(
             sql="UPDATE vitrine_store SET slug = 'temp-slug-' || id WHERE slug IS NULL;",
             reverse_sql="UPDATE vitrine_store SET slug = NULL;"
@@ -19,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='store',
             name='slug',
-            field=models.CharField(max_length=200, unique=True),
+            field=models.CharField(max_length=200, unique=True, null=True),
         ),
     ]

@@ -6,9 +6,8 @@ WORKDIR /app
 
 # Instala dependências do sistema necessárias para psycopg2
 RUN apt-get update && apt-get install -y \
-    libpq-dev gcc postgresql-client poppler-utils\
+    libpq-dev gcc postgresql-client poppler-utils \
     && apt-get clean
-
 
 # Copiar requirements primeiro para aproveitar cache do Docker
 COPY requirements.txt .
@@ -21,15 +20,15 @@ RUN pip install --upgrade pip \
 COPY . .
 
 # Copiar entrypoint e dar permissão de execução
- COPY entrypoint.sh /entrypoint.sh
- RUN chmod +x /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Variáveis de ambiente para Django
 ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=click32.settings
 
-# Expor porta (opcional, para teste)
+# Expor porta
 EXPOSE 8000
 
-# Usar o entrypoint que espera o Postgres antes de rodar Django
+# Usar o entrypoint
 ENTRYPOINT ["/entrypoint.sh"]

@@ -3,7 +3,7 @@ venv/
 .env/
 .env.*        # arquivos como .env.dev, .env.prod
 
-#click32/settings.py
+click32/settings.py
 
 # Arquivos de compilação do Python
 __pycache__/
@@ -39,7 +39,7 @@ db.sqlite3
 # !*/migrations/__init__.py
 
 # Ignorar uploads dinâmicos e pastas de mídia que não devem ir para o Git
-media/
+#media/
 media/flyers/
 media/stores/
 

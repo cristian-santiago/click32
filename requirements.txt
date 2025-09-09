@@ -6,5 +6,5 @@ pillow==10.4.0
 poppler-utils==0.1.0
 sqlparse==0.5.3
 typing-extensions==4.13.2
-psycopg2-binary
+psycopg2-binary==2.9.9
 gunicorn==23.0.0

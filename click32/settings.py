@@ -74,15 +74,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'click32_db'),
-        'USER': os.environ.get('POSTGRES_USER', 'click32_user'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'click32_pass'),
-        'HOST': os.environ.get('POSTGRES_HOST', 'db'),
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+
+
+
+
     }
 }
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {

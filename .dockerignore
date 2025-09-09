@@ -22,10 +22,10 @@ db.sqlite3
 *.tmp
 
 # Mídia que não deve ir para a imagem
-media/
-media/flyers/
-media/stores/
-!media/icons/
+#media/
+#media/flyers/
+#media/stores/
+#!media/icons/
 
 # Arquivos estáticos e build
 staticfiles/

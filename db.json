@@ -1,0 +1,6685 @@
+[
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "vitrine",
+    "model": "store"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "vitrine",
+    "model": "tag"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "vitrine",
+    "model": "clicktrack"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "vitrine",
+    "model": "category"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "vitrine",
+    "model": "storeopeninghour"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "2z6azj8jv37jjxgo8fgbu3e54gd1x2qe",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hBABqhL9z0DmYFBqoYmpV0Z765NutDtf-_9l4i4rTVunZc4ZXERRpx-N8L04LaDfMd2m2Wa27pMJHdFHrTLcc78vB7u30HFXr91wpC09oCarSKwvrhBkWMOcA5B-6IgO3IOKYDFAAQmu6IU2sFqgyzeH9btN3A:1uTU0y:0WY2uDOaSSvFER-ae8pIKU9LDKukYSMqvQ4YK04zbGw",
+    "expire_date": "2025-07-06T23:22:20.702Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "3bhs6wwm3a6nj2uc8nlznu99423ycqiw",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uZf7V:cWbg-QegmRWgnef4dKYkndpOQpPO1jTNNEn6nO0xrPc",
+    "expire_date": "2025-07-24T00:26:37.687Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "3hgwy6y5epmq0e0y2swcyn6qnx44ntq1",
+  "fields": {
+    "session_data": ".eJxVjMEOgjAQRP-lZ9Noy7KtR-98Q7PdXQQ1JaFwMv67kHDQ22Tem3mbROsypLXqnEYxV-PN6bfLxE8tO5AHlftkeSrLPGa7K_ag1XaT6Ot2uH8HA9VhWyPhmSAKKAEhZ3TBq17alqBVl0EEQaJgj03wW2QBxyQuQPQNc28-X_X4OHw:1uS4mE:93AE3VpCjlcFhWWWg2q9qU7SViykpJk8dy6npn5PaM0",
+    "expire_date": "2025-07-03T02:13:18.378Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "5aunf1try7q4ow2oz398hgizud1u906w",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uLqdl:vXCc4aomju-w9FIY2rMd4QsyjorTtgEE1uIcU-9HBRc",
+    "expire_date": "2025-06-15T21:54:49.719Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "60ru35pdau6kj4komvlt17gaxrrf3wf1",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uB5oe:8VSs2QkOvpDmHmXxqQjps8po6S8I-Vl9MVpGqqhkgHM",
+    "expire_date": "2025-05-17T05:53:36.054Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "6pcpz9jh37l7hphaj0y2o9ssgoqblcex",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uLqYm:UL4K2n-Th2eB46ylRRyOVwxc3rzTJHmnyxanB4jl8yg",
+    "expire_date": "2025-06-15T21:49:40.002Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "79d5k11qf1pm1k76gtoag1ixnuaz8xio",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGllO1l9Kes5g2d5dHECOFCcV4u4QKQW0b2beS8S0rTVunZY4oTiLQZx-t5zKg9oO8J7abZZlbusyZbkr8qBdXmek5-Vw_w5q6vVbOz0mAwxWBySdlQHP4FBDCQQWLZMyjj1rHn12rEAFtp4JCgAPWMT7A9UnN_A:1utDSK:t19StOp6OM3n3_dztGlzyqBwy_JlOiwpR4lYSfrd1GU",
+    "expire_date": "2025-09-15T22:56:56.668Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "8e90sh4b8tq0qj4j10re61hhtxneuem4",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uKpnJ:jc74iv9hnsMgsKjzNH333zgyrNGiHzq-BNtfi93wOq0",
+    "expire_date": "2025-06-13T02:48:29.436Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "a5npfv0z9bggpsxo7lva1h9td8jurkcm",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uKnjn:w5nBPOLgCxtQ_5zVbv42peuaymnfcYO2wwxvcfPF1io",
+    "expire_date": "2025-06-13T00:36:43.847Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "bmulurtln818tcgslqwcpr1vbizj3yye",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uGm8D:IyD_crpIa4LpNEhPZ2B2a39dzNN41Og6iWAXjAThUS4",
+    "expire_date": "2025-06-01T22:05:17.660Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "cximoldhnfn4u8ambdfmd7gchtzxyma4",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uDBmU:s1p6MACfwq3Zq6X9vk5jzUk9I31ebyv3Qivm5fT__Ew",
+    "expire_date": "2025-05-23T00:40:02.203Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "e9kesa1jsfqcq8mjbb1nvgja9dyigvjj",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uKpnK:sFLEwYYMekcHTbdBupWqnAH1-tMuzuVQ0BVP6IIWejE",
+    "expire_date": "2025-06-13T02:48:30.022Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "j8zh6hm9f1yd74npysd8nm9zoboto8qd",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGllO1l9Kes5g2d5dHECOFCcV4u4QKQW0b2beS8S0rTVunZY4oTiLQZx-t5zKg9oO8J7abZZlbusyZbkr8qBdXmek5-Vw_w5q6vVbOz0mAwxWBySdlQHP4FBDCQQWLZMyjj1rHn12rEAFtp4JCgAPWMT7A9UnN_A:1unBHb:dDDXodokPdhkLo-R6XHp0oW7j_FebBPiDDxL58vjSjE",
+    "expire_date": "2025-08-30T07:24:55.927Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "jylwxnhy9m1busunt60dm9e52qeb2ux3",
+  "fields": {
+    "session_data": "e30:1uSPd9:WE2qmrHiFSdP2rAb7A7XUXMoJ9eUrhVghaTmliZO5NU",
+    "expire_date": "2025-07-04T00:29:19.357Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "lwpzi6chtqfcyil9vra2ccmrmfy8g7mh",
+  "fields": {
+    "session_data": "e30:1uSOGJ:3D2bb2j-g9lWZZaWknvmCLc2Rbk5MeZbR_ChBGpQ3VQ",
+    "expire_date": "2025-07-03T23:01:39.446Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "lwvbqgo7jw4o3vuf8ktyu52atwdeqrkk",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uJlaA:B5qHH272KspVoMTf49TxJ8Kv4Z42POkq9lh_zoXft-Y",
+    "expire_date": "2025-06-10T04:06:30.277Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "nvsnqyq4viiw612i7d6rv60b9ptgikoj",
+  "fields": {
+    "session_data": "e30:1uSPdq:RBSV4yqwJBS2BLpmUJbZE_LeeR6KK_3YmlXiQ_f9V80",
+    "expire_date": "2025-07-04T00:30:02.084Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qmlv8ncddklghzub5l13ooue1sumnofv",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGllO1l9Kes5g2d5dHECOFCcV4u4QKQW0b2beS8S0rTVunZY4oTiLQZx-t5zKg9oO8J7abZZlbusyZbkr8qBdXmek5-Vw_w5q6vVbOz0mAwxWBySdlQHP4FBDCQQWLZMyjj1rHn12rEAFtp4JCgAPWMT7A9UnN_A:1uo5dC:pkpYrBgV3LCR51KIxpe6vtlEFL-nU3V1z5-2CmTDXqc",
+    "expire_date": "2025-09-01T19:34:58.426Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "rimw114lfbwy0983r595qdm1ox61g6yr",
+  "fields": {
+    "session_data": "e30:1uSOEQ:IOtlu90VCXJ7z_NGkDFbWLRX5fCy7z0PSD8gmg9jooo",
+    "expire_date": "2025-07-03T22:59:42.793Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "v551c14ikafhriv3vifm2wwsbo4ms6wy",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGllO1l9Kes5g2d5dHECOFCcV4u4QKQW0b2beS8S0rTVunZY4oTiLQZx-t5zKg9oO8J7abZZlbusyZbkr8qBdXmek5-Vw_w5q6vVbOz0mAwxWBySdlQHP4FBDCQQWLZMyjj1rHn12rEAFtp4JCgAPWMT7A9UnN_A:1ueGgM:3d7k0SNHDWD7LdxEusJduZIThvkiAEMJrBp9kOlD49A",
+    "expire_date": "2025-08-05T17:21:38.927Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "wjq1p850gop72st2iy2ugtiee0l337ug",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uDBmU:s1p6MACfwq3Zq6X9vk5jzUk9I31ebyv3Qivm5fT__Ew",
+    "expire_date": "2025-05-23T00:40:02.046Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "y1f9ul2g0n6bvrmd9657m21o69f02sfb",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFHB4u3fcbyHQGpGogKe3K-O_apAvd3nPOfYmI21ri1tMSZxYXocTpd5uQHqnugO9Yb01Sq-syT3JX5EG7HBun5_Vw_w4K9vKtIXgyaCzowCqkswYObvJZO7DWMylvh2CyQ6-D4QyAymUg74aksiUS7w-9OTc_:1uXsPl:mSz_c3C5NQD7fjMapz1QnvCliHPhpi7kS4YzIOLLFrw",
+    "expire_date": "2025-07-19T02:14:05.387Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "zy9n769tfaogg63s8qkjkvab69szhuhu",
+  "fields": {
+    "session_data": "e30:1uSOEd:gcwUnHK0HpjEwXdxujAR0uAAJMS6GpwWAXERM7G4Gto",
+    "expire_date": "2025-07-03T22:59:55.167Z"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 3,
+  "fields": {
+    "name": "Serviços"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 4,
+  "fields": {
+    "name": "Educação"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 5,
+  "fields": {
+    "name": "Saúde"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 9,
+  "fields": {
+    "name": "Alimentação"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 10,
+  "fields": {
+    "name": "Beleza"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 11,
+  "fields": {
+    "name": "Lanches"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 12,
+  "fields": {
+    "name": "Comidas"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 13,
+  "fields": {
+    "name": "Marmitas"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 14,
+  "fields": {
+    "name": "Doces e Bolos"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 15,
+  "fields": {
+    "name": "Pizzas"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 16,
+  "fields": {
+    "name": "Sucos Naturais"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 17,
+  "fields": {
+    "name": "Sorveterias"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 18,
+  "fields": {
+    "name": "Açaiterias"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 19,
+  "fields": {
+    "name": "Padarias"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 20,
+  "fields": {
+    "name": "Encanador"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 21,
+  "fields": {
+    "name": "Eletricista"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 22,
+  "fields": {
+    "name": "Pintor"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 23,
+  "fields": {
+    "name": "Pedreiro"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 24,
+  "fields": {
+    "name": "Diarista"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 25,
+  "fields": {
+    "name": "Técnico de Informática"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 26,
+  "fields": {
+    "name": "Montador de Móveis"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 27,
+  "fields": {
+    "name": "Costureira"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 28,
+  "fields": {
+    "name": "Chaveiro"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 29,
+  "fields": {
+    "name": "Manicure"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 30,
+  "fields": {
+    "name": "Cabeleireira"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 31,
+  "fields": {
+    "name": "Maquiadora"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 32,
+  "fields": {
+    "name": "Design de Sobrancelhas"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 33,
+  "fields": {
+    "name": "Salão de Beleza"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 34,
+  "fields": {
+    "name": "Estética"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 35,
+  "fields": {
+    "name": "Barbearia"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 36,
+  "fields": {
+    "name": "Roupas"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 37,
+  "fields": {
+    "name": "Psicólogo"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 38,
+  "fields": {
+    "name": "Nutricionista"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 39,
+  "fields": {
+    "name": "Fisioterapeuta"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 40,
+  "fields": {
+    "name": "Fonoaudiólogo"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 41,
+  "fields": {
+    "name": "Aulas Particulares"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 42,
+  "fields": {
+    "name": "Reforço Escolar"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 43,
+  "fields": {
+    "name": "Inglês"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 44,
+  "fields": {
+    "name": "Música"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 45,
+  "fields": {
+    "name": "Alfabetização"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 46,
+  "fields": {
+    "name": "Aluguéis"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 47,
+  "fields": {
+    "name": "Vendas"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 48,
+  "fields": {
+    "name": "Trocas"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 49,
+  "fields": {
+    "name": "Parcerias"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 50,
+  "fields": {
+    "name": "Comércios"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 51,
+  "fields": {
+    "name": "PetShops"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 61,
+  "fields": {
+    "name": "Masculina"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 62,
+  "fields": {
+    "name": "Feminina"
+  }
+},
+{
+  "model": "vitrine.tag",
+  "pk": 63,
+  "fields": {
+    "name": "Infantil"
+  }
+},
+{
+  "model": "vitrine.category",
+  "pk": 1,
+  "fields": {
+    "name": "Comidas",
+    "icon": "fa-utensils",
+    "tags": [
+      11,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  }
+},
+{
+  "model": "vitrine.category",
+  "pk": 2,
+  "fields": {
+    "name": "Serviços",
+    "icon": "fa-tools",
+    "tags": [
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      42,
+      51
+    ]
+  }
+},
+{
+  "model": "vitrine.category",
+  "pk": 3,
+  "fields": {
+    "name": "beleza",
+    "icon": "fa-spa",
+    "tags": [
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ]
+  }
+},
+{
+  "model": "vitrine.category",
+  "pk": 5,
+  "fields": {
+    "name": "Educação",
+    "icon": "fa-graduation-cap",
+    "tags": [
+      4,
+      41,
+      42,
+      43,
+      44,
+      45
+    ]
+  }
+},
+{
+  "model": "vitrine.category",
+  "pk": 7,
+  "fields": {
+    "name": "Saude",
+    "icon": "fa-heartbeat",
+    "tags": [
+      5,
+      37,
+      38,
+      39,
+      40
+    ]
+  }
+},
+{
+  "model": "vitrine.category",
+  "pk": 9,
+  "fields": {
+    "name": "Eventos",
+    "icon": "fa-masks-theater",
+    "tags": [
+      4,
+      44,
+      50
+    ]
+  }
+},
+{
+  "model": "vitrine.category",
+  "pk": 11,
+  "fields": {
+    "name": "Moda",
+    "icon": "fa-shirt",
+    "tags": [
+      61,
+      62,
+      63
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 15,
+  "fields": {
+    "qr_uuid": "56083402-9d39-4aa5-9b09-44f021111695",
+    "name": "Hamburgueria da Bia",
+    "slug": "hamburgueria-da-bia",
+    "description": "bia hamburguer",
+    "address": "",
+    "main_banner": "stores/hamburgueria-da-bia/bia_burger.jfif",
+    "carousel_2": "stores/hamburgueria-da-bia/red.jpg",
+    "carousel_3": "stores/hamburgueria-da-bia/green.jpg",
+    "carousel_4": "stores/hamburgueria-da-bia/blue.jpg",
+    "highlight": true,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": "tel:+5521980555851",
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "flyers/Cristian-Santiago-resume.pdf",
+    "tags": [
+      9,
+      11
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 16,
+  "fields": {
+    "qr_uuid": "87a4d8e3-0711-475a-bcdc-25b60c0f88b6",
+    "name": "Michele Carvalho",
+    "slug": "michele-carvalho",
+    "description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totamrem aperiam, eaque ipsa quae ab.",
+    "address": "Rua Zuleica Nunes, 27",
+    "main_banner": "stores/michele-carvalho-espaco-de-beleza/michele-carvalho.jpeg",
+    "carousel_2": "stores/michele-carvalho/purple.jpg",
+    "carousel_3": "stores/michele-carvalho/home.png",
+    "carousel_4": "stores/michele-carvalho/number_3.jfif",
+    "highlight": true,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": "https://wa.me/5521980555851?text=Olá,%20quero%20mais%20informações",
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": "https://www.instagram.com/eng_cristian/",
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": "https://maps.app.goo.gl/AgK3jHmSJadJrEbu5",
+    "youtube_link": null,
+    "anota_ai_link": "https://anota.ai/home/",
+    "ifood_link": "https://www.ifood.com.br/",
+    "flyer_pdf": "",
+    "tags": [
+      10,
+      30,
+      31,
+      32,
+      33
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 17,
+  "fields": {
+    "qr_uuid": "d3646fc8-1aea-4150-98ef-60d812e539ad",
+    "name": "Teste Saúde",
+    "slug": "teste-saude",
+    "description": "test",
+    "address": "",
+    "main_banner": "stores/teste-saude/blue.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      5,
+      37,
+      39,
+      40
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 18,
+  "fields": {
+    "qr_uuid": "bae61918-dbff-4afe-88a8-4d699572edf4",
+    "name": "Informática",
+    "slug": "informatica",
+    "description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totamrem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+    "address": "",
+    "main_banner": "stores/informatica/tecnologia.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": "https://x.com/",
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      3,
+      4,
+      25
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 19,
+  "fields": {
+    "qr_uuid": "eb55aa1a-adaf-46e8-b9ca-073e6157c971",
+    "name": "Comércio Local",
+    "slug": "comercio-local",
+    "description": "test",
+    "address": "",
+    "main_banner": "stores/comercio-local/grey.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      14,
+      17,
+      18,
+      19,
+      50
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 20,
+  "fields": {
+    "qr_uuid": "b9e66768-5177-42ea-bb09-7736663fc5c0",
+    "name": "Salão da Neusa",
+    "slug": "salao-da-neusa",
+    "description": "test",
+    "address": "",
+    "main_banner": "stores/salao-da-neusa/pink.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": true,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      10,
+      29,
+      30
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 21,
+  "fields": {
+    "qr_uuid": "c7db2899-f41d-40d7-a938-e620eccc5d69",
+    "name": "Ateliê Dona Marta",
+    "slug": "atelie-dona-marta",
+    "description": "A Click32 é uma plataforma digital que conecta moradores a lojas do bairro, facilitando a descoberta de produtos e promoções locais. Com uma navegação simples e intuitiva, buscamos valorizar o comércio regional e fortalecer a economia da comunidade.",
+    "address": "Rua Nossa Senhora das Graças, 59",
+    "main_banner": "stores/atelie-dona-marta/banner-atelie.jpg",
+    "carousel_2": "stores/atelie-dona-marta/quadros_CluCkf3.jpg",
+    "carousel_3": "stores/atelie-dona-marta/Studio-1020x765.jpg",
+    "carousel_4": "stores/atelie-dona-marta/arte-atelie.jpg",
+    "highlight": true,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": "https://wa.me/5521980555851?text=Olá,%20quero%20mais%20informações",
+    "whatsapp_link_2": "https://wa.me/5521985386632?text=Olá,%20quero%20mais%20informações",
+    "phone_link": "tel:+5521980555851",
+    "instagram_link": "https://www.instagram.com/eng_cristian/",
+    "facebook_link": "https://www.facebook.com/cristian.santiago.3726?locale=pt_BR",
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "flyers/encarte-semana-2706.pdf",
+    "tags": [
+      3,
+      27
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 26,
+  "fields": {
+    "qr_uuid": "b3e2525b-3c9c-4cf5-b6ae-17685d5a0fc7",
+    "name": "Mercadinho",
+    "slug": "mercadinho",
+    "description": "Mercado do 32",
+    "address": "",
+    "main_banner": "stores/mercadinho/produto.png",
+    "carousel_2": "stores/mercadinho/grey.jpg",
+    "carousel_3": "stores/mercadinho/blue.jpg",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      5
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 27,
+  "fields": {
+    "qr_uuid": "2f87b8d9-d799-4eba-bdca-02cb9d31ffcc",
+    "name": "Pet32",
+    "slug": "pet32",
+    "description": "Petshop dos bichinhos",
+    "address": "",
+    "main_banner": "stores/pet32/green.jpg",
+    "carousel_2": "stores/pet32/blue.jpg",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      51
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 50,
+  "fields": {
+    "qr_uuid": "b8c2cd58-90db-474f-8826-840e33cf09f1",
+    "name": "Test serviço",
+    "slug": "test-servico",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/test-servico/grey.jpg",
+    "carousel_2": "stores/test-servico/purple.jpg",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": true,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      3,
+      21
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 51,
+  "fields": {
+    "qr_uuid": "57d8183f-3c5c-4bcd-b41b-3e42d5fee39b",
+    "name": "a",
+    "slug": "a",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/a/blue.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      26
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 52,
+  "fields": {
+    "qr_uuid": "526843bf-5d5d-4686-97a6-bcc8a5400d4e",
+    "name": "b",
+    "slug": "b",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/b/green.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      3
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 53,
+  "fields": {
+    "qr_uuid": "6b69444b-046a-4c3e-adca-60375ad2ae26",
+    "name": "c",
+    "slug": "c",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/c/grey.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": []
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 54,
+  "fields": {
+    "qr_uuid": "4bba3e75-21d6-4db6-ace4-21b4ebc8c0b9",
+    "name": "sddd",
+    "slug": "sddd",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/d/red.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      45
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 55,
+  "fields": {
+    "qr_uuid": "fb8ca694-db8e-4f85-8636-3a35f8b32659",
+    "name": "e",
+    "slug": "e",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/e/brown.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": []
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 56,
+  "fields": {
+    "qr_uuid": "570cf20c-b30b-44c9-afd4-9072be743f18",
+    "name": "f",
+    "slug": "f",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/f/purple.jpg",
+    "carousel_2": "stores/f/grey.jpg",
+    "carousel_3": "stores/f/pink.jpg",
+    "carousel_4": "stores/f/brown.jpg",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": "https://www.instagram.com/eng_cristian/",
+    "facebook_link": "https://www.facebook.com/cristian.santiago.3726?locale=pt_BR",
+    "x_link": "https://x.com/",
+    "google_maps_link": null,
+    "youtube_link": "https://youtube.com",
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": []
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 58,
+  "fields": {
+    "qr_uuid": "a1e1ae8b-27da-4991-b0ac-4e02d8a77fa9",
+    "name": "h",
+    "slug": "h",
+    "description": "",
+    "address": "",
+    "main_banner": "",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": []
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 59,
+  "fields": {
+    "qr_uuid": "e1f15a0e-f13b-4c11-87e5-dbb761b56971",
+    "name": "j",
+    "slug": "j",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/j/purple.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": true,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      20
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 60,
+  "fields": {
+    "qr_uuid": "f958b9eb-0339-4c67-8826-ca32464d4f56",
+    "name": "k",
+    "slug": "k",
+    "description": "",
+    "address": "",
+    "main_banner": "",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": []
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 61,
+  "fields": {
+    "qr_uuid": "5444fbc3-755b-4a4b-acd8-0adff49321b5",
+    "name": "l",
+    "slug": "l",
+    "description": "",
+    "address": "",
+    "main_banner": "",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": []
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 62,
+  "fields": {
+    "qr_uuid": "f5103fc0-4f8e-4c59-a30a-2954a414749f",
+    "name": "s",
+    "slug": "s",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/s/brown.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      21
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 63,
+  "fields": {
+    "qr_uuid": "1fca9197-830b-4c66-a6eb-6a8b68cb9336",
+    "name": "dda",
+    "slug": "dda",
+    "description": "",
+    "address": "",
+    "main_banner": "",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      3
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 64,
+  "fields": {
+    "qr_uuid": "9ca31bc2-7be8-4345-a7a0-3bc66d8b60ae",
+    "name": "gf",
+    "slug": "gf",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/gf/brown.jpg",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": true,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      3
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 65,
+  "fields": {
+    "qr_uuid": "11ed9c19-55bf-434d-bba4-3c46f4c073bf",
+    "name": "555",
+    "slug": "555",
+    "description": "",
+    "address": "",
+    "main_banner": "stores/555/açai_graça.jfif",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": true,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      3,
+      9
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 66,
+  "fields": {
+    "qr_uuid": "ba4dfbe8-20e1-4ec5-8c46-9d24258ed900",
+    "name": "test hora",
+    "slug": "test-hora",
+    "description": "test hora",
+    "address": "",
+    "main_banner": "stores/test-hora/instagram_icon.png",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": true,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": [
+      25
+    ]
+  }
+},
+{
+  "model": "vitrine.store",
+  "pk": 67,
+  "fields": {
+    "qr_uuid": "ab8f5c8d-f2ff-4311-aef8-22286ba52ac8",
+    "name": "Minha Loja Teste",
+    "slug": "minha-loja-teste",
+    "description": "",
+    "address": "",
+    "main_banner": "",
+    "carousel_2": "",
+    "carousel_3": "",
+    "carousel_4": "",
+    "highlight": false,
+    "is_vip": false,
+    "is_deactivated": false,
+    "whatsapp_link_1": null,
+    "whatsapp_link_2": null,
+    "phone_link": null,
+    "instagram_link": null,
+    "facebook_link": null,
+    "x_link": null,
+    "google_maps_link": null,
+    "youtube_link": null,
+    "anota_ai_link": null,
+    "ifood_link": null,
+    "flyer_pdf": "",
+    "tags": []
+  }
+},
+{
+  "model": "vitrine.storeopeninghour",
+  "pk": 1,
+  "fields": {
+    "store": 21,
+    "day_range": "Seg – Sex",
+    "time_range": "09h – 19h"
+  }
+},
+{
+  "model": "vitrine.storeopeninghour",
+  "pk": 2,
+  "fields": {
+    "store": 66,
+    "day_range": "Seg-Sex",
+    "time_range": "09h-19h"
+  }
+},
+{
+  "model": "vitrine.storeopeninghour",
+  "pk": 7,
+  "fields": {
+    "store": 15,
+    "day_range": "Seg – Sex",
+    "time_range": "09h – 19h"
+  }
+},
+{
+  "model": "vitrine.storeopeninghour",
+  "pk": 8,
+  "fields": {
+    "store": 15,
+    "day_range": "Sáb",
+    "time_range": "09h – 17h"
+  }
+},
+{
+  "model": "vitrine.storeopeninghour",
+  "pk": 9,
+  "fields": {
+    "store": 15,
+    "day_range": "Domingo e Feridos",
+    "time_range": "09h – 12h"
+  }
+},
+{
+  "model": "vitrine.storeopeninghour",
+  "pk": 10,
+  "fields": {
+    "store": 21,
+    "day_range": "Sáb",
+    "time_range": "09h – 17h"
+  }
+},
+{
+  "model": "vitrine.storeopeninghour",
+  "pk": 11,
+  "fields": {
+    "store": 21,
+    "day_range": "Domingo e Feriados",
+    "time_range": "09h – 12h"
+  }
+},
+{
+  "model": "vitrine.storeopeninghour",
+  "pk": 12,
+  "fields": {
+    "store": 16,
+    "day_range": "Quintas",
+    "time_range": "15h – 19h"
+  }
+},
+{
+  "model": "vitrine.storeopeninghour",
+  "pk": 13,
+  "fields": {
+    "store": 16,
+    "day_range": "Sex – Sab",
+    "time_range": "09h – 18h"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 2,
+  "fields": {
+    "store": 21,
+    "element_type": "main_banner",
+    "click_count": 1480,
+    "last_clicked": "2025-09-02T03:33:40.486Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 3,
+  "fields": {
+    "store": 18,
+    "element_type": "main_banner",
+    "click_count": 85,
+    "last_clicked": "2025-08-20T05:38:48.350Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 4,
+  "fields": {
+    "store": 17,
+    "element_type": "main_banner",
+    "click_count": 2,
+    "last_clicked": "2025-06-29T18:59:47.682Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 5,
+  "fields": {
+    "store": 26,
+    "element_type": "main_banner",
+    "click_count": 13,
+    "last_clicked": "2025-08-20T02:46:20.289Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 6,
+  "fields": {
+    "store": 19,
+    "element_type": "main_banner",
+    "click_count": 30,
+    "last_clicked": "2025-08-20T03:12:03.501Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 7,
+  "fields": {
+    "store": 21,
+    "element_type": "instagram_link",
+    "click_count": 7,
+    "last_clicked": "2025-07-22T17:16:51.442Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 8,
+  "fields": {
+    "store": 21,
+    "element_type": "facebook_link",
+    "click_count": 3,
+    "last_clicked": "2025-06-06T04:09:50.280Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 9,
+  "fields": {
+    "store": 21,
+    "element_type": "x_link",
+    "click_count": 2,
+    "last_clicked": "2025-06-06T04:09:54.904Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 10,
+  "fields": {
+    "store": 21,
+    "element_type": "google_maps_link",
+    "click_count": 2,
+    "last_clicked": "2025-06-29T20:18:32.070Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 11,
+  "fields": {
+    "store": 16,
+    "element_type": "main_banner",
+    "click_count": 79,
+    "last_clicked": "2025-09-02T05:27:05.383Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 12,
+  "fields": {
+    "store": 16,
+    "element_type": "instagram_link",
+    "click_count": 3,
+    "last_clicked": "2025-09-02T00:47:38.045Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 13,
+  "fields": {
+    "store": 16,
+    "element_type": "facebook_link",
+    "click_count": 1,
+    "last_clicked": "2025-05-27T21:49:11.289Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 14,
+  "fields": {
+    "store": 16,
+    "element_type": "google_maps_link",
+    "click_count": 3,
+    "last_clicked": "2025-09-02T00:47:54.024Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 15,
+  "fields": {
+    "store": 18,
+    "element_type": "x_link",
+    "click_count": 6,
+    "last_clicked": "2025-07-11T06:55:34.803Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 16,
+  "fields": {
+    "store": 16,
+    "element_type": "whatsapp_link",
+    "click_count": 4,
+    "last_clicked": "2025-07-19T03:58:30.629Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 17,
+  "fields": {
+    "store": 15,
+    "element_type": "main_banner",
+    "click_count": 558,
+    "last_clicked": "2025-09-02T05:52:10.334Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 21,
+  "fields": {
+    "store": 20,
+    "element_type": "main_banner",
+    "click_count": 13,
+    "last_clicked": "2025-08-20T05:30:27.461Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 22,
+  "fields": {
+    "store": 21,
+    "element_type": "whatsapp_link",
+    "click_count": 6,
+    "last_clicked": "2025-08-06T22:34:40.971Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 23,
+  "fields": {
+    "store": 27,
+    "element_type": "main_banner",
+    "click_count": 15,
+    "last_clicked": "2025-08-20T02:46:12.151Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 24,
+  "fields": {
+    "store": null,
+    "element_type": "home_access",
+    "click_count": 2148,
+    "last_clicked": "2025-09-02T06:48:04.367Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 25,
+  "fields": {
+    "store": 50,
+    "element_type": "main_banner",
+    "click_count": 13,
+    "last_clicked": "2025-08-02T03:36:44.994Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 26,
+  "fields": {
+    "store": 53,
+    "element_type": "main_banner",
+    "click_count": 2,
+    "last_clicked": "2025-07-19T03:54:19.314Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 27,
+  "fields": {
+    "store": 56,
+    "element_type": "main_banner",
+    "click_count": 4,
+    "last_clicked": "2025-07-21T02:56:29.423Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 28,
+  "fields": {
+    "store": 51,
+    "element_type": "main_banner",
+    "click_count": 7,
+    "last_clicked": "2025-08-19T21:45:10.241Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 29,
+  "fields": {
+    "store": 15,
+    "element_type": "flyer_pdf",
+    "click_count": 277,
+    "last_clicked": "2025-09-02T05:52:17.543Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 30,
+  "fields": {
+    "store": 15,
+    "element_type": "whatsapp_link",
+    "click_count": 2,
+    "last_clicked": "2025-06-30T01:17:31.789Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 31,
+  "fields": {
+    "store": 18,
+    "element_type": "flyer_pdf",
+    "click_count": 11,
+    "last_clicked": "2025-07-10T00:18:08.325Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 32,
+  "fields": {
+    "store": 21,
+    "element_type": "flyer_pdf",
+    "click_count": 103,
+    "last_clicked": "2025-09-02T03:32:04.190Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 33,
+  "fields": {
+    "store": 20,
+    "element_type": "flyer_pdf",
+    "click_count": 1,
+    "last_clicked": "2025-07-10T00:52:49.830Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 34,
+  "fields": {
+    "store": 65,
+    "element_type": "main_banner",
+    "click_count": 5,
+    "last_clicked": "2025-09-02T03:43:32.680Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 35,
+  "fields": {
+    "store": 55,
+    "element_type": "main_banner",
+    "click_count": 4,
+    "last_clicked": "2025-08-19T21:57:44.361Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 36,
+  "fields": {
+    "store": 64,
+    "element_type": "main_banner",
+    "click_count": 3,
+    "last_clicked": "2025-08-20T00:28:15.082Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 37,
+  "fields": {
+    "store": 54,
+    "element_type": "main_banner",
+    "click_count": 4,
+    "last_clicked": "2025-08-15T02:16:03.337Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 38,
+  "fields": {
+    "store": 59,
+    "element_type": "main_banner",
+    "click_count": 1,
+    "last_clicked": "2025-08-06T22:34:07.112Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 39,
+  "fields": {
+    "store": 52,
+    "element_type": "main_banner",
+    "click_count": 3,
+    "last_clicked": "2025-08-15T02:59:01.318Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 40,
+  "fields": {
+    "store": 62,
+    "element_type": "main_banner",
+    "click_count": 2,
+    "last_clicked": "2025-08-15T02:27:21.399Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 41,
+  "fields": {
+    "store": 66,
+    "element_type": "main_banner",
+    "click_count": 12,
+    "last_clicked": "2025-08-20T05:29:08.962Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 42,
+  "fields": {
+    "store": 21,
+    "element_type": "phone_link",
+    "click_count": 22,
+    "last_clicked": "2025-08-16T07:54:20.170Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 43,
+  "fields": {
+    "store": 21,
+    "element_type": "whatsapp_link_2",
+    "click_count": 4,
+    "last_clicked": "2025-08-16T07:53:24.836Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 44,
+  "fields": {
+    "store": 21,
+    "element_type": "whatsapp_link_1",
+    "click_count": 2,
+    "last_clicked": "2025-08-16T07:53:38.939Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 45,
+  "fields": {
+    "store": 15,
+    "element_type": "phone_link",
+    "click_count": 1,
+    "last_clicked": "2025-08-16T08:01:38.634Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 46,
+  "fields": {
+    "store": 16,
+    "element_type": "anota_ai_link",
+    "click_count": 1,
+    "last_clicked": "2025-09-02T00:50:22.033Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 47,
+  "fields": {
+    "store": 16,
+    "element_type": "ifood_link",
+    "click_count": 2,
+    "last_clicked": "2025-09-02T03:33:09.225Z"
+  }
+},
+{
+  "model": "vitrine.clicktrack",
+  "pk": 48,
+  "fields": {
+    "store": 16,
+    "element_type": "whatsapp_link_1",
+    "click_count": 1,
+    "last_clicked": "2025-09-02T05:27:51.441Z"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add store",
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "codename": "add_store"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change store",
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "codename": "change_store"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete store",
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "codename": "delete_store"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view store",
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "codename": "view_store"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add tag",
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "codename": "add_tag"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change tag",
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "codename": "change_tag"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete tag",
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "codename": "delete_tag"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view tag",
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "codename": "view_tag"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add click track",
+    "content_type": [
+      "vitrine",
+      "clicktrack"
+    ],
+    "codename": "add_clicktrack"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change click track",
+    "content_type": [
+      "vitrine",
+      "clicktrack"
+    ],
+    "codename": "change_clicktrack"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete click track",
+    "content_type": [
+      "vitrine",
+      "clicktrack"
+    ],
+    "codename": "delete_clicktrack"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view click track",
+    "content_type": [
+      "vitrine",
+      "clicktrack"
+    ],
+    "codename": "view_clicktrack"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add category",
+    "content_type": [
+      "vitrine",
+      "category"
+    ],
+    "codename": "add_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change category",
+    "content_type": [
+      "vitrine",
+      "category"
+    ],
+    "codename": "change_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete category",
+    "content_type": [
+      "vitrine",
+      "category"
+    ],
+    "codename": "delete_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view category",
+    "content_type": [
+      "vitrine",
+      "category"
+    ],
+    "codename": "view_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add store opening hour",
+    "content_type": [
+      "vitrine",
+      "storeopeninghour"
+    ],
+    "codename": "add_storeopeninghour"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change store opening hour",
+    "content_type": [
+      "vitrine",
+      "storeopeninghour"
+    ],
+    "codename": "change_storeopeninghour"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete store opening hour",
+    "content_type": [
+      "vitrine",
+      "storeopeninghour"
+    ],
+    "codename": "delete_storeopeninghour"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view store opening hour",
+    "content_type": [
+      "vitrine",
+      "storeopeninghour"
+    ],
+    "codename": "view_storeopeninghour"
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "test_user",
+    "permissions": [
+      [
+        "view_store",
+        "vitrine",
+        "store"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$JswvwPbSPVRuv8n4tX2Z4E$gVB4dGA5lt2jg7vA4mkyp8i2MKlgMb68+04a/69skwk=",
+    "last_login": "2025-09-01T22:56:56.650Z",
+    "is_superuser": true,
+    "username": "click32",
+    "first_name": "",
+    "last_name": "",
+    "email": "click32@email.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-05-03T05:52:56.923Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$dOm32hetycJM8PuwLOXvOV$Qv3qeQax63R7qPVhG5KmAcal8xJhd8Hiz1ehSPTkZ3Q=",
+    "last_login": "2025-06-22T23:22:20.674Z",
+    "is_superuser": true,
+    "username": "cristian.santiago",
+    "first_name": "",
+    "last_name": "",
+    "email": "cristian.santiago.carvalho@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-06-18T22:55:05.524Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$HcO7RPMLK9w3U8r3kHLbnv$NpeJGTuxyJ5FovbVYY3VWRUtP+aNlAE9PrbjCd7jYwo=",
+    "last_login": "2025-06-21T00:39:25.960Z",
+    "is_superuser": false,
+    "username": "michele.carvalho",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-06-19T00:55:35Z",
+    "groups": [
+      [
+        "test_user"
+      ]
+    ],
+    "user_permissions": [
+      [
+        "view_store",
+        "vitrine",
+        "store"
+      ]
+    ]
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-05-03T06:10:33.370Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "1",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-05-03T06:11:18.197Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "2",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2025-05-03T06:12:32.726Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "3",
+    "object_repr": "Açaí da dona Graça",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2025-05-03T06:23:32.196Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "4",
+    "object_repr": "Bolos da Tia Glória",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2025-05-03T07:08:56.548Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "4",
+    "object_repr": "Bolos da Tia Glória",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2025-05-03T07:14:00.342Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "3",
+    "object_repr": "Açaí da dona Graça",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2025-05-03T07:14:34.048Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "3",
+    "object_repr": "Açaí da dona Graça",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2025-05-03T07:14:52.598Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "2",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2025-05-03T07:15:03.598Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "1",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2025-05-03T07:41:19.964Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "5",
+    "object_repr": "Depósito do Manel",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2025-05-06T01:53:17.316Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "5",
+    "object_repr": "Depósito do Manel",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"WhatsApp\", \"Instagram\", \"Facebook\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2025-05-06T03:13:26.577Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "6",
+    "object_repr": "Teste Comércio",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2025-05-06T03:14:34.232Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "4",
+    "object_repr": "Bolos da Tia Glória",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2025-05-06T03:14:45.896Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "3",
+    "object_repr": "Açaí da dona Graça",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2025-05-06T03:14:58.686Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "2",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2025-05-06T03:15:12.707Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "1",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2025-05-06T03:54:55.693Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "6",
+    "object_repr": "Teste Comércio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\", \"Carousel 2\", \"Carousel 3\", \"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2025-05-06T03:55:34.437Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "4",
+    "object_repr": "Bolos da Tia Glória",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2025-05-06T03:55:52.134Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "3",
+    "object_repr": "Açaí da dona Graça",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2025-05-06T03:56:39.950Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "1",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2025-05-06T03:56:49.142Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "2",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2025-05-06T04:13:14.815Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "6",
+    "object_repr": "Teste Comércio",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2025-05-06T04:22:33.529Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "7",
+    "object_repr": "Test2 Comercio",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2025-05-06T04:33:40.284Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "7",
+    "object_repr": "Test2 Comercio",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2025-05-06T04:35:52.459Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "3",
+    "object_repr": "Açaí da dona Graça",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2025-05-06T04:36:23.114Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "5",
+    "object_repr": "Depósito do Manel",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2025-05-06T04:36:35.317Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "4",
+    "object_repr": "Bolos da Tia Glória",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2025-05-06T04:36:39.648Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "2",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2025-05-06T04:36:44.432Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "1",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2025-05-06T04:37:56.417Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "8",
+    "object_repr": "Teste Comércio",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2025-05-06T04:38:45.643Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "8",
+    "object_repr": "Teste Comércio",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2025-05-06T04:50:10.137Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "9",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2025-05-06T04:51:36.830Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "9",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2025-05-06T04:59:54.892Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "10",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 35,
+  "fields": {
+    "action_time": "2025-05-06T05:00:15.982Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "10",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 36,
+  "fields": {
+    "action_time": "2025-05-06T05:12:48.032Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "11",
+    "object_repr": "Teste Comércio",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 37,
+  "fields": {
+    "action_time": "2025-05-06T05:13:34.930Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "11",
+    "object_repr": "Teste Comércio",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 38,
+  "fields": {
+    "action_time": "2025-05-06T05:25:12.811Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "12",
+    "object_repr": "teste",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 39,
+  "fields": {
+    "action_time": "2025-05-06T05:25:35.525Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "12",
+    "object_repr": "teste",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 40,
+  "fields": {
+    "action_time": "2025-05-06T05:26:20.563Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "13",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 41,
+  "fields": {
+    "action_time": "2025-05-06T05:26:33.403Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "13",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 42,
+  "fields": {
+    "action_time": "2025-05-06T05:27:08.889Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "14",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 43,
+  "fields": {
+    "action_time": "2025-05-06T05:27:26.216Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "14",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 44,
+  "fields": {
+    "action_time": "2025-05-06T05:27:39.841Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "14",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 45,
+  "fields": {
+    "action_time": "2025-05-06T05:28:03.327Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "14",
+    "object_repr": "Pizzaria do Zé",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 46,
+  "fields": {
+    "action_time": "2025-05-06T05:28:37.563Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "15",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 47,
+  "fields": {
+    "action_time": "2025-05-06T05:40:32.342Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 48,
+  "fields": {
+    "action_time": "2025-05-07T04:57:15.291Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Comércio",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 49,
+  "fields": {
+    "action_time": "2025-05-07T04:57:30.842Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Test2 Comercio",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 50,
+  "fields": {
+    "action_time": "2025-05-07T07:30:20.764Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "19",
+    "object_repr": "test 3",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 51,
+  "fields": {
+    "action_time": "2025-05-07T07:30:30.211Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "20",
+    "object_repr": "test 4",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 52,
+  "fields": {
+    "action_time": "2025-05-07T07:30:42.223Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "test 5",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 53,
+  "fields": {
+    "action_time": "2025-05-09T04:30:15.051Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 54,
+  "fields": {
+    "action_time": "2025-05-09T04:30:21.277Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "19",
+    "object_repr": "test 3",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 55,
+  "fields": {
+    "action_time": "2025-05-09T04:30:29.230Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "19",
+    "object_repr": "test 3",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 56,
+  "fields": {
+    "action_time": "2025-05-09T04:31:09.879Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Comércio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 57,
+  "fields": {
+    "action_time": "2025-05-09T04:32:54.896Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "19",
+    "object_repr": "test 3",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 58,
+  "fields": {
+    "action_time": "2025-05-09T04:33:01.089Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Comércio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 59,
+  "fields": {
+    "action_time": "2025-05-09T04:33:47.288Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 60,
+  "fields": {
+    "action_time": "2025-05-09T05:11:56.698Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "22",
+    "object_repr": "aaa",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 61,
+  "fields": {
+    "action_time": "2025-05-09T05:12:06.387Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "23",
+    "object_repr": "dasdasdasdasf",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 62,
+  "fields": {
+    "action_time": "2025-05-09T05:12:15.373Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "24",
+    "object_repr": "gfdsgfsg",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 63,
+  "fields": {
+    "action_time": "2025-05-09T05:12:27.298Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "25",
+    "object_repr": "gdfgdfgd",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 64,
+  "fields": {
+    "action_time": "2025-05-09T06:04:55.197Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "15",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 65,
+  "fields": {
+    "action_time": "2025-05-09T06:05:08.475Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 66,
+  "fields": {
+    "action_time": "2025-05-09T06:05:19.530Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Comércio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 67,
+  "fields": {
+    "action_time": "2025-05-09T06:05:32.755Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Test2 Comercio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 68,
+  "fields": {
+    "action_time": "2025-05-09T06:05:49.245Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "19",
+    "object_repr": "test 3",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 69,
+  "fields": {
+    "action_time": "2025-05-09T06:06:03.475Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "20",
+    "object_repr": "test 4",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 70,
+  "fields": {
+    "action_time": "2025-05-09T06:07:11.820Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 2\", \"Carousel 3\", \"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 71,
+  "fields": {
+    "action_time": "2025-05-09T06:08:26.397Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "25",
+    "object_repr": "gdfgdfgd",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 72,
+  "fields": {
+    "action_time": "2025-05-09T06:08:37.430Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "24",
+    "object_repr": "gfdsgfsg",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 73,
+  "fields": {
+    "action_time": "2025-05-09T06:08:47.545Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "23",
+    "object_repr": "dasdasdasdasf",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 74,
+  "fields": {
+    "action_time": "2025-05-09T06:09:08.606Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "test 5",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 75,
+  "fields": {
+    "action_time": "2025-05-09T06:09:54.108Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "22",
+    "object_repr": "aaa",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 76,
+  "fields": {
+    "action_time": "2025-05-11T23:03:14.582Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "1",
+    "object_repr": "Lanches",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 77,
+  "fields": {
+    "action_time": "2025-05-11T23:03:23.044Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "2",
+    "object_repr": "Reformas",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 78,
+  "fields": {
+    "action_time": "2025-05-11T23:34:27.643Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 79,
+  "fields": {
+    "action_time": "2025-05-11T23:34:37.463Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "15",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 80,
+  "fields": {
+    "action_time": "2025-05-11T23:35:04.594Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "3",
+    "object_repr": "Serviços",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 81,
+  "fields": {
+    "action_time": "2025-05-11T23:35:33.082Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "4",
+    "object_repr": "Educação",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 82,
+  "fields": {
+    "action_time": "2025-05-11T23:35:44.916Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "5",
+    "object_repr": "Saúde",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 83,
+  "fields": {
+    "action_time": "2025-05-11T23:36:05.713Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "6",
+    "object_repr": "Esportes",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 84,
+  "fields": {
+    "action_time": "2025-05-11T23:36:25.772Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 85,
+  "fields": {
+    "action_time": "2025-05-11T23:36:48.213Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Comércio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 86,
+  "fields": {
+    "action_time": "2025-05-12T00:17:36.781Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Test2 Comercio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 87,
+  "fields": {
+    "action_time": "2025-05-12T00:22:06.800Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Test2 Comercio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 88,
+  "fields": {
+    "action_time": "2025-05-12T00:22:45.920Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "15",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 89,
+  "fields": {
+    "action_time": "2025-05-12T00:23:19.448Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "15",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 90,
+  "fields": {
+    "action_time": "2025-05-12T00:49:08.868Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Comércio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 91,
+  "fields": {
+    "action_time": "2025-05-12T00:49:31.832Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "A Test2 Comercio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 92,
+  "fields": {
+    "action_time": "2025-05-12T00:50:01.209Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Test2 Comercio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 93,
+  "fields": {
+    "action_time": "2025-05-12T04:26:11.715Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "7",
+    "object_repr": "Consultoria",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 94,
+  "fields": {
+    "action_time": "2025-05-12T04:26:17.045Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "8",
+    "object_repr": "Vendas",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 95,
+  "fields": {
+    "action_time": "2025-05-12T04:59:29.696Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "26",
+    "object_repr": "Mercadinho",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 96,
+  "fields": {
+    "action_time": "2025-05-12T05:02:10.574Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Comércio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 97,
+  "fields": {
+    "action_time": "2025-05-12T05:02:47.382Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Saúde",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Description\", \"Tags\", \"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 98,
+  "fields": {
+    "action_time": "2025-05-12T05:03:16.116Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 99,
+  "fields": {
+    "action_time": "2025-05-12T05:06:33.835Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Informática",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Description\", \"Tags\", \"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 100,
+  "fields": {
+    "action_time": "2025-05-12T06:37:03.523Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "7",
+    "object_repr": "Consultoria",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 101,
+  "fields": {
+    "action_time": "2025-05-12T06:37:28.187Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "6",
+    "object_repr": "Esportes",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 102,
+  "fields": {
+    "action_time": "2025-05-12T06:37:34.872Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "8",
+    "object_repr": "Vendas",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 103,
+  "fields": {
+    "action_time": "2025-05-12T06:37:44.064Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "2",
+    "object_repr": "Reformas",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 104,
+  "fields": {
+    "action_time": "2025-05-12T06:37:52.577Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "1",
+    "object_repr": "Lanches",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 105,
+  "fields": {
+    "action_time": "2025-05-12T06:38:47.877Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "9",
+    "object_repr": "Alimentação",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 106,
+  "fields": {
+    "action_time": "2025-05-12T06:38:57.228Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "10",
+    "object_repr": "Beleza & Moda",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 107,
+  "fields": {
+    "action_time": "2025-05-12T06:40:34.389Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "11",
+    "object_repr": "Lanches",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 108,
+  "fields": {
+    "action_time": "2025-05-12T06:40:39.291Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "12",
+    "object_repr": "Restaurantes",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 109,
+  "fields": {
+    "action_time": "2025-05-12T06:40:44.846Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "13",
+    "object_repr": "Marmitas",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 110,
+  "fields": {
+    "action_time": "2025-05-12T06:40:52.150Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "14",
+    "object_repr": "Doces e Bolos",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 111,
+  "fields": {
+    "action_time": "2025-05-12T06:40:58.077Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "15",
+    "object_repr": "Pizzarias",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 112,
+  "fields": {
+    "action_time": "2025-05-12T06:41:05.342Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "16",
+    "object_repr": "Sucos Naturais",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 113,
+  "fields": {
+    "action_time": "2025-05-12T06:41:12.627Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "17",
+    "object_repr": "Sorveterias",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 114,
+  "fields": {
+    "action_time": "2025-05-12T06:41:19.118Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "18",
+    "object_repr": "Açaiterias",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 115,
+  "fields": {
+    "action_time": "2025-05-12T06:41:25.157Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "19",
+    "object_repr": "Padarias",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 116,
+  "fields": {
+    "action_time": "2025-05-12T06:41:37.024Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "20",
+    "object_repr": "Encanador",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 117,
+  "fields": {
+    "action_time": "2025-05-12T06:41:40.564Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "21",
+    "object_repr": "Eletricista",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 118,
+  "fields": {
+    "action_time": "2025-05-12T06:41:45.432Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "22",
+    "object_repr": "Pintor",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 119,
+  "fields": {
+    "action_time": "2025-05-12T06:41:51.672Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "23",
+    "object_repr": "Pedreiro",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 120,
+  "fields": {
+    "action_time": "2025-05-12T06:42:00.810Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "24",
+    "object_repr": "Diarista",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 121,
+  "fields": {
+    "action_time": "2025-05-12T06:42:15.269Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "25",
+    "object_repr": "Técnico de Informática",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 122,
+  "fields": {
+    "action_time": "2025-05-12T06:42:25.108Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "26",
+    "object_repr": "Montador de Móveis",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 123,
+  "fields": {
+    "action_time": "2025-05-12T06:42:29.091Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "27",
+    "object_repr": "Costureira",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 124,
+  "fields": {
+    "action_time": "2025-05-12T06:42:37.187Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "28",
+    "object_repr": "Chaveiro",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 125,
+  "fields": {
+    "action_time": "2025-05-12T06:42:45.780Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "29",
+    "object_repr": "Manicure",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 126,
+  "fields": {
+    "action_time": "2025-05-12T06:43:07.433Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "30",
+    "object_repr": "Cabeleireira",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 127,
+  "fields": {
+    "action_time": "2025-05-12T06:43:10.844Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "31",
+    "object_repr": "Maquiadora",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 128,
+  "fields": {
+    "action_time": "2025-05-12T06:43:30.787Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "32",
+    "object_repr": "Design de Sobrancelhas",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 129,
+  "fields": {
+    "action_time": "2025-05-12T06:43:44.907Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "33",
+    "object_repr": "Salão de Belezas",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 130,
+  "fields": {
+    "action_time": "2025-05-12T06:43:50.936Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "34",
+    "object_repr": "Estética",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 131,
+  "fields": {
+    "action_time": "2025-05-12T06:44:12.587Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "35",
+    "object_repr": "Barbearia",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 132,
+  "fields": {
+    "action_time": "2025-05-12T06:44:22.785Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "36",
+    "object_repr": "Roupas",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 133,
+  "fields": {
+    "action_time": "2025-05-12T06:44:49.241Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "37",
+    "object_repr": "Psicólogo",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 134,
+  "fields": {
+    "action_time": "2025-05-12T06:44:53.607Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "38",
+    "object_repr": "Nutricionista",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 135,
+  "fields": {
+    "action_time": "2025-05-12T06:45:02.459Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "39",
+    "object_repr": "Fisioterapeuta",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 136,
+  "fields": {
+    "action_time": "2025-05-12T06:45:19.047Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "40",
+    "object_repr": "Fonoaudiólogo",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 137,
+  "fields": {
+    "action_time": "2025-05-12T06:45:36.635Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "41",
+    "object_repr": "Aulas Particulares",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 138,
+  "fields": {
+    "action_time": "2025-05-12T06:45:45.361Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "42",
+    "object_repr": "Reforço Escolar",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 139,
+  "fields": {
+    "action_time": "2025-05-12T06:45:57.558Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "43",
+    "object_repr": "Inglês",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 140,
+  "fields": {
+    "action_time": "2025-05-12T06:46:01.897Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "44",
+    "object_repr": "Música",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 141,
+  "fields": {
+    "action_time": "2025-05-12T06:46:29.162Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "45",
+    "object_repr": "Alfabetização",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 142,
+  "fields": {
+    "action_time": "2025-05-12T06:54:23.923Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "33",
+    "object_repr": "Salão de Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 143,
+  "fields": {
+    "action_time": "2025-05-12T07:09:46.957Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "26",
+    "object_repr": "Mercadinho",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 144,
+  "fields": {
+    "action_time": "2025-05-12T07:11:00.444Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Informática",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 145,
+  "fields": {
+    "action_time": "2025-05-14T01:50:13.238Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "15",
+    "object_repr": "Pizzas",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 146,
+  "fields": {
+    "action_time": "2025-05-14T01:50:22.887Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "12",
+    "object_repr": "Comidas",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 147,
+  "fields": {
+    "action_time": "2025-05-14T07:09:02.536Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "46",
+    "object_repr": "Aluguéis",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 148,
+  "fields": {
+    "action_time": "2025-05-14T07:09:06.075Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "47",
+    "object_repr": "Vendas",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 149,
+  "fields": {
+    "action_time": "2025-05-14T07:09:09.067Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "48",
+    "object_repr": "Trocas",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 150,
+  "fields": {
+    "action_time": "2025-05-14T07:09:20.014Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "49",
+    "object_repr": "Parcerias",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 151,
+  "fields": {
+    "action_time": "2025-05-14T23:26:34.256Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "26",
+    "object_repr": "Mercadinho",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 152,
+  "fields": {
+    "action_time": "2025-05-14T23:27:20.736Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Comércio",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 153,
+  "fields": {
+    "action_time": "2025-05-14T23:27:43.386Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 154,
+  "fields": {
+    "action_time": "2025-05-14T23:28:35.971Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Saúde",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 155,
+  "fields": {
+    "action_time": "2025-05-14T23:30:17.251Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "50",
+    "object_repr": "Comércios",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 156,
+  "fields": {
+    "action_time": "2025-05-14T23:30:45.699Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "19",
+    "object_repr": "Comércio Local",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 157,
+  "fields": {
+    "action_time": "2025-05-14T23:31:29.656Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "20",
+    "object_repr": "Salão da Neusa",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 158,
+  "fields": {
+    "action_time": "2025-05-14T23:32:49.915Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "19",
+    "object_repr": "Comércio Local",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 159,
+  "fields": {
+    "action_time": "2025-05-14T23:37:01.000Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "51",
+    "object_repr": "PetShops",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 160,
+  "fields": {
+    "action_time": "2025-05-14T23:37:13.571Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "27",
+    "object_repr": "Pet32",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 161,
+  "fields": {
+    "action_time": "2025-05-14T23:37:33.317Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "27",
+    "object_repr": "Pet32",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 162,
+  "fields": {
+    "action_time": "2025-05-14T23:38:18.326Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "27",
+    "object_repr": "Pet32",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 163,
+  "fields": {
+    "action_time": "2025-05-14T23:39:01.385Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "27",
+    "object_repr": "Pet32",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Tags\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 164,
+  "fields": {
+    "action_time": "2025-05-14T23:55:44.534Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "tag"
+    ],
+    "object_id": "10",
+    "object_repr": "Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 165,
+  "fields": {
+    "action_time": "2025-05-15T05:48:51.325Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"WhatsApp\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 166,
+  "fields": {
+    "action_time": "2025-05-15T05:51:43.329Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"WhatsApp\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 167,
+  "fields": {
+    "action_time": "2025-05-15T05:56:10.250Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"WhatsApp\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 168,
+  "fields": {
+    "action_time": "2025-05-15T05:56:40.320Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"WhatsApp\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 169,
+  "fields": {
+    "action_time": "2025-05-15T05:57:53.463Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"WhatsApp\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 170,
+  "fields": {
+    "action_time": "2025-05-18T22:48:40.727Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 171,
+  "fields": {
+    "action_time": "2025-05-18T23:30:04.768Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Google Maps\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 172,
+  "fields": {
+    "action_time": "2025-05-18T23:31:45.942Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 173,
+  "fields": {
+    "action_time": "2025-05-19T00:08:48.978Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "22",
+    "object_repr": "aaa",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 174,
+  "fields": {
+    "action_time": "2025-05-19T00:09:43.932Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "22",
+    "object_repr": "aaa",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 175,
+  "fields": {
+    "action_time": "2025-05-19T00:10:08.822Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "22",
+    "object_repr": "aaa",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 176,
+  "fields": {
+    "action_time": "2025-05-19T00:12:03.307Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 177,
+  "fields": {
+    "action_time": "2025-05-19T00:13:11.083Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 178,
+  "fields": {
+    "action_time": "2025-05-19T00:27:07.989Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "27",
+    "object_repr": "Pet32",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 179,
+  "fields": {
+    "action_time": "2025-05-19T00:27:58.680Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Minha Loja",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\", \"Carousel 2\", \"Carousel 3\", \"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 180,
+  "fields": {
+    "action_time": "2025-05-19T00:29:46.806Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Informática",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 181,
+  "fields": {
+    "action_time": "2025-05-19T00:30:13.472Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Informática",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 182,
+  "fields": {
+    "action_time": "2025-05-19T00:34:28.863Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Informática",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 183,
+  "fields": {
+    "action_time": "2025-05-19T00:40:19.524Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Informática",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 184,
+  "fields": {
+    "action_time": "2025-05-19T01:41:32.797Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "15",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"WhatsApp\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 185,
+  "fields": {
+    "action_time": "2025-05-19T06:31:46.834Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho Espaço de Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Highlight\", \"Tags\", \"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 186,
+  "fields": {
+    "action_time": "2025-05-19T06:50:06.287Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "15",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 187,
+  "fields": {
+    "action_time": "2025-05-19T06:50:12.057Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "15",
+    "object_repr": "Hamburgueria da Bia",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Highlight\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 188,
+  "fields": {
+    "action_time": "2025-05-20T23:12:32.657Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho Espaço de Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 189,
+  "fields": {
+    "action_time": "2025-05-20T23:17:44.184Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho Espaço de Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 190,
+  "fields": {
+    "action_time": "2025-05-20T23:26:49.795Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho Espaço de Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 191,
+  "fields": {
+    "action_time": "2025-05-20T23:27:37.863Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho Espaço de Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 192,
+  "fields": {
+    "action_time": "2025-05-20T23:28:22.756Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho Espaço de Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 193,
+  "fields": {
+    "action_time": "2025-05-20T23:28:53.477Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 194,
+  "fields": {
+    "action_time": "2025-05-20T23:29:16.814Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho Espaço de Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 195,
+  "fields": {
+    "action_time": "2025-05-20T23:29:56.606Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 196,
+  "fields": {
+    "action_time": "2025-05-20T23:34:17.515Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho Espaço de Beleza",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 197,
+  "fields": {
+    "action_time": "2025-05-20T23:42:27.479Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 198,
+  "fields": {
+    "action_time": "2025-05-20T23:43:26.996Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 199,
+  "fields": {
+    "action_time": "2025-05-20T23:56:22.521Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "Ateliê Dona Marta",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\", \"Description\", \"Highlight\", \"Tags\", \"WhatsApp\", \"Instagram\", \"Facebook\", \"Google Maps\", \"Main banner\", \"Carousel 2\", \"Carousel 3\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 200,
+  "fields": {
+    "action_time": "2025-05-21T00:03:53.327Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "Ateliê Dona Marta",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 3\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 201,
+  "fields": {
+    "action_time": "2025-05-21T00:05:41.259Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 2\", \"Carousel 3\", \"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 202,
+  "fields": {
+    "action_time": "2025-05-21T00:06:41.018Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "26",
+    "object_repr": "Mercadinho",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 2\", \"Carousel 3\", \"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 203,
+  "fields": {
+    "action_time": "2025-05-21T00:11:39.634Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "24",
+    "object_repr": "gfdsgfsg",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 204,
+  "fields": {
+    "action_time": "2025-05-21T00:12:04.662Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "24",
+    "object_repr": "gfdsgfsg",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 2\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 205,
+  "fields": {
+    "action_time": "2025-05-21T00:12:13.565Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "24",
+    "object_repr": "gfdsgfsg",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 2\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 206,
+  "fields": {
+    "action_time": "2025-05-21T00:12:40.545Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "27",
+    "object_repr": "Pet32",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 207,
+  "fields": {
+    "action_time": "2025-05-21T00:13:06.780Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "25",
+    "object_repr": "gdfgdfgd",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 208,
+  "fields": {
+    "action_time": "2025-05-21T00:13:22.211Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "23",
+    "object_repr": "dasdasdasdasf",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 209,
+  "fields": {
+    "action_time": "2025-05-21T00:13:45.934Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "17",
+    "object_repr": "Teste Saúde",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 210,
+  "fields": {
+    "action_time": "2025-05-21T00:14:26.223Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "19",
+    "object_repr": "Comércio Local",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 211,
+  "fields": {
+    "action_time": "2025-05-21T00:14:38.744Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "20",
+    "object_repr": "Salão da Neusa",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 212,
+  "fields": {
+    "action_time": "2025-05-21T00:20:33.471Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "Ateliê Dona Marta",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 3\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 213,
+  "fields": {
+    "action_time": "2025-05-21T00:21:58.857Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "Ateliê Dona Marta",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Main banner\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 214,
+  "fields": {
+    "action_time": "2025-05-21T00:24:31.094Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "Ateliê Dona Marta",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 4\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 215,
+  "fields": {
+    "action_time": "2025-05-21T00:34:36.543Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "Ateliê Dona Marta",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 216,
+  "fields": {
+    "action_time": "2025-05-22T02:37:57.484Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "16",
+    "object_repr": "Michele Carvalho",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Carousel 2\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 217,
+  "fields": {
+    "action_time": "2025-05-27T05:19:25.495Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "18",
+    "object_repr": "Informática",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\", \"X\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 218,
+  "fields": {
+    "action_time": "2025-05-27T05:20:13.025Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "Ateliê Dona Marta",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Youtube\", \"X\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 219,
+  "fields": {
+    "action_time": "2025-05-27T05:24:25.093Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "Ateliê Dona Marta",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 220,
+  "fields": {
+    "action_time": "2025-05-27T05:26:18.936Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "store"
+    ],
+    "object_id": "21",
+    "object_repr": "Ateliê Dona Marta",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Description\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 221,
+  "fields": {
+    "action_time": "2025-05-27T07:00:42.108Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "clicktrack"
+    ],
+    "object_id": "1",
+    "object_repr": "Ateliê Dona Marta - instagram_link - 0 clicks",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Element type\", \"Click count\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 222,
+  "fields": {
+    "action_time": "2025-05-27T07:05:34.321Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "clicktrack"
+    ],
+    "object_id": "1",
+    "object_repr": "Ateliê Dona Marta - instagram_link - 0 clicks",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 223,
+  "fields": {
+    "action_time": "2025-05-27T07:37:08.628Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "clicktrack"
+    ],
+    "object_id": "2",
+    "object_repr": "Ateliê Dona Marta - whatsapp_link - 10 clicks",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Element type\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 224,
+  "fields": {
+    "action_time": "2025-05-27T07:37:35.105Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "clicktrack"
+    ],
+    "object_id": "2",
+    "object_repr": "Ateliê Dona Marta - whatsapp_link - 600 clicks",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Click count\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 225,
+  "fields": {
+    "action_time": "2025-05-27T07:38:07.068Z",
+    "user": [
+      "click32"
+    ],
+    "content_type": [
+      "vitrine",
+      "clicktrack"
+    ],
+    "object_id": "2",
+    "object_repr": "Ateliê Dona Marta - main_banner - 400 clicks",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Element type\", \"Click count\"]}}]"
+  }
+}
+]

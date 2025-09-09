@@ -4,9 +4,13 @@ FROM python:3.11-slim
 # Diretório de trabalho
 WORKDIR /app
 
+# Cria as pastas necessárias no build da imagem
+RUN mkdir -p /app/media/stores /app/media/flyers \
+    && chmod -R 755 /app/media
+
 # Instala dependências do sistema necessárias para psycopg2
 RUN apt-get update && apt-get install -y \
-    libpq-dev gcc postgresql-client poppler-utils \
+    libpq-dev gcc postgresql-client poppler-utils\
     && apt-get clean
 
 # Copiar requirements primeiro para aproveitar cache do Docker

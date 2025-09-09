@@ -6,20 +6,23 @@ services:
     container_name: click32_bairro_1
     command: /entrypoint.sh
     env_file:
-      - .env_bairro_1
-    ports:
-      - "8001:8000"
+      - .env.bairro_1
+        #ports:
+        #- "8001:8000"
     depends_on:
       - postgres_bairro_1
     networks:
       - net_bairro_1
+    volumes:
+      - staticfiles_bairro_1:/app/staticfiles
+      - media_bairro_1:/app/media
 
   postgres_bairro_1:
     image: postgres:16
     container_name: click32_postgres_bairro_1
     restart: unless-stopped
     env_file:
-      - .env_bairro_1
+      - .env.bairro_1
     volumes:
       - postgres_data_bairro_1:/var/lib/postgresql/data
     networks:
@@ -30,23 +33,47 @@ services:
     container_name: click32_bairro_2
     command: /entrypoint.sh
     env_file:
-      - .env_bairro_2
-    ports:
-      - "8002:8000"
+      - .env.bairro_2
+        # ports:
+        # - "8002:8000"
     depends_on:
       - postgres_bairro_2
     networks:
       - net_bairro_2
+    volumes:
+      - staticfiles_bairro_2:/app/staticfiles
+      - media_bairro_2:/app/media
 
   postgres_bairro_2:
     image: postgres:16
     container_name: click32_postgres_bairro_2
     restart: unless-stopped
     env_file:
-      - .env_bairro_2
+      - .env.bairro_2
     volumes:
       - postgres_data_bairro_2:/var/lib/postgresql/data
     networks:
+      - net_bairro_2
+
+  nginx:
+    image: nginx:alpine
+    container_name: click32_nginx
+    restart: unless-stopped
+    ports:
+      - "8001:80"
+      - "8002:81"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - staticfiles_bairro_1:/staticfiles_bairro_1:ro
+      - media_bairro_1:/media_bairro_1:ro
+      - staticfiles_bairro_2:/staticfiles_bairro_2:ro
+      - media_bairro_2:/media_bairro_2:ro
+
+    depends_on:
+      - click32_app_1
+      - click32_app_2
+    networks:
+      - net_bairro_1
       - net_bairro_2
 
 networks:
@@ -56,3 +83,7 @@ networks:
 volumes:
   postgres_data_bairro_1:
   postgres_data_bairro_2:
+  staticfiles_bairro_1:
+  staticfiles_bairro_2:
+  media_bairro_1:
+  media_bairro_2:

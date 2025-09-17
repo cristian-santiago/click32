@@ -1,0 +1,359 @@
+version: "3.9"
+
+services:
+
+  click32_app_1:
+    build: .
+    container_name: click32_bairro_1
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_1
+    depends_on:
+      - postgres_bairro_1
+    networks:
+      - net_bairro_1
+    volumes:
+      - staticfiles_bairro_1:/app/staticfiles
+      - media_bairro_1:/app/media
+
+  postgres_bairro_1:
+    image: postgres:16
+    container_name: click32_postgres_bairro_1
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_1
+    volumes:
+      - postgres_data_bairro_1:/var/lib/postgresql/data
+    networks:
+      - net_bairro_1
+
+  click32_app_2:
+    build: .
+    container_name: click32_bairro_2
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_2
+    depends_on:
+      - postgres_bairro_2
+    networks:
+      - net_bairro_2
+    volumes:
+      - staticfiles_bairro_2:/app/staticfiles
+      - media_bairro_2:/app/media
+
+  postgres_bairro_2:
+    image: postgres:16
+    container_name: click32_postgres_bairro_2
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_2
+    volumes:
+      - postgres_data_bairro_2:/var/lib/postgresql/data
+    networks:
+      - net_bairro_2
+
+  click32_app_3:
+    build: .
+    container_name: click32_bairro_3
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_3
+    depends_on:
+      - postgres_bairro_3
+    networks:
+      - net_bairro_3
+    volumes:
+      - staticfiles_bairro_3:/app/staticfiles
+      - media_bairro_3:/app/media
+
+  postgres_bairro_3:
+    image: postgres:16
+    container_name: click32_postgres_bairro_3
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_3
+    volumes:
+      - postgres_data_bairro_3:/var/lib/postgresql/data
+    networks:
+      - net_bairro_3
+
+  click32_app_4:
+    build: .
+    container_name: click32_bairro_4
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_4
+    depends_on:
+      - postgres_bairro_4
+    networks:
+      - net_bairro_4
+    volumes:
+      - staticfiles_bairro_4:/app/staticfiles
+      - media_bairro_4:/app/media
+
+  postgres_bairro_4:
+    image: postgres:16
+    container_name: click32_postgres_bairro_4
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_4
+    volumes:
+      - postgres_data_bairro_4:/var/lib/postgresql/data
+    networks:
+      - net_bairro_4
+
+  click32_app_5:
+    build: .
+    container_name: click32_bairro_5
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_5
+    depends_on:
+      - postgres_bairro_5
+    networks:
+      - net_bairro_5
+    volumes:
+      - staticfiles_bairro_5:/app/staticfiles
+      - media_bairro_5:/app/media
+
+  postgres_bairro_5:
+    image: postgres:16
+    container_name: click32_postgres_bairro_5
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_5
+    volumes:
+      - postgres_data_bairro_5:/var/lib/postgresql/data
+    networks:
+      - net_bairro_5
+
+  click32_app_6:
+    build: .
+    container_name: click32_bairro_6
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_6
+    depends_on:
+      - postgres_bairro_6
+    networks:
+      - net_bairro_6
+    volumes:
+      - staticfiles_bairro_6:/app/staticfiles
+      - media_bairro_6:/app/media
+
+  postgres_bairro_6:
+    image: postgres:16
+    container_name: click32_postgres_bairro_6
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_6
+    volumes:
+      - postgres_data_bairro_6:/var/lib/postgresql/data
+    networks:
+      - net_bairro_6
+
+  click32_app_7:
+    build: .
+    container_name: click32_bairro_7
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_7
+    depends_on:
+      - postgres_bairro_7
+    networks:
+      - net_bairro_7
+    volumes:
+      - staticfiles_bairro_7:/app/staticfiles
+      - media_bairro_7:/app/media
+
+  postgres_bairro_7:
+    image: postgres:16
+    container_name: click32_postgres_bairro_7
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_7
+    volumes:
+      - postgres_data_bairro_7:/var/lib/postgresql/data
+    networks:
+      - net_bairro_7
+
+  click32_app_8:
+    build: .
+    container_name: click32_bairro_8
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_8
+    depends_on:
+      - postgres_bairro_8
+    networks:
+      - net_bairro_8
+    volumes:
+      - staticfiles_bairro_8:/app/staticfiles
+      - media_bairro_8:/app/media
+
+  postgres_bairro_8:
+    image: postgres:16
+    container_name: click32_postgres_bairro_8
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_8
+    volumes:
+      - postgres_data_bairro_8:/var/lib/postgresql/data
+    networks:
+      - net_bairro_8
+
+  click32_app_9:
+    build: .
+    container_name: click32_bairro_9
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_9
+    depends_on:
+      - postgres_bairro_9
+    networks:
+      - net_bairro_9
+    volumes:
+      - staticfiles_bairro_9:/app/staticfiles
+      - media_bairro_9:/app/media
+
+  postgres_bairro_9:
+    image: postgres:16
+    container_name: click32_postgres_bairro_9
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_9
+    volumes:
+      - postgres_data_bairro_9:/var/lib/postgresql/data
+    networks:
+      - net_bairro_9
+
+  click32_app_10:
+    build: .
+    container_name: click32_bairro_10
+    command: /entrypoint.sh
+    env_file:
+      - .env_bairro_10
+    depends_on:
+      - postgres_bairro_10
+    networks:
+      - net_bairro_10
+    volumes:
+      - staticfiles_bairro_10:/app/staticfiles
+      - media_bairro_10:/app/media
+
+  postgres_bairro_10:
+    image: postgres:16
+    container_name: click32_postgres_bairro_10
+    restart: unless-stopped
+    env_file:
+      - .env_bairro_10
+    volumes:
+      - postgres_data_bairro_10:/var/lib/postgresql/data
+    networks:
+      - net_bairro_10
+
+  nginx:
+    image: nginx:alpine
+    container_name: click32_nginx
+    restart: unless-stopped
+    ports:
+      - "8001:81"
+      - "8002:82"
+      - "8003:83"
+      - "8004:84"
+      - "8005:85"
+      - "8006:86"
+      - "8007:87"
+      - "8008:88"
+      - "8009:89"
+      - "8010:90"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - staticfiles_bairro_1:/staticfiles_bairro_1:ro
+      - media_bairro_1:/media_bairro_1:ro
+      - staticfiles_bairro_2:/staticfiles_bairro_2:ro
+      - media_bairro_2:/media_bairro_2:ro
+      - staticfiles_bairro_3:/staticfiles_bairro_3:ro
+      - media_bairro_3:/media_bairro_3:ro
+      - staticfiles_bairro_4:/staticfiles_bairro_4:ro
+      - media_bairro_4:/media_bairro_4:ro
+      - staticfiles_bairro_5:/staticfiles_bairro_5:ro
+      - media_bairro_5:/media_bairro_5:ro
+      - staticfiles_bairro_6:/staticfiles_bairro_6:ro
+      - media_bairro_6:/media_bairro_6:ro
+      - staticfiles_bairro_7:/staticfiles_bairro_7:ro
+      - media_bairro_7:/media_bairro_7:ro
+      - staticfiles_bairro_8:/staticfiles_bairro_8:ro
+      - media_bairro_8:/media_bairro_8:ro
+      - staticfiles_bairro_9:/staticfiles_bairro_9:ro
+      - media_bairro_9:/media_bairro_9:ro
+      - staticfiles_bairro_10:/staticfiles_bairro_10:ro
+      - media_bairro_10:/media_bairro_10:ro
+    depends_on:
+      - click32_app_1
+      - click32_app_2
+      - click32_app_3
+      - click32_app_4
+      - click32_app_5
+      - click32_app_6
+      - click32_app_7
+      - click32_app_8
+      - click32_app_9
+      - click32_app_10
+    networks:
+      - net_bairro_1
+      - net_bairro_2
+      - net_bairro_3
+      - net_bairro_4
+      - net_bairro_5
+      - net_bairro_6
+      - net_bairro_7
+      - net_bairro_8
+      - net_bairro_9
+      - net_bairro_10
+
+networks:
+  net_bairro_1:
+  net_bairro_2:
+  net_bairro_3:
+  net_bairro_4:
+  net_bairro_5:
+  net_bairro_6:
+  net_bairro_7:
+  net_bairro_8:
+  net_bairro_9:
+  net_bairro_10:
+
+volumes:
+  postgres_data_bairro_1:
+  postgres_data_bairro_2:
+  postgres_data_bairro_3:
+  postgres_data_bairro_4:
+  postgres_data_bairro_5:
+  postgres_data_bairro_6:
+  postgres_data_bairro_7:
+  postgres_data_bairro_8:
+  postgres_data_bairro_9:
+  postgres_data_bairro_10:
+
+  staticfiles_bairro_1:
+  staticfiles_bairro_2:
+  staticfiles_bairro_3:
+  staticfiles_bairro_4:
+  staticfiles_bairro_5:
+  staticfiles_bairro_6:
+  staticfiles_bairro_7:
+  staticfiles_bairro_8:
+  staticfiles_bairro_9:
+  staticfiles_bairro_10:
+
+  media_bairro_1:
+  media_bairro_2:
+  media_bairro_3:
+  media_bairro_4:
+  media_bairro_5:
+  media_bairro_6:
+  media_bairro_7:
+  media_bairro_8:
+  media_bairro_9:
+  media_bairro_10:

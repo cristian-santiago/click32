@@ -6,9 +6,7 @@ services:
     container_name: click32_bairro_1
     command: /entrypoint.sh
     env_file:
-      - .env.bairro_1
-        #ports:
-        #- "8001:8000"
+      - .env_bairro_1
     depends_on:
       - postgres_bairro_1
     networks:
@@ -22,7 +20,7 @@ services:
     container_name: click32_postgres_bairro_1
     restart: unless-stopped
     env_file:
-      - .env.bairro_1
+      - .env_bairro_1
     volumes:
       - postgres_data_bairro_1:/var/lib/postgresql/data
     networks:
@@ -33,9 +31,7 @@ services:
     container_name: click32_bairro_2
     command: /entrypoint.sh
     env_file:
-      - .env.bairro_2
-        # ports:
-        # - "8002:8000"
+      - .env_bairro_2
     depends_on:
       - postgres_bairro_2
     networks:
@@ -49,7 +45,7 @@ services:
     container_name: click32_postgres_bairro_2
     restart: unless-stopped
     env_file:
-      - .env.bairro_2
+      - .env_bairro_2
     volumes:
       - postgres_data_bairro_2:/var/lib/postgresql/data
     networks:
@@ -60,15 +56,14 @@ services:
     container_name: click32_nginx
     restart: unless-stopped
     ports:
-      - "8001:80"
-      - "8002:81"
+      - "8001:81"
+      - "8002:82"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - staticfiles_bairro_1:/staticfiles_bairro_1:ro
       - media_bairro_1:/media_bairro_1:ro
       - staticfiles_bairro_2:/staticfiles_bairro_2:ro
       - media_bairro_2:/media_bairro_2:ro
-
     depends_on:
       - click32_app_1
       - click32_app_2

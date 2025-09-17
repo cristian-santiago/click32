@@ -1,0 +1,87 @@
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+      - net_bairro_1
+      - net_bairro_2
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - monitoring
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - monitoring
+
+  postgres_exporter_1:
+    image: prometheuscommunity/postgres-exporter:latest
+    container_name: postgres_exporter_1
+    env_file:
+      - .env_bairro_1
+    ports:
+      - "9187:9187"
+    networks:
+      - monitoring
+      - net_bairro_1
+
+  postgres_exporter_2:
+    image: prometheuscommunity/postgres-exporter:latest
+    container_name: postgres_exporter_2
+    env_file:
+      - .env_bairro_2
+    ports:
+      - "9188:9187"
+    networks:
+      - monitoring
+      - net_bairro_2
+
+  nginx_exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx_exporter
+    environment:
+      NGINX_STATUS_URL: http://click32_nginx:9113/nginx_status
+    ports:
+      - "9113:9113"
+    networks:
+      - monitoring
+      - net_bairro_1
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  monitoring:
+  net_bairro_1:
+    name: click32_net_bairro_1
+    external: true
+  net_bairro_2:
+    name: click32_net_bairro_2
+    external: true

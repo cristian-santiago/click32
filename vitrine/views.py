@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.cache import cache_page
 from django.db.models import Sum, Max, Q
 from .models import Store, ClickTrack, Category
 from django.core.mail import send_mail
@@ -26,7 +27,7 @@ def get_tag_groups():
         'Educação': ['Alfabetização', 'Música', 'Inglês', 'Aulas Particulares'],
         'Outros': ['Aluguéis', 'Vendas', 'Trocas', 'Parcerias']
     }
-
+@cache_page(60 * 60 * 24)   # 24 horas
 def home(request):
     selected_tag = request.GET.get('tag')
     stores_vip = None  # Inicializa como None para evitar exibição com filtros
@@ -71,6 +72,7 @@ def home(request):
 
     return render(request, 'home.html', context)
 
+@cache_page(60 * 60 * 24)   # 24 horas
 def store_detail(request, slug):
     store = get_object_or_404(Store, slug=slug)
     if store.is_deactivated:
@@ -82,13 +84,14 @@ def store_detail(request, slug):
     }
     return render(request, 'store_detail.html', context)
 
-
+@cache_page(60 * 60 * 24)   # 24 horas
 def store_detail_by_id(request, store_id):
     store = get_object_or_404(Store, id=store_id)
     if store.is_deactivated:
         return redirect('home')
     return redirect('store_detail', slug=store.slug)
 
+@cache_page(60 * 60 * 24)   # 24 horas
 def store_detail_by_uuid(request, qr_uuid):
     store = get_object_or_404(Store, qr_uuid=qr_uuid)
     if store.is_deactivated:
@@ -100,10 +103,12 @@ def store_detail_by_uuid(request, qr_uuid):
     }
     return render(request, 'store_detail.html', context)
 
+@cache_page(60 * 60 * 24)   # 24 horas
 def advertise(request):
     context = {'category_tags': get_category_tags()}
     return render(request, 'advertise.html', context)
 
+@cache_page(60 * 60 * 24)   # 24 horas
 def about(request):
     context = {'category_tags': get_category_tags()}
     return render(request, 'about.html', context)

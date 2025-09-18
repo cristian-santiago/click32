@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 from django.db.models import Sum, Max, Q
 from .models import Store, ClickTrack, Category
 from django.core.mail import send_mail
@@ -27,39 +28,53 @@ def get_tag_groups():
         'Educação': ['Alfabetização', 'Música', 'Inglês', 'Aulas Particulares'],
         'Outros': ['Aluguéis', 'Vendas', 'Trocas', 'Parcerias']
     }
-@cache_page(60 * 60 * 24)   # 24 horas
+#@cache_page(60 * 60 * 24)   # 24 horas
 def home(request):
     selected_tag = request.GET.get('tag')
-    stores_vip = None  # Inicializa como None para evitar exibição com filtros
+    stores_vip = None
     stores_deactivated = None
 
-    if selected_tag:
-        stores = Store.objects.filter(is_deactivated=False)
-        category = Category.objects.filter(name=selected_tag).first()
-        if category:
-            stores = stores.filter(tags__in=category.tags.all()).distinct()
-        else:
-            stores = stores.filter(tags__name=selected_tag).distinct()
+    # Chave de cache por tag (ou None)
+    cache_key = f'stores_cache_{selected_tag or "all"}'
+    cached_data = cache.get(cache_key)
 
-        stores_deactivated = list(Store.objects.filter(is_deactivated=True))  # pode ajustar para tag se quiser
-
-        highlights = list(stores.filter(highlight=True))
-        non_highlights = list(stores.filter(highlight=False))
-
-        random.shuffle(highlights)
-        random.shuffle(non_highlights)
-
-        stores = highlights + non_highlights
-
+    if cached_data:
+        # Recupera dados já cacheados
+        stores, stores_vip, stores_deactivated = cached_data
     else:
-        track_click(request, element_type='home_access')
-
-        stores_vip = list(Store.objects.filter(is_vip=True, is_deactivated=False)[:10])
-        random.shuffle(stores_vip)
-
+        # Busca do banco
+        all_stores = Store.objects.filter(is_deactivated=False)
         stores_deactivated = list(Store.objects.filter(is_deactivated=True))
 
-        stores = list(Store.objects.filter(is_deactivated=False))
+        if selected_tag:
+            category = Category.objects.filter(name=selected_tag).first()
+            if category:
+                filtered_stores = all_stores.filter(tags__in=category.tags.all()).distinct()
+            else:
+                filtered_stores = all_stores.filter(tags__name=selected_tag).distinct()
+
+            highlights = list(filtered_stores.filter(highlight=True))
+            non_highlights = list(filtered_stores.filter(highlight=False))
+
+            # Cache sem embaralhar
+            stores = highlights + non_highlights
+        else:
+            stores_vip = list(all_stores.filter(is_vip=True)[:10])
+            stores = list(all_stores)
+
+        # Salva no cache por 5 minutos
+        cache.set(cache_key, (stores, stores_vip, stores_deactivated), timeout=24*60*60)
+
+    # Sempre embaralha antes de renderizar
+    if selected_tag:
+        highlights = [s for s in stores if s.highlight]
+        non_highlights = [s for s in stores if not s.highlight]
+        random.shuffle(highlights)
+        random.shuffle(non_highlights)
+        stores = highlights + non_highlights
+    else:
+        if stores_vip:
+            random.shuffle(stores_vip)
         random.shuffle(stores)
 
     context = {
@@ -69,6 +84,10 @@ def home(request):
         'category_tags': get_category_tags(),
         'selected_tag': selected_tag,
     }
+
+    # Rastreia clique na home
+    if not selected_tag:
+        track_click(request, element_type='home_access')
 
     return render(request, 'home.html', context)
 

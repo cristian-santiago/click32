@@ -7,14 +7,7 @@ scrape_configs:
       - targets:
           - postgres_exporter_1:9187
           - postgres_exporter_2:9187
-          - postgres_exporter_3:9187
-          - postgres_exporter_4:9187
-          - postgres_exporter_5:9187
-          - postgres_exporter_6:9187
-          - postgres_exporter_7:9187
-          - postgres_exporter_8:9187
-          - postgres_exporter_9:9187
-          - postgres_exporter_10:9187
+
   - job_name: 'cadvisor'
     static_configs:
       - targets: ['cadvisor:8080']

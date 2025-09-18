@@ -5,6 +5,8 @@ venv/
 
 #click32/settings.py
 
+management/
+
 # Arquivos de compilação do Python
 __pycache__/
 *.py[cod]
@@ -44,6 +46,7 @@ db.json
 #media/
 media/flyers/
 media/stores/
+media_test/
 
 # Mas manter os ícones versionados
 !media/icons/

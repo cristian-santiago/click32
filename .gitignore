@@ -3,7 +3,7 @@ venv/
 .env/
 .env.*        # arquivos como .env.dev, .env.prod
 
-#click32/settings.py
+click32/settings.py
 
 management/
 

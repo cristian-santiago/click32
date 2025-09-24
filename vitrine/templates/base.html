@@ -1,8 +1,8 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    
+<head>
+    <!-- Configuração de ícones para diferentes tamanhos e dispositivos -->
     <link rel="icon" href="{% static 'icons/icon-72x72.png' %}" type="image/png" sizes="72x72">
     <link rel="icon" href="{% static 'icons/icon-96x96.png' %}" type="image/png" sizes="96x96">
     <link rel="icon" href="{% static 'icons/icon-128x128.png' %}" type="image/png" sizes="128x128">
@@ -13,6 +13,8 @@
     <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
     <link rel="manifest" href="{% static 'manifest.json' %}">
+
+    <!-- Configurações de metadados para comportamento e aparência -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,22 +23,32 @@
     <meta name="theme-color" content="#2c3e50">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
+    <!-- Estilo base -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <!-- Comentado: Estilo da toolbar (não utilizado) -->
     <!-- <link rel="stylesheet" href="{% static 'css/toolbar.css' %}"> -->
 
+    <!-- Bloco para inclusão de CSS adicionais -->
     {% block extra_css %}{% endblock %}
+
+    <!-- Título da página -->
     <title>Click32</title>
-
-  </head>
-  
-  <body>
+</head>
+<body>
+    <!-- Inclusão da barra de navegação -->
     {% include '_navbar.html' %}
+
+    <!-- Bloco para conteúdo principal -->
     {% block content %}{% endblock %}
-    {% block extra_js %}{% endblock %}
-   
-  </body>
 
-  
+    <!-- Bloco para scripts JavaScript adicionais -->
+    {% block extra_js %}
+
+     <!-- Scripts JavaScript -->
+    <script src="{% static 'js/service-worker-register.js' %}"></script>
+    <script src="{% static 'js/pwa_install.js' %}"></script>
+    
+    {% endblock %}
+</body>
 </html>
-

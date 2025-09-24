@@ -1,46 +1,38 @@
 {% load static %}
-<html>
-    <head>
-    <link rel="icon" href="{% static 'icons/icon-72x72.png' %}" type="image/png" sizes="72x72">
-    <link rel="icon" href="{% static 'icons/icon-96x96.png' %}" type="image/png" sizes="96x96">
-    <link rel="icon" href="{% static 'icons/icon-128x128.png' %}" type="image/png" sizes="128x128">
-    <link rel="icon" href="{% static 'icons/icon-144x144.png' %}" type="image/png" sizes="144x144">
-    <link rel="icon" href="{% static 'icons/icon-152x152.png' %}" type="image/png" sizes="152x152">
-    <link rel="icon" href="{% static 'icons/icon-192x192.png' %}" type="image/png" sizes="192x192">
-    <link rel="icon" href="{% static 'icons/icon-384x384.png' %}" type="image/png" sizes="384x384">
-    <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
-    <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
-    <link rel="manifest" href="{% static 'manifest.json' %}">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  
+
+    <!-- Configurações de metadados para comportamento e aparência -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Click32">
-    <meta name="theme-color" content="#2c3e50">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="manifest" href="{% static 'manifest.json' %}">
-        <meta name="theme-color" content="#2c3e50">
-        </head>
-    <body>
-        <div class="toolbar">
-            <div class="toolbar-container">
-                <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
-                <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie"><i class="fas fa-bullhorn"></i></a>
-                <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>                
-                <a href="#" id="installBtn" class="tooltip hidden" data-tooltip="Instalar App"><i class="fas fa-download"></i>
-  </a>
-    
-                
-            </div>
-        </div>
-        {% block content %}
-        {% endblock %}
-    <script src="{% static 'js/serviceWorkerRegister.js' %}"></script>
-    <script src="{% static 'js/pwaInstall.js' %}"></script>
 
-    </body>
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Barra de ferramentas com links de navegação -->
+    <div class="toolbar">
+        <div class="toolbar-container">
+            <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
+            <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie"><i class="fas fa-bullhorn"></i></a>
+            <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>
+            <a href="#" id="installBtn" class="tooltip hidden" data-tooltip="Instalar App"><i class="fas fa-download"></i></a>
+        </div>
+    </div>
+
+    <!-- Bloco para conteúdo principal -->
+    {% block content %}
+    {% endblock %}
+
+   
+</body>
 </html>

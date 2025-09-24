@@ -1,3 +1,4 @@
+/* Seção da Barra de Ferramentas */
 .toolbar {
     position: fixed;
     top: 0;
@@ -9,6 +10,7 @@
     overflow: visible;
 }
 
+/* Seção do Contêiner da Barra de Ferramentas */
 .toolbar-container {
     max-width: 720px;
     margin: 0 auto;
@@ -17,9 +19,10 @@
     gap: 40px;
     height: 100%;
     align-items: center;
-    padding-left: 24px; /* Mantém o espaço para a sidebar */
+    padding-left: 24px; /* Keeps space for the sidebar */
 }
 
+/* Seção dos Links da Barra de Ferramentas */
 .toolbar-container a {
     color: #2c3e50;
     text-decoration: none;
@@ -32,15 +35,17 @@
     transition: transform 0.3s ease;
 }
 
+/* Seção de Elementos Ocultos */
 .hidden {
-  display: none !important;
+    display: none !important;
 }
 
-
+/* Seção de Media Queries */
 @media (min-width: 768px) {
     .toolbar-container {
         gap: 40px;
     }
+
     .toolbar-container a {
         font-size: 1.2rem;
         width: 40px;
@@ -67,11 +72,13 @@
         gap: 24px;
         padding-left: 24px;
     }
+
     .toolbar-container a {
         font-size: 1rem;
         width: 32px;
         height: 32px;
     }
+
     .toolbar-container a.tooltip::after {
         font-size: 0.8rem;
         padding: 3px 6px;
@@ -83,9 +90,10 @@
     .toolbar-container {
         gap: 16px;
     }
+
     .toolbar-container a {
         font-size: 0.9rem;
         width: 28px;
         height: 28px;
     }
-}
+}   

@@ -1,119 +1,126 @@
+/** {
+  outline: 1px solid limegreen;
+}
+*/
+
+/* Seção do Carousel */
 .carousel-wrapper {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 0 5px;
-  padding-left: 45px;    
-  position: relative;
-  background-color: transparent;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 5px;
+    padding-left: 45px;
+    position: relative;
+    background-color: transparent;
 }
 
 .carousel-container {
-  display: flex;
-  overflow-x: auto;
-  gap: 20px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  -webkit-scroll-snap-type: x mandatory;
-  touch-action: pan-x;
-  scrollbar-width: none;
-  -ms-overflow-style: none;  
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    -webkit-scroll-snap-type: x mandatory;
+    touch-action: pan-x;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .carousel-container::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .carousel-container .carousel-item {
-  flex: 0 0 100%;
-  scroll-snap-align: start;
-  border-radius: 10px;
-  overflow: hidden;
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .carousel-container .carousel-item img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border-radius: 10px;
-  display: block;    
-  transition: transform 0.3s ease;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    transition: transform 0.3s ease;
 }
 
 .carousel-container .carousel-item:hover img {
-  transform: scale(1.02);
+    transform: scale(1.02);
 }
 
 .carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  position: absolute;
-  bottom: 10px;
-  left: calc(50% + 22.5px);
-  transform: translateX(-50%);
-  z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    position: absolute;
+    bottom: 10px;
+    left: calc(50% + 22.5px);
+    transform: translateX(-50%);
+    z-index: 10;
 }
 
 .carousel-dot {
-  width: 10px;
-  height: 10px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .carousel-dot.active {
-  background: #ffffff;
-  transform: scale(1.4);
+    background: #ffffff;
+    transform: scale(1.4);
 }
 
 .carousel-dot:hover {
-  background: #ffffffcc;
+    background: #ffffffcc;
 }
 
+/* Seção de Ícones Sociais */
 .social-icons {
-  position: fixed;
-  bottom: 60px; /* distância do rodapé */
-  left: 0;
-  width: 100%;
-  padding-left: 40px; /* compensa o espaço do sidebar */
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-  list-style: none;
-  z-index: 1000;
+    position: fixed;
+    bottom: 45px; /* Distance from the footer */
+    left: 0;
+    width: 100%;
+    padding-left: 40px; /* Compensates for the sidebar space */
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    z-index: 1000;
 }
 
 .social-icons li {
-  display: inline-block;
-  position: relative;
+    display: inline-block;
+    position: relative;
 }
 
 .social-icons img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  transition: transform 0.2s ease;
-  animation: jumpWave 3.5s ease-in-out infinite;
-  -webkit-animation: jumpWave 3.5s ease-in-out infinite;
-  will-change: transform;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+    animation: jumpWave 3.5s ease-in-out infinite;
+    -webkit-animation: jumpWave 3.5s ease-in-out infinite;
+    will-change: transform;
 }
 
 .social-icons li::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 24px;
-  height: 4px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 50%;
-  animation: shadowWave 3.5s ease-in-out infinite;
-  z-index: -1;
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    animation: shadowWave 3.5s ease-in-out infinite;
+    z-index: -1;
 }
 
 .social-icons li:nth-child(1) img, .social-icons li:nth-child(1)::after { animation-delay: 0s; -webkit-animation-delay: 0s; }
@@ -123,444 +130,493 @@
 .social-icons li:nth-child(5) img, .social-icons li:nth-child(5)::after { animation-delay: 0.4s; -webkit-animation-delay: 0.4s; }
 .social-icons li:nth-child(6) img, .social-icons li:nth-child(6)::after { animation-delay: 0.5s; -webkit-animation-delay: 0.5s; }
 
-@keyframes jumpWave {
-  0%, 10% { transform: translateY(0); }
-  5% { transform: translateY(-10px); }
-  10.1%, 100% { transform: translateY(0); }
-}
-
-@-webkit-keyframes jumpWave {
-  0%, 10% { -webkit-transform: translateY(0); }
-  5% { -webkit-transform: translateY(-10px); }
-  10.1%, 100% { -webkit-transform: translateY(0); }
-}
-
-@keyframes shadowWave {
-  0%, 10% { transform: translateX(-50%) scale(1); opacity: 0; }
-  5% { transform: translateX(-50%) scale(0.7); opacity: 0.4; }
-  10.1%, 100% { transform: translateX(-50%) scale(1); opacity: 0; }
-}
-
 .social-icons img:hover {
-  transform: scale(1.1);
-  animation-play-state: paused;
+    transform: scale(1.1);
+    animation-play-state: paused;
 }
 
 .social-icons li:hover::after {
-  animation-play-state: paused;
-  opacity: 0;
+    animation-play-state: paused;
+    opacity: 0;
 }
 
-.description h2 {
-  color: #333333;
-  text-align: center;
-  padding-left: 48px;
-  height: 50px;
-  padding-right: 20px;
-  font-family: "Roboto", sans-serif;
+/* Seção do Nome da Loja */
+.store-name {
+    margin-top: 20px;
+    padding-left: 48px; /* Respects the fixed sidebar on the left */
+    padding-right: 5px; /* Removes padding-right, no sidebar on the right */
+    text-align: center; /* Centers the content in the available space */
+    position: relative; /* Context for the banner */
+    box-sizing: border-box; /* Ensures padding does not affect total width */
 }
 
-.description p {
-  position: relative; /* necessário para o ::before */
-  color: #4A4A4A;
-  padding-left: 60px;
-  padding-right: 48px;
-  text-align: justify;
-  margin-top: 10px;
-  display: block;
-  height: 180px;
-  font-size: 1.1rem;           /* Aumenta um pouco a fonte */
-  font-family: "Roboto", sans-serif;
-  line-height: 18px;
-  overflow-y: auto;            /* Permite rolagem se ultrapassar altura */
-}
-
-/* Sombra no topo da descrição quando tem scroll pra cima */
-.description p.scroll-shadow-top::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 30px; /* mais altura pra sombra ficar visível */
-  pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent);
-  z-index: 10;
-}
-
-.description {
-  margin-top: 20px;
-}
-
-@media (min-width: 768px) {
-  .social-icons {
-    margin-top: calc(60% - 15px);
-  }
-
-  .social-icons img {
-    width: 50px;
-    height: 50px;
-  }
-  .social-icons li::after {
-    width: 30px;
-    height: 5px;
-  }
-}
-
-@media (min-width: 1600px) {
-  .carousel-wrapper {
-    max-width: 1000px;
-  }
-  .carousel-container .carousel-item img {
-    aspect-ratio: 16 / 4;
-    max-height: 500px;
-  }
-  .social-icons img {
-    width: 60px;
-    height: 60px;
-  }
-  .social-icons li::after {
-    width: 36px;
-    height: 6px;
-  }
-  .carousel-dots {
-    left: calc(50% + 22.5px);
-  }
-}
-
-.flyer-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 2050;
-  align-items: center;
-  justify-content: center;
-}
-
-.flyer-modal.show {
-  display: flex;
-}
-
-.flyer-modal .modal-content {
-  background: transparent;
-  border: none;
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-}
-
-.flyer-modal .modal-dialog {
-  max-width: 100vw;
-  max-height: 100vh;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flyer-modal .modal-body {
-  padding: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.flyer-modal .carousel {
-  width: 100%;
-  height: 100vh;
-  touch-action: pan-x;
-  position: relative;
-  overflow: hidden;
-}
-
-.flyer-modal .carousel-inner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  position: relative;
-}
-
-.flyer-modal .carousel-item {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  flex: 0 0 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transform: translateX(100%);
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.flyer-modal .carousel-item.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.flyer-modal .carousel-item img {
-  max-width: 100%;
-  max-height: 80%;
-  object-fit: contain;
-  width: auto;
-  height: auto;
-  user-select: none;
-  -webkit-user-drag: none;
-  z-index: 1000;
-}
-
-.flyer-modal .btn-close {
-  position: absolute;
-  top: 5%;
-  right: 10px;
-  z-index: 2200;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 2.0rem;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  line-height: 1;
-}
-
-.flyer-modal .btn-close::before {
-  content: '\f00d';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  color: #fff;
-}
-
-.flyer-modal .btn-close i {
-  display: none;
-}
-
-.flyer-modal .loading-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2100;
-  width: 60px;
-  height: 60px;
-  display: none;
-  color: #ffffff;
-  font-size: 60px;
-  opacity: 1;
-  pointer-events: none;
-}
-
-.flyer-modal .loading-spinner.active {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flyer-modal .loading-spinner i {
-  display: block;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.flyer-modal .carousel-indicators {
-  position: absolute;
-  bottom: calc(5% + 20px);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin: 0;
-  z-index: 1100;
-  padding: 10px 20px;
-  border-radius: 5px;
-}
-
-.flyer-modal .carousel-indicator {
-  width: 40px;
-  height: 5px;
-  background: #ffffff80;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  border: none;
-}
-
-.flyer-modal .carousel-indicator.active {
-  background: #ffffff;
-}
-
-.flyer-modal .carousel-indicator:hover {
-  background: #ffffffcc;
-}
-
-@media (max-width: 768px) {
-  .carousel-wrapper {
-    max-width: 100%;
-    padding-left: 45px;
-  }
-  .social-icons {
-    padding-left: 40px;
-  }
-  .description h2 {
-    padding-left: 48px;
-    padding-right: 10px;
-  }
-  .description p {
-    padding-left: 48px;
-    padding-right: 10px;
-  }
-  .flyer-modal .modal-dialog {
-    max-width: 100vw;
+.store-name h2 {
+    color: #333333;
+    height: auto;
+    font-family: "Roboto", sans-serif;
     margin: 0;
-  }
-  .flyer-modal .btn-close {
-    right: 8px;
-    font-size: 2.0rem;
-    width: 25px;
-    height: 25px;
-  }
-  .flyer-modal .carousel-item img {
-    max-width: 100%;
-    max-height: 75%;
-  }
-  .flyer-modal .carousel-indicators {
-    bottom: calc(6% + 20px);
-    padding: 8px 15px;
-  }
-  .flyer-modal .carousel-indicator {
-    width: 30px;
-    height: 4px;
-  }
-  .flyer-modal .loading-spinner {
-    width: 48px;
-    height: 48px;
-    font-size: 48px;
-  }
+    display: inline; /* Keeps the text fluid */
+    white-space: normal; /* Allows line breaks in text */
+    text-align: center; /* Centers the h2 text */
 }
 
+.store-name h2 .share-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.7rem;
+    color: #6c757d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 5px; /* Simulates two visible spaces */
+    vertical-align: bottom;
+    margin-bottom: 1px;
+}
+
+.store-name h2 .share-btn:hover,
+.store-name h2 .share-btn:active,
+.store-name h2 .share-btn:focus {
+    color: #bdc3c7; /* Maintains fixed color */
+    outline: none;
+}
+
+/* Seção da Descrição */
+.description p {
+    position: relative;
+    color: #4A4A4A;
+    padding-left: 60px;
+    padding-right: 48px;
+    text-align: justify;
+    margin-top: 10px;
+    display: block;
+    height: 180px;
+    font-size: 1.1rem;
+    font-family: "Roboto", sans-serif;
+    line-height: 18px;
+    overflow-y: auto;
+}
+
+.description p.scroll-shadow-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30px; /* More height for the shadow to be visible */
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent);
+    z-index: 10;
+}
+
+/* Seção de Informações da Loja */
 .store-info {
-  padding-top: 10px;
   position: fixed;
-  bottom: 125px; /* acima dos 60px do .social-icons */
+  bottom: 125px; /* Acima dos ícones sociais */
   left: 0;
   width: 100%;
-  padding-left: 48px;
-  font-size: 0.9rem;  
-  color: #4A4A4A;
-  background-color: #f4f4f4;
-  font-family: "Roboto", sans-serif;
-  line-height: 18px;
-  list-style: none;  
-  justify-content: center;
-  gap: 10px;
-  z-index: 1001; /* acima do .social-icons */
+  padding: 10px 48px;
+  bottom: 22px;
+  height: 210px;
+  background-color: #f4f4f4; /* o retângulo branco */
+  z-index: 1000; /* abaixo do p */
+  box-sizing: border-box;
 }
 
-/* sombra externa no topo da store-info para indicar conteúdo acima */
+.store-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4A4A4A;  
+  font-family: "Roboto", sans-serif;
+  line-height: 18px;
+  z-index: 1001; /* garante que o texto fique na frente */
+  position: relative; /* importante: relativo ao .store-info */
+}
+
 .store-info.scroll-shadow-top {
-  box-shadow: 0 -8px 15px -6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -8px 15px -6px rgba(0, 0, 0, 0.3);
 }
 
 .store-info li {
-  margin-bottom: 2px;
-  font-size: 0.95rem;
+    margin-bottom: 2px;
+    font-size: 0.95rem;
 }
 
+/* Seção de Variáveis de Estilo */
 :root {
-  --store-info-height: 90px;
+    --store-info-height: 90px;
 }
 
-@media (max-height: 720px) {
-  .description p {
-    padding-bottom: calc(var(--store-info-height) + 15px); /* 15px de respiro */
-  }
+/* Seção do Modal de Flyer */
+.flyer-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2050;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Estilos para pinch zoom */
+.flyer-modal.show {
+    display: flex;
+}
+
+.flyer-modal .modal-content {
+    background: transparent;
+    border: none;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.flyer-modal .modal-dialog {
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flyer-modal .modal-body {
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.flyer-modal .carousel {
+    width: 100%;
+    height: 100vh;
+    touch-action: pan-x;
+    position: relative;
+    overflow: hidden;
+}
+
+.flyer-modal .carousel-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+
+.flyer-modal .carousel-item {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    flex: 0 0 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.flyer-modal .carousel-item.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.flyer-modal .carousel-item img {
+    max-width: 100%;
+    max-height: 80%;
+    object-fit: contain;
+    width: auto;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    z-index: 1000;
+}
+
+.flyer-modal .btn-close {
+    position: absolute;
+    top: 5%;
+    right: 10px;
+    z-index: 2200;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.0rem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    line-height: 1;
+}
+
+.flyer-modal .btn-close::before {
+    content: '\f00d';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #fff;
+}
+
+.flyer-modal .btn-close i {
+    display: none;
+}
+
+.flyer-modal .loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2100;
+    width: 60px;
+    height: 60px;
+    display: none;
+    color: #ffffff;
+    font-size: 60px;
+    opacity: 1;
+    pointer-events: none;
+}
+
+.flyer-modal .loading-spinner.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flyer-modal .loading-spinner i {
+    display: block;
+    animation: spin 1s linear infinite;
+}
+
+.flyer-modal .carousel-indicators {
+    position: absolute;
+    bottom: calc(5% + 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+    z-index: 1100;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.flyer-modal .carousel-indicator {
+    width: 40px;
+    height: 5px;
+    background: #ffffff80;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    border: none;
+}
+
+.flyer-modal .carousel-indicator.active {
+    background: #ffffff;
+}
+
+.flyer-modal .carousel-indicator:hover {
+    background: #ffffffcc;
+}
+
+.flyer-modal .error-message {
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
+    padding: 10px;
+    background: rgba(255, 0, 0, 0.8);
+    border-radius: 5px;
+}
+
+/* Seção de Pinch Zoom */
 .pinch-zoom-container {
-  width: 100%;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; /* Impede que a imagem com zoom ultrapasse os limites */
-  touch-action: none; /* Impede comportamento padrão de toque para pinch zoom */
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Prevents zoomed image from overflowing */
+    touch-action: none; /* Prevents default touch behavior for pinch zoom */
 }
 
 .pinch-zoom-container img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain; /* Garante que a imagem se ajuste ao contêiner */
-  user-select: none;
-  -webkit-user-drag: none;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Ensures the image fits within the container */
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
-/* Estilos para controles de zoom */
+/* Seção de Controles de Zoom */
 .zoom-controls {
-  position: absolute;
-  top: 40px; /* Posiciona no topo da imagem */
-  left: 50%; /* Centraliza horizontalmente */
-  transform: translateX(-50%); /* Ajusta para o centro */
-  display: flex;
-  gap: 10px;
-  z-index: 2200;
+    position: absolute;
+    top: 40px; /* Positions at the top of the image */
+    left: 50%; /* Centers horizontally */
+    transform: translateX(-50%); /* Adjusts to the center */
+    display: flex;
+    gap: 10px;
+    z-index: 2200;
 }
 
 .zoom-controls button {
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.3s;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
 .zoom-controls button:hover {
-  background: #0056b3;
+    background: #0056b3;
 }
 
-/* Estilo para mensagem de erro */
-.flyer-modal .error-message {
-  font-size: 1rem;
-  font-family: "Roboto", sans-serif;
-  padding: 10px;
-  background: rgba(255, 0, 0, 0.8);
-  border-radius: 5px;
+/* Seção de Media Queries */
+@media (min-width: 768px) {
+    .social-icons {
+        margin-top: calc(60% - 15px);
+    }
+
+    .social-icons img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .social-icons li::after {
+        width: 30px;
+        height: 5px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .carousel-wrapper {
+        max-width: 1000px;
+    }
+
+    .carousel-container .carousel-item img {
+        aspect-ratio: 16 / 4;
+        max-height: 500px;
+    }
+
+    .social-icons img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .social-icons li::after {
+        width: 36px;
+        height: 6px;
+    }
+
+    .carousel-dots {
+        left: calc(50% + 22.5px);
+    }
 }
 
 @media (max-width: 768px) {
-  .pinch-zoom-container {
-    height: 75vh; /* Alinha com o max-height da imagem no modal */
-  }
+    .carousel-wrapper {
+        max-width: 100%;
+        padding-left: 45px;
+    }
 
-  .zoom-controls {
-    top: 40px; /* Ajusta para telas menores */
-    left: 50%;
-    transform: translateX(-50%);
-  }
+    .social-icons {
+        padding-left: 40px;
+    }
 
-  .zoom-controls button {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-  }
+    .description h2 {
+        padding-left: 48px;
+        padding-right: 10px;
+    }
+
+    .description p {
+        padding-left: 48px;
+        padding-right: 10px;
+    }
+
+    .flyer-modal .modal-dialog {
+        max-width: 100vw;
+        margin: 0;
+    }
+
+    .flyer-modal .btn-close {
+        right: 8px;
+        font-size: 2.0rem;
+        width: 25px;
+        height: 25px;
+    }
+
+    .flyer-modal .carousel-item img {
+        max-width: 100%;
+        max-height: 75%;
+    }
+
+    .flyer-modal .carousel-indicators {
+        bottom: calc(6% + 20px);
+        padding: 8px 15px;
+    }
+
+    .flyer-modal .carousel-indicator {
+        width: 30px;
+        height: 4px;
+    }
+
+    .flyer-modal .loading-spinner {
+        width: 48px;
+        height: 48px;
+        font-size: 48px;
+    }
+
+    .pinch-zoom-container {
+        height: 75vh; /* Aligns with the max-height of the image in the modal */
+    }
+
+    .zoom-controls {
+        top: 40px; /* Adjusts for smaller screens */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .zoom-controls button {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-height: 720px) {
+    .description p {
+        padding-bottom: calc(var(--store-info-height) + 15px); /* 15px breathing space */
+    }
+}
+
+/* Seção de Animações */
+@keyframes jumpWave {
+    0%, 10% { transform: translateY(0); }
+    5% { transform: translateY(-10px); }
+    10.1%, 100% { transform: translateY(0); }
+}
+
+@-webkit-keyframes jumpWave {
+    0%, 10% { -webkit-transform: translateY(0); }
+    5% { -webkit-transform: translateY(-10px); }
+    10.1%, 100% { -webkit-transform: translateY(0); }
+}
+
+@keyframes shadowWave {
+    0%, 10% { transform: translateX(-50%) scale(1); opacity: 0; }
+    5% { transform: translateX(-50%) scale(0.7); opacity: 0.4; }
+    10.1%, 100% { transform: translateX(-50%) scale(1); opacity: 0; }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

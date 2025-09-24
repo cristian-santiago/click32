@@ -1,3 +1,4 @@
+/* Seção de Variáveis de Estilo */
 :root {
     --sidebar-bg: #2c3e50;
     --sidebar-hover: #34495e;
@@ -6,6 +7,7 @@
     --dropdown-bg: #34495e;
 }
 
+/* Seção da Barra Lateral */
 .sidebar {
     width: 160px;
     position: fixed;
@@ -21,17 +23,20 @@
     touch-action: pan-y;
     display: flex;
     flex-direction: column;
-    will-change: transform;    
+    will-change: transform;
 }
 
+/* Barra Lateral Colapsada */
 .sidebar.collapsed {
     width: 40px;
 }
 
+/* Barra de Rolagem da Barra Lateral */
 .sidebar::-webkit-scrollbar {
     display: none;
 }
 
+/* Elementos Ocultos na Barra Lateral Colapsada */
 .sidebar.collapsed .menu-text,
 .sidebar.collapsed .search-bar,
 .sidebar.collapsed .dropdown,
@@ -39,16 +44,18 @@
     display: none;
 }
 
+/* Menu na Barra Lateral Colapsada */
 .sidebar.collapsed .menu {
     flex-grow: 1;
     overflow-y: auto;
-    padding-bottom: 0   ;
+    padding-bottom: 0;
 }
 
+/* Itens do Menu na Barra Lateral Colapsada */
 .sidebar.collapsed .menu > li {
     display: flex;
     justify-content: center;
-    align-items: center; /* Centraliza verticalmente */
+    align-items: center; /* Vertically centers */
     margin: 0;
     padding: 0;
     border-radius: 0;
@@ -57,18 +64,21 @@
     overflow: visible;
 }
 
+/* Ícones do Menu na Barra Lateral Colapsada */
 .sidebar.collapsed .menu i {
-    margin: 0; /* Remove margens para centralizar */
+    margin: 0; /* Removes margins for centering */
     font-size: 1.2rem;
-    width: auto; /* Remove largura fixa para centralização */
-    line-height: 25px; /* Alinha verticalmente com altura do li */
+    width: auto; /* Removes fixed width for centering */
+    line-height: 25px; /* Vertically aligns with li height */
 }
 
+/* Propriedades de Rolagem para Sidebar e Menu */
 .sidebar,
 .menu {
     -webkit-overflow-scrolling: touch;
 }
 
+/* Botão de Alternância */
 .toggle-btn {
     position: absolute;
     right: 5px;
@@ -86,14 +96,15 @@
     padding: 6px;
 }
 
+/* Botão de Alternância na Barra Lateral Colapsada */
 .sidebar.collapsed .toggle-btn {
     left: 0;
     right: 0;
     margin: 0 auto;
     width: 40px;
-    
 }
 
+/* Estilos do Botão de Alternância */
 .toggle-btn::before,
 .toggle-btn::after,
 .toggle-btn span {
@@ -106,67 +117,77 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+/* Estilos do Botão de Alternância (Colapsado) */
 .sidebar.collapsed .toggle-btn::before {
     transform: translateY(0) rotate(0);
 }
+
 .sidebar.collapsed .toggle-btn::after {
     transform: translateY(0) rotate(0);
 }
+
 .sidebar.collapsed .toggle-btn span {
     opacity: 1;
 }
 
+/* Estilos do Botão de Alternância (Expandido) */
 .sidebar:not(.collapsed) .toggle-btn::before {
     transform: translateY(6px) rotate(45deg);
 }
+
 .sidebar:not(.collapsed) .toggle-btn::after {
     transform: translateY(-6px) rotate(-45deg);
 }
+
 .sidebar:not(.collapsed) .toggle-btn span {
     opacity: 0;
 }
 
+/* Seção do Perfil */
 .profile {
-   
     width: 120px;
-    
 }
 
+/* Imagem do Perfil */
 .profile img {
-    height: 40px!important;
-    width: 120px!important;
+    height: 40px !important;
+    width: 120px !important;
     padding-bottom: 3px;
-    
 }
-.sidebar.collapsed profile img{
+
+/* Imagem do Perfil na Barra Lateral Colapsada */
+.sidebar.collapsed profile img {
     display: none;
 }
 
+/* Seção do Menu */
 .menu {
-     list-style: none;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  flex-grow: 1;
-  overflow-y: auto;
-    
-    
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
+/* Hover no Item do Menu */
 .menu li:hover {
     background: var(--sidebar-hover);
 }
 
+/* Ícones do Menu */
 .menu i {
     margin-right: 10px;
     font-size: 1.2rem;
     width: 24px;
 }
 
+/* Item do Menu */
 .menu-item {
     position: relative;
 }
 
+/* Cabeçalho do Menu */
 .menu-header {
     display: flex;
     margin-left: 20px;
@@ -174,31 +195,23 @@
     overflow: hidden;
 }
 
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: transparent; /* ou rgba(0, 0, 0, 0.1) se quiser escurecer */
-    z-index: 998; /* abaixo do sidebar (que deve ter z-index maior) */
-    display: none;
-}
-
+/* Cabeçalho do Menu na Barra Lateral Colapsada */
 .sidebar.collapsed .menu-header {
     display: flex;
     margin-left: 0;
     margin-right: 0;
     margin-top: 0;
     margin-bottom: 0;
-    padding-right: 0px;
-    padding-left: 0px;
+    padding-right: 0;
+    padding-left: 0;
 }
 
+/* Hover no Cabeçalho do Menu */
 .menu-header:hover {
     background: var(--sidebar-hover);
 }
 
+/* Seção do Dropdown */
 .dropdown {
     list-style: none;
     padding: 0;
@@ -212,6 +225,7 @@
     visibility: hidden;
 }
 
+/* Dropdown Aberto */
 .dropdown.open {
     max-height: 100dvh;
     opacity: 1;
@@ -219,6 +233,7 @@
     transition: max-height 2.5s ease, opacity 0.9s ease;
 }
 
+/* Itens do Dropdown */
 .dropdown li {
     display: block;
     padding: 8px 30px;
@@ -228,6 +243,7 @@
     text-overflow: clip;
 }
 
+/* Link do Dropdown */
 .dropdown-item {
     text-decoration: none;
     color: var(--text-light);
@@ -237,10 +253,12 @@
     opacity: 1;
 }
 
+/* Hover no Link do Dropdown */
 .dropdown-item:hover {
     background: var(--sidebar-hover);
 }
 
+/* Dropdown na Barra Lateral Colapsada */
 .sidebar.collapsed .dropdown {
     display: none !important;
     visibility: hidden !important;
@@ -249,26 +267,39 @@
     pointer-events: none !important;
 }
 
+/* Seção do Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent; /* or rgba(0, 0, 0, 0.1) if you want to darken */
+    z-index: 998; /* Below the sidebar (which should have a higher z-index) */
+    display: none;
+}
 
+/* Seção de Media Queries */
 @media (max-width: 768px) {
-
-   
     .sidebar {
         width: 40px;
     }
+
     .sidebar:not(.collapsed) {
         width: 160px;
     }
+
     .sidebar.collapsed ~ .main-content {
         margin-left: 40px;
     }
+
     .main-content {
         margin-left: 40px;
     }
+
     .dropdown {
         max-height: 0;
         opacity: 0;
         display: block !important;
     }
-      
 }

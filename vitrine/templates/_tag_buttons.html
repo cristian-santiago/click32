@@ -1,209 +1,38 @@
-
 {% block extra_css %}
 {% load static %}
-  
-    
-  <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
+
 <div class="sidebar collapsed" id="sidebar">
     <button class="toggle-btn" id="toggleBtn"><span></span></button>
 
     <div class="profile">
         <img class="profile" src="{% static 'profile-logo-clear.png' %}" alt="Click32">
-           
     </div>
 
-       
-            <ul class="menu">
-                {% for category in category_tags %}
-                    <li class="menu-item">
-                        <div class="menu-header" data-dropdown="{{ category.name }}">
-                            <i class="fas {{ category.icon }}"></i>
-                            <span class="menu-text">{{ category.name }}</span>
-                        </div>
-                        <ul class="dropdown" style="display: none;">
-                            {% for tag in category.tags %}
-                                <li>
-                                    <a href="{% url 'home' %}?tag={{ tag|urlencode }}" class="dropdown-item">{{ tag }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% endfor %}
-            </ul>
-
-
-    
+    <ul class="menu">
+        {% for category in category_tags %}
+            <li class="menu-item">
+                <div class="menu-header" data-dropdown="{{ category.name }}">
+                    <i class="fas {{ category.icon }}"></i>
+                    <span class="menu-text">{{ category.name }}</span>
+                </div>
+                <ul class="dropdown" style="display: none;">
+                    {% for tag in category.tags %}
+                        <li>
+                            <a href="{% url 'home' %}?tag={{ tag|urlencode }}" class="dropdown-item">{{ tag }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 <div class="overlay" id="overlay"></div>
 
 <script>
-    const homeUrl = "{% url 'home' %}";
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.getElementById('toggleBtn');
-        const overlay = document.getElementById('overlay');
-
-        console.log('Script carregado');
-        console.log('Sidebar:', sidebar);
-        console.log('ToggleBtn:', toggleBtn);
-
-        if (!sidebar || !toggleBtn || !overlay) {
-            console.error('Sidebar, ToggleBtn ou Overlay não encontrados');
-            return;
-        }
-
-        const isMobile = window.innerWidth <= 768;
-        const isExpanded = localStorage.getItem('sidebar-expanded') === 'true';
-
-        if (!isMobile && isExpanded) {
-            sidebar.classList.remove('collapsed');
-            overlay.style.display = 'block';
-        } else {
-            sidebar.classList.add('collapsed');
-            overlay.style.display = 'none';
-        }
-
-        const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
-        if (lastOpenDropdown && !sidebar.classList.contains('collapsed')) {
-            openDropdown(lastOpenDropdown);
-        }
-
-        toggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            sidebar.classList.toggle('collapsed');
-            const isNowExpanded = !sidebar.classList.contains('collapsed');
-            localStorage.setItem('sidebar-expanded', isNowExpanded);
-            overlay.style.display = isNowExpanded ? 'block' : 'none';
-
-            if (isNowExpanded) {
-                const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
-                if (lastOpenDropdown) {
-                    openDropdown(lastOpenDropdown);
-                }
-            }
-        });
-
-        overlay.addEventListener('click', () => {
-            collapseSidebar();
-            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-        });
-
-        function openDropdown(group) {
-            const escapedGroup = CSS.escape(group);
-            const target = document.querySelector(`[data-dropdown="${escapedGroup}"]`);
-            if (target) {
-                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-                target.nextElementSibling.classList.add('open');
-            } else {
-                console.warn(`Dropdown não encontrado para group: ${group}`);
-            }
-        }
-
-        function collapseSidebar() {
-            sidebar.classList.add('collapsed');
-            overlay.style.display = 'none';
-            localStorage.setItem('sidebar-expanded', 'false');
-        }
-
-        document.querySelectorAll('.menu-header').forEach(header => {
-            header.addEventListener('click', (e) => {
-                const group = header.getAttribute('data-dropdown');
-                if (!group) {
-                    console.warn('data-dropdown não definido em menu-header:', header);
-                    return;
-                }
-
-                if (sidebar.classList.contains('collapsed')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    localStorage.setItem('sidebar-last-dropdown', group);
-                    window.location.href = homeUrl + '?tag=' + encodeURIComponent(group);
-                } else {
-                    const dropdown = header.nextElementSibling;
-                    const isOpen = dropdown.classList.contains('open');
-                    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-                    if (!isOpen) {
-                        dropdown.classList.add('open');
-                        localStorage.setItem('sidebar-last-dropdown', group);
-                    } else {
-                        localStorage.removeItem('sidebar-last-dropdown');
-                    }
-                }
-            });
-        });
-
-        document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const dropdown = item.closest('.dropdown');
-                if (!dropdown) {
-                    console.warn('Dropdown não encontrado para item:', item);
-                    return;
-                }
-                const header = dropdown.previousElementSibling;
-                if (!header) {
-                    console.warn('Menu-header não encontrado para dropdown:', dropdown);
-                    return;
-                }
-                const group = header.getAttribute('data-dropdown');
-                if (!group) {
-                    console.warn('data-dropdown não definido em header:', header);
-                    return;
-                }
-                localStorage.setItem('sidebar-last-dropdown', group);
-                collapseSidebar();
-            });
-        });
-
-        document.addEventListener('click', (e) => {
-            if (isMobile && !sidebar.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target) && !e.target.closest('.menu-header')) {
-                collapseSidebar();
-                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-            }
-        });
-    });
-
-    function shouldBlockScroll(el, deltaY) {
-        const scrollTop = el.scrollTop;
-        const scrollHeight = el.scrollHeight;
-        const clientHeight = el.clientHeight;
-
-        const isScrollingDown = deltaY > 0;
-        const isScrollingUp = deltaY < 0;
-
-        const atTop = scrollTop === 0;
-        const atBottom = scrollTop + clientHeight >= scrollHeight;
-
-        return (isScrollingDown && atBottom) || (isScrollingUp && atTop);
-    }
-
-    const scrollContainer = document.querySelector('.menu');
-
-    if (scrollContainer) {
-        // Mouse scroll
-        scrollContainer.addEventListener('wheel', function(e) {
-            if (shouldBlockScroll(this, e.deltaY)) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        // Touch scroll
-        let touchStartY = 0;
-        scrollContainer.addEventListener('touchstart', function(e) {
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-
-        scrollContainer.addEventListener('touchmove', function(e) {
-            const currentY = e.touches[0].clientY;
-            const deltaY = touchStartY - currentY;
-
-            if (shouldBlockScroll(this, deltaY)) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-    }
+    // Define homeUrl para ser usado no sidebar.js
+    window.homeUrl = "{% url 'home' %}" || "/";
 </script>
+<script src="{% static 'js/sidebar.js' %}"></script>

@@ -1,3 +1,4 @@
+/* Main Content Section */
 .main-content {
     margin-left: 200px;
     padding: 20px;
@@ -7,10 +8,17 @@
     height: 100dvh;
 }
 
+/* Main Content com Sidebar Colapsada */
 .sidebar.collapsed ~ .main-content {
     margin-left: 40px;
 }
 
+/* Main Content com Sidebar Expandida */
+.sidebar:not(.collapsed) ~ .main-content {
+    touch-action: none; /* Blocks touch on main-content when sidebar is expanded */
+}
+
+/* Store List Section */
 .store-list {
     display: flex;
     flex-direction: column;
@@ -24,6 +32,7 @@
     padding-top: 220px;
 }
 
+/* Store List com Filtro */
 .store-list-filter {
     display: flex;
     flex-direction: column;
@@ -34,17 +43,14 @@
     touch-action: pan-y;
     box-sizing: border-box;
     padding-bottom: 8px;
-    
 }
 
-.sidebar:not(.collapsed) ~ .main-content {
-    touch-action: none; /* Bloqueia toques no main-content quando sidebar expandido */
-}
-
+/* Barra de Rolagem da Store List */
 .store-list::-webkit-scrollbar {
     display: none;
 }
 
+/* Store Banner Section */
 .store-banner {
     display: block;
     width: 100%;
@@ -56,10 +62,9 @@
     animation: slideInFromRight 0.6s ease-out forwards;
     -webkit-animation: slideInFromRight 0.6s ease-out forwards;
     will-change: transform, opacity;
-
 }
 
-
+/* Atrasos de Animação para Store Banners */
 .store-banner:nth-child(1) { animation-delay: 0s; -webkit-animation-delay: 0s; }
 .store-banner:nth-child(2) { animation-delay: 0.1s; -webkit-animation-delay: 0.1s; }
 .store-banner:nth-child(3) { animation-delay: 0.2s; -webkit-animation-delay: 0.2s; }
@@ -69,12 +74,14 @@
 .store-banner:nth-child(7) { animation-delay: 0.6s; -webkit-animation-delay: 0.6s; }
 .store-banner:nth-child(8) { animation-delay: 0.7s; -webkit-animation-delay: 0.7s; }
 
+/* Hover no Store Banner */
 .store-banner:hover {
     transform: scale(1.01);
     transition: transform 0.2s ease;
     -webkit-transition: transform 0.2s ease;
 }
 
+/* Imagem do Store Banner */
 .store-banner img {
     width: 100%;
     height: auto;
@@ -86,15 +93,13 @@
     box-sizing: border-box;
 }
 
-
-/*-----CARROUSEL VIP ----*/
+/* Carousel VIP Section */
 .carousel-wrapper {
     position: fixed;
     max-width: 1100px;
     margin: 10px 0 15px;
-    width: calc(100% - 60px); /* Account for 50px left + 10px right padding */
+    width: calc(100% - 60px); /* Accounts for 50px left margin + 10px right padding */
     margin-left: 50px;
-    
     overflow: hidden;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.95);
@@ -103,38 +108,40 @@
     z-index: 10; /* Above sidebar (z-index: 1 in main-content) */
 }
 
-.hide-banners{
-  position: fixed;
-  top: calc(200px - 200px); 
-  left: 40px;
-  width: calc(100% - 40px);
-  height: 267px;
-  background: #f4f4f4;
-  z-index: 9;
-  pointer-events: none;
+/* Ocultação de Banners */
+.hide-banners {
+    position: fixed;
+    top: calc(200px - 200px);
+    left: 40px;
+    width: calc(100% - 40px);
+    height: 267px;
+    background: #f4f4f4;
+    z-index: 9;
+    pointer-events: none;
 }
 
-
+/* Máscara de Desvanecimento do Carousel */
 .carousel-fade-mask {
-  position: fixed;
-  top: calc(200px - -65px);
-  left: 40px;
-  width: calc(100% - 40px);
-  height: 20px;
+    position: fixed;
+    top: calc(200px - -65px);
+    left: 40px;
+    width: calc(100% - 40px);
+    height: 20px;
     background: linear-gradient(
-    to top,
-    rgba(244, 244, 244, 0) 0%,   
-    rgba(244, 244, 244, 1) 100%
+        to top,
+        rgba(244, 244, 244, 0) 0%,
+        rgba(244, 244, 244, 1) 100%
     );
-
-  z-index: 9;
-  pointer-events: none;
-   
+    z-index: 9;
+    pointer-events: none;
 }
+
+/* Máscara de Desvanecimento Oculta */
 .carousel-fade-mask.hidden {
-  opacity: 0;
+    opacity: 0;
 }
 
+/* Contêiner do Carousel */
 .carousel-container {
     display: flex;
     height: 300px;
@@ -144,6 +151,7 @@
     position: relative;
 }
 
+/* Item do Carousel */
 .carousel-item {
     height: 100%;
     flex-shrink: 0;
@@ -154,12 +162,14 @@
     box-shadow: none;
 }
 
+/* Link do Item do Carousel */
 .carousel-item a {
     display: block;
     width: 100%;
     height: 100%;
 }
 
+/* Imagem do Item do Carousel */
 .carousel-item img {
     width: 100%;
     height: 100%;
@@ -172,11 +182,13 @@
     -webkit-user-drag: none;
 }
 
+/* Imagem Ativa do Item do Carousel */
 .carousel-item.active img {
     transform: rotateY(0deg) translateZ(0);
     opacity: 1;
 }
 
+/* Pontos de Navegação do Carousel */
 .carousel-dots {
     display: flex;
     justify-content: center;
@@ -187,6 +199,7 @@
     background: transparent;
 }
 
+/* Ponto Individual do Carousel */
 .carousel-dot {
     width: 8px;
     height: 8px;
@@ -198,16 +211,18 @@
     transition: opacity 0.3s, background 0.3s;
 }
 
+/* Ponto Ativo ou com Hover do Carousel */
 .carousel-dot.active, .carousel-dot:hover {
     opacity: 1;
     background: #007bff;
 }
 
+/* Media Queries */
 @media (max-width: 768px) {
+    /* Ajustes do Carousel para Dispositivos Menores */
     .carousel-wrapper {
-        
-      margin-right: 20px;
-      margin-left: 50px;
+        margin-right: 20px;
+        margin-left: 50px;
     }
 
     .carousel-container {
@@ -231,9 +246,10 @@
 }
 
 @media (max-width: 640px) {
+    /* Ajustes do Carousel para Dispositivos Muito Pequenos */
     .carousel-wrapper {
-      margin-right: 20px;
-      margin-left: 50px;
+        margin-right: 20px;
+        margin-left: 50px;
     }
 
     .carousel-container {
@@ -255,8 +271,30 @@
         margin: 0 3px;
     }
 }
-/*-----------*/
 
+@media (min-width: 1600px) {
+    /* Ajustes para Telas Grandes */
+    .store-list, .store-list-filter, .tag-buttons-wrapper {
+        max-width: 1440px;
+    }
+
+    .store-banner img {
+        aspect-ratio: 16 / 4;
+        max-height: 500px;
+    }
+}
+
+@media (max-width: 1024px) {
+    /* Ajustes para Telas Médias */
+    .store-list, .store-list-filter {
+        margin-left: 40px;
+        width: calc(100% - 40px);
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
+
+/* Animações */
 @keyframes slideInFromRight {
     from {
         transform: translateX(100%);
@@ -278,25 +316,5 @@
     to {
         -webkit-transform: translateX(0);
         opacity: 1;
-    }
-}
-
-@media (min-width: 1600px) {
-    .store-list,.store-list-filter
-    .tag-buttons-wrapper {
-        max-width: 1440px;
-    }
-    .store-banner img {
-        aspect-ratio: 16 / 4;
-        max-height: 500px;
-    }
-}
-
-@media (max-width: 1024px) {
-    .store-list,.store-list-filter {
-        margin-left: 40px;
-        width: calc(100% - 40px);
-        padding-right: 10px;
-        padding-left: 10px;
     }
 }

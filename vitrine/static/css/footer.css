@@ -1,22 +1,23 @@
+/* Seção do Rodapé */
 footer {
     color: #333333;
     font-size: 10px;
-    padding-left: 45px;
+    padding-left: 40px;
+    padding-bottom: 10px;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    padding-left: 40px;   
-    padding-bottom: 10px;
     box-sizing: border-box;
 }
 
+/* Parágrafo do Rodapé */
 footer p {
     margin-bottom: 0;
     text-align: center;
 }
 
+/* Seção do Conteúdo Principal */
 main {
     flex: 1;
 }
-  

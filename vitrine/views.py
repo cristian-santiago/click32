@@ -91,7 +91,7 @@ def home(request):
 
     return render(request, 'home.html', context)
 
-@cache_page(60 * 60 * 24)   # 24 horas
+#@cache_page(60 * 60 * 24)   # 24 horas
 def store_detail(request, slug):
     store = get_object_or_404(Store, slug=slug)
     if store.is_deactivated:
@@ -103,14 +103,14 @@ def store_detail(request, slug):
     }
     return render(request, 'store_detail.html', context)
 
-@cache_page(60 * 60 * 24)   # 24 horas
+#@cache_page(60 * 60 * 24)   # 24 horas
 def store_detail_by_id(request, store_id):
     store = get_object_or_404(Store, id=store_id)
     if store.is_deactivated:
         return redirect('home')
     return redirect('store_detail', slug=store.slug)
 
-@cache_page(60 * 60 * 24)   # 24 horas
+#@cache_page(60 * 60 * 24)   # 24 horas
 def store_detail_by_uuid(request, qr_uuid):
     store = get_object_or_404(Store, qr_uuid=qr_uuid)
     if store.is_deactivated:
@@ -143,6 +143,7 @@ def track_click(request, store_id=None, element_type=None):
         if element_type not in valid_elements:
             return HttpResponse(status=400)
 
+        # Contagem de "home_access"
         if element_type == 'home_access':
             click_track, created = ClickTrack.objects.get_or_create(
                 store=None,
@@ -154,34 +155,40 @@ def track_click(request, store_id=None, element_type=None):
                 click_track.save()
             logger.info("Click tracked: Home Access")
             return None
+
+        store = get_object_or_404(Store, id=store_id)
+
+        # Cria ou atualiza contagem do clique
+        click_track, created = ClickTrack.objects.get_or_create(
+            store=store,
+            element_type=element_type,
+            defaults={'click_count': 1}
+        )
+        if not created:
+            click_track.click_count += 1
+            click_track.save()
+
+        logger.info(f"Click tracked: {store.name} - {element_type}")
+
+        # Redirecionamento específico por tipo
+        if element_type == 'phone_link':
+            # Retorna Json para o JS controlar o redirecionamento
+            return JsonResponse({'status': 'click tracked', 'phone': store.phone_link})
+
+        if element_type == 'main_banner':
+            return render(request, 'store_detail.html', {'store': store})
+        elif element_type == 'flyer_pdf':
+            return redirect(reverse('view_flyer', args=[store_id]))
         else:
-            store = get_object_or_404(Store, id=store_id)
-            click_track, created = ClickTrack.objects.get_or_create(
-                store=store,
-                element_type=element_type,
-                defaults={'click_count': 1}
-            )
+            link = getattr(store, element_type, None)
+            if link:
+                return HttpResponseRedirect(link)
+            return redirect('store_detail', store_id=store_id)
 
-            if element_type == 'phone_link':
-                return JsonResponse({'status': 'click tracked'})
-
-            if not created:
-                click_track.click_count += 1
-                click_track.save()
-            logger.info(f"Click tracked: {store.name} - {element_type}")
-
-            if element_type == 'main_banner':
-                return render(request, 'store_detail.html', {'store': store})
-            elif element_type == 'flyer_pdf':
-                return redirect(reverse('view_flyer', args=[store_id]))
-            else:
-                link = getattr(store, element_type, None)
-                if link:
-                    return HttpResponseRedirect(link)
-                return redirect('store_detail', store_id=store_id)
     except Exception as e:
         logger.error(f"Error tracking click: {e}")
         return HttpResponse(status=500)
+        
 
 
 

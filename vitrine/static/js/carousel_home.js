@@ -122,3 +122,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // Configura o evento de rolagem para a máscara de fade
   window.addEventListener('scroll', showFadeOnScroll);
 });
+
+

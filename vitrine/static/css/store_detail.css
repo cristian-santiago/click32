@@ -191,23 +191,38 @@
     text-align: justify;
     margin-top: 10px;
     display: block;
-    height: 180px;
+    height: 300px;
     font-size: 1.1rem;
     font-family: "Roboto", sans-serif;
     line-height: 18px;
     overflow-y: auto;
 }
 
-.description p.scroll-shadow-top::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 30px; /* More height for the shadow to be visible */
-    pointer-events: none;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent);
-    z-index: 10;
+
+/* Sombra superior saindo da parte inferior do store-name */
+.store-name.scroll-shadow-top::after {
+  content: "";
+  position: absolute;
+  bottom: -30px; /* Posiciona a sombra fora, abaixo do store-name */
+  left: 0;
+  right: 0;
+  height: 20px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent);
+  z-index: 10;
+}
+
+/* Sombra inferior saindo da parte superior do store-info */
+.store-info.scroll-shadow-bottom::before {
+  content: "";
+  position: absolute;
+  top: -20px; /* Posiciona a sombra fora, acima do store-info */
+  left: 0;
+  right: 0;
+  height: 20px;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15), transparent);
+  z-index: 10;
 }
 
 /* Seção de Informações da Loja */
@@ -218,7 +233,7 @@
   width: 100%;
   padding: 10px 48px;
   bottom: 22px;
-  height: 210px;
+  height: 205px;
   background-color: #f4f4f4; /* o retângulo branco */
   z-index: 1000; /* abaixo do p */
   box-sizing: border-box;
@@ -234,9 +249,6 @@
   position: relative; /* importante: relativo ao .store-info */
 }
 
-.store-info.scroll-shadow-top {
-    box-shadow: 0 -8px 15px -6px rgba(0, 0, 0, 0.3);
-}
 
 .store-info li {
     margin-bottom: 2px;

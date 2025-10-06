@@ -632,3 +632,87 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+@media (max-width: 950px) and (orientation: landscape){
+
+
+.store-info {
+    position: relative;
+    bottom: 125px; /* Acima dos ícones sociais */
+    left: 0;
+    width: 100%;
+    padding: 10px 48px;
+    bottom: 100px;
+    height: 135px;
+    background-color: #f4f4f4; /* o retângulo branco */
+    z-index: 1000; /* abaixo do p */
+    box-sizing: border-box;
+}
+
+.store-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4A4A4A;  
+  font-family: "Roboto", sans-serif;
+  line-height: 18px;
+  z-index: 1001; /* garante que o texto fique na frente */
+    
+}
+
+
+.store-info li {
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+}
+
+.social-icons {
+    margin-top: calc(-5% - 25px);
+    position: relative;
+    bottom: 25px; /* Distance from the footer */
+    left: 0;
+    width: 100%;
+    padding-left: 40px; /* Compensates for the sidebar space */
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    z-index: 1000;
+}
+
+.description p {
+    position: relative;
+    color: #4A4A4A;
+    padding-left: 110px;
+    padding-right: 75px;
+    text-align: justify;
+    margin-top: 10px;
+    display: block;
+    height: 300px;
+    font-size: 1.1rem;
+    font-family: "Roboto", sans-serif;
+    line-height: 18px;
+    overflow-y: auto;
+}
+
+
+
+}
+
+@media (max-width: 950px) and (orientation: landscape) {
+  .flyer-modal .pinch-zoom-container {
+    align-items: flex-start !important;
+    justify-content: center !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+   
+  }
+
+  .flyer-modal .pinch-zoom-container img {
+    width: 100vw !important;
+    height: auto !important;  
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+}

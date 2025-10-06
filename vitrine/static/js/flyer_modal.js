@@ -8,6 +8,7 @@ let zoomState = {
   scale: 1,
   translateX: 0,
   translateY: 0,
+  baseTranslateY: 0,
   startDistance: 0,
   startX: 0,
   startY: 0,
@@ -46,6 +47,7 @@ function closeModal() {
     scale: 1,
     translateX: 0,
     translateY: 0,
+    baseTranslateY: 0,
     startDistance: 0,
     startX: 0,
     startY: 0,
@@ -64,10 +66,34 @@ function getTouchDistance(touches) {
 }
 
 /**
- * Aplica transformações de zoom e deslocamento à imagem.
+ * Aplica transformações de zoom e deslocamento à imagem
  */
 function applyTransform(img) {
-  img.style.transform = `scale(${zoomState.scale}) translate(${zoomState.translateX}px, ${zoomState.translateY}px)`;
+  // Sempre aplica baseTranslateY + translateY para centralizar retrato
+  const totalTranslateY = zoomState.translateY + zoomState.baseTranslateY;
+  img.style.transform = `scale(${zoomState.scale}) translate(${zoomState.translateX}px, ${totalTranslateY}px)`;
+}
+
+/**
+ * Ajusta posição inicial em retrato ou landscape
+ */
+function adjustInitialPosition(img) {
+  const container = img.parentElement;
+  const containerHeight = container.clientHeight;
+  const imgHeight = img.clientHeight;
+
+  zoomState.scale = 1;
+  zoomState.translateX = 0;
+  zoomState.translateY = 0;
+
+  // Centraliza verticalmente se retrato ou se a imagem for menor que o container
+  if (window.matchMedia("(orientation: portrait)").matches || imgHeight < containerHeight) {
+    zoomState.baseTranslateY = Math.max(0, (containerHeight - imgHeight) / 2);
+  } else {
+    zoomState.baseTranslateY = 0;
+  }
+
+  applyTransform(img);
 }
 
 /**
@@ -106,7 +132,7 @@ function handleFlyerModal() {
           window.alert('Erro: A solicitação está demorando muito.');
           closeModal();
         }
-      }, 10000); // Timeout de 10 segundos
+      }, 10000);
 
       fetch(`/fetch-flyer-pages/${storeId}/`, { method: 'GET' })
         .then(response => {
@@ -148,7 +174,6 @@ function handleFlyerModal() {
               carouselInner.innerHTML = '';
               indicatorsContainer.innerHTML = '';
 
-              // Populate carousel with images and indicators
               data.page_urls.forEach((url, index) => {
                 const div = document.createElement('div');
                 div.className = `carousel-item ${index === 0 ? 'active' : ''}`;
@@ -156,48 +181,51 @@ function handleFlyerModal() {
                 div.style.opacity = index === 0 ? '1' : '0';
 
                 div.innerHTML = `
-                  <div class="pinch-zoom-container" style="width: 100%; height: 80vh; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                    <img src="${url}" alt="Página ${index + 1} do encarte" style="max-width: 100%; max-height: 100%; user-select: none; -webkit-user-drag: none;">
+                  <div class="pinch-zoom-container"
+                        style="width: 100%; height: 100%; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; overflow-x: hidden; touch-action: pan-y;">
+                      <img src="${url}" 
+                          alt="Página ${index + 1} do encarte"
+                          style="width: 100%; height: auto; max-width: none; user-select: none; -webkit-user-drag: none; display: block;">
                   </div>
                 `;
 
+                const img = div.querySelector("img");
+                img.onload = () => {
+                  adjustInitialPosition(img);
+                };
                 carouselInner.appendChild(div);
 
                 const indicator = document.createElement('button');
                 indicator.type = 'button';
                 indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
                 indicator.setAttribute('aria-label', `Slide ${index + 1}`);
-
                 indicator.addEventListener('click', () => {
                   const items = document.querySelectorAll('.flyer-modal .carousel-item');
                   const indicators = document.querySelectorAll('.flyer-modal .carousel-indicator');
-
                   items.forEach((item, i) => {
                     item.classList.remove('active');
                     item.style.transform = i < index ? 'translateX(-100%)' : 'translateX(100%)';
                     item.style.opacity = '0';
                   });
-
                   items[index].classList.add('active');
                   items[index].style.transform = 'translateX(0)';
                   items[index].style.opacity = '1';
-
                   indicators.forEach(ind => ind.classList.remove('active'));
                   indicator.classList.add('active');
                   currentFlyerIndex = index;
-                  zoomState = { scale: 1, translateX: 0, translateY: 0, startDistance: 0, startX: 0, startY: 0, isPinching: false, isDragging: false };
+                  zoomState = { ...zoomState, scale: 1, translateX: 0, translateY: 0 };
                   const img = items[index].querySelector('img');
                   if (img) applyTransform(img);
                 });
-
                 indicatorsContainer.appendChild(indicator);
               });
 
-              // Setup zoom and drag events
+              // Setup zoom e touch
               document.querySelectorAll('.pinch-zoom-container').forEach(container => {
                 const img = container.querySelector('img');
                 if (!img) return;
 
+                // Zoom mouse
                 container.addEventListener('wheel', (e) => {
                   e.preventDefault();
                   const delta = e.deltaY > 0 ? -0.1 : 0.1;
@@ -205,16 +233,11 @@ function handleFlyerModal() {
                   applyTransform(img);
                 });
 
+                // Touch
                 container.addEventListener('touchstart', (e) => {
                   if (e.touches.length === 2) {
                     zoomState.isPinching = true;
                     zoomState.startDistance = getTouchDistance(e.touches);
-                    zoomState.startX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-                    zoomState.startY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-                  } else if (e.touches.length === 1 && zoomState.scale > 1) {
-                    zoomState.isDragging = true;
-                    zoomState.startX = e.touches[0].clientX;
-                    zoomState.startY = e.touches[0].clientY;
                   }
                 });
 
@@ -226,25 +249,15 @@ function handleFlyerModal() {
                     zoomState.scale = Math.max(1, Math.min(4, zoomState.scale * scaleChange));
                     zoomState.startDistance = currentDistance;
                     applyTransform(img);
-                  } else if (zoomState.isDragging && e.touches.length === 1) {
-                    e.preventDefault();
-                    const dx = e.touches[0].clientX - zoomState.startX;
-                    const dy = e.touches[0].clientY - zoomState.startY;
-                    zoomState.translateX += dx / zoomState.scale;
-                    zoomState.translateY += dy / zoomState.scale;
-                    zoomState.startX = e.touches[0].clientX;
-                    zoomState.startY = e.touches[0].clientY;
-                    applyTransform(img);
                   }
                 });
 
                 container.addEventListener('touchend', () => {
                   zoomState.isPinching = false;
-                  zoomState.isDragging = false;
                 });
               });
 
-              // Setup zoom controls
+              // Botões de zoom
               document.querySelectorAll('.zoom-in').forEach(button => {
                 button.addEventListener('click', () => {
                   const items = document.querySelectorAll('.flyer-modal .carousel-item');
@@ -272,7 +285,7 @@ function handleFlyerModal() {
                   const items = document.querySelectorAll('.flyer-modal .carousel-item');
                   const img = items[currentFlyerIndex].querySelector('img');
                   if (img) {
-                    zoomState = { scale: 1, translateX: 0, translateY: 0, startDistance: 0, startX: 0, startY: 0, isPinching: false, isDragging: false };
+                    zoomState = { ...zoomState, scale: 1, translateX: 0, translateY: 0 };
                     applyTransform(img);
                   }
                 });
@@ -310,26 +323,23 @@ function handleSwipe() {
     let startX = 0;
     let isSwiping = false;
 
-    flyerCarouselInner.addEventListener('touchstart', (e) => {
+    flyerCarouselInner.addEventListener('touchstart', e => {
       if (e.touches.length === 1) {
         startX = e.touches[0].clientX;
         isSwiping = true;
       }
     });
 
-    flyerCarouselInner.addEventListener('touchmove', (e) => {
+    flyerCarouselInner.addEventListener('touchmove', e => {
       if (e.touches.length > 1) isSwiping = false;
     });
 
-    flyerCarouselInner.addEventListener('touchend', (e) => {
+    flyerCarouselInner.addEventListener('touchend', e => {
       if (!isSwiping || zoomState.scale > 1) return;
-
       const endX = e.changedTouches[0].clientX;
       const deltaX = endX - startX;
-
       const items = document.querySelectorAll('.flyer-modal .carousel-item');
       const indicators = document.querySelectorAll('.flyer-modal .carousel-indicator');
-
       if (deltaX > 50 && currentFlyerIndex > 0) {
         items[currentFlyerIndex].classList.remove('active');
         items[currentFlyerIndex].style.transform = 'translateX(100%)';
@@ -340,7 +350,7 @@ function handleSwipe() {
         items[currentFlyerIndex].style.transform = 'translateX(0)';
         items[currentFlyerIndex].style.opacity = '1';
         indicators[currentFlyerIndex].classList.add('active');
-        zoomState = { scale: 1, translateX: 0, translateY: 0, startDistance: 0, startX: 0, startY: 0, isPinching: false, isDragging: false };
+        zoomState = { ...zoomState, scale: 1, translateX: 0, translateY: 0 };
         const img = items[currentFlyerIndex].querySelector('img');
         if (img) applyTransform(img);
       } else if (deltaX < -50 && currentFlyerIndex < items.length - 1) {
@@ -353,11 +363,10 @@ function handleSwipe() {
         items[currentFlyerIndex].style.transform = 'translateX(0)';
         items[currentFlyerIndex].style.opacity = '1';
         indicators[currentFlyerIndex].classList.add('active');
-        zoomState = { scale: 1, translateX: 0, translateY: 0, startDistance: 0, startX: 0, startY: 0, isPinching: false, isDragging: false };
+        zoomState = { ...zoomState, scale: 1, translateX: 0, translateY: 0 };
         const img = items[currentFlyerIndex].querySelector('img');
         if (img) applyTransform(img);
       }
-
       isSwiping = false;
     });
   }

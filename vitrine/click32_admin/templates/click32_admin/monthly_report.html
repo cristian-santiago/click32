@@ -1,0 +1,350 @@
+{% load admin_tags %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Mensal - {{ store_name }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Simulação de A4 Portrait para visualização de edição */
+        .a4-simulator {
+            width: 210mm; /* Largura A4 */
+            height: 297mm; /* Altura A4 */
+            margin: 0 auto; /* Centraliza na tela */
+            background: white; /* Fundo de papel */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra sutil para simular página */
+            overflow: visible; /* Permite visibilidade de overflow para depuração */
+            position: relative;
+            page-break-after: always; /* Para múltiplas páginas, se precisar */
+        }
+        .a4-content {
+            width: 100%;
+            min-height: 100%;
+            padding: 0; /* Remove paddings extras para caber exatamente */
+            box-sizing: border-box;
+            position: relative;
+        }
+        /* Ajustes para caber na simulação */
+        body { 
+            font-family: 'Arial', sans-serif; 
+            margin: 0; 
+            color: #333; 
+            background: #f0f0f0; /* Fundo cinza para destacar a página simulada */
+            padding: 20px; /* Espaço ao redor da simulaçao na tela */
+        }
+        @page { size: A4 portrait; margin: 1cm; } /* Mantém para PDF real */
+        .header { 
+            background: #1e3c72 !important; /* Força cor para PDF */
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            color-adjust: exact;
+            color: white; 
+            padding: 25px 40px; /* Reduz mais padding vertical */
+            text-align: center; 
+            border-bottom: 4px solid #2980b9; 
+        }
+        .header h1 { margin: 0; font-size: 1.6em; } /* Reduz fonte */
+        .header p { margin: 5px 0; font-size: 1em; }
+        .container { 
+            max-width: 100%; /* Usa toda largura da simulação */
+            margin: 5px auto; /* Menos margem */
+            padding: 0 10px; /* Padding lateral menor */
+            padding-bottom: 60px; /* Espaço para footer absoluto */
+        }
+        .section { 
+            padding: 15px; /* Reduz ainda mais padding vertical */
+            border-bottom: 2px solid #e0e0e0; 
+            word-wrap: break-word; /* Quebra de linha ativa para textos longos */
+            overflow-wrap: break-word;
+        }
+        .section:last-child { border-bottom: none; }
+        .section h2 { 
+            color: #1e3c72; 
+            font-size: 1.3em; /* Reduz */
+            margin-bottom: 12px; 
+            display: flex; 
+            align-items: center; 
+            word-wrap: break-word;
+        }
+        .section h2 i { margin-right: 10px; color: #2980b9; }
+        .metric-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Ajusta mais para portrait */
+            gap: 12px; 
+            margin-bottom: 12px; 
+        }
+        .metric { 
+            background: #f9f9f9; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px; 
+            text-align: center; 
+            padding: 12px; /* Reduz */
+        }
+        .metric i { font-size: 1.6em; color: #2980b9; margin-bottom: 5px; }
+        .metric h3 { margin: 0; font-size: 1.4em; color: #1e3c72; } /* Reduz */
+        .metric p { margin: 0; font-weight: 500; color: #555; font-size: 0.9em; }
+        .chart-box { 
+            max-width: 100%; 
+            margin: 0 auto; 
+            background: #fafafa; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            padding: 6px; /* Reduz */
+        }
+        canvas { 
+            width: 100% !important; 
+            height: 300px !important; /* Reduz mais para caber ambas as seções */
+            max-height: 300px; /* Garante limite */
+        }
+        .footer { 
+            background: #1e3c72 !important; /* Força cor */
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            color-adjust: exact;
+            color: white; 
+            text-align: center; 
+            padding: 12px; /* Reduz */
+            font-size: 0.8em; 
+            border-top: 4px solid #2980b9; 
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            margin: 0;
+        }
+        .warning { 
+            background: #fff3e0; 
+            border-left: 5px solid #e67e22; 
+            padding: 8px; 
+            border-radius: 6px; 
+            margin: 8px 0; /* Reduz */
+            display: flex; 
+            align-items: center; 
+            word-wrap: break-word;
+        }
+        .warning i { margin-right: 10px; color: #e67e22; }
+    </style>
+</head>
+<body>
+    <!-- Container simulador de A4 -->
+    <div class="a4-simulator">
+        <div class="a4-content">
+            <div class="header">
+                <h1><i class="fas fa-chart-line"></i> Relatório Mensal de Desempenho</h1>
+                <p>{{ store_name }}</p>
+                <p>Período: {{ report_data.period.start }} a {{ report_data.period.end }}</p>
+            </div>
+
+            <div class="container">
+
+                <!-- VISÃO GERAL -->
+                <div class="section">
+                    <h2><i class="fas fa-eye"></i> Visão Geral do Mês</h2>
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <i class="fas fa-mouse-pointer"></i>
+                            <h3>{{ report_data.overview.total_clicks|default_if_none:"0" }}</h3>
+                            <p>Cliques Totais</p>
+                        </div>
+                        <div class="metric">
+                            <i class="fas fa-user"></i>
+                            <h3>{{ report_data.overview.profile_accesses|default:0|floatformat:0 }}</h3>
+                            <p>Acessos ao Perfil</p>
+                        </div>
+                        <div class="metric">
+                            <i class="fas fa-link"></i>
+                            <h3>{{ report_data.overview.secondary_clicks|default:0|floatformat:0 }}</h3>
+                            <p>Cliques em Links</p>
+                        </div>
+                        <div class="metric">
+                            <i class="fas fa-fire"></i>
+                            <h3>{{ report_data.overview.engagement_rate }}</h3>
+                            <p>Taxa de Engajamento</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EVOLUÇÃO DIÁRIA -->
+                <div class="section">
+                    <h2><i class="fas fa-chart-area"></i> Evolução Diária de Cliques</h2>
+                    {% if report_data.timeline %}
+                        <div class="chart-box">
+                            <canvas id="dailyClicksChart"></canvas>
+                        </div>
+                    {% else %}
+                        <div class="warning"><i class="fas fa-chart-line"></i> Sem dados de timeline detalhados.</div>
+                    {% endif %}
+                </div>
+
+                <!-- DISTRIBUIÇÃO POR LINK -->
+                <div class="section">
+                    <h2><i class="fas fa-chart-bar"></i> Distribuição de Cliques por Link</h2>
+                    {% if report_data.links_distribution.items %}
+                        <div class="chart-box">
+                            <canvas id="linkDistributionChart"></canvas>
+                        </div>
+                    {% else %}
+                        <div class="warning"><i class="fas fa-link"></i> Nenhum link configurado.</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>Gerado em {% now "d/m/Y H:i" %} | Powered by Click32</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        Chart.register(ChartDataLabels);
+        {% if report_data.timeline %}
+        const ctxLine = document.getElementById('dailyClicksChart').getContext('2d');
+new Chart(ctxLine, {
+    type: 'line',
+    data: {
+        labels: [{% for day in report_data.timeline %}'{{ day.label }}',{% endfor %}],
+        datasets: [{
+            label: 'Cliques Diários',
+            data: [{% for day in report_data.timeline %}{{ day.total }},{% endfor %}],
+            borderColor: '#2980b9',
+            backgroundColor: function(context) {
+                const chart = context.chart;
+                const {ctx: chartCtx, chartArea} = chart;
+                if (!chartArea) {
+                    return null;
+                }
+                const gradient = chartCtx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                gradient.addColorStop(0, 'rgba(46, 125, 50, 0.4)'); // Verde no topo (superior)
+                gradient.addColorStop(1, 'rgba(33, 150, 243, 0.4)'); // Azul na base (inferior)
+                return gradient;
+            },
+            fill: true,
+            borderWidth: 2,
+            pointRadius: 4,
+            pointBackgroundColor: '#2980b9',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            tension: 0.3
+        }]
+    },
+    options: {
+        plugins: { 
+            legend: { display: false },
+            title: {
+                display: true,
+                text: 'Cliques Diários',
+                font:{
+                    color: '#333',
+                    size: 12, /* Reduz mais para caber */
+                    weight: 'bold'
+                }
+            },
+            datalabels: {
+                color: '#333',
+                font: {
+                    weight: 'bold',
+                    size: 8 /* Reduz labels nos pontos */
+                },
+                formatter: function(value) {
+                    return value;
+                },
+                anchor: 'end',
+                align: 'top',
+                offset: 4
+            }
+        },
+        scales: {
+            x: { 
+                title: {
+                    display: true,
+                    text: 'Dias'
+                },
+                ticks: { 
+                    color: '#333', 
+                    autoSkip: false, 
+                    maxTicksLimit: 30, 
+                    font: { size: 7, weight: 'bold' } /* Menor para caber 30 dias */
+                },
+                grid: { display: false }
+            },
+            y: { 
+                title: {
+                    display: true,
+                    text: 'Cliques'
+                },
+                ticks: { 
+                    color: '#444', 
+                    stepSize: 10, 
+                    font: { size: 8, weight: 'bold' } 
+                },
+                grid: { display: false }
+            }
+        }
+    },
+    plugins: [{
+        id: 'linhasTracejadasVerticais',
+        afterDatasetsDraw: function(chart) {
+            const { ctx, scales: { x, y }, data } = chart;
+            ctx.save();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]); // Traço tracejado (5px traço, 5px espaço)
+            x.ticks.forEach(function(tick) {
+                const indiceDados = tick.value; // Índice da categoria visível
+                const valorY = data.datasets[0].data[indiceDados];
+                if (valorY != null) {
+                    const posX = x.getPixelForValue(indiceDados);
+                    const posYTopo = y.getPixelForValue(valorY);
+                    const posYBase = y.bottom; // Base do eixo Y (x-axis)
+                    ctx.beginPath();
+                    ctx.moveTo(posX, posYTopo);
+                    ctx.lineTo(posX, posYBase);
+                    ctx.stroke();
+                }
+            });
+            ctx.restore();
+        }
+    }]
+});
+        {% endif %}
+
+        {% if report_data.links_distribution.items %}
+        const ctxBar = document.getElementById('linkDistributionChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: [{% for item in report_data.links_distribution.items %}'{{ item.label }}',{% endfor %}],
+                datasets: [{
+                    label: 'Cliques',
+                    data: [{% for item in report_data.links_distribution.items %}{{ item.data }},{% endfor %}],
+                    backgroundColor: ['#2980b9','#c0392b','#27ae60','#e67e22','#8e44ad','#16a085']
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { 
+                        ticks: { 
+                            color: '#444',
+                            font: { size: 8 } /* Ajuste para caber */
+                        } 
+                    },
+                    y: { 
+                        ticks: { 
+                            color: '#444',
+                            font: { size: 8 },
+                            maxTicksLimit: 10 /* Limita ticks se muitos labels */
+                        } 
+                    }
+                }
+            }
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

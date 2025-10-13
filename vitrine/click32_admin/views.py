@@ -9,6 +9,9 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.utils.text import slugify
+from datetime import date
+from django.utils import timezone
+from datetime import timedelta
 import os
 import shutil
 import logging
@@ -405,3 +408,170 @@ def group_delete(request, group_id):
         group.delete()
         return redirect('click32_admin:group_list')
     return render(request, 'click32_admin/group_confirm_delete.html', {'group': group})
+
+
+
+
+def _generate_report_data(store_id, start_date, end_date):
+    """
+    Gera report_data pronto para o template:
+     - timeline: lista de dias [{label,total,top_link}, ...]
+     - links_distribution.items ordenado por data decrescente (o primeiro é o top)
+     - peak_day / peak_day_total / peak_day_percent_links calculados corretamente
+    """
+    clicks_data = get_clicks_data(store_id=store_id, start_date=start_date, end_date=end_date)
+    if not clicks_data:
+        return None
+
+    store_data = clicks_data[0]
+    store = store_data['store']
+
+    timeline_raw = get_timeline_data(store_id=store_id, start_date=start_date, end_date=end_date)
+    link_clicks_full = get_total_clicks_by_link_type(store_id=store_id, start_date=start_date, end_date=end_date)
+    engagement = get_engagement_rate(store_id=store_id, start_date=start_date, end_date=end_date)
+    profile_accesses = get_profile_accesses(store_id=store_id, start_date=start_date, end_date=end_date)
+    total_clicks = get_global_clicks(store_id=store_id, start_date=start_date, end_date=end_date)
+
+    # map de links configuráveis
+    link_map = {
+        'whatsapp_1': {'label': 'WhatsApp 1', 'field': store.whatsapp_link_1},
+        'whatsapp_2': {'label': 'WhatsApp 2', 'field': store.whatsapp_link_2},
+        'phone': {'label': 'Telefone', 'field': store.phone_link},
+        'instagram': {'label': 'Instagram', 'field': store.instagram_link},
+        'facebook': {'label': 'Facebook', 'field': store.facebook_link},
+        'youtube': {'label': 'YouTube', 'field': store.youtube_link},
+        'x_link': {'label': 'X Link', 'field': store.x_link},
+        'google_maps': {'label': 'Google Maps', 'field': store.google_maps_link},
+        'anota_ai': {'label': 'Anota Ai', 'field': store.anota_ai_link},
+        'ifood': {'label': 'iFood', 'field': store.ifood_link},
+        'flyer': {'label': 'Flyer', 'field': store.flyer_pdf},
+    }
+
+    # origem dos totais por tipo de link (tal como a sua API devolve)
+    full_labels = link_clicks_full.get('labels', [])
+    full_data = link_clicks_full.get('data', [])
+
+    # monta lista de links configurados com (key, label, data)
+    link_keys = ['whatsapp_1', 'whatsapp_2', 'phone', 'instagram', 'facebook', 'youtube', 'x_link', 'google_maps', 'anota_ai', 'ifood', 'flyer']
+    configured_links = []
+    for key in link_keys:
+        info = link_map.get(key)
+        if not info:
+            continue
+        if info['field']:
+            idx = link_keys.index(key)
+            val = full_data[idx] if idx < len(full_data) else 0
+            configured_links.append({'key': key, 'label': info['label'], 'data': int(val)})
+
+    # soma total de cliques em links (apenas configurados)
+    total_links_sum = sum(l['data'] for l in configured_links)
+
+    # Ordena os items por data desc para garantir que o primeiro seja o mais clicado
+    configured_links_sorted = sorted(configured_links, key=lambda x: x['data'], reverse=True)
+
+    # Cria labels/data consistentes com a ordenação
+    link_clicks = {
+        'labels': [l['label'] for l in configured_links_sorted],
+        'data': [l['data'] for l in configured_links_sorted]
+    }
+
+    # timeline_raw -> timeline_list (lista de dias)
+    labels = timeline_raw.get('labels', [])
+    links_dict = timeline_raw.get('links', {})
+
+    timeline_list = []
+    for i, label in enumerate(labels):
+        day_total = 0
+        day_top_link = None
+        day_top_value = 0
+        for key, arr in links_dict.items():
+            # pula links não configurados (ou não mapeados)
+            if key not in link_map or not link_map[key]['field']:
+                continue
+            value = arr[i] if i < len(arr) else 0
+            day_total += int(value)
+            if int(value) > day_top_value:
+                day_top_value = int(value)
+                day_top_link = link_map[key]['label']
+        timeline_list.append({
+            'label': label,
+            'total': day_total,
+            'top_link': day_top_link or 'Nenhum'
+        })
+
+    # non_zero_days
+    non_zero_days = sum(1 for d in timeline_list if d['total'] > 0)
+
+    # peak day (usando timeline_list)
+    if timeline_list and any(d['total'] > 0 for d in timeline_list):
+        peak_day = max(timeline_list, key=lambda d: d['total'])
+        peak_day_label = peak_day['label']
+        peak_day_total = peak_day['total']
+        peak_percent_links = round((peak_day_total / total_links_sum * 100) if total_links_sum > 0 else 0, 1)
+    else:
+        peak_day_label = None
+        peak_day_total = 0
+        peak_percent_links = 0.0
+
+    # Monta items já ordenados
+    items = []
+    for l in configured_links_sorted:
+        pct = round((l['data'] / total_links_sum * 100) if total_links_sum > 0 else 0, 1)
+        items.append({'label': l['label'], 'data': l['data'], 'percent': pct})
+
+    report_data = {
+        'store_name': store.name,
+        'period': {'start': start_date.strftime('%Y-%m-%d'), 'end': end_date.strftime('%Y-%m-%d')},
+        'overview': {
+            'total_clicks': total_clicks,
+            'profile_accesses': profile_accesses,
+            'secondary_clicks': store_data.get('secondary_clicks', 0),
+            'engagement_rate': f"{engagement}%",  # mantenha como string; template não deve adicionar outro '%'
+        },
+        'timeline': timeline_list,
+        'timeline_raw': timeline_raw,
+        'links_distribution': {
+            'labels': link_clicks['labels'],
+            'data': link_clicks['data'],
+            'items': items
+        },
+        'last_activity': store_data.get('last_clicked').strftime('%d/%m/%Y %H:%M') if store_data.get('last_clicked') else None,
+        'peak_day': peak_day_label,
+        'peak_day_total': peak_day_total,
+        'peak_day_percent_links': peak_percent_links,
+        'non_zero_days': non_zero_days,
+        'warning': 'Nenhum link configurado.' if not configured_links else None
+    }
+    return report_data
+
+
+def monthly_report_api(request, store_id):    
+    end_date = timezone.now().date()              # hoje
+    start_date = end_date - timedelta(days=29)
+    
+    report_data = _generate_report_data(store_id, start_date, end_date)
+    if not report_data:
+        return JsonResponse({'error': 'Loja não encontrada ou sem dados'}, status=404)
+    
+    return JsonResponse(report_data)
+
+@check_permission(lambda u: u.is_superuser)
+def monthly_report_view(request, store_id):
+    store = get_object_or_404(Store, id=store_id)
+    
+    end_date = timezone.now().date()              # hoje
+    start_date = end_date - timedelta(days=29)
+    
+    report_data = _generate_report_data(store_id, start_date, end_date)
+    if not report_data:
+        # Trate erro, ex: redirect ou render com warning
+        context = {'store_name': store.name, 'error': 'Sem dados para este período.'}
+        return render(request, 'click32_admin/monthly_report.html', context)
+    
+    context = {
+        'store_id': store_id,
+        'store_name': store.name,
+        'report_data': report_data,  # <--- AQUI ESTÁ O FIX: adiciona os dados!
+        'now': timezone.now(),  # Para o footer do template
+    }
+    return render(request, 'click32_admin/monthly_report.html', context)

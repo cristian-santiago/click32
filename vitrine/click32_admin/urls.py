@@ -51,4 +51,6 @@ urlpatterns = [
     # APIs
     path('api/total-clicks-by-link-type/', views.total_clicks_by_link_type_api, name='total_clicks_by_link_type_api'),
     path('api/timeline-data/', views.timeline_data_api, name='timeline_data_api'),
+    path('api/monthly-report/<int:store_id>/', views.monthly_report_api, name='monthly_report_api'),
+    path('api/monthly-report/<int:store_id>/view/', views.monthly_report_view, name='monthly_report_view'),
 ]

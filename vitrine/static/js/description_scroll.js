@@ -34,9 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollHeight = descriptionP.scrollHeight;
     const clientHeight = descriptionP.clientHeight;
 
-    // Log para depuração
-    console.log({ scrollTop, scrollHeight, clientHeight, diff: scrollHeight - (scrollTop + clientHeight) });
-
     // Remove classes de sombra
     storeName.classList.remove('scroll-shadow-top');
     storeInfo.classList.remove('scroll-shadow-bottom');

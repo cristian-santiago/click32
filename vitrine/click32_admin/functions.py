@@ -15,33 +15,38 @@ def get_category_tags():
         for category in categories
     ]
 
-def get_timeline_data():
-    end_date = timezone.now().date()
-    start_date = end_date - timedelta(days=5)
-    dates = [start_date + timedelta(days=x) for x in range(6)]
+def get_timeline_data(store_id=None, start_date=None, end_date=None):
+    # Período padrão: últimos 30 dias se não passado
+    if start_date is None or end_date is None:
+        end_date = timezone.now().date()
+        start_date = end_date - timedelta(days=29)  # 30 dias
+    
+    dates = [start_date + timedelta(days=x) for x in range((end_date - start_date).days + 1)]
     
     timeline_data = {
-        'labels': [date.strftime('%d/%m') for date in dates],
+        'labels': [d.strftime('%d/%m') for d in dates],
         'links': {
-            'main_banner': [0] * 6,
-            'whatsapp_1': [0] * 6,
-            'whatsapp_2': [0] * 6,
-            'phone': [0] * 6,
-            'instagram': [0] * 6,
-            'facebook': [0] * 6,
-            'youtube': [0] * 6,
-            'x_link': [0] * 6,
-            'ifood': [0] * 6,
-            'anota_ai': [0] * 6,         
-            'google_maps': [0] * 6,
-            'flyer': [0] * 6
+            'main_banner': [0] * len(dates),
+            'whatsapp_1': [0] * len(dates),
+            'whatsapp_2': [0] * len(dates),
+            'phone': [0] * len(dates),
+            'instagram': [0] * len(dates),
+            'facebook': [0] * len(dates),
+            'youtube': [0] * len(dates),
+            'x_link': [0] * len(dates),
+            'ifood': [0] * len(dates),
+            'anota_ai': [0] * len(dates),         
+            'google_maps': [0] * len(dates),
+            'flyer': [0] * len(dates)
         }
     }
     
+    base_filter = Q(last_clicked__date__range=[start_date, end_date])
+    if store_id:
+        base_filter &= Q(store_id=store_id)
+    
     for i, date in enumerate(dates):
-        daily_clicks = ClickTrack.objects.filter(
-            last_clicked__date=date
-        ).aggregate(
+        daily_clicks = ClickTrack.objects.filter(base_filter & Q(last_clicked__date=date)).aggregate(
             main_banner=Sum('click_count', filter=Q(element_type='main_banner')),
             whatsapp_1=Sum('click_count', filter=Q(element_type='whatsapp_link_1')),
             whatsapp_2=Sum('click_count', filter=Q(element_type='whatsapp_link_2')),
@@ -53,6 +58,7 @@ def get_timeline_data():
             google_maps=Sum('click_count', filter=Q(element_type='google_maps_link')),
             anota_ai=Sum('click_count', filter=Q(element_type='anota_ai_link')),
             ifood=Sum('click_count', filter=Q(element_type='ifood_link')),
+            flyer=Sum('click_count', filter=Q(element_type='flyer_pdf')),
         )
         for key in timeline_data['links']:
             value = daily_clicks[key]
@@ -61,26 +67,38 @@ def get_timeline_data():
     return timeline_data
 
 # Outras funções permanecem inalteradas
-def get_clicks_data():
+
+def get_clicks_data(store_id=None, start_date=None, end_date=None):
+    # Calcula período padrão se não passado (mês atual até hoje)
+    if start_date is None or end_date is None:
+        end_date = timezone.now().date()
+        start_date = end_date.replace(day=1)
+    
+    base_query = Q(clicktrack__last_clicked__date__range=[start_date, end_date])
+    if store_id:
+        base_query &= Q(clicktrack__store_id=store_id)
+    
     stores = (
         Store.objects
         .annotate(
-            main_banner_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='main_banner')),
-            whatsapp_1_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='whatsapp_link_1')),
-            whatsapp_2_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='whatsapp_link_2')),
-            phone_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='phone_link')),
-            instagram_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='instagram_link')),
-            facebook_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='facebook_link')),
-            youtube_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='youtube_link')),
-            x_link_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='x_link')),
-            google_maps_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='google_maps_link')),
-            ifood_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='ifood_link')),
-            anota_ai_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='anota_ai_link')),
-            flyer_clicks=Sum('clicktrack__click_count', filter=Q(clicktrack__element_type='flyer_pdf')),
-            last_clicked=Max('clicktrack__last_clicked')
+            main_banner_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='main_banner')),
+            whatsapp_1_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='whatsapp_link_1')),
+            whatsapp_2_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='whatsapp_link_2')),
+            phone_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='phone_link')),
+            instagram_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='instagram_link')),
+            facebook_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='facebook_link')),
+            youtube_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='youtube_link')),
+            x_link_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='x_link')),
+            google_maps_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='google_maps_link')),
+            ifood_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='ifood_link')),
+            anota_ai_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='anota_ai_link')),
+            flyer_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='flyer_pdf')),
+            last_clicked=Max('clicktrack__last_clicked', filter=base_query)
         )
     )
-
+    if store_id:
+        stores = stores.filter(id=store_id)
+    
     clicks_data = []
     for store in stores:
         total_clicks = sum([
@@ -119,23 +137,23 @@ def get_clicks_data():
     
     return clicks_data
 
-def get_site_metrics():
-    home_accesses = ClickTrack.objects.filter(
-        element_type='home_access', store__isnull=True
-    ).aggregate(total=Sum('click_count'))['total'] or 0
-    return {
-        'home_accesses': home_accesses
-    }
+def get_site_metrics(store_id=None, start_date=None, end_date=None):
+    # Adapta para filtro (home_accesses é global, mas filtra se store_id passado; assume home_accesses não é por store)
+    base_filter = Q(element_type='home_access', store__isnull=True)
+    if start_date and end_date:
+        base_filter &= Q(last_clicked__date__range=[start_date, end_date])
+    home_accesses = ClickTrack.objects.filter(base_filter).aggregate(total=Sum('click_count'))['total'] or 0
+    return {'home_accesses': home_accesses}
 
 def get_store_count():
     return Store.objects.count()
 
-def get_global_clicks():
-    clicks_data = get_clicks_data()
+def get_global_clicks(store_id=None, start_date=None, end_date=None):
+    clicks_data = get_clicks_data(store_id, start_date, end_date)
     return sum(data['total_clicks'] for data in clicks_data)
 
-def get_profile_accesses():
-    clicks_data = get_clicks_data()
+def get_profile_accesses(store_id=None, start_date=None, end_date=None):
+    clicks_data = get_clicks_data(store_id, start_date, end_date)
     return sum(data['main_banner'] for data in clicks_data)
 
 def get_heatmap_data():
@@ -178,15 +196,23 @@ def get_store_highlight_data(store_id=None):
         'flyer_pdf': store_data.get('flyer_pdf', 0)
     }
 
-def get_engagement_rate():
-    clicks_data = get_clicks_data()
+def get_engagement_rate(store_id=None, start_date=None, end_date=None):
+    clicks_data = get_clicks_data(store_id, start_date, end_date)
     total_clicks = sum(data['total_clicks'] for data in clicks_data)
     profile_accesses = sum(data['main_banner'] for data in clicks_data)
     return round((total_clicks / profile_accesses * 100) if profile_accesses > 0 else 0, 1)
 
-def get_total_clicks_by_link_type():
-    clicks = ClickTrack.objects.aggregate(
-        
+def get_total_clicks_by_link_type(store_id=None, start_date=None, end_date=None):
+    # Período padrão como em get_clicks_data
+    if start_date is None or end_date is None:
+        end_date = timezone.now().date()
+        start_date = end_date.replace(day=1)
+    
+    base_filter = Q(last_clicked__date__range=[start_date, end_date])
+    if store_id:
+        base_filter &= Q(store_id=store_id)
+    
+    clicks = ClickTrack.objects.filter(base_filter).aggregate(
         whatsapp_1=Sum('click_count', filter=Q(element_type='whatsapp_link_1')),
         whatsapp_2=Sum('click_count', filter=Q(element_type='whatsapp_link_2')),
         phone=Sum('click_count', filter=Q(element_type='phone_link')),
@@ -200,9 +226,8 @@ def get_total_clicks_by_link_type():
         flyer=Sum('click_count', filter=Q(element_type='flyer_pdf')),
     )
     return {
-        'labels': ['WhatsApp 1', 'WhatsApp 2','Telefone' ,'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Anota Ai', 'iFood'],
+        'labels': ['WhatsApp 1', 'WhatsApp 2', 'Telefone', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Anota Ai', 'iFood', 'Flyer'],
         'data': [
-            
             clicks.get('whatsapp_1', 0) or 0,
             clicks.get('whatsapp_2', 0) or 0,
             clicks.get('phone', 0) or 0,
@@ -213,6 +238,6 @@ def get_total_clicks_by_link_type():
             clicks.get('google_maps', 0) or 0,
             clicks.get('anota_ai', 0) or 0,
             clicks.get('ifood', 0) or 0,
-            clicks.get('flyer_pdf', 0) or 0,
+            clicks.get('flyer', 0) or 0,
         ]
     }

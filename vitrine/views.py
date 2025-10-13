@@ -10,6 +10,8 @@ import pdf2image
 import glob
 from django.urls import reverse
 from django.conf import settings
+from django.utils import timezone
+from django.db.models import F
 import logging
 from .click32_admin.functions import get_category_tags, get_site_metrics
 import os
@@ -97,6 +99,24 @@ def store_detail(request, slug):
     if store.is_deactivated:
         return redirect('home')  # redireciona para a home se estiver desativada
 
+    element_type = request.GET.get('element_type', 'direct_access')
+
+# Define o tipo de clique real que será rastreado
+    if element_type != 'main_banner':
+    # Tenta obter o registro existente
+        log_type = 'main_banner'  # Always log as profile access for store_detail loads
+        click_track, created = ClickTrack.objects.get_or_create(
+            store=store,
+            element_type=log_type,
+            defaults={'click_count': 0, 'last_clicked': timezone.now()}
+        )
+
+        # Sempre incrementa (tanto acesso direto quanto reload contam)
+        click_track.click_count = F('click_count') + 1
+        click_track.last_clicked = timezone.now()
+        click_track.save()
+        click_track.refresh_from_db()  # Atualiza o valor real após o F()
+
     context = {
         'store': store,
         'category_tags': get_category_tags(),
@@ -108,7 +128,9 @@ def store_detail_by_id(request, store_id):
     store = get_object_or_404(Store, id=store_id)
     if store.is_deactivated:
         return redirect('home')
-    return redirect('store_detail', slug=store.slug)
+    element_type = request.GET.get('element_type', 'direct_access')
+    redirect_url = f"{reverse('store_detail', args=[store.slug])}?element_type={element_type}"
+    return redirect(redirect_url)
 
 #@cache_page(60 * 60 * 24)   # 24 horas
 def store_detail_by_uuid(request, qr_uuid):
@@ -116,11 +138,8 @@ def store_detail_by_uuid(request, qr_uuid):
     if store.is_deactivated:
         return redirect('home')
 
-    context = {
-        'store': store,
-        'category_tags': get_category_tags(),
-    }
-    return render(request, 'store_detail.html', context)
+    redirect_url = f"{reverse('store_detail', args=[store.slug])}?element_type=direct_access"
+    return redirect(redirect_url)
 
 @cache_page(60 * 60 * 24)   # 24 horas
 def advertise(request):
@@ -173,10 +192,11 @@ def track_click(request, store_id=None, element_type=None):
         # Redirecionamento específico por tipo
         if element_type == 'phone_link':
             # Retorna Json para o JS controlar o redirecionamento
-            return JsonResponse({'status': 'click tracked', 'phone': store.phone_link})
+            return JsonResponse({'status': 'click_logged', 'phone': store.phone_link})
 
         if element_type == 'main_banner':
-            return render(request, 'store_detail.html', {'store': store})
+            redirect_url = f"{reverse('store_detail', args=[store.slug])}?element_type=main_banner"
+            return redirect(redirect_url)
         elif element_type == 'flyer_pdf':
             return redirect(reverse('view_flyer', args=[store_id]))
         else:
@@ -316,5 +336,3 @@ def fetch_flyer_pages(request, store_id):
     except Exception as e:
         logger.error(f"Error processing flyer for store {store_id}: {str(e)}")
         return JsonResponse({'error': f'Erro ao processar o encarte: {str(e)}'}, status=500)
-    
-

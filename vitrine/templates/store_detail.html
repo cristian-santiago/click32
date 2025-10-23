@@ -42,7 +42,10 @@
     <div class="store-name">
         <h2>
             {{ store.name }}
-            <button id="shareButton" class="share-btn">
+            <button id="shareButton" class="share-btn" 
+                    data-store-id="{{ store.id }}"
+                    data-store-name="{{ store.name }}"
+                    data-store-url="{{ request.build_absolute_uri }}">
                 <i class="fas fa-share-alt"></i>
             </button>
         </h2>

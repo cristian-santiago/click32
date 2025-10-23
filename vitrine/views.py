@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.db.models import Sum, Max, Q
-from .models import Store, ClickTrack, Category
+from .models import Store, ClickTrack, Category, ShareTrack
 from django.core.mail import send_mail
 import pdf2image
 import glob
@@ -210,7 +210,32 @@ def track_click(request, store_id=None, element_type=None):
         return HttpResponse(status=500)
         
 
+# ------------- SHARE TRACK -------------
 
+@csrf_protect
+def track_share(request, store_id):
+    """
+    View para registrar compartilhamentos de lojas
+    """
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método não permitido'}, status=405)
+    
+    try:
+        store = get_object_or_404(Store, id=store_id)
+        
+        # Cria registro de compartilhamento
+        share_track = ShareTrack.objects.create(store=store)
+        
+        logger.info(f"Share tracked: {store.name}")
+        
+        return JsonResponse({
+            'status': 'success', 
+            'message': 'Compartilhamento registrado com sucesso'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error tracking share for store {store_id}: {e}")
+        return JsonResponse({'error': 'Erro interno do servidor'}, status=500)
 
 # view inactivated #
 def submit_advertise(request):

@@ -9,61 +9,75 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Linha verde para debug - mostra onde termina a página */
+        .a4-simulator::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 10mm;
+            right: 10mm;
+            height: 3px;
+            background: #27ae60;
+            border-radius: 2px;
+            box-shadow: 0 0 5px rgba(39, 174, 96, 0.5);
+            }
+
         /* Simulação de A4 Portrait para visualização de edição */
         .a4-simulator {
-            width: 210mm; /* Largura A4 */
-            height: 297mm; /* Altura A4 */
-            margin: 0 auto; /* Centraliza na tela */
-            background: white; /* Fundo de papel */
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra sutil para simular página */
-            overflow: visible; /* Permite visibilidade de overflow para depuração */
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: visible;
             position: relative;
-            page-break-after: always; /* Para múltiplas páginas, se precisar */
+            page-break-after: always;
         }
         .a4-content {
             width: 100%;
             min-height: 100%;
-            padding: 0; /* Remove paddings extras para caber exatamente */
+            padding: 0;
             box-sizing: border-box;
             position: relative;
+            background-color:#e0e0e0;
         }
-        /* Ajustes para caber na simulação */
         body { 
             font-family: 'Arial', sans-serif; 
             margin: 0; 
             color: #333; 
-            background: #f0f0f0; /* Fundo cinza para destacar a página simulada */
-            padding: 20px; /* Espaço ao redor da simulaçao na tela */
+            background: #f0f0f0;
+            padding: 20px;
         }
-        @page { size: A4 portrait; margin: 1cm; } /* Mantém para PDF real */
+        @page { size: A4 portrait; margin: 1cm; }
         .header { 
-            background: #1e3c72 !important; /* Força cor para PDF */
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
             color-adjust: exact;
             color: white; 
-            padding: 25px 40px; /* Reduz mais padding vertical */
+            padding: 20px 30px;
             text-align: center; 
             border-bottom: 4px solid #2980b9; 
         }
-        .header h1 { margin: 0; font-size: 1.6em; } /* Reduz fonte */
+        .header h1 { margin: 0; font-size: 1.6em; }
         .header p { margin: 5px 0; font-size: 1em; }
         .container { 
-            max-width: 100%; /* Usa toda largura da simulação */
-            margin: 5px auto; /* Menos margem */
-            padding: 0 10px; /* Padding lateral menor */
-            padding-bottom: 60px; /* Espaço para footer absoluto */
+            max-width: 100%;
+            margin: 5px auto;
+            padding: 0 10px;
+            padding-bottom: 60px;
         }
         .section { 
-            padding: 15px; /* Reduz ainda mais padding vertical */
+            padding: 15px;
             border-bottom: 2px solid #e0e0e0; 
-            word-wrap: break-word; /* Quebra de linha ativa para textos longos */
+            word-wrap: break-word;
             overflow-wrap: break-word;
+            padding-bottom: 100px;
         }
         .section:last-child { border-bottom: none; }
         .section h2 { 
             color: #1e3c72; 
-            font-size: 1.3em; /* Reduz */
+            font-size: 1.3em;
             margin-bottom: 12px; 
             display: flex; 
             align-items: center; 
@@ -72,7 +86,7 @@
         .section h2 i { margin-right: 10px; color: #2980b9; }
         .metric-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Ajusta mais para portrait */
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 12px; 
             margin-bottom: 12px; 
         }
@@ -81,32 +95,93 @@
             border: 1px solid #e0e0e0; 
             border-radius: 8px; 
             text-align: center; 
-            padding: 12px; /* Reduz */
+            padding: 12px;
+            transition: transform 0.2s ease;
+        }
+        .metric:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .metric i { font-size: 1.6em; color: #2980b9; margin-bottom: 5px; }
-        .metric h3 { margin: 0; font-size: 1.4em; color: #1e3c72; } /* Reduz */
+        .metric h3 { margin: 0; font-size: 1.4em; color: #1e3c72; }
         .metric p { margin: 0; font-weight: 500; color: #555; font-size: 0.9em; }
+        .metric .trend { 
+            font-size: 0.8em; 
+            margin-top: 4px; 
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 12px;
+        }
+        .trend-up { background: #e8f5e8; color: #2e7d32; }
+        .trend-down { background: #ffebee; color: #c62828; }
+        .trend-neutral { background: #f5f5f5; color: #666; }
+        
         .chart-box { 
             max-width: 100%; 
             margin: 0 auto; 
             background: #fafafa; 
             border: 1px solid #ddd; 
             border-radius: 8px; 
-            padding: 6px; /* Reduz */
+            padding: 6px;
         }
         canvas { 
             width: 100% !important; 
-            height: 300px !important; /* Reduz mais para caber ambas as seções */
-            max-height: 300px; /* Garante limite */
+            height: 300px !important;
+            max-height: 300px;
         }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .insight-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .insight-card h4 {
+            margin: 0 0 8px 0;
+            color: #1e3c72;
+            font-size: 1em;
+        }
+        .insight-card p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .insight-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2980b9;
+            margin: 5px 0;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .comparison-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+        }
+        
         .footer { 
-            background: #1e3c72 !important; /* Força cor */
+            background: #1e3c72 !important;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
             color-adjust: exact;
             color: white; 
             text-align: center; 
-            padding: 12px; /* Reduz */
+            padding: 12px;
             font-size: 0.8em; 
             border-top: 4px solid #2980b9; 
             position: absolute;
@@ -121,16 +196,39 @@
             border-left: 5px solid #e67e22; 
             padding: 8px; 
             border-radius: 6px; 
-            margin: 8px 0; /* Reduz */
+            margin: 8px 0;
             display: flex; 
             align-items: center; 
             word-wrap: break-word;
         }
         .warning i { margin-right: 10px; color: #e67e22; }
+        
+        .performance-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .badge-excellent { background: #e8f5e8; color: #2e7d32; }
+        .badge-good { background: #e3f2fd; color: #1565c0; }
+        .badge-average { background: #fff3e0; color: #ef6c00; }
+        .badge-poor { background: #ffebee; color: #c62828; }
+        
+        .summary-text {
+            background: #f8f9fa;
+            border-left: 4px solid #2980b9;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+            text-align: justify;
+            }
     </style>
 </head>
 <body>
-    <!-- Container simulador de A4 -->
     <div class="a4-simulator">
         <div class="a4-content">
             <div class="header">
@@ -141,32 +239,155 @@
 
             <div class="container">
 
-                <!-- VISÃO GERAL -->
+                <!-- VISÃO GERAL COM INSIGHTS -->
                 <div class="section">
                     <h2><i class="fas fa-eye"></i> Visão Geral do Mês</h2>
-                    <div class="metric-grid">
-                        <div class="metric">
-                            <i class="fas fa-mouse-pointer"></i>
-                            <h3>{{ report_data.overview.total_clicks|default_if_none:"0" }}</h3>
-                            <p>Cliques Totais</p>
+
+                        <div class="metric-grid">
+                            <!-- CLIQUES TOTAIS - Mede volume geral -->
+                            <div class="metric">
+                                <i class="fas fa-mouse-pointer"></i>
+                                <h3>{{ report_data.overview.total_clicks|default_if_none:"0" }}</h3>
+                                <p>Cliques Totais</p>
+                                {% with total_clicks=report_data.overview.total_clicks|default:0 %}
+                                    {% if total_clicks > 100 %}
+                                        <span class="trend trend-up">↑ Alto Volume</span>
+                                    {% elif total_clicks > 30 %}
+                                        <span class="trend trend-neutral">↔ Volume Médio</span>
+                                    {% else %}
+                                        <span class="trend trend-down">↓ Baixo Volume</span>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                            
+                            <!-- ACESSOS AO PERFIL - Mede tráfego base -->
+                            <div class="metric">
+                                <i class="fas fa-user"></i>
+                                <h3>{{ report_data.overview.profile_accesses|default:0|floatformat:0 }}</h3>
+                                <p>Visitas à Loja</p>
+                                {% with visits=report_data.overview.profile_accesses|default:0 %}
+                                    {% if visits > 20 %}
+                                        <span class="trend trend-up">↑ Boa Visibilidade</span>
+                                    {% elif visits > 5 %}
+                                        <span class="trend trend-neutral">↔ Visibilidade Média</span>
+                                    {% else %}
+                                        <span class="trend trend-down">↓ Baixa Visibilidade</span>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                            
+                            <!-- CLIQUES EM LINKS - Mede conversão -->
+                            <div class="metric">
+                                <i class="fas fa-link"></i>
+                                <h3>{{ report_data.overview.secondary_clicks|default:0|floatformat:0 }}</h3>
+                                <p>Conversões em Links</p>
+                                {% with conversions=report_data.overview.secondary_clicks|default:0 %}
+                                    {% if conversions > 50 %}
+                                        <span class="trend trend-up">↑ Alta Conversão</span>
+                                    {% elif conversions > 15 %}
+                                        <span class="trend trend-neutral">↔ Conversão Média</span>
+                                    {% else %}
+                                        <span class="trend trend-down">↓ Baixa Conversão</span>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                            
+                            <!-- NOVA MÉTRICA: CLIQUES POR VISITA -->
+                            <div class="metric">
+                                <i class="fas fa-chart-line"></i>
+                                {% with visits=report_data.overview.profile_accesses|default:1 %}
+                                {% with link_clicks=report_data.overview.secondary_clicks|default:0 %}
+                                {% with clicks_per_visit_raw=link_clicks|div:visits %}
+                                    <h3>{{ clicks_per_visit_raw|floatformat:1 }}</h3>
+                                    <p>Cliques por Visita</p>
+                                    
+                                    {% if clicks_per_visit_raw > 2.0 %}
+                                        <span class="trend trend-up">↑ Alto Engajamento</span>
+                                    {% elif clicks_per_visit_raw > 1.0 %}
+                                        <span class="trend trend-up">↑ Bom Engajamento</span>
+                                    {% elif clicks_per_visit_raw > 0.5 %}
+                                        <span class="trend trend-neutral">↔ Engajamento Médio</span>
+                                    {% else %}
+                                        <span class="trend trend-down">↓ Baixo Engajamento</span>
+                                    {% endif %}
+                                {% endwith %}
+                                {% endwith %}
+                                {% endwith %}
+                            </div>
+
+                            <div class="metric">
+                                <i class="fas fa-share-alt"></i>
+                                <h3>{{ report_data.shares_count|default:0 }}</h3>
+                                <p>Compartilhamentos</p>
+                                {% with visits=report_data.overview.profile_accesses|default:0 %}
+                                {% with shares=report_data.shares_count|default:0 %}
+                                    {% if visits > 0 %}
+                                        {% with share_rate=shares|div:visits|mul:100|floatformat:1 %}
+                                            <small>{{ share_rate }}% das visitas compartilharam</small>
+                                        {% endwith %}
+                                    {% else %}
+                                        <small>Nenhuma visita este mês</small>
+                                    {% endif %}
+                                {% endwith %}
+                                {% endwith %}
+                            </div>
                         </div>
-                        <div class="metric">
-                            <i class="fas fa-user"></i>
-                            <h3>{{ report_data.overview.profile_accesses|default:0|floatformat:0 }}</h3>
-                            <p>Acessos ao Perfil</p>
+
+
+
+                    <!-- INSIGHTS AUTOMÁTICOS -->
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <h4><i class="fas fa-calendar-day"></i> Dias Ativos</h4>
+                            <div class="insight-value">{{ report_data.non_zero_days }}/30</div>
+                            <p>Dias com atividade</p>
                         </div>
-                        <div class="metric">
-                            <i class="fas fa-link"></i>
-                            <h3>{{ report_data.overview.secondary_clicks|default:0|floatformat:0 }}</h3>
-                            <p>Cliques em Links</p>
+                        <div class="insight-card">
+                            <h4><i class="fas fa-trophy"></i> Dia de Pico</h4>
+                            <div class="insight-value">{{ report_data.peak_day_total }} cliques</div>
+                            <p>{{ report_data.peak_day }}</p>
                         </div>
-                        <div class="metric">
-                            <i class="fas fa-fire"></i>
-                            <h3>{{ report_data.overview.engagement_rate }}</h3>
-                            <p>Taxa de Engajamento</p>
+                        <div class="insight-card">
+                            <h4><i class="fas fa-star"></i> Link Mais Popular</h4>
+                            {% if report_data.links_distribution.items %}
+                                <div class="insight-value">{{ report_data.links_distribution.items.0.label }}</div>
+                                <p>{{ report_data.links_distribution.items.0.percent }}% dos cliques</p>
+                            {% else %}
+                                <div class="insight-value">N/A</div>
+                                <p>Sem dados</p>
+                            {% endif %}
                         </div>
+                      <!--- <div class="insight-card">
+                            <h4><i class="fas fa-chart-bar"></i> Distribuição</h4>
+                            {% if report_data.links_distribution.items %}
+                                <div class="insight-value">{{ report_data.links_distribution.items|length }} links</div>
+                                <p>Canais ativos</p>
+                            {% else %}
+                                <div class="insight-value">0 links</div>
+                                <p>Sem canais</p>
+                            {% endif %}
+                        </div>
+                    </div> -->
+                        </div>
+                    <!-- RESUMO EXECUTIVO -->
+                    <div class="summary-text">
+                        <strong><i class="fas fa-lightbulb"></i> Resumo Executivo:</strong>
+                        {% with total_clicks=report_data.overview.total_clicks|default:0 %}
+                            {% if total_clicks > 500 %}
+                                Performance <strong>excepcional</strong> este mês! A loja manteve engajamento consistente com {{ report_data.non_zero_days }} dias de atividade.
+                            {% elif total_clicks > 200 %}
+                                Bom desempenho geral. Oportunidade para aumentar engajamento nos dias menos ativos.
+                            {% else %}
+                                Há espaço significativo para crescimento. Considere estratégias para aumentar a visibilidade.
+                            {% endif %}
+                        {% endwith %}
+                        {% if report_data.links_distribution.items %}
+                            {% with top_link=report_data.links_distribution.items.0 %}
+                                O link <strong>{{ top_link.label }}</strong> lidera com {{ top_link.percent }}% dos cliques.
+                            {% endwith %}
+                        {% endif %}
                     </div>
-                </div>
+                
 
                 <!-- EVOLUÇÃO DIÁRIA -->
                 <div class="section">
@@ -174,6 +395,24 @@
                     {% if report_data.timeline %}
                         <div class="chart-box">
                             <canvas id="dailyClicksChart"></canvas>
+                        </div>
+                        
+                        <!-- ANÁLISE DA TIMELINE -->
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <h4>Média Diária</h4>
+                                <div class="insight-value">
+                                    {% with total=report_data.overview.total_clicks|default:0 %}
+                                        {{ total|div:30|floatformat:1 }}
+                                    {% endwith %}
+                                </div>
+                                <p>cliques/dia</p>
+                            </div>
+                            <div class="comparison-item">
+                                <h4>Dia de Pico</h4>
+                                <div class="insight-value">{{ report_data.peak_day_total }}</div>
+                                <p>{{ report_data.peak_day }} • {{ report_data.peak_day_percent_links }}% do total</p>
+                            </div>
                         </div>
                     {% else %}
                         <div class="warning"><i class="fas fa-chart-line"></i> Sem dados de timeline detalhados.</div>
@@ -187,9 +426,124 @@
                         <div class="chart-box">
                             <canvas id="linkDistributionChart"></canvas>
                         </div>
+                        
+                        <!-- ANÁLISE DE DISTRIBUIÇÃO - CORRIGIDA PARA LIDAR COM 1-6 LINKS -->
+                        <div class="insights-grid">
+                            <div class="insight-card">
+                                <h4><i class="fas fa-crown"></i> Líder</h4>
+                                {% with top_link=report_data.links_distribution.items.0 %}
+                                    <div class="insight-value">{{ top_link.label }}</div>
+                                    <p>{{ top_link.percent }}%</p>
+                                {% endwith %}
+                            </div>
+                            
+                            <div class="insight-card">
+                                <h4><i class="fas fa-medal"></i> Vice-Líder</h4>
+                                {% if report_data.links_distribution.items.1 %}
+                                    {% with second_link=report_data.links_distribution.items.1 %}
+                                        <div class="insight-value">{{ second_link.label }}</div>
+                                        <p>{{ second_link.percent }}%</p>
+                                    {% endwith %}
+                                {% else %}
+                                    <div class="insight-value">N/A</div>
+                                    <p>Sem vice-líder</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="insight-card">
+                                <h4><i class="fas fa-balance-scale"></i> Concentração</h4>
+                                {% with link_count=report_data.links_distribution.items|length %}
+                                    {% if link_count >= 3 %}
+                                        {% with top3_percent=report_data.links_distribution.items.0.percent|add:report_data.links_distribution.items.1.percent|add:report_data.links_distribution.items.2.percent %}
+                                            <div class="insight-value">{{ top3_percent|floatformat:0 }}%</div>
+                                            <p>Top 3 links</p>
+                                        {% endwith %}
+                                    {% elif link_count == 2 %}
+                                        {% with top2_percent=report_data.links_distribution.items.0.percent|add:report_data.links_distribution.items.1.percent %}
+                                            <div class="insight-value">{{ top2_percent|floatformat:0 }}%</div>
+                                            <p>Top 2 links</p>
+                                        {% endwith %}
+                                    {% else %}
+                                        <div class="insight-value">{{ report_data.links_distribution.items.0.percent|floatformat:0 }}%</div>
+                                        <p>Único link</p>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                            
+                            <div class="insight-card">
+                                <h4><i class="fas fa-layer-group"></i> Diversidade</h4>
+                                <div class="insight-value">{{ report_data.links_distribution.items|length }}</div>
+                                <p>Canais ativos</p>
+                            </div>
+                        </div>
                     {% else %}
                         <div class="warning"><i class="fas fa-link"></i> Nenhum link configurado.</div>
                     {% endif %}
+                
+
+                <!-- RECOMENDAÇÕES - CORRIGIDA PARA LIDAR COM 1-6 LINKS -->
+                
+                    <h2><i class="fas fa-bullseye"></i> Recomendações Estratégicas</h2>
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <h4><i class="fas fa-rocket"></i> Otimização</h4>
+                            <p>
+                                {% if report_data.links_distribution.items %}
+                                    {% with top_link=report_data.links_distribution.items.0 %}
+                                        {% if top_link.percent > 50 %}
+                                            Diversifique os canais - {{ top_link.label }} domina muito
+                                        {% else %}
+                                            Bom equilíbrio entre canais
+                                        {% endif %}
+                                    {% endwith %}
+                                {% else %}
+                                    Configure pelo menos um link
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="insight-card">
+                            <h4><i class="fas fa-calendar-alt"></i> Frequência</h4>
+                            <p>
+                                {% if report_data.non_zero_days < 15 %}
+                                    Aumente atividade - apenas {{ report_data.non_zero_days }} dias ativos
+                                {% else %}
+                                    Frequência boa - {{ report_data.non_zero_days }} dias ativos
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="insight-card">
+                            <h4><i class="fas fa-chart-line"></i> Crescimento</h4>
+                            <p>
+                                {% with avg_daily=report_data.overview.total_clicks|default:0|div:30 %}
+                                    {% if avg_daily < 5 %}
+                                        Foco em aumentar tráfego base
+                                    {% elif avg_daily < 20 %}
+                                        Bom potencial para escalar
+                                    {% else %}
+                                        Excelente base para crescimento
+                                    {% endif %}
+                                {% endwith %}
+                            </p>
+                        </div>
+                        <div class="insight-card">
+                            <h4><i class="fas fa-magic"></i> Ação Imediata</h4>
+                            <p>
+                                {% if report_data.links_distribution.items and report_data.links_distribution.items|length >= 4 %}
+                                    {% with fourth_link=report_data.links_distribution.items.3 %}
+                                        {% if fourth_link.percent < 5 %}
+                                            Revitalize {{ fourth_link.label }}
+                                        {% else %}
+                                            Mantenha estratégia atual
+                                        {% endif %}
+                                    {% endwith %}
+                                {% elif report_data.links_distribution.items and report_data.links_distribution.items|length < 2 %}
+                                    Adicione mais canais de contato
+                                {% else %}
+                                    Mantenha estratégia atual
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -203,113 +557,89 @@
         Chart.register(ChartDataLabels);
         {% if report_data.timeline %}
         const ctxLine = document.getElementById('dailyClicksChart').getContext('2d');
-new Chart(ctxLine, {
-    type: 'line',
-    data: {
-        labels: [{% for day in report_data.timeline %}'{{ day.label }}',{% endfor %}],
-        datasets: [{
-            label: 'Cliques Diários',
-            data: [{% for day in report_data.timeline %}{{ day.total }},{% endfor %}],
-            borderColor: '#2980b9',
-            backgroundColor: function(context) {
-                const chart = context.chart;
-                const {ctx: chartCtx, chartArea} = chart;
-                if (!chartArea) {
-                    return null;
-                }
-                const gradient = chartCtx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-                gradient.addColorStop(0, 'rgba(46, 125, 50, 0.4)'); // Verde no topo (superior)
-                gradient.addColorStop(1, 'rgba(33, 150, 243, 0.4)'); // Azul na base (inferior)
-                return gradient;
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: [{% for day in report_data.timeline %}'{{ day.label }}',{% endfor %}],
+                datasets: [{
+                    label: 'Cliques Diários',
+                    data: [{% for day in report_data.timeline %}{{ day.total }},{% endfor %}],
+                    borderColor: '#2980b9',
+                    backgroundColor: function(context) {
+                        const chart = context.chart;
+                        const {ctx: chartCtx, chartArea} = chart;
+                        if (!chartArea) {
+                            return null;
+                        }
+                        const gradient = chartCtx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                        gradient.addColorStop(0, 'rgba(46, 125, 50, 0.4)');
+                        gradient.addColorStop(1, 'rgba(33, 150, 243, 0.4)');
+                        return gradient;
+                    },
+                    fill: true,
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#2980b9',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    tension: 0.3
+                }]
             },
-            fill: true,
-            borderWidth: 2,
-            pointRadius: 4,
-            pointBackgroundColor: '#2980b9',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            tension: 0.3
-        }]
-    },
-    options: {
-        plugins: { 
-            legend: { display: false },
-            title: {
-                display: true,
-                text: 'Cliques Diários',
-                font:{
-                    color: '#333',
-                    size: 12, /* Reduz mais para caber */
-                    weight: 'bold'
+            options: {
+                plugins: { 
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Evolução Diária de Cliques',
+                        font:{
+                            color: '#333',
+                            size: 12,
+                            weight: 'bold'
+                        }
+                    },
+                    datalabels: {
+                        color: '#333',
+                        font: {
+                            weight: 'bold',
+                            size: 8
+                        },
+                        formatter: function(value) {
+                            return value > 0 ? value : '';
+                        },
+                        anchor: 'end',
+                        align: 'top',
+                        offset: 4
+                    }
+                },
+                scales: {
+                    x: { 
+                        title: {
+                            display: true,
+                            text: 'Dias'
+                        },
+                        ticks: { 
+                            color: '#333', 
+                            autoSkip: false, 
+                            maxTicksLimit: 30, 
+                            font: { size: 7, weight: 'bold' }
+                        },
+                        grid: { display: false }
+                    },
+                    y: { 
+                        title: {
+                            display: true,
+                            text: 'Cliques'
+                        },
+                        ticks: { 
+                            color: '#444', 
+                            stepSize: 10, 
+                            font: { size: 8, weight: 'bold' } 
+                        },
+                        grid: { display: false }
+                    }
                 }
-            },
-            datalabels: {
-                color: '#333',
-                font: {
-                    weight: 'bold',
-                    size: 8 /* Reduz labels nos pontos */
-                },
-                formatter: function(value) {
-                    return value;
-                },
-                anchor: 'end',
-                align: 'top',
-                offset: 4
             }
-        },
-        scales: {
-            x: { 
-                title: {
-                    display: true,
-                    text: 'Dias'
-                },
-                ticks: { 
-                    color: '#333', 
-                    autoSkip: false, 
-                    maxTicksLimit: 30, 
-                    font: { size: 7, weight: 'bold' } /* Menor para caber 30 dias */
-                },
-                grid: { display: false }
-            },
-            y: { 
-                title: {
-                    display: true,
-                    text: 'Cliques'
-                },
-                ticks: { 
-                    color: '#444', 
-                    stepSize: 10, 
-                    font: { size: 8, weight: 'bold' } 
-                },
-                grid: { display: false }
-            }
-        }
-    },
-    plugins: [{
-        id: 'linhasTracejadasVerticais',
-        afterDatasetsDraw: function(chart) {
-            const { ctx, scales: { x, y }, data } = chart;
-            ctx.save();
-            ctx.strokeStyle = 'white';
-            ctx.lineWidth = 1;
-            ctx.setLineDash([5, 5]); // Traço tracejado (5px traço, 5px espaço)
-            x.ticks.forEach(function(tick) {
-                const indiceDados = tick.value; // Índice da categoria visível
-                const valorY = data.datasets[0].data[indiceDados];
-                if (valorY != null) {
-                    const posX = x.getPixelForValue(indiceDados);
-                    const posYTopo = y.getPixelForValue(valorY);
-                    const posYBase = y.bottom; // Base do eixo Y (x-axis)
-                    ctx.beginPath();
-                    ctx.moveTo(posX, posYTopo);
-                    ctx.lineTo(posX, posYBase);
-                    ctx.stroke();
-                }
-            });
-            ctx.restore();
-        }
-    }]
-});
+        });
         {% endif %}
 
         {% if report_data.links_distribution.items %}
@@ -321,28 +651,48 @@ new Chart(ctxLine, {
                 datasets: [{
                     label: 'Cliques',
                     data: [{% for item in report_data.links_distribution.items %}{{ item.data }},{% endfor %}],
-                    backgroundColor: ['#2980b9','#c0392b','#27ae60','#e67e22','#8e44ad','#16a085']
+                    backgroundColor: [
+                        '#2980b9','#c0392b','#27ae60','#e67e22','#8e44ad',
+                        '#16a085','#d35400','#c2185b','#7d3c98','#27ae60'
+                    ]
                 }]
             },
             options: {
                 indexAxis: 'y',
-                plugins: { legend: { display: false } },
+                plugins: { 
+                    legend: { display: false },
+                    datalabels: {
+                        color: '#fff',
+                        font: {
+                            weight: 'bold',
+                            size: 9
+                        },
+                        formatter: function(value, context) {
+                            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            const percent = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
+                            return percent + '%';
+                        },
+                        anchor: 'end',
+                        align: 'right'
+                    }
+                },
                 scales: {
                     x: { 
                         ticks: { 
                             color: '#444',
-                            font: { size: 8 } /* Ajuste para caber */
+                            font: { size: 8 }
                         } 
                     },
                     y: { 
                         ticks: { 
                             color: '#444',
                             font: { size: 8 },
-                            maxTicksLimit: 10 /* Limita ticks se muitos labels */
+                            maxTicksLimit: 10
                         } 
                     }
                 }
-            }
+            },
+            plugins: [ChartDataLabels]
         });
         {% endif %}
     </script>

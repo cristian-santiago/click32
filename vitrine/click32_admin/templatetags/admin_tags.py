@@ -116,3 +116,13 @@ def sum_list(value):
         return float(value or 0)
     except (ValueError, TypeError):
         return 0
+    
+@register.filter
+def to_float(value):
+    """Converte string com % para float"""
+    try:
+        if isinstance(value, str):
+            value = value.replace('%', '').strip()
+        return float(value)
+    except (ValueError, TypeError):
+        return 0.0

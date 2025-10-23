@@ -1,29 +1,51 @@
-/**
- * Configura o evento de compartilhamento para o botão de compartilhamento.
- */
-document.addEventListener('DOMContentLoaded', () => {
-  const shareButton = document.getElementById('shareButton');
-  if (!shareButton) return; // Exits if shareButton is not found
+document.addEventListener('DOMContentLoaded', function() {
+    var shareButton = document.getElementById('shareButton');
+    if (!shareButton) return;
 
-  const storeUrl = window.location.href;
-  const storeName = "{{ store.name }}";
+    var storeId = shareButton.getAttribute('data-store-id');
+    var storeName = shareButton.getAttribute('data-store-name');
+    var storeUrl = shareButton.getAttribute('data-store-url') || window.location.href;
 
-  // Configura o evento de clique para o botão de compartilhamento
-  shareButton.addEventListener('click', async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: storeName,
-          text: `Confira esta loja: ${storeName}`,
-          url: storeUrl
+    shareButton.addEventListener('click', function() {
+        // 1. PRIMEIRO registra o compartilhamento
+        fetch('/track-share/' + storeId + '/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/json',
+            }
+        }).catch(function(error) {
+            console.log('Erro no tracking, mas continua...');
         });
-      } catch (err) {
-        // Error handling for share failure or user cancellation
-        alert('Não foi possível compartilhar. Tente novamente.');
-      }
-    } else {
-      // Fallback for desktop or older browsers
-      prompt("Copie o link da loja:", storeUrl);
-    }
-  });
+
+        // 2. DEPOIS abre o share
+        if (navigator.share) {
+            navigator.share({
+                title: storeName,
+                text: 'Confira esta loja: ' + storeName,
+                url: storeUrl
+            }).catch(function(err) {
+                // Usuário cancelou
+            });
+        } else {
+            prompt("Copie o link da loja:", storeUrl);
+        }
+    });
 });
+
+// Função CSRF (certifique-se que existe)
+function getCSRFToken() {
+    var name = 'csrftoken';
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}

@@ -98,3 +98,16 @@ class ClickTrack(models.Model):
     def __str__(self):
         store_name = self.store.name if self.store else 'No Store'
         return f"{store_name} - {self.element_type} - {self.click_count} clicks"
+
+class ShareTrack(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='shares')
+    shared_at = models.DateTimeField(auto_now_add=True)
+    
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['store', 'shared_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.store.name} - {self.shared_at.strftime('%d/%m/%Y %H:%M')}"

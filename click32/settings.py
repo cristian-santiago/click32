@@ -67,10 +67,17 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 if DEBUG:
-    CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
+    CSRF_TRUSTED_ORIGINS = [
+        'http://localhost:8000',
+        'http://127.0.0.1:8000', 
+        'https://localhost:8000',
+        'https://127.0.0.1:8000',
+        'https://*.ngrok-free.app',  
+        'http://*.ngrok-free.app' 
+    ]
 else:
-    CSRF_TRUSTED_ORIGINS = ['https://meusite.com']
-
+    CSRF_TRUSTED_ORIGINS = ['https://seusite.com']
+    
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',  # Necessário para sessões

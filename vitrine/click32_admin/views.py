@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
 from django.utils.safestring import mark_safe
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
@@ -17,7 +18,7 @@ import shutil
 import logging
 import json
 from .forms import StoreForm, TagForm, CategoryForm, GroupForm, StoreOpeningHourFormSet
-from vitrine.models import Store, Tag, Category
+from vitrine.models import Store, Tag, Category, ShareTrack
 from vitrine.views import cleanup_temp_files
 from .functions import get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate
 
@@ -518,6 +519,13 @@ def _generate_report_data(store_id, start_date, end_date):
     for l in configured_links_sorted:
         pct = round((l['data'] / total_links_sum * 100) if total_links_sum > 0 else 0, 1)
         items.append({'label': l['label'], 'data': l['data'], 'percent': pct})
+    
+     # Buscar compartilhamentos do mês
+    shares_count = ShareTrack.objects.filter(
+        store_id=store_id,
+        shared_at__date__gte=start_date,
+        shared_at__date__lte=end_date
+    ).count()
 
     report_data = {
         'store_name': store.name,
@@ -540,8 +548,11 @@ def _generate_report_data(store_id, start_date, end_date):
         'peak_day_total': peak_day_total,
         'peak_day_percent_links': peak_percent_links,
         'non_zero_days': non_zero_days,
-        'warning': 'Nenhum link configurado.' if not configured_links else None
+        'warning': 'Nenhum link configurado.' if not configured_links else None,
+        'shares_count': shares_count,
     }
+
+
     return report_data
 
 
@@ -555,7 +566,7 @@ def monthly_report_api(request, store_id):
     
     return JsonResponse(report_data)
 
-@check_permission(lambda u: u.is_superuser)
+@check_permission(lambda u: u.is_superuser) 
 def monthly_report_view(request, store_id):
     store = get_object_or_404(Store, id=store_id)
     
@@ -575,3 +586,5 @@ def monthly_report_view(request, store_id):
         'now': timezone.now(),  # Para o footer do template
     }
     return render(request, 'click32_admin/monthly_report.html', context)
+
+

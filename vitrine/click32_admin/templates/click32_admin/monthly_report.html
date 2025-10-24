@@ -8,225 +8,367 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Linha verde para debug - mostra onde termina a página */
-        .a4-simulator::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 10mm;
-            right: 10mm;
-            height: 3px;
-            background: #27ae60;
-            border-radius: 2px;
-            box-shadow: 0 0 5px rgba(39, 174, 96, 0.5);
-            }
+<style>
+    /* PALETA ESTRATÉGICA - CRESCIMENTO & CONFIANÇA */
+    :root {
+        --primary-blue: #2563eb;       /* Azul confiável - sucesso */
+        --success-green: #059669;      /* Verde crescimento - positivo */
+        --energy-orange: #ea580c;      /* Laranja energia - destaque */
+        --premium-purple: #7c3aed;     /* Roxo premium - exclusivo */
+        --trust-teal: #0d9488;         /* Verde-azul confiança */
+    }
 
-        /* Simulação de A4 Portrait para visualização de edição */
-        .a4-simulator {
-            width: 210mm;
-            height: 297mm;
-            margin: 0 auto;
-            
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            overflow: visible;
-            position: relative;
-            page-break-after: always;
-        }
-        .a4-content {
-            width: 100%;
-            min-height: 100%;
-            padding: 0;
-            box-sizing: border-box;
-            position: relative;
-            background-color:#e0e0e0;
-        }
-        body { 
-            font-family: 'Arial', sans-serif; 
-            margin: 0; 
-            color: #333; 
-            background: #f0f0f0;
-            padding: 20px;
-        }
-        @page { size: A4 portrait; margin: 1cm; }
-        .header { 
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-            color-adjust: exact;
-            color: white; 
-            padding: 20px 30px;
-            text-align: center; 
-            border-bottom: 4px solid #2980b9; 
-        }
-        .header h1 { margin: 0; font-size: 1.6em; }
-        .header p { margin: 5px 0; font-size: 1em; }
-        .container { 
-            max-width: 100%;
-            margin: 5px auto;
-            padding: 0 10px;
-            padding-bottom: 60px;
-        }
-        .section { 
-            padding: 15px;
-            border-bottom: 2px solid #e0e0e0; 
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            padding-bottom: 100px;
-        }
-        .section:last-child { border-bottom: none; }
-        .section h2 { 
-            color: #1e3c72; 
-            font-size: 1.3em;
-            margin-bottom: 12px; 
-            display: flex; 
-            align-items: center; 
-            word-wrap: break-word;
-        }
-        .section h2 i { margin-right: 10px; color: #2980b9; }
-        .metric-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px; 
-            margin-bottom: 12px; 
-        }
-        .metric { 
-            background: #f9f9f9; 
-            border: 1px solid #e0e0e0; 
-            border-radius: 8px; 
-            text-align: center; 
-            padding: 12px;
-            transition: transform 0.2s ease;
-        }
-        .metric:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .metric i { font-size: 1.6em; color: #2980b9; margin-bottom: 5px; }
-        .metric h3 { margin: 0; font-size: 1.4em; color: #1e3c72; }
-        .metric p { margin: 0; font-weight: 500; color: #555; font-size: 0.9em; }
-        .metric .trend { 
-            font-size: 0.8em; 
-            margin-top: 4px; 
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 12px;
-        }
-        .trend-up { background: #e8f5e8; color: #2e7d32; }
-        .trend-down { background: #ffebee; color: #c62828; }
-        .trend-neutral { background: #f5f5f5; color: #666; }
-        
-        .chart-box { 
-            max-width: 100%; 
-            margin: 0 auto; 
-            background: #fafafa; 
-            border: 1px solid #ddd; 
-            border-radius: 8px; 
-            padding: 6px;
-        }
-        canvas { 
-            width: 100% !important; 
-            height: 300px !important;
-            max-height: 300px;
-        }
-        
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin-top: 15px;
-        }
-        .insight-card {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-        }
-        .insight-card h4 {
-            margin: 0 0 8px 0;
-            color: #1e3c72;
-            font-size: 1em;
-        }
-        .insight-card p {
-            margin: 0;
-            font-size: 0.9em;
-            color: #666;
-        }
-        .insight-value {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #2980b9;
-            margin: 5px 0;
-        }
-        
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .comparison-item {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 6px;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .footer { 
-            background: #1e3c72 !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-            color-adjust: exact;
-            color: white; 
-            text-align: center; 
-            padding: 12px;
-            font-size: 0.8em; 
-            border-top: 4px solid #2980b9; 
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            margin: 0;
-        }
-        .warning { 
-            background: #fff3e0; 
-            border-left: 5px solid #e67e22; 
-            padding: 8px; 
-            border-radius: 6px; 
-            margin: 8px 0;
-            display: flex; 
-            align-items: center; 
-            word-wrap: break-word;
-        }
-        .warning i { margin-right: 10px; color: #e67e22; }
-        
-        .performance-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-left: 8px;
-        }
-        .badge-excellent { background: #e8f5e8; color: #2e7d32; }
-        .badge-good { background: #e3f2fd; color: #1565c0; }
-        .badge-average { background: #fff3e0; color: #ef6c00; }
-        .badge-poor { background: #ffebee; color: #c62828; }
-        
-        .summary-text {
-            background: #f8f9fa;
-            border-left: 4px solid #2980b9;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
-            font-size: 0.9em;
-            line-height: 1.4;
-            text-align: justify;
-            }
-    </style>
+    /* Garantir que todas as cores sejam mantidas no PDF */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+
+    /* Forçar cores de fundo no print */
+    .metric,
+    .insight-card,
+    .comparison-item,
+    .summary-text,
+    .chart-box,
+    .header,
+    .footer {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+    
+    /* Linha verde para debug - mostra onde termina a página */
+    .a4-simulator::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 5mm;
+        right: 5mm;
+        height: 3px;
+        background: var(--success-green);
+        border-radius: 2px;
+        box-shadow: 0 0 5px rgba(5, 150, 105, 0.5);
+    }
+
+    /* Simulação de A4 Portrait para visualização de edição */
+    .a4-simulator {
+        width: 210mm;
+        height: 297mm;
+        margin: 0 auto;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        overflow: visible;
+        position: relative;
+        page-break-after: always;
+        background: white;
+    }
+    
+    .a4-content {
+        width: 100%;
+        min-height: 100%;
+        padding: 0;
+        box-sizing: border-box;
+        position: relative;
+        background-color: white;
+    }
+    
+    body { 
+        font-family: 'Arial', sans-serif; 
+        margin: 0; 
+        color: #333; 
+        background: #f8fafc;
+        padding: 10px;
+    }
+    
+    @page { 
+        size: A4 portrait; 
+        margin: 0.7cm;
+    }
+    
+    .header { 
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #1e40af 100%) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+        color: white; 
+        padding: 12px 20px;
+        text-align: center; 
+        border-bottom: 4px solid var(--success-green); 
+    }
+    
+    .header h1 { 
+        margin: 0; 
+        font-size: 1.7em;
+    }
+    
+    .header p { 
+        margin: 4px 0; 
+        font-size: 1em; 
+    }
+    
+    .container { 
+        max-width: 100%;
+        margin: 3px auto;
+        padding: 0 8px;
+        padding-bottom: 50px;
+        background-color: #f8fafc;
+    }
+    
+    .section { 
+        padding: 12px 10px;
+        border-bottom: 2px solid #e2e8f0; 
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        padding-bottom: 25px;
+    }
+    
+    .section:last-child { 
+        border-bottom: none; 
+    }
+    
+    .section h2 { 
+        color: var(--primary-blue); 
+        font-size: 1.35em;
+        margin-bottom: 10px; 
+        display: flex; 
+        align-items: center; 
+        word-wrap: break-word;
+    }
+    
+    .section h2 i { 
+        margin-right: 10px; 
+        color: var(--energy-orange); 
+    }
+    
+    .metric-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(139px, 1fr));
+        gap: 10px; 
+        margin-bottom: 10px; 
+    }
+    
+    .metric { 
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 2px solid #e2e8f0; 
+        border-radius: 8px; 
+        text-align: center; 
+        padding: 12px;
+        transition: transform 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    
+    .metric:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    }
+    
+    .metric i { 
+        font-size: 1.7em; 
+        color: var(--primary-blue); 
+        margin-bottom: 5px; 
+    }
+    
+    .metric h3 { 
+        margin: 0; 
+        font-size: 1.5em; 
+        color: var(--primary-blue); 
+    }
+    
+    .metric p { 
+        margin: 0; 
+        font-weight: 500; 
+        color: #475569; 
+        font-size: 0.8em;
+        margin-top: 10px; 
+        margin-bottom: 10px; 
+    }
+    
+    .metric .trend { 
+        font-size: 0.8em; 
+        margin-top: 4px; 
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+    }
+    
+    .trend-up { 
+        background: #dcfce7; 
+        color: var(--success-green);
+        border: 1px solid #bbf7d0;
+    }
+    .trend-down { 
+        background: #fee2e2; 
+        color: #dc2626;
+        border: 1px solid #fecaca;
+    }
+    .trend-neutral { 
+        background: #fef3c7; 
+        color: #d97706;
+        border: 1px solid #fde68a;
+    }
+    
+    .chart-box { 
+        max-width: 100%; 
+        margin: 0 auto; 
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 2px solid #e2e8f0; 
+        border-radius: 8px; 
+        padding: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    /* Melhorias para os gráficos */
+    .chart-box {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+        border: 2px solid #e2e8f0 !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04) !important;
+    }
+
+    /* Garantir contraste nos textos dos gráficos */
+    .chartjs-render-monitor {
+        filter: none !important;
+    }
+
+    /* Melhorar legibilidade dos dados */
+    .chartjs-datalabels {
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    }
+    
+    canvas { 
+        width: 100% !important; 
+        height: 280px !important;
+        max-height: 280px;
+    }
+    
+    .insights-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(176px, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+    }
+    
+    .insight-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    
+    .insight-card h4 {
+        margin: 0 0 6px 0;
+        color: var(--primary-blue);
+        font-size: 1em;
+    }
+    
+    .insight-card p {
+        margin: 0;
+        font-size: 0.9em;
+        color: #64748b;
+    }
+    
+    .insight-value {
+        font-size: 1.25em;
+        font-weight: bold;
+        color: var(--primary-blue);
+        margin: 4px 0;
+    }
+    
+    .comparison-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+    
+    .comparison-item {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 2px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    
+    .summary-text {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        border-left: 4px solid var(--trust-teal);
+        padding: 10px;
+        border-radius: 4px;
+        margin: 8px 0;
+        font-size: 0.9em;
+        line-height: 1.4;
+        text-align: justify;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    
+    .footer { 
+        background: linear-gradient(135deg, var(--primary-blue) 0%, #1e40af 100%) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact;
+        color: white; 
+        text-align: center; 
+        padding: 10px;
+        font-size: 0.8em; 
+        border-top: 4px solid var(--success-green); 
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+    }
+    
+    .warning { 
+        background: #fffbeb; 
+        border-left: 4px solid var(--energy-orange); 
+        padding: 8px; 
+        border-radius: 6px; 
+        margin: 8px 0;
+        display: flex; 
+        align-items: center; 
+        word-wrap: break-word;
+    }
+    
+    .warning i { 
+        margin-right: 10px; 
+        color: var(--energy-orange); 
+    }
+    
+    .performance-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.8em;
+        font-weight: bold;
+        margin-left: 8px;
+    }
+    
+    .badge-excellent { 
+        background: #dcfce7; 
+        color: var(--success-green);
+        border: 1px solid #bbf7d0;
+    }
+    .badge-good { 
+        background: #dbeafe; 
+        color: var(--primary-blue);
+        border: 1px solid #bfdbfe;
+    }
+    .badge-average { 
+        background: #fef3c7; 
+        color: var(--energy-orange);
+        border: 1px solid #fde68a;
+    }
+    .badge-poor { 
+        background: #fee2e2; 
+        color: #dc2626;
+        border: 1px solid #fecaca;
+    }
+</style>
 </head>
 <body>
     <div class="a4-simulator">
@@ -244,94 +386,95 @@
                     <h2><i class="fas fa-eye"></i> Visão Geral do Mês</h2>
 
                         <div class="metric-grid">
-                            <!-- CLIQUES TOTAIS - Mede volume geral -->
-                            <div class="metric">
-                                <i class="fas fa-mouse-pointer"></i>
-                                <h3>{{ report_data.overview.total_clicks|default_if_none:"0" }}</h3>
-                                <p>Cliques Totais</p>
-                                {% with total_clicks=report_data.overview.total_clicks|default:0 %}
-                                    {% if total_clicks > 100 %}
-                                        <span class="trend trend-up">↑ Alto Volume</span>
-                                    {% elif total_clicks > 30 %}
-                                        <span class="trend trend-neutral">↔ Volume Médio</span>
-                                    {% else %}
-                                        <span class="trend trend-down">↓ Baixo Volume</span>
-                                    {% endif %}
-                                {% endwith %}
-                            </div>
-                            
-                            <!-- ACESSOS AO PERFIL - Mede tráfego base -->
-                            <div class="metric">
-                                <i class="fas fa-user"></i>
-                                <h3>{{ report_data.overview.profile_accesses|default:0|floatformat:0 }}</h3>
-                                <p>Visitas à Loja</p>
-                                {% with visits=report_data.overview.profile_accesses|default:0 %}
-                                    {% if visits > 20 %}
-                                        <span class="trend trend-up">↑ Boa Visibilidade</span>
-                                    {% elif visits > 5 %}
-                                        <span class="trend trend-neutral">↔ Visibilidade Média</span>
-                                    {% else %}
-                                        <span class="trend trend-down">↓ Baixa Visibilidade</span>
-                                    {% endif %}
-                                {% endwith %}
-                            </div>
-                            
-                            <!-- CLIQUES EM LINKS - Mede conversão -->
-                            <div class="metric">
-                                <i class="fas fa-link"></i>
-                                <h3>{{ report_data.overview.secondary_clicks|default:0|floatformat:0 }}</h3>
-                                <p>Conversões em Links</p>
-                                {% with conversions=report_data.overview.secondary_clicks|default:0 %}
-                                    {% if conversions > 50 %}
-                                        <span class="trend trend-up">↑ Alta Conversão</span>
-                                    {% elif conversions > 15 %}
-                                        <span class="trend trend-neutral">↔ Conversão Média</span>
-                                    {% else %}
-                                        <span class="trend trend-down">↓ Baixa Conversão</span>
-                                    {% endif %}
-                                {% endwith %}
-                            </div>
-                            
-                            <!-- NOVA MÉTRICA: CLIQUES POR VISITA -->
-                            <div class="metric">
-                                <i class="fas fa-chart-line"></i>
-                                {% with visits=report_data.overview.profile_accesses|default:1 %}
-                                {% with link_clicks=report_data.overview.secondary_clicks|default:0 %}
-                                {% with clicks_per_visit_raw=link_clicks|div:visits %}
-                                    <h3>{{ clicks_per_visit_raw|floatformat:1 }}</h3>
-                                    <p>Cliques por Visita</p>
-                                    
-                                    {% if clicks_per_visit_raw > 2.0 %}
-                                        <span class="trend trend-up">↑ Alto Engajamento</span>
-                                    {% elif clicks_per_visit_raw > 1.0 %}
-                                        <span class="trend trend-up">↑ Bom Engajamento</span>
-                                    {% elif clicks_per_visit_raw > 0.5 %}
-                                        <span class="trend trend-neutral">↔ Engajamento Médio</span>
-                                    {% else %}
-                                        <span class="trend trend-down">↓ Baixo Engajamento</span>
-                                    {% endif %}
-                                {% endwith %}
-                                {% endwith %}
-                                {% endwith %}
-                            </div>
+    <!-- OPORTUNIDADES DE CONTATO -->
+    <div class="metric">
+        <i class="fas fa-bullseye"></i>
+        <h3>{{ report_data.overview.total_clicks|default_if_none:"0" }}</h3>
+        <p>Oportunidades Criadas</p>
+        {% with total_clicks=report_data.overview.total_clicks|default:0 %}
+            {% if total_clicks > 100 %}
+                <span class="trend trend-up">🎯 Múltiplas Oportunidades</span>
+            {% elif total_clicks > 30 %}
+                <span class="trend trend-up">📈 Boa Geração</span>
+            {% else %}
+                <span class="trend trend-neutral">🌱 Primeiros Contatos</span>
+            {% endif %}
+        {% endwith %}
+    </div>
+    
+    <!-- VISIBILIDADE NO BAIRRO -->
+    <div class="metric">
+        <i class="fas fa-eye"></i>
+        <h3>{{ report_data.overview.profile_accesses|default:0|floatformat:0 }}</h3>
+        <p>Pessoas Alcançadas</p>
+        {% with visits=report_data.overview.profile_accesses|default:0 %}
+            {% if visits > 20 %}
+                <span class="trend trend-up">📍 Alto Alcance</span>
+            {% elif visits > 5 %}
+                <span class="trend trend-up">👀 Alcance Médio</span>
+            {% else %}
+                <span class="trend trend-neutral">🔍 Iniciando Alcance</span>
+            {% endif %}
+        {% endwith %}
+    </div>
+    
+    <!-- AÇÕES DE CONTATO -->
+    <div class="metric">
+        <i class="fas fa-handshake"></i>
+        <h3>{{ report_data.overview.secondary_clicks|default:0|floatformat:0 }}</h3>
+        <p>Contatos Realizados</p>
+        {% with conversions=report_data.overview.secondary_clicks|default:0 %}
+            {% if conversions > 50 %}
+                <span class="trend trend-up">🤝 Muitos Contatos</span>
+            {% elif conversions > 15 %}
+                <span class="trend trend-up">📞 Contatos Consistentes</span>
+            {% else %}
+                <span class="trend trend-neutral">💬 Primeiros Contatos</span>
+            {% endif %}
+        {% endwith %}
+    </div>
+    
+    <!-- QUALIDADE DO INTERESSE -->
+    <div class="metric">
+        <i class="fas fa-star"></i>
+        {% with visits=report_data.overview.profile_accesses|default:1 %}
+        {% with link_clicks=report_data.overview.secondary_clicks|default:0 %}
+        {% with clicks_per_visit_raw=link_clicks|div:visits %}
+            <h3>{{ clicks_per_visit_raw|floatformat:1 }}</h3>
+            <p>Interesse por Pessoa</p>
+            
+            {% if clicks_per_visit_raw > 2.0 %}
+                <span class="trend trend-up">🔥 Alto Interesse</span>
+            {% elif clicks_per_visit_raw > 1.0 %}
+                <span class="trend trend-up">⭐ Bom Interesse</span>
+            {% elif clicks_per_visit_raw > 0.5 %}
+                <span class="trend trend-up">👍 Interesse Médio</span>
+            {% else %}
+                <span class="trend trend-neutral">🔍 Interesse Inicial</span>
+            {% endif %}
+        {% endwith %}
+        {% endwith %}
+        {% endwith %}
+    </div>
 
-                            <div class="metric">
-                                <i class="fas fa-share-alt"></i>
-                                <h3>{{ report_data.shares_count|default:0 }}</h3>
-                                <p>Compartilhamentos</p>
-                                {% with visits=report_data.overview.profile_accesses|default:0 %}
-                                {% with shares=report_data.shares_count|default:0 %}
-                                    {% if visits > 0 %}
-                                        {% with share_rate=shares|div:visits|mul:100|floatformat:1 %}
-                                            <small>{{ share_rate }}% das visitas compartilharam</small>
-                                        {% endwith %}
-                                    {% else %}
-                                        <small>Nenhuma visita este mês</small>
-                                    {% endif %}
-                                {% endwith %}
-                                {% endwith %}
-                            </div>
-                        </div>
+    <!-- INDICAÇÕES ORGÂNICAS -->
+    <div class="metric">
+        <i class="fas fa-share-alt"></i>
+        <h3>{{ report_data.shares_count|default:0 }}</h3>
+        <p>Indicações Recebidas</p>
+        {% with visits=report_data.overview.profile_accesses|default:0 %}
+        {% with shares=report_data.shares_count|default:0 %}
+            {% if shares > 0 %}
+                <span class="trend trend-up">📤 Marketing Orgânico</span>
+                <small>{{ shares }} recomendações espontâneas</small>
+            {% else %}
+                <span class="trend trend-neutral">💡 Potencial de Indicação</span>
+                <small>Seu perfil pode ser compartilhado</small>
+            {% endif %}
+        {% endwith %}
+        {% endwith %}
+    </div>
+</div>
 
 
 
@@ -369,24 +512,116 @@
                         </div>
                     </div> -->
                         </div>
-                    <!-- RESUMO EXECUTIVO -->
-                    <div class="summary-text">
-                        <strong><i class="fas fa-lightbulb"></i> Resumo Executivo:</strong>
-                        {% with total_clicks=report_data.overview.total_clicks|default:0 %}
-                            {% if total_clicks > 500 %}
-                                Performance <strong>excepcional</strong> este mês! A loja manteve engajamento consistente com {{ report_data.non_zero_days }} dias de atividade.
-                            {% elif total_clicks > 200 %}
-                                Bom desempenho geral. Oportunidade para aumentar engajamento nos dias menos ativos.
-                            {% else %}
-                                Há espaço significativo para crescimento. Considere estratégias para aumentar a visibilidade.
-                            {% endif %}
-                        {% endwith %}
-                        {% if report_data.links_distribution.items %}
-                            {% with top_link=report_data.links_distribution.items.0 %}
-                                O link <strong>{{ top_link.label }}</strong> lidera com {{ top_link.percent }}% dos cliques.
-                            {% endwith %}
-                        {% endif %}
-                    </div>
+                    
+                       <!-- INSIGHTS MOTIVACIONAIS - Foco no valor da exposição -->
+<div class="summary-text">
+    <strong><i class="fas fa-chart-line"></i> Seu Alcance Neste Mês:</strong>
+    {% with total_clicks=report_data.overview.total_clicks|default:0 %}
+    {% with visits=report_data.overview.profile_accesses|default:0 %}
+    {% with conversions=report_data.overview.secondary_clicks|default:0 %}
+    {% with engagement=conversions|div:visits|default:0 %}
+    
+    <!-- VISIBILIDADE REAL -->
+    <p>📍 <strong>{{ visits }} visualizações do seu perfil</strong> - Foram <strong>{{ visits }}</strong> oportunidades de negócio criadas!</p>
+
+    <!-- INTERAÇÃO COM VALOR TANGÍVEL -->
+    {% if total_clicks > 500 %}
+        <p>🎉 <strong>{{ total_clicks }} engajamentos registrados</strong> - volume excelente de interações com seus contatos e conteúdo!</p>
+    {% elif total_clicks > 200 %}
+        <p>📈 <strong>{{ total_clicks }} ações no seu perfil</strong> - bom volume de cliques em seus links de contato!</p>
+    {% elif total_clicks > 50 %}
+        <p>👏 <strong>{{ total_clicks }} interações conquistadas</strong> - pessoas estão acessando suas informações de contato!</p>
+    {% else %}
+        <p>🌱 <strong>{{ total_clicks }} conexões iniciadas</strong> - primeiras interações que podem virar clientes!</p>
+    {% endif %}
+
+    <!-- QUALIDADE DO ENGAJAMENTO - VERSÃO ESTRATÉGICA -->
+    {% if engagement > 2.0 %}
+        <p>🚀 <strong>Alta taxa de conversão!</strong> Cada visita gerou {{ engagement|floatformat:1 }} cliques - seus visitantes estão tão interessados que exploram múltiplos contatos!</p>
+    {% elif engagement > 1.2 %}
+        <p>💎 <strong>Engajamento premium!</strong> Média de {{ engagement|floatformat:1 }} ações por acesso - sinal claro de interesse genuíno no seu negócio!</p>
+    {% elif engagement > 0.6 %}
+        <p>📈 <strong>Conversão eficiente!</strong> {{ engagement|floatformat:1 }} cliques por visita - seu perfil está gerando ações concretas dos visitantes!</p>
+    {% elif visits > 0 %}
+        <p>🔍 <strong>{{ engagement|floatformat:1 }} interações por visualização</strong> - cada pessoa que chega no seu perfil toma ação direta!</p>
+    {% endif %}
+
+   
+
+    <!-- CANAL DE ALTA PERFORMANCE -->
+    {% if report_data.links_distribution.items %}
+        {% with top_link=report_data.links_distribution.items.0 %}
+            {% if top_link.percent > 70 %}
+                <p>🔥 <strong>Canal superpoderoso!</strong> {{ top_link.label }} concentra {{ top_link.percent }}% do engajamento - onde seus clientes preferem conectar!</p>
+            {% elif top_link.percent > 50 %}
+                <p>🎯 <strong>Canal principal confirmado!</strong> {{ top_link.label }} com {{ top_link.percent }}% dos cliques - ponto central da sua estratégia de contato!</p>
+            {% elif top_link.percent > 30 %}
+                <p>💎 <strong>Canal de destaque!</strong> {{ top_link.label }} lidera com {{ top_link.percent }}% das ações - seu contato mais requisitado!</p>
+            {% else %}
+                <p>🚀 <strong>Estratégia multicanal eficaz!</strong> {{ top_link.label }} na frente com {{ top_link.percent }}% - diversificação que maximiza oportunidades!</p>
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+
+    <!-- MOMENTO DE OURO DO MÊS -->
+    {% if report_data.peak_day_total > 80 %}
+        <p>💥 <strong>Explosão de engajamento!</strong> {{ report_data.peak_day }} foi extraordinário: {{ report_data.peak_day_total }} interações ({{ report_data.peak_day_percent_links }}% do mês) - demanda massiva em um único dia!</p>
+    {% elif report_data.peak_day_total > 50 %}
+        <p>🎯 <strong>Dia de performance máxima!</strong> Em {{ report_data.peak_day }} você capturou {{ report_data.peak_day_total }} oportunidades - {{ report_data.peak_day_percent_links }}% do mês em 24h de pura demanda!</p>
+    {% elif report_data.peak_day_total > 30 %}
+        <p>⚡ <strong>Pico de interesse estratégico!</strong> {{ report_data.peak_day }} registrou {{ report_data.peak_day_total }} interações - momento de alta concentração de oportunidades!</p>
+    {% elif report_data.peak_day_total > 15 %}
+        <p>📊 <strong>Dia líder do mês!</strong> {{ report_data.peak_day }} destacou-se com {{ report_data.peak_day_total }} ações - sinal claro de demanda específica!</p>
+    {% endif %}
+
+    <!-- MARKETING ORGÂNICO - INDICAÇÕES REAIS -->
+    {% if report_data.shares_count and report_data.shares_count > 0 %}
+        {% if report_data.shares_count > 15 %}
+            <p>💥 <strong>Efeito multiplicador ativado!</strong> {{ report_data.shares_count }} compartilhamentos - sua marca está sendo espalhada por indicação direta dos clientes!</p>
+        {% elif report_data.shares_count > 8 %}
+            <p>🎯 <strong>Marketing boca a boca digital!</strong> {{ report_data.shares_count }} vezes compartilhado - prova de que seu trabalho vale a indicação!</p>
+        {% elif report_data.shares_count > 3 %}
+            <p>📤 <strong>Recomendações valiosas!</strong> {{ report_data.shares_count }} compartilhamentos - clientes satisfeitos estão expandindo seu alcance!</p>
+        {% else %}
+            <p>🌟 <strong>Primeiras indicações!</strong> {{ report_data.shares_count }} compartilhamento(s) - o início do marketing orgânico do seu negócio!</p>
+        {% endif %}
+    {% endif %}
+
+    <!-- ESTRATÉGIA DE CRESCIMENTO PERSONALIZADA -->
+    <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 12px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #f39c12;">
+        <strong>🎯 ESTRATÉGIA PARA PRÓXIMO MÊS:</strong>
+        <div style="margin-top: 8px;">
+            
+            <!-- Baseado no volume atual -->
+            {% if total_clicks > 200 %}
+                <p>🚀 <strong>Escala para o próximo nível!</strong> Com {{ total_clicks }} interações, você está pronto para crescimento explosivo. Cada compartilhamento pode dobrar seus resultados!</p>
+            {% elif total_clicks > 50 %}
+                <p>📈 <strong>Alavanque sua base sólida!</strong> {{ total_clicks }} interações comprovam o interesse. Agora é hora de multiplicar através de compartilhamentos estratégicos!</p>
+            {% else %}
+                <p>💎 <strong>Ative o crescimento!</strong> Suas {{ total_clicks }} primeiras interações são a base. Compartilhe seu perfil e transforme essa base em dezenas de novas oportunidades!</p>
+            {% endif %}
+
+            <!-- Baseado no engajamento -->
+            {% if engagement > 1.5 %}
+                <p>🔥 <strong>Capitalize sua alta conversão!</strong> Com {{ engagement|floatformat:1 }} cliques por visita, cada novo acesso vale ouro. Compartilhe e maximize esse potencial!</p>
+            {% endif %}
+
+            <!-- Baseado na frequência -->
+            {% if report_data.non_zero_days < 15     %}
+                <p>📅 <strong>Crie presença constante!</strong> Com atividade em {{ report_data.non_zero_days }} dias, compartilhar regularmente pode tornar seu perfil sempre visível!</p>
+            {% endif %}
+
+            <p style="margin-top: 10px; font-weight: bold; color: #2c3e50;">
+                💡 <strong>Ação imediata:</strong> Compartilhe seu perfil em 3 grupos do bairro esta semana e acompanhe a diferença no próximo relatório!
+            </p>
+        </div>
+    </div>
+
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+</div>
                 
 
                 <!-- EVOLUÇÃO DIÁRIA -->
@@ -643,58 +878,148 @@
         {% endif %}
 
         {% if report_data.links_distribution.items %}
-        const ctxBar = document.getElementById('linkDistributionChart').getContext('2d');
-        new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: [{% for item in report_data.links_distribution.items %}'{{ item.label }}',{% endfor %}],
-                datasets: [{
-                    label: 'Cliques',
-                    data: [{% for item in report_data.links_distribution.items %}{{ item.data }},{% endfor %}],
-                    backgroundColor: [
-                        '#2980b9','#c0392b','#27ae60','#e67e22','#8e44ad',
-                        '#16a085','#d35400','#c2185b','#7d3c98','#27ae60'
-                    ]
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                plugins: { 
-                    legend: { display: false },
-                    datalabels: {
-                        color: '#fff',
-                        font: {
-                            weight: 'bold',
-                            size: 9
-                        },
-                        formatter: function(value, context) {
-                            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                            const percent = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
-                            return percent + '%';
-                        },
-                        anchor: 'end',
-                        align: 'right'
-                    }
-                },
-                scales: {
-                    x: { 
-                        ticks: { 
-                            color: '#444',
-                            font: { size: 8 }
-                        } 
-                    },
-                    y: { 
-                        ticks: { 
-                            color: '#444',
-                            font: { size: 8 },
-                            maxTicksLimit: 10
-                        } 
+const ctxBar = document.getElementById('linkDistributionChart').getContext('2d');
+new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+        labels: [{% for item in report_data.links_distribution.items %}'{{ item.label }}',{% endfor %}],
+        datasets: [{
+            label: 'Cliques',
+            data: [{% for item in report_data.links_distribution.items %}{{ item.data }},{% endfor %}],
+            backgroundColor: [
+                '#2980b9','#c0392b','#27ae60','#e67e22','#8e44ad',
+                '#16a085','#d35400','#c2185b','#7d3c98','#27ae60'
+            ],
+            borderColor: [
+                '#1a5276','#922b21','#1e8449','#bf6516','#6c3483',
+                '#117a65','#a04000','#880e4f','#5e3370','#1e8449'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        plugins: { 
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        const percent = total > 0 ? ((context.parsed.x / total) * 100).toFixed(1) : '0';
+                        return `${context.parsed.x} cliques (${percent}%)`;
                     }
                 }
             },
-            plugins: [ChartDataLabels]
-        });
-        {% endif %}
+            datalabels: {
+                color: function(context) {
+                    const value = context.dataset.data[context.dataIndex];
+                    const maxValue = Math.max(...context.dataset.data);
+                    
+                    // Para barras grandes (≥20% da maior), texto branco no centro
+                    // Para barras pequenas, texto escuro no final
+                    if (value >= maxValue * 0.2) {
+                        return '#ffffff'; // Branco para barras grandes
+                    } else {
+                        return '#2c3e50'; // Escuro para barras pequenas
+                    }
+                },
+                font: {
+                    weight: 'bold',
+                    size: 9
+                },
+                formatter: function(value) {
+                    return value + ' cliques'; // ✅ Sempre mostra "cliques"
+                },
+                anchor: function(context) {
+                    const value = context.dataset.data[context.dataIndex];
+                    const maxValue = Math.max(...context.dataset.data);
+                    
+                    if (value >= maxValue * 0.2) {
+                        return 'center'; // ✅ Centro para barras grandes
+                    } else {
+                        return 'end';    // ✅ Final para barras pequenas
+                    }
+                },
+                align: function(context) {
+                    const value = context.dataset.data[context.dataIndex];
+                    const maxValue = Math.max(...context.dataset.data);
+                    
+                    if (value >= maxValue * 0.2) {
+                        return 'center'; // ✅ Centro para barras grandes
+                    } else {
+                        return 'end';    // ✅ Final para barras pequenas
+                    }
+                },
+                offset: function(context) {
+                    const value = context.dataset.data[context.dataIndex];
+                    const maxValue = Math.max(...context.dataset.data);
+                    
+                    if (value >= maxValue * 0.2) {
+                        return 0; // ✅ Sem offset no centro
+                    } else {
+                        return 8; // ✅ Offset para barras pequenas
+                    }
+                },
+                textStrokeColor: function(context) {
+                    const value = context.dataset.data[context.dataIndex];
+                    const maxValue = Math.max(...context.dataset.data);
+                    
+                    // Só contorno para texto branco em barras grandes
+                    if (value >= maxValue * 0.2) {
+                        return 'rgba(0,0,0,0.5)';
+                    }
+                    return 'transparent';
+                },
+                textStrokeWidth: 2,
+                display: function(context) {
+                    return context.dataset.data[context.dataIndex] > 0;
+                },
+                clamp: true
+            }
+        },
+        scales: {
+            x: { 
+                title: {
+                    display: true,
+                    text: 'Quantidade de Cliques',
+                    font: {
+                        size: 10,
+                        weight: 'bold'
+                    }
+                },
+                ticks: { 
+                    color: '#444',
+                    font: { size: 9 },
+                    callback: function(value) {
+                        return value;
+                    }
+                },
+                grid: {
+                    color: 'rgba(0,0,0,0.1)'
+                }
+            },
+            y: { 
+                ticks: { 
+                    color: '#444',
+                    font: { 
+                        size: 9,
+                        weight: 'bold'
+                    }
+                },
+                grid: {
+                    color: 'rgba(0,0,0,0.1)'
+                }
+            }
+        },
+        layout: {
+            padding: {
+                right: 50 // Espaço extra para os labels com "cliques"
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+{% endif %}
     </script>
 </body>
 </html>

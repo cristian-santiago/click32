@@ -63,6 +63,13 @@
             color: #34495e;
             font-size: 0.9em;
         }
+        .pwa-conversion {
+            background: #2ecc71;
+            color: white;
+        }
+        .pwa-conversion i, .pwa-conversion h3, .pwa-conversion p {
+            color: white;
+        }
         table {
             width: 100%;
             border-collapse: separate;
@@ -129,10 +136,38 @@
             </div>
         </div>
 
+        <!-- Widget de PWA Downloads -->
+        <div class="widget">
+            <h2>Downloads do PWA</h2>
+            <div class="summary-card">
+                <div class="summary-item">
+                    <i class="fas fa-download"></i>
+                    <h3>{{ pwa_stats.button_clicks }}</h3>
+                    <p>Cliques no Botão</p>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>{{ pwa_stats.accepted_installs }}</h3>
+                    <p>Instalações Aceitas</p>
+                </div>
+                <div class="summary-item pwa-conversion">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>{{ pwa_stats.conversion_rate }}%</h3>
+                    <p>Taxa de Conversão</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Gráfico de Barras de Cliques por Link -->
         <div class="widget">
             <h2>Cliques por Link</h2>
             <canvas id="barChart"></canvas>
+        </div>
+
+        <!-- Gráfico de PWA Downloads -->
+        <div class="widget">
+            <h2>Distribuição de Downloads PWA</h2>
+            <canvas id="pwaChart"></canvas>
         </div>
 
         <!-- Widget de Ranking de Lojas -->
@@ -149,7 +184,8 @@
                 <tbody>
                     {% for data in clicks_data|slice:":10" %}
                     <tr>
-                        <td class="{% if data.secondary_clicks > data.main_banner %}trend-up{% else %}trend-down{% endif %}">{{ data.store.name }}</td>                        <td>{{ data.total_clicks }}</td>
+                        <td class="{% if data.secondary_clicks > data.main_banner %}trend-up{% else %}trend-down{% endif %}">{{ data.store.name }}</td>
+                        <td>{{ data.total_clicks }}</td>
                         <td>{{ data.main_banner }}</td>
                     </tr>
                     {% empty %}
@@ -170,6 +206,7 @@
 
 <script>
     const summary = JSON.parse('{{ clicks_summary_json|safe }}');
+    const pwaStats = JSON.parse('{{ pwa_stats_json|safe }}');
 
     // Gráfico de Barras
     const barCtx = document.getElementById('barChart').getContext('2d');
@@ -215,7 +252,34 @@
         }
     });
 
-    // Gráfico de Pizza
+    // Gráfico de Pizza para PWA
+    const pwaCtx = document.getElementById('pwaChart').getContext('2d');
+    new Chart(pwaCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Instalações Aceitas', 'Instalações Canceladas', 'Cliques no Botão'],
+            datasets: [{
+                data: [
+                    pwaStats.accepted_installs,
+                    pwaStats.dismissed_installs,
+                    pwaStats.button_clicks
+                ],
+                backgroundColor: ['#2ecc71', '#e74c3c', '#3498db'],
+                borderColor: ['#27ae60', '#c0392b', '#2980b9'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#2c3e50' }
+                }
+            }
+        }
+    });
+
+    // Gráfico de Pizza de Distribuição de Cliques
     const pieCtx = document.getElementById('pieChart').getContext('2d');
     new Chart(pieCtx, {
         type: 'pie',
@@ -223,7 +287,6 @@
             labels: ['WhatsApp_1','WhatsApp_2', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Ifood', 'Anota Ai', 'Flyer'],
             datasets: [{
                 data: [
-                    
                     summary.whatsapp_1,
                     summary.whatsapp_2,
                     summary.instagram,
@@ -235,8 +298,8 @@
                     summary.anota_ai,
                     summary.flyer
                 ],
-                backgroundColor: [  '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#34495e', '#2c3e50', '#95a5a6', '#6b7280'],
-                borderColor: ['#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#2c3e50', '#1a252f', '#7f8c8d', '#4b5563'],
+                backgroundColor: ['#b7c8cb', '#34495e', '#2c3e50', '#bdc3c7', '#95a5a6', '#6b7280', '#b7c8cb', '#34495e', '#2c3e50', '#95a5a6'],
+                borderColor: ['#95a5a6', '#2c3e50', '#1a252f', '#a0aec0', '#7f8c8d', '#4b5563', '#95a5a6', '#2c3e50', '#1a252f', '#7f8c8d'],
                 borderWidth: 1
             }]
         },

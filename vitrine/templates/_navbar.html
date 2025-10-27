@@ -2,9 +2,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  
-
-    <!-- Configurações de metadados para comportamento e aparência -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,13 +10,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Estilos CSS -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Barra de ferramentas com links de navegação -->
     <div class="toolbar">
         <div class="toolbar-container">
             <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
@@ -29,10 +24,8 @@
         </div>
     </div>
 
-    <!-- Bloco para conteúdo principal -->
     {% block content %}
     {% endblock %}
-
-   
 </body>
+
 </html>

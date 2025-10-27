@@ -68,6 +68,12 @@
             justify-content: center;
             width: 36px;
             height: 36px;
+            transition: all 0.3s ease;
+        }
+
+        .toolbar-container a:hover {
+            color: #00ccff;
+            transform: scale(1.1);
         }
 
         .hero {
@@ -87,7 +93,26 @@
             font-size: 1.2rem;
             font-weight: 300;
             max-width: 720px;
-            margin: 0 auto;
+            margin: 0 auto 20px;
+        }
+
+        .hero .cta-button {
+            display: inline-block;
+            background: #00ccff;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero .cta-button:hover {
+            background: #00b7e6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
         }
 
         .section {
@@ -104,10 +129,18 @@
             text-align: center;
         }
 
+        .section p {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            font-size: 1.1rem;
+        }
+
         .cards {
             display: grid;
             grid-template-columns: 1fr;
             gap: 24px;
+            margin-top: 30px;
         }
 
         .card {
@@ -116,6 +149,11 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
         }
 
         .card i {
@@ -133,12 +171,14 @@
         .card p {
             font-size: 1rem;
             color: #34495e;
+            text-align: center;
         }
 
         .timeline {
             display: flex;
             flex-direction: column;
             gap: 24px;
+            margin-top: 30px;
         }
 
         .timeline-item {
@@ -156,31 +196,12 @@
         .timeline-item div p {
             margin: 0;
             color: #34495e;
+            text-align: left;
         }
 
-        .testimonials {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        .testimonial-card {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            font-style: italic;
-        }
-
-        .testimonial-card p {
-            margin-bottom: 8px;
-        }
-
-        .testimonial-card span {
-            display: block;
-            font-weight: 700;
-            font-style: normal;
-            color: #2c3e50;
+        /* Escondendo seções que não temos dados ainda */
+        .hidden-section {
+            display: none;
         }
 
         footer {
@@ -194,9 +215,6 @@
         @media (min-width: 768px) {
             .cards {
                 grid-template-columns: repeat(3, 1fr);
-            }
-            .testimonials {
-                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -220,92 +238,219 @@
     </div>
 
     <section class="hero">
-        <h1>Conheça o Click32</h1>
-        <p>Somos a ponte entre lojistas e clientes no KM32. Nossa missão é conectar negócios locais com quem realmente importa: seus clientes.</p>
+        <h1>Conectando o Seu Bairro</h1>
+        <p>Conectamos você diretamente aos melhores comércios locais, com perfis verificados e atualizados para sua segurança.</p>
+        <p>Encontre rapidamente o que precisa e apoie a economia local!</p>
+        <a href="{% url 'home' %}" class="cta-button">Explorar Lojas</a>
     </section>
 
     <section class="section">
-        <h2>Nossa História</h2>
+        <h2>Como Funciona</h2>
+        <p>O Click32 foi desenvolvido para simplificar a conexão direta entre moradores e estabelecimentos locais.</p>
+        <div class="cards">
+            <div class="card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Perfis Verificados</h3>
+                <p>Todas as lojas são validadas pela nossa equipe para garantir informações confiáveis e seguras.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-comments"></i>
+                <h3>Contato Direto</h3>
+                <p>Converse diretamente com os lojistas sem intermediários. Sua privacidade é respeitada.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-qrcode"></i>
+                <h3>QR Code Exclusivo</h3>
+                <p>Cada loja tem um QR code único para compartilhar facilmente seu perfil com clientes.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Por que usar o Click32?</h2>
         <div class="timeline">
             <div class="timeline-item">
-                <i class="fas fa-lightbulb"></i>
+                <i class="fas fa-bolt"></i>
                 <div>
-                    <p><strong>2022:</strong> Iniciamos a plataforma Click32 com a ideia de apoiar pequenos negócios locais.</p>
+                    <h3>Encontre Rapidamente</h3>
+                    <p>Não perca tempo procurando contatos. Encontre serviços locais em poucos cliques.</p>
                 </div>
             </div>
             <div class="timeline-item">
-                <i class="fas fa-rocket"></i>
+                <i class="fas fa-user-shield"></i>
                 <div>
-                    <p><strong>2023:</strong> Expandimos para o KM32 e conectamos centenas de lojas com clientes reais.</p>
+                    <h3>Segurança Garantida</h3>
+                    <p>Perfis supervisionados e atualizados regularmente para sua tranquilidade.</p>
                 </div>
             </div>
             <div class="timeline-item">
-                <i class="fas fa-users"></i>
+                <i class="fas fa-leaf"></i>
                 <div>
-                    <p><strong>2024:</strong> Nossa comunidade cresceu, tornando-se referência em visibilidade local e engajamento.</p>
+                    <h3>Digital e Sustentável</h3>
+                    <p>Reduza o uso de panfletos de papel com menus e promoções digitais acessíveis por QR code.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <i class="fas fa-hand-holding-heart"></i>
+                <div>
+                    <h3>Fomento Local</h3>
+                    <p>Apoie a economia do bairro descobrindo e utilizando serviços próximos a você.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <h2>Missão, Visão & Valores</h2>
-        <div class="cards">
-            <div class="card">
-                <i class="fas fa-bullseye"></i>
-                <h3>Missão</h3>
-                <p>Conectar negócios locais com clientes de forma simples, eficiente e confiável.</p>
+    <!-- Seção de estatísticas - COMENTADA para uso futuro -->
+    <!--
+    <section class="section" style="background: #e8f4f8; border-radius: 12px; margin: 40px auto;">
+        <h2>Nossa Presença no Bairro</h2>
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Lojas Cadastradas</span>
             </div>
-            <div class="card">
-                <i class="fas fa-eye"></i>
-                <h3>Visão</h3>
-                <p>Ser a plataforma de referência em visibilidade e engajamento para lojas do KM32.</p>
+            <div class="stat-item">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Categorias</span>
             </div>
-            <div class="card">
-                <i class="fas fa-heart"></i>
-                <h3>Valores</h3>
-                <p>Transparência, comunidade, inovação e foco no crescimento local.</p>
+            <div class="stat-item">
+                <span class="stat-number">1000+</span>
+                <span class="stat-label">Moradores Atendidos</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Disponível</span>
             </div>
         </div>
     </section>
+    -->
 
+    <!-- Seção de depoimentos - COMENTADA para uso futuro -->
+    <!--
     <section class="section">
-        <h2>O que nossos lojistas dizem</h2>
+        <h2>O que dizem sobre nós</h2>
         <div class="testimonials">
             <div class="testimonial-card">
-                <p>"O Click32 ajudou minha loja a ser vista por mais clientes do que nunca!"</p>
-                <span>- Lojista A</span>
+                <p>"Finalmente uma forma prática de encontrar serviços no bairro. Encontrei um pedreiro excelente em minutos!"</p>
+                <span>- Maria, Moradora</span>
             </div>
             <div class="testimonial-card">
-                <p>"A plataforma é simples de usar e me conecta diretamente com clientes locais."</p>
-                <span>- Lojista B</span>
+                <p>"Meus clientes adoram escanear o QR code e ter acesso a todos os meus contatos e cardápio digital."</p>
+                <span>- João, Dono de Restaurante</span>
             </div>
             <div class="testimonial-card">
-                <p>"Senti que minha loja faz parte de uma comunidade viva e engajada."</p>
-                <span>- Lojista C</span>
+                <p>"Como costureira, o Click32 me trouxe muitos clientes novos do bairro que não me conheciam."</p>
+                <span>- Ana, Costureira</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"A plataforma é simples e direta. Meus clientes encontram rapidamente meu WhatsApp e Instagram."</p>
+                <span>- Carlos, Mecânico</span>
             </div>
         </div>
     </section>
+    -->
 
     <section class="section">
-        <h2>Entre em Contato</h2>
-        <p>Quer saber mais sobre nós ou formar uma parceria? Fale com nossa equipe!</p>
+        <h2>Pronto para fazer parte?</h2>
+        <p>Junte-se à nossa comunidade e fortaleça o comércio local com segurança e praticidade.</p>
         <div class="cards">
-            <a href="https://wa.me/5511999999999" class="card" style="text-decoration:none; color:#2c3e50;">
-                <i class="bi bi-whatsapp"></i>
-                <h3>WhatsApp</h3>
-                <p>Converse diretamente com nossa equipe</p>
+            <a href="{% url 'anuncie' %}" class="card" style="text-decoration:none; color:#2c3e50;">
+                <i class="fas fa-store"></i>
+                <h3>Anuncie sua Loja</h3>
+                <p>Solicite seu perfil verificado e aumente sua visibilidade no bairro</p>
             </a>
-            <a href="mailto:contato@click32.com.br" class="card" style="text-decoration:none; color:#2c3e50;">
-                <i class="bi bi-envelope"></i>
-                <h3>Email</h3>
-                <p>Envie suas dúvidas ou propostas</p>
+            <a href="{% url 'home' %}" class="card" style="text-decoration:none; color:#2c3e50;">
+                <i class="fas fa-compass"></i>
+                <h3>Explore o Bairro</h3>
+                <p>Descubra serviços e produtos verificados perto de você</p>
+            </a>
+            <a href="https://wa.me/SEUNUMEROAQUI" class="card" style="text-decoration:none; color:#2c3e50;">
+                <i class="bi bi-whatsapp"></i>
+                <h3>Fale Conosco</h3>
+                <p>Tire suas dúvidas sobre a plataforma</p>
             </a>
         </div>
     </section>
 
     <footer>
-        <p>© 2025 Click32. Todos os direitos reservados.</p>
+        <p>© 2025 Click32. Conectando bairros com segurança e praticidade. Todos os direitos reservados.</p>
     </footer>
 </body>
+<script>
+let deferredPrompt;
+
+// Evento que dispara quando o PWA pode ser instalado
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // Mostra o botão de instalação
+    const installBtn = document.getElementById('installBtn');
+    if (installBtn) {
+        installBtn.classList.remove('hidden');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const installBtn = document.getElementById('installBtn');
+    
+    if (installBtn) {
+        installBtn.addEventListener('click', async function() {
+            // 1. Primeiro registra o clique no botão
+            await trackPwaAction('clicked');
+            
+            // 2. Se temos o prompt de instalação disponível
+            if (deferredPrompt) {
+                try {
+                    // Mostra o prompt nativo do navegador
+                    deferredPrompt.prompt();
+                    
+                    // Aguarda a escolha do usuário
+                    const { outcome } = await deferredPrompt.userChoice;
+                    
+                    // 3. Registra a escolha do usuário
+                    if (outcome === 'accepted') {
+                        await trackPwaAction('accepted');
+                        console.log('Usuário ACEITOU instalar o PWA');
+                    } else {
+                        await trackPwaAction('dismissed');
+                        console.log('Usuário CANCELOU a instalação do PWA');
+                    }
+                    
+                    // Limpa a referência
+                    deferredPrompt = null;
+                    
+                    // Esconde o botão após a escolha
+                    installBtn.classList.add('hidden');
+                    
+                } catch (error) {
+                    console.error('Erro durante a instalação:', error);
+                }
+            }
+        });
+    }
+    
+    // Função para enviar o tracking
+    async function trackPwaAction(action) {
+        try {
+            await fetch('{% url "track_pwa_click" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: action })
+            });
+        } catch (error) {
+            console.error('Erro ao registrar ação:', error);
+        }
+    }
+    
+    // Evento fallback para instalação (navegadores que suportam)
+    window.addEventListener('appinstalled', (event) => {
+        console.log('PWA instalado via evento appinstalled');
+        trackPwaAction('accepted');
+    });
+});
+</script>
 </html>

@@ -54,4 +54,5 @@ urlpatterns = [
     path('api/monthly-report/<int:store_id>/', views.monthly_report_api, name='monthly_report_api'),
     path('api/monthly-report/<int:store_id>/view/', views.monthly_report_view, name='monthly_report_view'),
    
+   
 ]

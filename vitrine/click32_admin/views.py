@@ -18,7 +18,7 @@ import shutil
 import logging
 import json
 from .forms import StoreForm, TagForm, CategoryForm, GroupForm, StoreOpeningHourFormSet
-from vitrine.models import Store, Tag, Category, ShareTrack
+from vitrine.models import Store, Tag, Category, ShareTrack, PWADownloadClick
 from vitrine.views import cleanup_temp_files
 from .functions import get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate
 
@@ -152,9 +152,9 @@ def clicks_dashboard(request):
 
 @check_permission(lambda u: u.has_perm('vitrine.view_store'))
 def global_widgets_dashboard(request):
+    # Mantenha sua lógica atual...
     clicks_data = get_clicks_data()
     clicks_summary = {
-        'main_banner': sum(data['main_banner'] for data in clicks_data),
         'whatsapp_1': sum(data['whatsapp_1'] for data in clicks_data),
         'whatsapp_2': sum(data['whatsapp_2'] for data in clicks_data),
         'phone': sum(data['phone'] for data in clicks_data),
@@ -167,7 +167,23 @@ def global_widgets_dashboard(request):
         'ifood': sum(data['ifood'] for data in clicks_data),
         'flyer': sum(data['flyer'] for data in clicks_data),
     }
+    
     site_metrics = get_site_metrics()
+    
+    # ⬇️⬇️⬇️ ADICIONE APENAS OS DADOS DO PWA ⬇️⬇️⬇️
+    pwa_stats = {
+        'total_clicks': PWADownloadClick.objects.count(),
+        'accepted_installs': PWADownloadClick.objects.filter(action='accepted').count(),
+        'dismissed_installs': PWADownloadClick.objects.filter(action='dismissed').count(),
+        'button_clicks': PWADownloadClick.objects.filter(action='clicked').count(),
+    }
+    
+    # Calcular taxa de conversão
+    if pwa_stats['button_clicks'] > 0:
+        pwa_stats['conversion_rate'] = round((pwa_stats['accepted_installs'] / pwa_stats['button_clicks']) * 100, 1)
+    else:
+        pwa_stats['conversion_rate'] = 0
+    
     context = {
         'store_count': get_store_count(),
         'global_clicks': get_global_clicks(),
@@ -175,6 +191,9 @@ def global_widgets_dashboard(request):
         'clicks_summary': clicks_summary,
         'home_accesses': site_metrics['home_accesses'],
         'clicks_summary_json': mark_safe(json.dumps(clicks_summary)),
+        # ⬇️⬇️⬇️ ADICIONE ESTAS LINHAS ⬇️⬇️⬇️
+        'pwa_stats': pwa_stats,
+        'pwa_stats_json': mark_safe(json.dumps(pwa_stats)),
     }
     return render(request, 'click32_admin/global_dashboard.html', context)
 

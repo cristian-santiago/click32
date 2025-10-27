@@ -111,3 +111,20 @@ class ShareTrack(models.Model):
 
     def __str__(self):
         return f"{self.store.name} - {self.shared_at.strftime('%d/%m/%Y %H:%M')}"
+    
+class PWADownloadClick(models.Model):
+    ACTION_CHOICES = [
+        ('clicked', 'Botão Clicado'),
+        ('accepted', 'Instalação Aceita'),
+        ('dismissed', 'Instalação Cancelada'),
+    ]
+    
+    action = models.CharField(max_length=10, choices=ACTION_CHOICES, default='clicked')
+    clicked_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "PWA Download Click"
+        verbose_name_plural = "PWA Download Clicks"
+
+    def __str__(self):
+        return f"PWA {self.get_action_display()} - {self.clicked_at.strftime('%d/%m/%Y %H:%M')}"

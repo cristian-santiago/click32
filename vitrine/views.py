@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.db.models import Sum, Max, Q
-from .models import Store, ClickTrack, Category, ShareTrack
+from .models import Store, ClickTrack, Category, ShareTrack, PWADownloadClick
 from django.core.mail import send_mail
 import pdf2image
 import glob
@@ -146,7 +146,7 @@ def advertise(request):
     context = {'category_tags': get_category_tags()}
     return render(request, 'advertise.html', context)
 
-@cache_page(60 * 60 * 24)   # 24 horas
+# @cache_page(60 * 60 * 24)   # 24 horas
 def about(request):
     context = {'category_tags': get_category_tags()}
     return render(request, 'about.html', context)
@@ -217,6 +217,16 @@ def track_share(request, store_id):
     """
     View para registrar compartilhamentos de lojas
     """
+    print("=== DEBUG TRACK_SHARE ===")
+    print(f"Method: {request.method}")
+    print(f"User: {request.user}")
+    print(f"Authenticated: {request.user.is_authenticated}")
+    print(f"CSRF Cookie: {request.COOKIES.get('csrftoken', 'NÃO ENCONTRADO')}")
+    print(f"CSRF Header: {request.META.get('HTTP_X_CSRFTOKEN', 'NÃO ENCONTRADO')}")
+    print(f"All Headers: {dict(request.headers)}")
+    print("=========================")
+
+
     if request.method != 'POST':
         return JsonResponse({'error': 'Método não permitido'}, status=405)
     
@@ -236,6 +246,52 @@ def track_share(request, store_id):
     except Exception as e:
         logger.error(f"Error tracking share for store {store_id}: {e}")
         return JsonResponse({'error': 'Erro interno do servidor'}, status=500)
+    
+#------------------ PWA DOWNLOAD CLICK
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_protect
+def track_pwa_click(request):
+    """
+    View para registrar cliques e instalações do PWA
+    """
+    print("=== DEBUG TRACK_SHARE ===")
+    print(f"Method: {request.method}")
+    print(f"User: {request.user}")
+    print(f"Authenticated: {request.user.is_authenticated}")
+    print(f"CSRF Cookie: {request.COOKIES.get('csrftoken', 'NÃO ENCONTRADO')}")
+    print(f"CSRF Header: {request.META.get('HTTP_X_CSRFTOKEN', 'NÃO ENCONTRADO')}")
+    print(f"All Headers: {dict(request.headers)}")
+    print("=========================")
+
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método não permitido'}, status=405)
+    
+    try:
+        import json
+        data = json.loads(request.body) if request.body else {}
+        action = data.get('action', 'clicked')
+        
+        print(f"🔄 Ação recebida: {action}")
+        
+        # Valida a ação
+        valid_actions = ['clicked', 'accepted', 'dismissed']
+        if action not in valid_actions:
+            action = 'clicked'
+        
+        # Cria registro
+        pwa_click = PWADownloadClick.objects.create(action=action)
+        print(f"✅ Registro criado: {pwa_click}")
+        
+        return JsonResponse({
+            'status': 'success', 
+            'message': f'Ação {action} registrada'
+        })
+        
+    except Exception as e:
+        print(f"❌ ERRO: {e}")
+        return JsonResponse({'error': 'Erro interno'}, status=500)
 
 # view inactivated #
 def submit_advertise(request):

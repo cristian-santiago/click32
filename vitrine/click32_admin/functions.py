@@ -1,5 +1,5 @@
 from django.db.models import Sum, Max, Q
-from vitrine.models import Store, ClickTrack, Category
+from vitrine.models import Store, ClickTrack, Category, PWADownloadClick
 from django.utils import timezone
 from datetime import timedelta
 
@@ -240,4 +240,73 @@ def get_total_clicks_by_link_type(store_id=None, start_date=None, end_date=None)
             clicks.get('ifood', 0) or 0,
             clicks.get('flyer', 0) or 0,
         ]
+    }
+
+
+def get_dashboard_data():
+    # Dados existentes...
+    store_count = Store.objects.count()
+    
+    # Cliques globais (excluindo home_access para não duplicar)
+    global_clicks = ClickTrack.objects.exclude(element_type='home_access').aggregate(
+        total=Count('click_count')
+    )['total'] or 0
+    
+    # Acessos à home
+    home_accesses = ClickTrack.objects.filter(element_type='home_access').aggregate(
+        total=Count('click_count')
+    )['total'] or 0
+    
+    # Dados de cliques por elemento
+    clicks_summary = {
+        'whatsapp_1': ClickTrack.objects.filter(element_type='whatsapp_link_1').aggregate(total=Count('click_count'))['total'] or 0,
+        'whatsapp_2': ClickTrack.objects.filter(element_type='whatsapp_link_2').aggregate(total=Count('click_count'))['total'] or 0,
+        'instagram': ClickTrack.objects.filter(element_type='instagram_link').aggregate(total=Count('click_count'))['total'] or 0,
+        'facebook': ClickTrack.objects.filter(element_type='facebook_link').aggregate(total=Count('click_count'))['total'] or 0,
+        'youtube': ClickTrack.objects.filter(element_type='youtube_link').aggregate(total=Count('click_count'))['total'] or 0,
+        'x_link': ClickTrack.objects.filter(element_type='x_link').aggregate(total=Count('click_count'))['total'] or 0,
+        'google_maps': ClickTrack.objects.filter(element_type='google_maps_link').aggregate(total=Count('click_count'))['total'] or 0,
+        'anota_ai': ClickTrack.objects.filter(element_type='anota_ai_link').aggregate(total=Count('click_count'))['total'] or 0,
+        'ifood': ClickTrack.objects.filter(element_type='ifood_link').aggregate(total=Count('click_count'))['total'] or 0,
+        'flyer': ClickTrack.objects.filter(element_type='flyer_pdf').aggregate(total=Count('click_count'))['total'] or 0,
+    }
+    
+    # Dados do PWA Download
+    pwa_stats = {
+        'total_clicks': PWADownloadClick.objects.count(),
+        'accepted_installs': PWADownloadClick.objects.filter(action='accepted').count(),
+        'dismissed_installs': PWADownloadClick.objects.filter(action='dismissed').count(),
+        'button_clicks': PWADownloadClick.objects.filter(action='clicked').count(),
+    }
+    
+    # Calcular taxa de conversão
+    if pwa_stats['button_clicks'] > 0:
+        pwa_stats['conversion_rate'] = round((pwa_stats['accepted_installs'] / pwa_stats['button_clicks']) * 100, 1)
+    else:
+        pwa_stats['conversion_rate'] = 0
+    
+    # Ranking de lojas (lógica existente)
+    stores_with_clicks = Store.objects.annotate(
+        total_clicks=Count('clicktrack__click_count'),
+        main_banner=Count('clicktrack__click_count', filter=models.Q(clicktrack__element_type='main_banner'))
+    ).order_by('-total_clicks')
+    
+    clicks_data = []
+    for store in stores_with_clicks:
+        clicks_data.append({
+            'store': store,
+            'total_clicks': store.total_clicks or 0,
+            'main_banner': store.main_banner or 0,
+            'secondary_clicks': (store.total_clicks or 0) - (store.main_banner or 0)
+        })
+    
+    return {
+        'store_count': store_count,
+        'global_clicks': global_clicks,
+        'home_accesses': home_accesses,
+        'clicks_summary': clicks_summary,
+        'clicks_summary_json': json.dumps(clicks_summary),
+        'clicks_data': clicks_data,
+        'pwa_stats': pwa_stats,
+        'pwa_stats_json': json.dumps(pwa_stats),
     }

@@ -1,24 +1,40 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.core.exceptions import PermissionDenied
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.db.models import Sum, Max, Q
-from .models import Store, ClickTrack, Category, ShareTrack, PWADownloadClick
+from .models import Store, ClickTrack, Category, ShareTrack, PWADownloadClick, ActiveSession
 from django.core.mail import send_mail
 import pdf2image
 import glob
 from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
+from datetime import timedelta
 from django.db.models import F
 import logging
 from .click32_admin.functions import get_category_tags, get_site_metrics
 import os
 import random
+import json
+import uuid
 
 logger = logging.getLogger(__name__)
 
+# Decorador personalizado para verificar permissões
+def check_permission(permission_check, login_url='/admin/login/'):
+    def decorator(view_func):
+        @login_required(login_url=login_url)
+        def wrapper(request, *args, **kwargs):
+            if permission_check(request.user):
+                return view_func(request, *args, **kwargs)
+            else:
+                raise PermissionDenied
+        return wrapper
+    return decorator
 
 def get_tag_groups():
     return {
@@ -152,7 +168,7 @@ def about(request):
     return render(request, 'about.html', context)
 
 #--------------------------------
-@csrf_protect
+@check_permission(lambda u: u.is_superuser)
 def track_click(request, store_id=None, element_type=None):
     try:
         valid_elements = [
@@ -212,7 +228,7 @@ def track_click(request, store_id=None, element_type=None):
 
 # ------------- SHARE TRACK -------------
 
-@csrf_protect
+@check_permission(lambda u: u.is_superuser)
 def track_share(request, store_id):
     """
     View para registrar compartilhamentos de lojas
@@ -251,7 +267,7 @@ def track_share(request, store_id):
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
 
-@csrf_protect
+@check_permission(lambda u: u.is_superuser)
 def track_pwa_click(request):
     """
     View para registrar cliques e instalações do PWA
@@ -314,11 +330,6 @@ def submit_advertise(request):
 # view inactivated #
 def advertise_success(request):
     return render(request, 'advertise_success.html')
-
-
-def teste_print(request):
-    print(">>> DEBUG: view teste_print foi chamada <<<")
-    return HttpResponse("Teste de print no console OK!")
 
 
 
@@ -417,3 +428,100 @@ def fetch_flyer_pages(request, store_id):
     except Exception as e:
         logger.error(f"Error processing flyer for store {store_id}: {str(e)}")
         return JsonResponse({'error': f'Erro ao processar o encarte: {str(e)}'}, status=500)
+    
+from django.views.decorators.csrf import csrf_protect
+
+# VIEWS PÚBLICAS - para usuários anônimos rastrearem sessão
+@csrf_protect
+def start_session(request):
+    """
+    Inicia uma nova sessão anônima - ACESSO PÚBLICO
+    """
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método não permitido'}, status=405)
+    
+    try:
+        from .models import ActiveSession
+        
+        # Cria nova sessão
+        session = ActiveSession.objects.create()
+        
+        return JsonResponse({
+            'status': 'success',
+            'session_id': str(session.session_id),
+            'message': 'Sessão iniciada'
+        })
+        
+    except Exception as e:
+        return JsonResponse({'error': f'Erro ao criar sessão: {str(e)}'}, status=500)
+
+@csrf_protect
+def heartbeat(request):
+    """
+    Atualiza a atividade de uma sessão existente - ACESSO PÚBLICO
+    """
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método não permitido'}, status=405)
+    
+    try:
+        from .models import ActiveSession
+        
+        data = json.loads(request.body) if request.body else {}
+        session_id = data.get('session_id')
+        
+        if not session_id:
+            return JsonResponse({'error': 'session_id obrigatório'}, status=400)
+        
+        # Tenta usar a sessão existente ou cria uma nova
+        try:
+            session_uuid = uuid.UUID(session_id)
+            session, created = ActiveSession.objects.get_or_create(
+                session_id=session_uuid,
+                defaults={'last_activity': timezone.now()}
+            )
+            
+            if not created:
+                session.last_activity = timezone.now()
+                session.save()
+            
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Sessão atualizada' if not created else 'Nova sessão criada',
+                'session_created': created,
+                'session_id': str(session.session_id)
+            })
+            
+        except ValueError:
+            new_session = ActiveSession.objects.create()
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Nova sessão criada (ID anterior inválido)',
+                'session_id': str(new_session.session_id),
+                'session_created': True
+            })
+            
+    except Exception as e:
+        return JsonResponse({'error': f'Erro interno: {str(e)}'}, status=500)
+
+# VIEW PROTEGIDA - apenas para admin ver as métricas
+@check_permission(lambda u: u.is_superuser)
+def active_users_count(request):
+    """Retorna quantidade de usuários ativos nos últimos X minutos - ACESSO RESTRITO"""
+    try:
+        from .models import ActiveSession
+        
+        minutes = int(request.GET.get('minutes', 5))
+        cutoff_time = timezone.now() - timedelta(minutes=minutes)
+        
+        active_count = ActiveSession.objects.filter(
+            last_activity__gte=cutoff_time
+        ).count()
+        
+        return JsonResponse({
+            'active_users': active_count,
+            'timeframe_minutes': minutes,
+            'last_updated': timezone.now().isoformat()
+        })
+        
+    except Exception as e:
+        return JsonResponse({'error': f'Erro interno: {str(e)}'}, status=500)

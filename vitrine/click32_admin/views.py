@@ -4,8 +4,8 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
@@ -20,7 +20,7 @@ import json
 from .forms import StoreForm, TagForm, CategoryForm, GroupForm, StoreOpeningHourFormSet
 from vitrine.models import Store, Tag, Category, ShareTrack, PWADownloadClick
 from vitrine.views import cleanup_temp_files
-from .functions import get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate
+from .functions import get_session_metrics, get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate, get_dashboard_data
 
 logger = logging.getLogger(__name__)
 
@@ -150,9 +150,8 @@ def clicks_dashboard(request):
         'clicks_data': clicks_data,
     })
 
-@check_permission(lambda u: u.has_perm('vitrine.view_store'))
+@check_permission(lambda u: u.is_superuser)
 def global_widgets_dashboard(request):
-    # Mantenha sua lógica atual...
     clicks_data = get_clicks_data()
     clicks_summary = {
         'whatsapp_1': sum(data['whatsapp_1'] for data in clicks_data),
@@ -170,7 +169,6 @@ def global_widgets_dashboard(request):
     
     site_metrics = get_site_metrics()
     
-    # ⬇️⬇️⬇️ ADICIONE APENAS OS DADOS DO PWA ⬇️⬇️⬇️
     pwa_stats = {
         'total_clicks': PWADownloadClick.objects.count(),
         'accepted_installs': PWADownloadClick.objects.filter(action='accepted').count(),
@@ -178,11 +176,12 @@ def global_widgets_dashboard(request):
         'button_clicks': PWADownloadClick.objects.filter(action='clicked').count(),
     }
     
-    # Calcular taxa de conversão
     if pwa_stats['button_clicks'] > 0:
         pwa_stats['conversion_rate'] = round((pwa_stats['accepted_installs'] / pwa_stats['button_clicks']) * 100, 1)
     else:
         pwa_stats['conversion_rate'] = 0
+    
+    session_metrics = get_session_metrics()
     
     context = {
         'store_count': get_store_count(),
@@ -191,9 +190,11 @@ def global_widgets_dashboard(request):
         'clicks_summary': clicks_summary,
         'home_accesses': site_metrics['home_accesses'],
         'clicks_summary_json': mark_safe(json.dumps(clicks_summary)),
-        # ⬇️⬇️⬇️ ADICIONE ESTAS LINHAS ⬇️⬇️⬇️
         'pwa_stats': pwa_stats,
         'pwa_stats_json': mark_safe(json.dumps(pwa_stats)),
+        'active_users_count': session_metrics['active_5min'],
+        'session_metrics': session_metrics,
+        'session_metrics_json': mark_safe(json.dumps(session_metrics)),
     }
     return render(request, 'click32_admin/global_dashboard.html', context)
 
@@ -431,8 +432,8 @@ def group_delete(request, group_id):
 
 
 
-
-def _generate_report_data(store_id, start_date, end_date):
+@check_permission(lambda u: u.is_superuser)
+def _generate_report_data(request, store_id, start_date, end_date):
     """
     Gera report_data pronto para o template:
      - timeline: lista de dias [{label,total,top_link}, ...]
@@ -574,25 +575,25 @@ def _generate_report_data(store_id, start_date, end_date):
 
     return report_data
 
-
+@check_permission(lambda u: u.is_superuser)
 def monthly_report_api(request, store_id):    
     end_date = timezone.now().date()              # hoje
     start_date = end_date - timedelta(days=29)
     
-    report_data = _generate_report_data(store_id, start_date, end_date)
+    report_data = _generate_report_data(request, store_id, start_date, end_date)
     if not report_data:
         return JsonResponse({'error': 'Loja não encontrada ou sem dados'}, status=404)
     
     return JsonResponse(report_data)
 
-@check_permission(lambda u: u.is_superuser) 
+@check_permission(lambda u: u.is_superuser)
 def monthly_report_view(request, store_id):
     store = get_object_or_404(Store, id=store_id)
     
     end_date = timezone.now().date()              # hoje
     start_date = end_date - timedelta(days=29)
     
-    report_data = _generate_report_data(store_id, start_date, end_date)
+    report_data = _generate_report_data(request, store_id, start_date, end_date)
     if not report_data:
         # Trate erro, ex: redirect ou render com warning
         context = {'store_name': store.name, 'error': 'Sem dados para este período.'}

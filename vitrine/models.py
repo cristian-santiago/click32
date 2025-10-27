@@ -1,6 +1,6 @@
-import os
 from django.db import models
 from django.utils.text import slugify
+from django.utils import timezone
 from django.core.validators import FileExtensionValidator
 import uuid
 
@@ -128,3 +128,22 @@ class PWADownloadClick(models.Model):
 
     def __str__(self):
         return f"PWA {self.get_action_display()} - {self.clicked_at.strftime('%d/%m/%Y %H:%M')}"
+    
+class ActiveSession(models.Model):
+    session_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    last_activity = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['last_activity']),
+        ]
+        verbose_name = "Sessão Ativa"
+        verbose_name_plural = "Sessões Ativas"
+
+    def __str__(self):
+        return f"Sessão {self.session_id} - {self.last_activity.strftime('%H:%M')}"
+    
+    def is_active(self, minutes=5):
+        """Verifica se a sessão está ativa nos últimos X minutos"""
+        return (timezone.now() - self.last_activity).total_seconds() < (minutes * 60)

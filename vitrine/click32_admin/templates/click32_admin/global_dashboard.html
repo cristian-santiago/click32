@@ -170,6 +170,28 @@
             <canvas id="pwaChart"></canvas>
         </div>
 
+        <!-- Widget de Usuários Ativos -->
+        <div class="widget">
+            <h2>Usuários Ativos</h2>
+            <div class="summary-card">
+                <div class="summary-item">
+                    <i class="fas fa-users"></i>
+                    <h3>{{ session_metrics.active_5min }}</h3>
+                    <p>Online (5min)</p>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-user-clock"></i>
+                    <h3>{{ session_metrics.active_15min }}</h3>
+                    <p>Últimos 15min</p>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-calendar-day"></i>
+                    <h3>{{ session_metrics.total_sessions_today }}</h3>
+                    <p>Hoje</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Widget de Ranking de Lojas -->
         <div class="widget ranking-widget">
             <h2>Ranking de Lojas (Top 10)</h2>

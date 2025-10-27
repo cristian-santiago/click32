@@ -17,6 +17,10 @@ urlpatterns = [
     path('track-click/<int:store_id>/<str:element_type>/', views.track_click, name='track_click'),
     #path('advertise/submit/', views.submit_advertise, name='submit_advertise'),
     #path('advertise/success/', views.advertise_success, name='advertise_success'),
+
+    path('start-session/', views.start_session, name='start_session'),
+    path('heartbeat/', views.heartbeat, name='heartbeat'),
+    path('active-users-count/', views.active_users_count, name='active_users_count'),
     
     # API 
     path('track-share/<int:store_id>/', views.track_share, name='track_share'),

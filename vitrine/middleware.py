@@ -1,6 +1,7 @@
 import logging
 from django.shortcuts import get_object_or_404
 from .models import Store, ClickTrack
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -33,4 +34,22 @@ class ClickTrackingMiddleware:
                 logger.error(f"Error tracking click: {e}")
 
         response = self.get_response(request)
+        return response
+    
+
+
+class HeartbeatLogFilter:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.heartbeat_pattern = re.compile(r'/heartbeat/')
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        
+        # Silencia logs 200 para /heartbeat/
+        if (self.heartbeat_pattern.search(request.path) and 
+            response.status_code == 200):
+            # Não loga heartbeats bem-sucedidos
+            return response
+            
         return response

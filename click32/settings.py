@@ -87,6 +87,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',  # Necessário para mensagens
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'vitrine.middleware.ClickTrackingMiddleware',  # Middleware de rastreamento de cliques
+    'vitrine.middleware.HeartbeatLogFilter',
 ]
 
 
@@ -223,21 +224,41 @@ LOGGING = {
             'style': '{',
         },
     },
+    'filters': {
+        'heartbeat_filter': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': lambda record: not (
+                hasattr(record, 'request') and 
+                hasattr(record.request, 'path') and 
+                '/heartbeat/' in record.request.path and
+                record.status_code == 200
+            )
+        },
+        'console_heartbeat_filter': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': lambda record: not (
+                'POST /heartbeat/' in record.getMessage() and 
+                '200' in record.getMessage()
+            )
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
+            'filters': ['console_heartbeat_filter'],  # Filtra heartbeats no console
         },
         'file': {
             'class': 'logging.FileHandler',
             'formatter': 'verbose',
             'filename': log_filename,
             'encoding': 'utf-8',
+            # Não filtra no arquivo para manter registro completo
         },
     },
     'root': {
         'handlers': ['console', 'file'],
-        'level': 'INFO',  # produção: só INFO ou acima
+        'level': 'INFO',
     },
     'loggers': {
         'stores': {
@@ -253,6 +274,18 @@ LOGGING = {
         'django': {
             'handlers': ['file'],
             'level': 'INFO',
+        },
+        'django.server': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+            'filters': ['console_heartbeat_filter'],  # Filtra específico do servidor
+        },
+        'django.request': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+            'filters': ['console_heartbeat_filter'],  # Filtra específico de requests
         },
     },
 }

@@ -1,7 +1,8 @@
 from django.db.models import Sum, Max, Q
-from vitrine.models import Store, ClickTrack, Category, PWADownloadClick
+from vitrine.models import Store, ClickTrack, Category, PWADownloadClick, ActiveSession  
 from django.utils import timezone
 from datetime import timedelta
+import json
 
 
 def get_category_tags():
@@ -279,11 +280,15 @@ def get_dashboard_data():
         'button_clicks': PWADownloadClick.objects.filter(action='clicked').count(),
     }
     
+    
+    
     # Calcular taxa de conversão
     if pwa_stats['button_clicks'] > 0:
         pwa_stats['conversion_rate'] = round((pwa_stats['accepted_installs'] / pwa_stats['button_clicks']) * 100, 1)
     else:
         pwa_stats['conversion_rate'] = 0
+    
+    
     
     # Ranking de lojas (lógica existente)
     stores_with_clicks = Store.objects.annotate(
@@ -300,6 +305,8 @@ def get_dashboard_data():
             'secondary_clicks': (store.total_clicks or 0) - (store.main_banner or 0)
         })
     
+    session_metrics = get_session_metrics()
+    
     return {
         'store_count': store_count,
         'global_clicks': global_clicks,
@@ -309,4 +316,47 @@ def get_dashboard_data():
         'clicks_data': clicks_data,
         'pwa_stats': pwa_stats,
         'pwa_stats_json': json.dumps(pwa_stats),
+        'active_users_count': session_metrics['active_5min'],  # Padrão 5min
+        'session_metrics': session_metrics,
+        'session_metrics_json': json.dumps(session_metrics),
     }
+
+
+def get_active_users_count(minutes=5):
+    """
+    Retorna contagem de usuários ativos nos últimos X minutos
+    """
+    cutoff_time = timezone.now() - timedelta(minutes=minutes)
+    active_count = ActiveSession.objects.filter(
+        last_activity__gte=cutoff_time
+    ).count()
+    return active_count
+
+def get_session_metrics():
+    """
+    Retorna métricas completas de sessões
+    """    
+    try:
+        one_min_ago = timezone.now() - timedelta(minutes=1)
+        five_min_ago = timezone.now() - timedelta(minutes=5)
+        fifteen_min_ago = timezone.now() - timedelta(minutes=15)
+        one_hour_ago = timezone.now() - timedelta(hours=1)
+        
+        return {
+            'active_1min': ActiveSession.objects.filter(last_activity__gte=one_min_ago).count(),
+            'active_5min': ActiveSession.objects.filter(last_activity__gte=five_min_ago).count(),
+            'active_15min': ActiveSession.objects.filter(last_activity__gte=fifteen_min_ago).count(),
+            'active_1hour': ActiveSession.objects.filter(last_activity__gte=one_hour_ago).count(),
+            'total_sessions_today': ActiveSession.objects.filter(
+                created_at__date=timezone.now().date()
+            ).count(),
+        }
+    except Exception as e:
+        # Fallback em caso de erro
+        return {
+            'active_1min': 0,
+            'active_5min': 0,
+            'active_15min': 0,
+            'active_1hour': 0,
+            'total_sessions_today': 0,
+        }

@@ -227,8 +227,9 @@
     </div>
 
 <script>
-    const summary = JSON.parse('{{ clicks_summary_json|safe }}');
-    const pwaStats = JSON.parse('{{ pwa_stats_json|safe }}');
+    const summary = JSON.parse('{{ clicks_summary_json|escapejs }}');
+    const pwaStats = JSON.parse('{{ pwa_stats_json|escapejs }}'); 
+    //const sessionMetrics = JSON.parse('{{ session_metrics_json|escapejs }}');
 
     // Gráfico de Barras
     const barCtx = document.getElementById('barChart').getContext('2d');

@@ -8,3 +8,4 @@ sqlparse==0.5.3
 typing-extensions==4.13.2
 psycopg2-binary==2.9.9
 gunicorn==23.0.0
+django-ratelimit==4.1.0

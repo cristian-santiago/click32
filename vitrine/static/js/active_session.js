@@ -1,17 +1,17 @@
 /**
- * Session Manager - Versão otimizada
+ * Session Manager - Versão corrigida para CSRF
  */
 class SessionManager {
     constructor() {
         this.sessionId = null;
         this.heartbeatInterval = null;
         this.heartbeatFrequency = 120000; // 2 minutos
-        this.csrfToken = this.getCSRFToken();
-        this.lastHeartbeat = 0;
-        this.minHeartbeatInterval = 30000; // Mínimo 30 segundos entre heartbeats
+        this.csrfToken = null;
+        this.initialized = false;
     }
 
     getCSRFToken() {
+        // Busca o token CSRF dos cookies de forma segura
         const name = 'csrftoken';
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -28,27 +28,49 @@ class SessionManager {
     }
 
     async initialize() {
-        this.sessionId = localStorage.getItem('pwa_session_id');
+        if (this.initialized) return;
         
+        this.sessionId = localStorage.getItem('pwa_session_id');
+        this.csrfToken = this.getCSRFToken();
+        
+        // Se não tem CSRF token, espera um pouco e tenta novamente
+        if (!this.csrfToken) {
+            setTimeout(() => {
+                this.csrfToken = this.getCSRFToken();
+                this.continueInitialization();
+            }, 1000); // Espera 1 segundo pelo cookie
+        } else {
+            this.continueInitialization();
+        }
+        
+        this.initialized = true;
+    }
+
+    async continueInitialization() {
         if (!this.sessionId) {
             await this.startNewSession();
+        } else {
+            // Verifica se a sessão ainda é válida
+            await this.sendHeartbeat();
         }
         
         this.startPeriodicHeartbeat();
         
-        // Debounce no evento de visibilidade
-        document.addEventListener('visibilitychange', this.debouncedHeartbeat.bind(this));
-    }
-
-    // Debounce para evitar múltiplos heartbeats rápidos
-    debouncedHeartbeat() {
-        const now = Date.now();
-        if (now - this.lastHeartbeat > this.minHeartbeatInterval) {
-            this.sendHeartbeat();
-        }
+        // Evento de visibilidade com debounce
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && this.csrfToken) {
+                this.sendHeartbeat();
+            }
+        });
     }
 
     async startNewSession() {
+        if (!this.csrfToken) {
+            console.log('CSRF token não disponível, tentando novamente...');
+            setTimeout(() => this.startNewSession(), 2000);
+            return;
+        }
+
         try {
             const response = await fetch('/start-session/', {
                 method: 'POST',
@@ -62,23 +84,20 @@ class SessionManager {
                 const data = await response.json();
                 this.sessionId = data.session_id;
                 localStorage.setItem('pwa_session_id', this.sessionId);
+                console.log('Nova sessão iniciada:', this.sessionId);
             }
         } catch (error) {
+            console.log('Erro ao iniciar sessão, usando fallback local');
             this.sessionId = 'local_' + Date.now();
             localStorage.setItem('pwa_session_id', this.sessionId);
         }
     }
 
     async sendHeartbeat() {
-        if (!this.sessionId) return;
-        
-        const now = Date.now();
-        if (now - this.lastHeartbeat < this.minHeartbeatInterval) {
-            return; // Ignora se foi muito recente
-        }
+        if (!this.sessionId || !this.csrfToken) return;
         
         try {
-            const response = await fetch('/heartbeat/', {
+            await fetch('/heartbeat/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,17 +105,8 @@ class SessionManager {
                 },
                 body: JSON.stringify({ session_id: this.sessionId })
             });
-            
-            if (response.ok) {
-                this.lastHeartbeat = now;
-                const data = await response.json();
-                if (data.session_created) {
-                    this.sessionId = data.session_id;
-                    localStorage.setItem('pwa_session_id', this.sessionId);
-                }
-            }
         } catch (error) {
-            // Silencia erros
+            // Silencia erros - normal para usuários anônimos
         }
     }
 
@@ -106,12 +116,17 @@ class SessionManager {
         }
         
         this.heartbeatInterval = setInterval(() => {
-            this.sendHeartbeat();
+            if (this.csrfToken) {
+                this.sendHeartbeat();
+            }
         }, this.heartbeatFrequency);
     }
 }
 
-// Inicialização
+// Inicialização com delay para garantir CSRF cookie
 document.addEventListener('DOMContentLoaded', function() {
-    new SessionManager().initialize();
+    // Espera um pouco para garantir que os cookies estão disponíveis
+    setTimeout(() => {
+        new SessionManager().initialize();
+    }, 500); // 500ms de delay
 });

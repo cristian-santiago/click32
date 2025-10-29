@@ -69,9 +69,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 if DEBUG:
     CSRF_TRUSTED_ORIGINS = [
         'http://localhost:8000',
-        'http://127.0.0.1:8000', 
-        'https://localhost:8000',
-        'https://127.0.0.1:8000',
+        'http://127.0.0.1:8000',         
         'https://*.ngrok-free.app',  
         'http://*.ngrok-free.app' 
     ]
@@ -86,7 +84,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',  # Necessário para autenticação
     'django.contrib.messages.middleware.MessageMiddleware',  # Necessário para mensagens
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'vitrine.middleware.ClickTrackingMiddleware',  # Middleware de rastreamento de cliques
     'vitrine.middleware.HeartbeatLogFilter',
 ]
 

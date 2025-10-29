@@ -144,6 +144,19 @@ def home(request):
 
 def store_detail(request, slug):
     try:
+        # PRIMEIRO valida os paths reservados (ANTES de buscar no banco)
+        reserved_paths = [
+        'admin', 'api', 'static', 'media', 'anuncie', 'sobre',
+        'start-session', 'heartbeat', 'track-click', 'store',
+        'favicon.ico', 'robots.txt', 'sitemap.xml',
+        'login', 'logout', 'register',
+        ]
+        
+        if slug in reserved_paths:
+            logger.warning(f"Attempt to access reserved path as store slug: {slug}")
+            return redirect('home')
+
+        # DEPOIS busca a loja no banco
         store = get_object_or_404(Store, slug=slug)
         
         if store.is_deactivated:
@@ -180,11 +193,11 @@ def store_detail(request, slug):
 
     except Store.DoesNotExist:
         logger.error(f"Store not found - Slug: {slug}")
-        raise
+        return redirect('home')  # Redireciona para home em vez de dar 404
     except Exception as e:
         logger.error(f"Error rendering store detail - Slug: {slug}, Error: {str(e)}", exc_info=True)
-        raise
-
+        return redirect('home')  # Redireciona para home em caso de erro
+        
 #@cache_page(60 * 60 * 24)
 def store_detail_by_id(request, store_id):
     try:

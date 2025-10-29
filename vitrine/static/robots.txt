@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /store/  # URLs por ID/UUID
+
+Sitemap: https://click32.com/sitemap.xml

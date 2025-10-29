@@ -1,4 +1,4 @@
-from django.db.models import Sum, Max, Q
+from django.db.models import Sum, Max, Q, Count
 from vitrine.models import Store, ClickTrack, Category, PWADownloadClick, ActiveSession  
 from django.utils import timezone
 from datetime import timedelta
@@ -70,70 +70,48 @@ def get_timeline_data(store_id=None, start_date=None, end_date=None):
 # Outras funções permanecem inalteradas
 
 def get_clicks_data(store_id=None, start_date=None, end_date=None):
-    # Calcula período padrão se não passado (mês atual até hoje)
+    """Versão otimizada - menos queries, mais performance"""
     if start_date is None or end_date is None:
         end_date = timezone.now().date()
         start_date = end_date.replace(day=1)
     
-    base_query = Q(clicktrack__last_clicked__date__range=[start_date, end_date])
-    if store_id:
-        base_query &= Q(clicktrack__store_id=store_id)
-    
-    stores = (
-        Store.objects
-        .annotate(
-            main_banner_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='main_banner')),
-            whatsapp_1_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='whatsapp_link_1')),
-            whatsapp_2_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='whatsapp_link_2')),
-            phone_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='phone_link')),
-            instagram_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='instagram_link')),
-            facebook_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='facebook_link')),
-            youtube_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='youtube_link')),
-            x_link_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='x_link')),
-            google_maps_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='google_maps_link')),
-            ifood_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='ifood_link')),
-            anota_ai_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='anota_ai_link')),
-            flyer_clicks=Sum('clicktrack__click_count', filter=base_query & Q(clicktrack__element_type='flyer_pdf')),
-            last_clicked=Max('clicktrack__last_clicked', filter=base_query)
-        )
-    )
+    stores = Store.objects.all()
     if store_id:
         stores = stores.filter(id=store_id)
     
     clicks_data = []
     for store in stores:
-        total_clicks = sum([
-            store.main_banner_clicks or 0,
-            store.whatsapp_1_clicks or 0,
-            store.whatsapp_2_clicks or 0,
-            store.phone_clicks or 0,
-            store.instagram_clicks or 0,
-            store.facebook_clicks or 0,
-            store.youtube_clicks or 0,
-            store.x_link_clicks or 0,
-            store.google_maps_clicks or 0,
-            store.ifood_clicks or 0,
-            store.anota_ai_clicks or 0,
-            store.flyer_clicks or 0
-        ])
-        secondary_clicks = total_clicks - (store.main_banner_clicks or 0)
+        # Uma query eficiente para todos os cliques da loja
+        click_stats = ClickTrack.objects.filter(
+            store=store,
+            last_clicked__date__range=[start_date, end_date]
+        ).values('element_type').annotate(total=Sum('click_count'))
+        
+        stats_dict = {stat['element_type']: stat['total'] or 0 for stat in click_stats}
+        
+        total_clicks = sum(stats_dict.values())
+        last_clicked = ClickTrack.objects.filter(
+            store=store, 
+            last_clicked__date__range=[start_date, end_date]
+        ).aggregate(last=Max('last_clicked'))['last']
+        
         clicks_data.append({
             'store': store,
-            'main_banner': store.main_banner_clicks or 0,
-            'whatsapp_1': store.whatsapp_1_clicks or 0,
-            'whatsapp_2': store.whatsapp_2_clicks or 0,
-            'phone': store.phone_clicks or 0,
-            'instagram': store.instagram_clicks or 0,
-            'facebook': store.facebook_clicks or 0,
-            'youtube': store.youtube_clicks or 0,
-            'x_link': store.x_link_clicks or 0,
-            'google_maps': store.google_maps_clicks or 0,
-            'ifood': store.ifood_clicks or 0,
-            'anota_ai': store.anota_ai_clicks or 0,
-            'flyer': store.flyer_clicks or 0,
+            'main_banner': stats_dict.get('main_banner', 0),
+            'whatsapp_1': stats_dict.get('whatsapp_link_1', 0),
+            'whatsapp_2': stats_dict.get('whatsapp_link_2', 0),
+            'phone': stats_dict.get('phone_link', 0),
+            'instagram': stats_dict.get('instagram_link', 0),
+            'facebook': stats_dict.get('facebook_link', 0),
+            'youtube': stats_dict.get('youtube_link', 0),
+            'x_link': stats_dict.get('x_link', 0),
+            'google_maps': stats_dict.get('google_maps_link', 0),
+            'ifood': stats_dict.get('ifood_link', 0),
+            'anota_ai': stats_dict.get('anota_ai_link', 0),
+            'flyer': stats_dict.get('flyer_pdf', 0),
             'total_clicks': total_clicks,
-            'secondary_clicks': secondary_clicks,
-            'last_clicked': store.last_clicked
+            'secondary_clicks': total_clicks - stats_dict.get('main_banner', 0),
+            'last_clicked': last_clicked
         })
     
     return clicks_data
@@ -201,7 +179,12 @@ def get_engagement_rate(store_id=None, start_date=None, end_date=None):
     clicks_data = get_clicks_data(store_id, start_date, end_date)
     total_clicks = sum(data['total_clicks'] for data in clicks_data)
     profile_accesses = sum(data['main_banner'] for data in clicks_data)
-    return round((total_clicks / profile_accesses * 100) if profile_accesses > 0 else 0, 1)
+    
+    if profile_accesses == 0:
+        return 0.0
+    
+    engagement_rate = (total_clicks / profile_accesses) * 100
+    return round(engagement_rate, 1)
 
 def get_total_clicks_by_link_type(store_id=None, start_date=None, end_date=None):
     # Período padrão como em get_clicks_data
@@ -245,10 +228,9 @@ def get_total_clicks_by_link_type(store_id=None, start_date=None, end_date=None)
 
 
 def get_dashboard_data():
-    # Dados existentes...
+    # Agora Count está disponível
     store_count = Store.objects.count()
     
-    # Cliques globais (excluindo home_access para não duplicar)
     global_clicks = ClickTrack.objects.exclude(element_type='home_access').aggregate(
         total=Count('click_count')
     )['total'] or 0
@@ -293,7 +275,7 @@ def get_dashboard_data():
     # Ranking de lojas (lógica existente)
     stores_with_clicks = Store.objects.annotate(
         total_clicks=Count('clicktrack__click_count'),
-        main_banner=Count('clicktrack__click_count', filter=models.Q(clicktrack__element_type='main_banner'))
+        main_banner=Count('clicktrack__click_count', filter= Q(clicktrack__element_type='main_banner'))
     ).order_by('-total_clicks')
     
     clicks_data = []

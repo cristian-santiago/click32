@@ -2,69 +2,86 @@
 {% load static %}
 
 {% block extra_css %}
-    <!-- Inclui o arquivo CSS específico para a página home -->
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block content %}
-    <!-- Inclui o componente de botões de tags -->
     {% include '_tag_buttons.html' %}
 
     {% if stores_vip %}
-        <!-- Seção do carrossel para lojas VIP -->
         <div class="carousel-wrapper">
             <div class="carousel-container">
                 {% for store in stores_vip %}
                     {% if store.main_banner %}
-                        <!-- Item do carrossel para cada loja VIP com banner principal -->
                         <div class="carousel-item">
-                            <a href="{% url 'store_detail_by_id' store.id %}?store_id={{ store.id }}&element_type=main_banner" class="store-banner">
-                                <img src="{{ store.main_banner.url }}" alt="{{ store.name }}">
+                            <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="store-banner">
+                                <img 
+                                    src="{{ store.main_banner.url }}" 
+                                    alt="{{ store.name }}"
+                                    loading="lazy"
+                                    width="300"
+                                    height="200"
+                                >
                             </a>
                         </div>
                     {% endif %}
                 {% endfor %}
 
-                <!-- Banner de anúncio fixo -->
+                <!-- Banner de anúncio com configuração segura -->
                 <div class="carousel-item">
-                    <a href="https://wa.me/5521980555851" target="_blank">
-                        <img src="{% static 'ad_banner.jpeg' %}" alt="Advertisement Banner">
+                    <a 
+                        href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521980555851' }}" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                    >
+                        <img 
+                            src="{% static 'ad_banner.jpeg' %}" 
+                            alt="Anuncie aqui - Entre em contato"
+                            loading="lazy"
+                            width="300"
+                            height="200"
+                        >
                     </a>
                 </div>
             </div>
-            <!-- Contêiner para os pontos de navegação do carrossel -->
             <div class="carousel-dots"></div>
         </div>
-        <!-- Elemento para ocultar banners, função não clara -->
+        
         <div class="hide-banners"></div>
-        <!-- Máscara de fade do carrossel, inicialmente oculta -->
         <div class="carousel-fade-mask hidden"></div>
 
-        <!-- Lista de lojas não-VIP -->
         <div class="store-list">
             {% for store in stores %}
                 {% if store.main_banner %}
-                    <!-- Link para a página de detalhes da loja com banner principal -->
-                    <a href="{% url 'store_detail_by_id' store.id %}?store_id={{ store.id }}&element_type=main_banner" class="store-banner">
-                        <img src="{{ store.main_banner.url }}" alt="{{ store.name }}">
+                    <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="store-banner">
+                        <img 
+                            src="{{ store.main_banner.url }}" 
+                            alt="{{ store.name }}"
+                            loading="lazy"
+                            width="300"
+                            height="200"
+                        >
                     </a>
                 {% endif %}
             {% endfor %}
         </div>
     {% else %}
-        <!-- Lista de lojas filtradas quando não há lojas VIP -->
         <div class="store-list-filter">
             {% for store in stores %}
                 {% if store.main_banner %}
-                    <!-- Link para a página de detalhes da loja com banner principal -->
-                    <a href="{% url 'store_detail_by_id' store.id %}?store_id={{ store.id }}&element_type=main_banner" class="store-banner">
-                        <img src="{{ store.main_banner.url }}" alt="{{ store.name }}">
+                    <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="store-banner">
+                        <img 
+                            src="{{ store.main_banner.url }}" 
+                            alt="{{ store.name }}"
+                            loading="lazy"
+                            width="300"
+                            height="200"
+                        >
                     </a>
                 {% endif %}
             {% endfor %}
         </div>
     {% endif %}
 
-    <!-- Inclui o script JavaScript para controle do carrossel -->
     <script src="{% static 'js/carousel_home.js' %}"></script>
 {% endblock %}

@@ -54,7 +54,7 @@ class StoreForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Aplica validação de URL segura
-        url_fields = ['whatsapp_link_1', 'whatsapp_link_2', 'phone_link', 
+        url_fields = ['whatsapp_link_1', 'whatsapp_link_2', 
                      'instagram_link', 'facebook_link', 'x_link', 
                      'google_maps_link', 'youtube_link', 'anota_ai_link', 'ifood_link']
         

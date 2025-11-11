@@ -169,6 +169,9 @@ def store_delete(request, store_id):
         store = get_object_or_404(Store, pk=store_id)
         logger.info(f"Store deletion attempted - Store: {store.name}, ID: {store_id}, User: {request.user}")
 
+        # PRIMEIRO: Limpa arquivos temporários do flyer
+        cleanup_temp_files(store_id)
+
         # Delete associated files
         for image_field in [store.main_banner, store.carousel_2, store.carousel_3, store.carousel_4, store.flyer_pdf]:
             if image_field and os.path.exists(image_field.path):

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    {% autoescape on %}
     <link rel="icon" href="{% static 'icons/icon-72x72.png' %}" type="image/png" sizes="72x72">
     <link rel="icon" href="{% static 'icons/icon-96x96.png' %}" type="image/png" sizes="96x96">
     <link rel="icon" href="{% static 'icons/icon-128x128.png' %}" type="image/png" sizes="128x128">
@@ -12,6 +13,12 @@
     <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
     <link rel="manifest" href="{% static 'manifest.json' %}">
+    
+    <!-- Proteções de Segurança -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.gstatic.com; script-src 'self'; connect-src 'self';">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    
     <meta name="theme-color" content="#2c3e50">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -23,9 +30,20 @@
     <meta name="description" content="Impulsione sua loja no KM32 com Click32! Atraia clientes, aumente sua visibilidade e fortaleça seu negócio local.">
 
     <title>Anuncie no Click32 - KM32</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Links Externos Seguros -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+          rel="stylesheet"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+          crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" 
+          rel="stylesheet"
+          integrity="sha512-d1XYo2FCAh//0pj/2QbNA9hjrJwUL7Nz8mJH7Ep7T2XlLStaBxpv/wKMhVGY9TwZ1hwmgvj9VxH30LxJbmjD1w==" 
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" 
+          rel="stylesheet"
+          crossorigin="anonymous">
+    {% endautoescape %}
     <style>
         * {
             margin: 0;
@@ -486,92 +504,108 @@
 <body>
     <div class="toolbar">
         <div class="toolbar-container">
-            <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
-            <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie"><i class="fas fa-bullhorn"></i></a>
-            <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>
+            <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início" aria-label="Página inicial">
+                <i class="fas fa-house" aria-hidden="true"></i>
+            </a>
+            <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie" aria-label="Página de anúncio">
+                <i class="fas fa-bullhorn" aria-hidden="true"></i>
+            </a>
+            <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre" aria-label="Sobre nós">
+                <i class="fas fa-info-circle" aria-hidden="true"></i>
+            </a>
         </div>
     </div>
 
-<section class="hero">
-    <div class="container">
-        <div class="hero-content">
-            <h1>KM32: Destaque sua Loja</h1>
-            <p>Com Click32, conecte sua loja aos clientes certos e fortaleça sua presença no KM32.</p>
-            <a href="#connect" class="cta-primary">Comece Agora! <i class="fas fa-rocket"></i></a>
-        </div>
-    </div>
-</section>
-
-<section class="vision-section">
-    <div class="container">
-        <div class="vision-content">
-          <div class="vision-text">
-                <h2>Sua região, seu espaço</h2>
-                <p>Que tal divulgar o que você faz e ser encontrado por quem procura?</p>
-                <p>O que acha de mostrar sua loja ou projeto para mais pessoas?</p>
-                <p>Conecte-se com a comunidade e descubra oportunidades perto de você.</p>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>KM32: Destaque sua Loja</h1>
+                <p>Com Click32, conecte sua loja aos clientes certos e fortaleça sua presença no KM32.</p>
+                <a href="#connect" class="cta-primary">Comece Agora! <i class="fas fa-rocket" aria-hidden="true"></i></a>
             </div>
-            <div class="vision-stats">
-                <div class="stat-card">
-                    <h3>✓</h3>
-                    <p>Conexão Direta com Clientes</p>
+        </div>
+    </section>
+
+    <section class="vision-section">
+        <div class="container">
+            <div class="vision-content">
+                <div class="vision-text">
+                    <h2>Sua região, seu espaço</h2>
+                    <p>Que tal divulgar o que você faz e ser encontrado por quem procura?</p>
+                    <p>O que acha de mostrar sua loja ou projeto para mais pessoas?</p>
+                    <p>Conecte-se com a comunidade e descubra oportunidades perto de você.</p>
                 </div>
-                <div class="stat-card">
-                    <h3>✓</h3>
-                    <p>Facilidade de Destaque no KM32</p>
-                </div>
-                <div class="stat-card">
-                    <h3>✓</h3>
-                    <p>Sem Custos Ocultos para Usuários</p>
+                <div class="vision-stats">
+                    <div class="stat-card">
+                        <h3>✓</h3>
+                        <p>Conexão Direta com Clientes</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>✓</h3>
+                        <p>Facilidade de Destaque no KM32</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>✓</h3>
+                        <p>Sem Custos Ocultos para Usuários</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="power-section">
-    <div class="container">
-        <h2>Por que Click32?</h2>
-        <div class="power-grid">
-            <div class="power-card">
-                <i class="fas fa-bolt"></i>
-                <h3>Conexão Instantânea</h3>
-                <p>Clientes chegam até você rapidamente, seja pelo WhatsApp ou redes sociais.</p>
-            </div>
-            <div class="power-card">
-                <i class="fas fa-eye"></i>
-                <h3>Visibilidade Local</h3>
-                <p>Coloque sua loja em destaque na comunidade KM32.</p>
-            </div>
-            <div class="power-card">
-                <i class="fas fa-users"></i>
-                <h3>Rede Local</h3>
-                <p>Faça parte de um ecossistema de negócios que se ajudam e crescem juntos.</p>
-            </div>
-            <div class="power-card">
-                <i class="fas fa-lightbulb"></i>
-                <h3>Simples e Transparente</h3>
-                <p>Sem métricas falsas, sem números enganosos — apenas oportunidades reais para lojistas.</p>
+    <section class="power-section">
+        <div class="container">
+            <h2>Por que Click32?</h2>
+            <div class="power-grid">
+                <div class="power-card">
+                    <i class="fas fa-bolt" aria-hidden="true"></i>
+                    <h3>Conexão Instantânea</h3>
+                    <p>Clientes chegam até você rapidamente, seja pelo WhatsApp ou redes sociais.</p>
+                </div>
+                <div class="power-card">
+                    <i class="fas fa-eye" aria-hidden="true"></i>
+                    <h3>Visibilidade Local</h3>
+                    <p>Coloque sua loja em destaque na comunidade KM32.</p>
+                </div>
+                <div class="power-card">
+                    <i class="fas fa-users" aria-hidden="true"></i>
+                    <h3>Rede Local</h3>
+                    <p>Faça parte de um ecossistema de negócios que se ajudam e crescem juntos.</p>
+                </div>
+                <div class="power-card">
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    <h3>Simples e Transparente</h3>
+                    <p>Sem métricas falsas, sem números enganosos — apenas oportunidades reais para lojistas.</p>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="connect-section" id="connect">
+  <section class="connect-section" id="connect">
     <div class="container">
         <h2>Pronto para Começar?</h2>
         <p>Conecte-se com a nossa equipe e descubra como destacar sua loja no KM32!</p>
         <div class="connect-links">
-            <a href="https://wa.me/5511999999999?text=Quero%21" class="connect-link whatsapp" target="_blank">
-                <i class="bi bi-whatsapp"></i>
+            <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521980555851' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!" 
+               class="connect-link whatsapp" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               aria-label="Contato por WhatsApp">
+                <i class="fab fa-whatsapp"></i>
                 <span>WhatsApp</span>
             </a>
-            <a href="https://www.instagram.com/click32km/" class="connect-link instagram" target="_blank">
-                <i class="bi bi-instagram"></i>
+            <a href="https://www.instagram.com/click32.app/" 
+               class="connect-link instagram" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               aria-label="Nosso Instagram">
+                <i class="fab fa-instagram"></i>
                 <span>Instagram</span>
             </a>
-            <a href="mailto:contato@click32.com.br?subject=Quero%20Anunciar!&body=Olá! Quero destacar minha loja no KM32 com o Click32!" class="connect-link email">
-                <i class="bi bi-envelope"></i>
+            <a href="mailto:{{ settings.CONTACT_EMAIL|default:'click32.contato@gmail.com' }}?subject=Quero%20Anunciar!&body=Olá! Quero destacar minha loja no KM32 com o Click32!" 
+               class="connect-link email"
+               aria-label="Enviar email">
+                <i class="fas fa-envelope"></i>
                 <span>Email</span>
             </a>
         </div>
@@ -581,6 +615,5 @@
     <footer>
         <p>© 2025 Click32. Todos os direitos reservados.</p>
     </footer>
-    
 </body>
 </html>

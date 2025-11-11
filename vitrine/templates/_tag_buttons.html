@@ -1,27 +1,40 @@
 {% block extra_css %}
 {% load static %}
+{% autoescape on %}
     <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-..."
+          crossorigin="anonymous">
+{% endautoescape %}
 {% endblock %}
 
 <div class="sidebar collapsed" id="sidebar">
-    <button class="toggle-btn" id="toggleBtn"><span></span></button>
+    <button class="toggle-btn" id="toggleBtn" type="button" aria-label="Toggle sidebar">
+        <span></span>
+    </button>
 
     <div class="profile">
-        <img class="profile" src="{% static 'profile-logo-clear.png' %}" alt="Click32">
+        <img class="profile" 
+             src="{% static 'profile-logo-clear.png' %}" 
+             alt="Click32"
+             loading="lazy">
     </div>
 
     <ul class="menu">
         {% for category in category_tags %}
             <li class="menu-item">
-                <div class="menu-header" data-dropdown="{{ category.name }}">
-                    <i class="fas {{ category.icon }}"></i>
-                    <span class="menu-text">{{ category.name }}</span>
+                <div class="menu-header" data-dropdown="{{ category.name|escapejs }}">
+                    <i class="fas {{ category.icon }}" aria-hidden="true"></i>
+                    <span class="menu-text">{{ category.name|escape }}</span>
                 </div>
-                <ul class="dropdown" style="display: none;">
+                <ul class="dropdown" style="display: none;" aria-hidden="true">
                     {% for tag in category.tags %}
                         <li>
-                            <a href="{% url 'home' %}?tag={{ tag|urlencode }}" class="dropdown-item">{{ tag }}</a>
+                            <a href="{% url 'home' %}?tag={{ tag|urlencode }}" 
+                               class="dropdown-item">
+                                {{ tag|escape }}
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -29,10 +42,10 @@
         {% endfor %}
     </ul>
 </div>
-<div class="overlay" id="overlay"></div>
+<div class="overlay" id="overlay" tabindex="-1"></div>
 
 <script>
-    // Define homeUrl para ser usado no sidebar.js
+    // Já está protegido por CSRF_COOKIE_SECURE
     window.homeUrl = "{% url 'home' %}" || "/";
 </script>
-<script src="{% static 'js/sidebar.js' %}"></script>
+<script src="{% static 'js/sidebar.js' %}" defer></script>

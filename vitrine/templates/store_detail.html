@@ -2,11 +2,18 @@
 {% load static %}
 
 {% block extra_css %}
+    {% autoescape on %}
     <!-- Inclusão de arquivos CSS externos para estilização -->
     <link rel="stylesheet" href="{% static 'css/store_detail.css' %}">
     <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" 
+          rel="stylesheet"
+          crossorigin="anonymous">
+    {% endautoescape %}
 {% endblock %}
 
 {% block content %}
@@ -21,17 +28,17 @@
         <div class="carousel-container">
             {% if store.carousel_2 %}
                 <div class="carousel-item">
-                    <img src="{{ store.carousel_2.url }}" alt="Carousel 2">
+                    <img src="{{ store.carousel_2.url }}" alt="Carousel 2" loading="lazy">
                 </div>
             {% endif %}
             {% if store.carousel_3 %}
                 <div class="carousel-item">
-                    <img src="{{ store.carousel_3.url }}" alt="Carousel 3">
+                    <img src="{{ store.carousel_3.url }}" alt="Carousel 3" loading="lazy">
                 </div>
             {% endif %}
             {% if store.carousel_4 %}
                 <div class="carousel-item">
-                    <img src="{{ store.carousel_4.url }}" alt="Carousel 4">
+                    <img src="{{ store.carousel_4.url }}" alt="Carousel 4" loading="lazy">
                 </div>
             {% endif %}
         </div>
@@ -41,11 +48,11 @@
     <!-- Nome da loja com botão de compartilhamento -->
     <div class="store-name">
         <h2>
-            {{ store.name }}
+            {{ store.name|escape }}
             <button id="shareButton" class="share-btn" 
                     data-store-id="{{ store.id }}"
-                    data-store-name="{{ store.name }}"
-                    data-store-url="{{ request.build_absolute_uri }}">
+                    data-store-name="{{ store.name|escapejs }}"
+                    data-store-url="{{ request.build_absolute_uri|escapejs }}">
                 <i class="fas fa-share-alt"></i>
             </button>
         </h2>
@@ -53,7 +60,7 @@
 
     <!-- Descrição da loja -->
     <div class="description">
-        <p>{{ store.description }}</p>
+        <p>{{ store.description|escape }}</p>
     </div>
 
     <!-- Informações da loja (horários e endereço) -->
@@ -61,12 +68,12 @@
         <p>
             <strong>Atendimento:</strong><br>
             {% for hour in store.opening_hours.all %}
-                {{ hour.day_range }}: {{ hour.time_range }}<br>
+                {{ hour.day_range|escape }}: {{ hour.time_range|escape }}<br>
             {% empty %}
                 <strong>Sem horários cadastrados.</strong><br>
             {% endfor %}
             {% if store.address %}
-                <strong>Endereço:</strong> {{ store.address }}<br>
+                <strong>Endereço:</strong> {{ store.address|escape }}<br>
             {% endif %}
             <strong>Links disponíveis:</strong>
         </p>
@@ -78,9 +85,10 @@
             <li>
                 <a href="{% url 'track_click' store.id 'whatsapp_link_1' %}" 
                    target="_blank" 
-                   data-redirect="{{ store.whatsapp_link_1 }}" 
+                   rel="noopener noreferrer"
+                   data-redirect="{{ store.whatsapp_link_1|escapejs }}" 
                    class="social-link">
-                    <img src="/media/icons/whatsapp_icon_1.png" alt="WhatsApp 1">
+                    <img src="{% static '/icons/whatsapp_icon_1.png' %}" alt="WhatsApp 1" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -88,9 +96,10 @@
             <li>
                 <a href="{% url 'track_click' store.id 'whatsapp_link_2' %}" 
                    target="_blank" 
-                   data-redirect="{{ store.whatsapp_link_2 }}" 
+                   rel="noopener noreferrer"
+                   data-redirect="{{ store.whatsapp_link_2|escapejs }}" 
                    class="social-link">
-                    <img src="/media/icons/whatsapp_icon_2.png" alt="WhatsApp 2">
+                    <img src="{% static 'icons/whatsapp_icon_2.png' %}" alt="WhatsApp 2" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -99,8 +108,8 @@
                 <a href="#" 
                    class="social-link phone-link"
                    data-track-url="{% url 'track_click' store.id 'phone_link' %}"
-                   data-phone="{{ store.phone_link }}">
-                    <img src="/media/icons/phone_icon.png" alt="Telefone">
+                   data-phone="{{ store.phone_link|escapejs }}">
+                    <img src="{% static 'icons/phone_icon.png' %}" alt="Telefone" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -108,9 +117,10 @@
             <li>
                 <a href="{% url 'track_click' store.id 'instagram_link' %}" 
                    target="_blank" 
-                   data-redirect="{{ store.instagram_link }}" 
+                   rel="noopener noreferrer"
+                   data-redirect="{{ store.instagram_link|escapejs }}" 
                    class="social-link">
-                    <img src="/media/icons/instagram_icon.png" alt="Instagram">
+                    <img src="{% static 'icons/instagram_icon.png' %}" alt="Instagram" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -118,9 +128,10 @@
             <li>
                 <a href="{% url 'track_click' store.id 'youtube_link' %}" 
                    target="_blank" 
-                   data-redirect="{{ store.youtube_link }}" 
+                   rel="noopener noreferrer"
+                   data-redirect="{{ store.youtube_link|escapejs }}" 
                    class="social-link">
-                    <img src="/media/icons/youtube_icon.png" alt="Youtube">
+                    <img src="{% static 'icons/youtube_icon.png' %}" alt="Youtube" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -128,9 +139,10 @@
             <li>
                 <a href="{% url 'track_click' store.id 'facebook_link' %}" 
                    target="_blank" 
-                   data-redirect="{{ store.facebook_link }}" 
+                   rel="noopener noreferrer"
+                   data-redirect="{{ store.facebook_link|escapejs }}" 
                    class="social-link">
-                    <img src="/media/icons/facebook_icon.png" alt="Facebook">
+                    <img src="{% static 'icons/facebook_icon.png' %}" alt="Facebook" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -138,9 +150,10 @@
             <li>
                 <a href="{% url 'track_click' store.id 'x_link' %}" 
                    target="_blank" 
-                   data-redirect="{{ store.x_link }}" 
+                   rel="noopener noreferrer"
+                   data-redirect="{{ store.x_link|escapejs }}" 
                    class="social-link">
-                    <img src="/media/icons/x_icon.png" alt="X">
+                    <img src="{% static 'icons/x_icon.png' %}" alt="X" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -148,9 +161,10 @@
             <li>
                 <a href="{% url 'track_click' store.id 'google_maps_link' %}" 
                    target="_blank" 
-                   data-redirect="{{ store.google_maps_link }}" 
+                   rel="noopener noreferrer"
+                   data-redirect="{{ store.google_maps_link|escapejs }}" 
                    class="social-link">
-                    <img src="/media/icons/google_maps_icon.png" alt="Google Maps">
+                    <img src="{% static 'icons/google_maps_icon.png' %}" alt="Google Maps" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -158,9 +172,10 @@
             <li>
                 <a href="{% url 'track_click' store.id 'anota_ai_link' %}" 
                    target="_blank" 
-                   data-redirect="{{ store.anota_ai_link }}" 
+                   rel="noopener noreferrer"
+                   data-redirect="{{ store.anota_ai_link|escapejs }}" 
                    class="social-link">
-                    <img src="/media/icons/anota_ai_icon.png" alt="Anota Ai">
+                    <img src="{% static 'icons/anota_ai_icon.png' %}" alt="Anota Ai" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -168,9 +183,10 @@
             <li>
                 <a href="{% url 'track_click' store.id 'ifood_link' %}" 
                    target="_blank" 
-                   data-redirect="{{ store.ifood_link }}" 
+                   rel="noopener noreferrer"
+                   data-redirect="{{ store.ifood_link|escapejs }}" 
                    class="social-link">
-                    <img src="/media/icons/ifood_icon.png" alt="iFood">
+                    <img src="{% static 'icons/ifood_icon.png' %}" alt="iFood" loading="lazy">
                 </a>
             </li>
         {% endif %}
@@ -180,37 +196,35 @@
                    class="open-flyer-modal" 
                    data-store-id="{{ store.id }}" 
                    title="Visualizar encarte na página">
-                    <img src="/media/icons/flyer_icon.png" alt="Encarte">
+                    <img src="{% static 'icons/flyer_icon.png' %}" alt="Encarte" loading="lazy">
                 </a>
             </li>
         {% endif %}
     </ul>
 
-    <!-- Modal para visualização de encarte -->
-    <div class="modal fade flyer-modal" id="flyerModal" tabindex="-1" aria-labelledby="flyerModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="zoom-controls">
-                        <button class="zoom-in"><i class="fas fa-plus"></i></button>
-                        <button class="zoom-out"><i class="fas fa-minus"></i></button>
-                        <button class="zoom-reset"><i class="fas fa-sync-alt"></i></button>
-                    </div>
-                    <div id="flyerCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false" data-bs-touch="true">
-                        <div class="carousel-inner" id="flyerCarouselInner" style="height: 80vh;"></div>
-                        <div class="carousel-indicators" id="flyerIndicators"></div>
-                        <div class="loading-spinner">
-                            <i class="fas fa-spinner fa-spin"></i>
-                        </div>
-                        <div class="error-message" style="display: none; color: #fff; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2100;"></div>
-                    </div>
+<!-- Modal simplificado - SEM Bootstrap -->
+<div class="flyer-modal" id="flyerModal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-body">
+            <button type="button" class="btn-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="zoom-controls">
+                <button class="zoom-in"><i class="fas fa-plus"></i></button>
+                <button class="zoom-out"><i class="fas fa-minus"></i></button>
+                <button class="zoom-reset"><i class="fas fa-sync-alt"></i></button>
+            </div>
+            <div id="flyerCarousel">
+                <div class="carousel-inner" id="flyerCarouselInner" style="height: 80vh;"></div>
+                <div class="carousel-indicators" id="flyerIndicators"></div>
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
                 </div>
+                <div class="error-message" style="display: none; color: #fff; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2100;"></div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Inclusão do rodapé -->
     {% include '_footer.html' %}
@@ -219,7 +233,9 @@
     <script>
         const CSRF_TOKEN = '{{ csrf_token }}';
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+            crossorigin="anonymous"></script>
     <script src="{% static 'js/share_modal.js' %}"></script>  
     <script src="{% static 'js/flyer_modal.js' %}"></script>
     <script src="{% static 'js/carousel_store_detail.js' %}"></script>

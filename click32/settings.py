@@ -16,7 +16,7 @@ from datetime import datetime
 import os
 
 
-
+WHATSAPP_NUMBER = os.environ.get('WHATSAPP_NUMBER', '5521980555851')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -64,7 +64,7 @@ INSTALLED_APPS = [
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_CONTENT_TYPE_NOSNIFF = False
 
 if DEBUG:
     CSRF_TRUSTED_ORIGINS = [
@@ -111,9 +111,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'click32.wsgi.application'
 
-# media
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -184,14 +182,23 @@ USE_TZ = True
 # login
 LOGIN_URL = '/admin/login/'
 
+
+# media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+
+
 
 STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

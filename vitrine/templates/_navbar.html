@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    {% autoescape on %}
     <meta name="theme-color" content="#2c3e50">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -9,23 +10,36 @@
     <meta name="apple-mobile-web-app-title" content="Click32">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Click32 - Sua plataforma">
 
+    
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-..."
+          crossorigin="anonymous">
+    {% endautoescape %}
 </head>
 <body>
-    <div class="toolbar">
+    <nav class="toolbar" aria-label="Navegação principal">
         <div class="toolbar-container">
-            <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
-            <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie"><i class="fas fa-bullhorn"></i></a>
-            <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>
-            <a href="#" id="installBtn" class="tooltip hidden" data-tooltip="Instalar App"><i class="fas fa-download"></i></a>
+            <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início" aria-label="Página inicial">
+                <i class="fas fa-house" aria-hidden="true"></i>
+            </a>
+            <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie" aria-label="Anuncie">
+                <i class="fas fa-bullhorn" aria-hidden="true"></i>
+            </a>
+            <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre" aria-label="Sobre nós">
+                <i class="fas fa-info-circle" aria-hidden="true"></i>
+            </a>
+            <a href="#" id="installBtn" class="tooltip hidden" data-tooltip="Instalar App" aria-label="Instalar aplicativo">
+                <i class="fas fa-download" aria-hidden="true"></i>
+            </a>
         </div>
-    </div>
+    </nav>
 
     {% block content %}
     {% endblock %}
 </body>
-
 </html>

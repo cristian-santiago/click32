@@ -494,15 +494,35 @@ def view_flyer(request, store_id):
     
 def cleanup_temp_files(store_id):
     try:
-        temp_files = glob.glob(os.path.join(settings.MEDIA_ROOT, f'flyers/temp_page_{store_id}_*.png'))
+        # Padrão mais abrangente para capturar todos os PNGs temporários
+        patterns = [
+            f'flyers/temp_page_{store_id}_*.png',
+            f'flyers/temp_page_{store_id}-*.png',  # Padrão alternativo
+            f'**/temp_page_{store_id}_*.png',      # Busca recursiva
+        ]
+        
+        temp_files = []
+        for pattern in patterns:
+            temp_files.extend(glob.glob(os.path.join(settings.MEDIA_ROOT, pattern)))
+        
+        # Remove duplicatas
+        temp_files = list(set(temp_files))
+        
         if temp_files:
-            for file in temp_files:
+            removed_count = 0
+            for file_path in temp_files:
                 try:
-                    os.remove(file)
-                    logger.debug(f"Temporary file cleaned up - File: {file}")
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
+                        removed_count += 1
+                        logger.debug(f"Temporary file cleaned up - File: {file_path}")
                 except Exception as e:
-                    logger.warning(f"Failed to remove temporary file - File: {file}, Error: {str(e)}")
-            logger.debug(f"Cleanup completed - Store ID: {store_id}, Files removed: {len(temp_files)}")
+                    logger.warning(f"Failed to remove temporary file - File: {file_path}, Error: {str(e)}")
+            
+            logger.info(f"Cleanup completed - Store ID: {store_id}, Files removed: {removed_count}/{len(temp_files)}")
+        else:
+            logger.debug(f"No temporary files found for cleanup - Store ID: {store_id}")
+            
     except Exception as e:
         logger.error(f"Error during temp files cleanup - Store ID: {store_id}, Error: {str(e)}")
 
@@ -514,7 +534,15 @@ def fetch_flyer_pages(request, store_id):
             logger.info(f"AJAX Flyer requested but not available - Store: {store.name}, ID: {store_id}")
             return JsonResponse({'error': 'Nenhum encarte disponível.'}, status=404)
 
-        pdf_path = safe_media_path(store.flyer_pdf.name)
+        #  VERIFICAÇÃO DE SEGURANÇA - previne path traversal
+        pdf_path = store.flyer_pdf.path
+        
+        # Garante que o arquivo está dentro do MEDIA_ROOT
+        media_root = settings.MEDIA_ROOT
+        if not os.path.abspath(pdf_path).startswith(os.path.abspath(media_root)):
+            logger.warning(f"Path traversal attempt detected - Store: {store.name}, Path: {pdf_path}")
+            return JsonResponse({'error': 'Caminho de arquivo inválido.'}, status=400)
+        
         if not os.path.exists(pdf_path):
             logger.warning(f"AJAX Flyer PDF file not found - Store: {store.name}, Path: {pdf_path}")
             return JsonResponse({'error': 'O arquivo PDF do encarte não foi encontrado.'}, status=404)
@@ -529,9 +557,15 @@ def fetch_flyer_pages(request, store_id):
         
         page_urls = []
         for i, image in enumerate(images):
-            image_path = os.path.normpath(os.path.join(settings.MEDIA_ROOT, f'flyers/temp_page_{store_id}_{i}.png'))
+            #  Nome de arquivo seguro - sem input do usuário
+            image_filename = f'temp_page_{store_id}_{i}.png'
+            image_path = os.path.join(settings.MEDIA_ROOT, 'flyers', image_filename)
+            
+            # Garante que o diretório existe
+            os.makedirs(os.path.dirname(image_path), exist_ok=True)
+            
             image.save(image_path, 'PNG', quality=85)
-            page_urls.append(f'{settings.MEDIA_URL}flyers/temp_page_{store_id}_{i}.png')
+            page_urls.append(f'{settings.MEDIA_URL}flyers/{image_filename}')
 
         # Track the click
         click_track, created = ClickTrack.objects.get_or_create(
@@ -552,8 +586,6 @@ def fetch_flyer_pages(request, store_id):
     except Exception as e:
         logger.error(f"Error processing AJAX flyer - Store ID: {store_id}, Error: {str(e)}", exc_info=True)
         return JsonResponse({'error': 'Erro ao processar o encarte.'}, status=500)
-    
-
 
 @ratelimit(key='ip', rate='50/m', block=True)  # Bloqueia completamente
 @ratelimit(key='ip', rate='500/h', block=True)  # Limite horário também

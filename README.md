@@ -22,7 +22,7 @@
 - **✅ Digital flyers** - sustainable and efficient
 - **✅ Analytics** for business owners to track engagement
 
-### 🎯 Problem We Solve
+### 🎯 The Challenge
 
 In neighborhood communities, local businesses often struggle with:
 - Low digital visibility
@@ -42,9 +42,9 @@ I created a digital ecosystem where:
 ### 🏠 For Residents
 - 🔍 **Smart Search** - Find services by category or proximity
 - 📱 **Direct Contact** - WhatsApp, phone and social media in one click
-- 🛡️ **Verified Profiles** - All stores validated by our team
+- 🛡️ **Verified Profiles** - All stores validated by admin
 - 📄 **Digital Flyers** - View promotions without paper waste
-- 📲 **PWA** - Install as native app on your phone
+- 📲 **PWA** - Install as a native app on your phone
 
 ### 🏪 For Business Owners
 - 🎯 **Digital Profile** - Customized page with all information
@@ -64,7 +64,7 @@ I created a digital ecosystem where:
 ### Backend
 - **🐍 Python 3.8+** - Main language
 - **🎯 Django 5.2** - Robust and secure web framework
-- **🗄️ PostgreSQL** - Primary database (with SQLite fallback for dev)
+- **🗄️ PostgreSQL** - Primary database (with SQLite fallback for development)
 - **📄 pdf2image** - PDF processing for digital flyers
 
 ### Frontend
@@ -109,7 +109,7 @@ I created a digital ecosystem where:
 - Production deployment preparation
 
 **Code Quality:**
-- Feature branches strategy defined
+- Feature branch strategy defined
 - Test coverage plan established
 - Security audit completed
 

@@ -14,7 +14,7 @@
 
 ## 🌟 About the Project
 
-**Click32** was born from the need to strengthen local commerce in the KM32 area, creating a digital bridge between shop owners and residents. More than just a directory, it's a complete solution that offers:
+**Click32** is an evolving platform designed to strengthen local commerce in the KM32 area, creating a digital bridge between shop owners and residents. Currently in active development, it's growing into a complete solution that offers:
 
 - **✅ Verified profiles** to ensure trust
 - **✅ Exclusive QR Codes** for each establishment  
@@ -30,9 +30,9 @@ In neighborhood communities, local businesses often struggle with:
 - Lack of accessible marketing tools
 - Resident distrust towards new establishments
 
-### 💡 Our Solution
+### 💡 The Solution
 
-We created a digital ecosystem where:
+I created a digital ecosystem where:
 - **Business owners** get verified online presence
 - **Residents** find local services with confidence
 - **Everyone** benefits from a strengthened local economy
@@ -95,24 +95,37 @@ We created a digital ecosystem where:
 - **Security-First Approach** - Comprehensive protection measures
 
 ### 💡 Innovative Solutions
-- **QR Code Integration** - Each business gets unique shareable codes
+- **QR Code System** - Designed for unique, shareable codes per business (UUID-based, admin-generatable)
 - **Digital Flyer System** - Replace paper waste with interactive PDFs
 - **Direct Contact Links** - Streamlined customer-business communication
 - **Verified Business System** - Build trust through validation process
+
+## 📈 Development Status
+
+**Current Phase:** Active Development  
+**Next Milestones:** 
+- QR Code generator implementation
+- Comprehensive test suite
+- Production deployment preparation
+
+**Code Quality:**
+- Feature branches strategy defined
+- Test coverage plan established
+- Security audit completed
 
 ### 🏗️ Architecture Decisions
 - **Django Framework** - Chosen for rapid development and security
 - **Vanilla JavaScript** - Lightweight, fast, and maintainable
 - **PWA Strategy** - Reach users without app store barriers
 - **PostgreSQL** - Reliable data integrity for business operations
+- **Git Strategy** - Feature branch workflow planned for production
+- **Testing Approach** - Comprehensive test suite in development
 
-## 📊 Technical Details
-
-### Key Components Developed
+## 📊 Technical Details 
 
 #### 🔐 Security Implementation
 
-# Comprehensive security measures including:
+**Comprehensive security measures including:**
 - CSRF token validation
 - XSS protection with auto-escaping
 - Path traversal prevention
@@ -170,10 +183,10 @@ The platform demonstrates:
 ## 📞 Contact & Connect
 
 **Click32**
-- 📧 Email: contato@click32.com.br
+- 📧 Email: eng.cristian.silva@gmail.com
 - 📱 WhatsApp: [+55 21 98055-5851](https://wa.me/5521980555851)
 - 📷 Instagram: [@click32.app](https://instagram.com/click32.app)
-- 💼 LinkedIn: [Project Showcase](https://linkedin.com/in/eng-cristian)
+- 💼 LinkedIn: [Let's connect!](https://linkedin.com/in/eng-cristian)
 
 ---
 

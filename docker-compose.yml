@@ -1,84 +1,51 @@
 version: "3.9"
 
 services:
-  click32_app_1:
+  click32_app:
     build: .
-    container_name: click32_bairro_1
+    container_name: ${APP_CONTAINER_NAME:-click32_app}
     command: /entrypoint.sh
     env_file:
-      - .env_bairro_1
+      - ${APP_ENV_FILE:-.env}
     depends_on:
-      - postgres_bairro_1
+      - postgres_db
     networks:
-      - net_bairro_1
+      - app_network
     volumes:
-      - staticfiles_bairro_1:/app/staticfiles
-      - media_bairro_1:/app/media
-
-  postgres_bairro_1:
+      - staticfiles_volume:/app/staticfiles
+      - media_volume:/app/media
+      
+  postgres_db:
     image: postgres:16
-    container_name: click32_postgres_bairro_1
+    container_name: ${POSTGRES_CONTAINER_NAME:-click32_postgres}
     restart: unless-stopped
     env_file:
-      - .env_bairro_1
+      - ${APP_ENV_FILE:-.env}
     volumes:
-      - postgres_data_bairro_1:/var/lib/postgresql/data
+      - postgres_data_volume:/var/lib/postgresql/data
     networks:
-      - net_bairro_1
-
-  click32_app_2:
-    build: .
-    container_name: click32_bairro_2
-    command: /entrypoint.sh
-    env_file:
-      - .env_bairro_2
-    depends_on:
-      - postgres_bairro_2
-    networks:
-      - net_bairro_2
-    volumes:
-      - staticfiles_bairro_2:/app/staticfiles
-      - media_bairro_2:/app/media
-
-  postgres_bairro_2:
-    image: postgres:16
-    container_name: click32_postgres_bairro_2
-    restart: unless-stopped
-    env_file:
-      - .env_bairro_2
-    volumes:
-      - postgres_data_bairro_2:/var/lib/postgresql/data
-    networks:
-      - net_bairro_2
+      - app_network
 
   nginx:
     image: nginx:alpine
-    container_name: click32_nginx
+    container_name: ${NGINX_CONTAINER_NAME:-click32_nginx}
     restart: unless-stopped
     ports:
-      - "8001:81"
-      - "8002:82"
+      - "${NGINX_HTTP_PORT:-80}:80"
+      - "${NGINX_HTTPS_PORT:-443}:443"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - staticfiles_bairro_1:/staticfiles_bairro_1:ro
-      - media_bairro_1:/media_bairro_1:ro
-      - staticfiles_bairro_2:/staticfiles_bairro_2:ro
-      - media_bairro_2:/media_bairro_2:ro
+      - staticfiles_volume:/staticfiles:ro
+      - media_volume:/media:ro
     depends_on:
-      - click32_app_1
-      - click32_app_2
+      - click32_app
     networks:
-      - net_bairro_1
-      - net_bairro_2
+      - app_network
 
 networks:
-  net_bairro_1:
-  net_bairro_2:
+  app_network:
 
 volumes:
-  postgres_data_bairro_1:
-  postgres_data_bairro_2:
-  staticfiles_bairro_1:
-  staticfiles_bairro_2:
-  media_bairro_1:
-  media_bairro_2:
+  postgres_data_volume:
+  staticfiles_volume:
+  media_volume:

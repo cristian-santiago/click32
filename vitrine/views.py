@@ -589,7 +589,7 @@ def fetch_flyer_pages(request, store_id):
 
 @ratelimit(key='ip', rate='50/m', block=True)  # Bloqueia completamente
 @ratelimit(key='ip', rate='500/h', block=True)  # Limite horário também
-@csrf_protect
+#@csrf_protect
 def start_session(request):
     """
     Inicia uma nova sessão anônima - ACESSO PÚBLICO

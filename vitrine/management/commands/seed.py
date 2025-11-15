@@ -30,6 +30,9 @@ class Command(BaseCommand):
     help = "Popula o banco com dados de teste"
 
     def handle(self, *args, **kwargs):
+        if os.getenv('DJANGO_DEBUG', 'False') == 'False':
+            self.stdout.write(self.style.ERROR("Não execute seed em produção!"))
+            return
         self.stdout.write(self.style.SUCCESS("Criando categorias e tags..."))
         self.create_categories_and_tags()
 

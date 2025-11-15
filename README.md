@@ -6,11 +6,13 @@
 ![Django](https://img.shields.io/badge/Django-5.2-green?style=for-the-badge&logo=django)
 ![Python](https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge&logo=python)
 
-**An innovative platform connecting residents with local businesses through QR Codes and verified digital profiles**
+**A platform showcasing digital transformation for neighborhood commerce through verified business profiles and engagement analytics**
 
 [🚀 Live Demo](#-live-demo) • [📋 Features](#-features) • [🛠️ Tech Stack](#️-tech-stack) • [🎯 Project Highlights](#-project-highlights) • [📊 Technical Details](#-technical-details)
 
 </div>
+
+> *This project demonstrates my end-to-end system architecture capabilities and serves as a technical portfolio piece showcasing real-world problem solving.*
 
 ## 🌟 About the Project
 
@@ -157,7 +159,7 @@ I created a digital ecosystem where:
 - **Caching strategies** for frequently accessed data
 - **Optimized database queries** using Django ORM
 
-## 🚀 Live Demo
+## 🚀 Project Demo
 
 The platform demonstrates:
 - **Business Directory** with categorized listings

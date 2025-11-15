@@ -1,88 +1,48 @@
 # Ambiente virtual
 venv/
 .env/
-.env.*        # arquivos como .env.dev, .env.prod
+.env.*
+.env
 
-click32/settings.py
-
-management/
-
-# Arquivos de compilação do Python
+# Arquivos de compilação Python
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Arquivos de configuração do VS Code
+# Editor
 .vscode/
+*~
+*.swp
+*.swo
 
-# Arquivos de banco de dados
+# DB e logs (desenvolvimento)
 db.sqlite3
 *.sqlite3
-
-db.json
-
-*/migrations/__pycache__/
-!vitrine/migrations/__init__.py  # mantém o __init__ para o Django reconhecer o pacote
-
-
-# Arquivos de log
 *.log
 *.bak
 *.tmp
 
-# Arquivos de cache e temporários
-*.pot
-*.mo
-*.swp
-*.swo
-*~
-
-# Arquivos de migração não rastreados
-# **Cuidado**: comente para versionar as migrações
-# */migrations/*.py
-# !*/migrations/__init__.py
-
-# Ignorar uploads dinâmicos e pastas de mídia que não devem ir para o Git
-#media/
+# Mídia gerada (não versionar)
 media/flyers/
 media/stores/
 media_test/
 
-# Mas manter os ícones versionados
-!media/icons/
-
-# Arquivos estáticos
+# Estáticos coletados (não versionar)
 staticfiles/
 static_root/
+
+# Build
 build/
 dist/
 
-# Coverage (testes)
+# Testes e coverage
 htmlcov/
 .coverage
-.coverage.*
-.cache
-.noseids
-
-# Pytest
 .pytest_cache/
-
-# mypy
 .mypy_cache/
 
-# Django Debug Toolbar
-debug.log
-
-# MacOS
+# Sistema
 .DS_Store
-
-# Linux
-*~
-
-# Windows
 Thumbs.db
-ehthumbs.db
 Desktop.ini
-
-# Docker
 *.pid

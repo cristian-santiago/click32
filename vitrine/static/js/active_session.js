@@ -191,9 +191,8 @@
                 if (response.ok) {
                     const data = await response.json();
                     if (data.session_id && data.session_id !== this.sessionId) {
-                        this.sessionId = data.sessionId;
+                        this.sessionId = data.session_id;
                         localStorage.setItem('pwa_session_id', this.sessionId);
-                        console.log('Session ID migrado para:', this.sessionId);
                     }
                 }
             } catch (error) {

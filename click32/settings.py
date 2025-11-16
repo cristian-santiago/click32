@@ -13,8 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ==================== SECURITY ====================
 
 # SECURITY: TUDO por variáveis de ambiente
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-in-production')  # ✅ SEGURO
-DEBUG = os.getenv('DEBUG', 'False') == 'True'  # ✅ Padrão False
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-in-production') 
+DEBUG = os.getenv('DEBUG', 'True') == 'True'  
 
 # Hosts dinâmicos por ambiente
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
@@ -42,11 +42,11 @@ INSTALLED_APPS = [
 # ==================== SECURITY MIDDLEWARE ====================
 
 # Security settings baseados no DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_HTTPONLY = False  # ✅ PERMITE JavaScript acessar (para seu SessionManager)
+SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True'
+CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
+CSRF_COOKIE_HTTPONLY = False  
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True  # ✅ CORRIGIDO: True para segurança
+SECURE_CONTENT_TYPE_NOSNIFF = True 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,11 +72,11 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',  # ✅ ADICIONADO
+                'django.template.context_processors.debug', 
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.csrf',  # ✅ ADICIONADO (CRÍTICO!)
+                'django.template.context_processors.csrf', 
             ],
         },
     },
@@ -86,19 +86,35 @@ WSGI_APPLICATION = 'click32.wsgi.application'
 
 # ==================== DATABASE ====================
 
-# Database - PostgreSQL SEMPRE (já que estamos em container)
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", "click32_prod"),
-        "USER": os.getenv("POSTGRES_USER", "click32_user"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "change_this_password"),
-        "HOST": os.getenv("POSTGRES_HOST", "postgres"),
-        "PORT": os.getenv("POSTGRES_PORT", "5432"),
-        "CONN_MAX_AGE": int(os.getenv("DB_CONN_MAX_AGE", "60")),
-        "ATOMIC_REQUESTS": os.getenv("DB_ATOMIC_REQUESTS", "True") == "True",
+# Database: usa Postgres quando as env vars estão presentes; senão, fallback para SQLite (dev)
+POSTGRES_DB = os.getenv("POSTGRES_DB")
+POSTGRES_USER = os.getenv("POSTGRES_USER")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
+
+if POSTGRES_HOST and POSTGRES_DB:
+    # Config para usar PostgreSQL (padrão para containers / produção)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": POSTGRES_DB or "click32_db",
+            "USER": POSTGRES_USER or "click32_user",
+            "PASSWORD": POSTGRES_PASSWORD or "click32_pass",
+            "HOST": POSTGRES_HOST or "db",
+            "PORT": POSTGRES_PORT,
+            "CONN_MAX_AGE": int(os.getenv("DB_CONN_MAX_AGE", "60")),
+            "ATOMIC_REQUESTS": os.getenv("DB_ATOMIC_REQUESTS", "True") == "True",
+        }
     }
-}
+else:
+    # Fallback para SQLite no desenvolvimento local (não requer configurar Postgres)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # ==================== PASSWORD VALIDATION ====================
 
@@ -122,8 +138,8 @@ CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'False') == 'True'
 # ==================== INTERNATIONALIZATION ====================
 
 # Internationalization - AJUSTADO PARA BRASIL
-LANGUAGE_CODE = 'pt-br'  # ✅ CORRIGIDO
-TIME_ZONE = 'America/Sao_Paulo'  # ✅ CORRIGIDO
+LANGUAGE_CODE = 'pt-br'  
+TIME_ZONE = 'America/Sao_Paulo'  
 USE_I18N = True
 USE_TZ = True
 
@@ -143,10 +159,11 @@ LOGIN_URL = '/admin/login/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'vitrine/static'),
+]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
+STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ==================== LOGGING ====================

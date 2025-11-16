@@ -50,19 +50,23 @@
         validateSessionId(sessionId) {
             if (!sessionId || typeof sessionId !== 'string') return false;
             
-            // Permite apenas alfanuméricos, hífens e underscores
-            const validPattern = /^[a-zA-Z0-9\-_]+$/;
-            return validPattern.test(sessionId) && sessionId.length <= 100;
+                
+            const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+            const localPattern = /^local_\d+_[a-z0-9]+$/;
+            
+            return (uuidPattern.test(sessionId) || localPattern.test(sessionId)) && sessionId.length <= 100;
         }
 
         /**
          * Gera session ID local seguro
          */
-        generateLocalSessionId() {
-            const timestamp = Date.now();
-            const random = Math.random().toString(36).substring(2, 15);
-            return `local_${timestamp}_${random}`;
-        }
+            generateLocalSessionId() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    const r = Math.random() * 16 | 0;
+                    const v = c == 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            }
 
         async initialize() {
             if (this.initialized) return;

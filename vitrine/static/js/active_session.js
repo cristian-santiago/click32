@@ -50,7 +50,7 @@
         validateSessionId(sessionId) {
             if (!sessionId || typeof sessionId !== 'string') return false;
             
-                
+
             const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
             const localPattern = /^local_\d+_[a-z0-9]+$/;
             
@@ -173,9 +173,9 @@
             
             try {
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
+                const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-                await fetch('/heartbeat/', {
+                const response = await fetch('/heartbeat/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -186,10 +186,19 @@
                 });
                 
                 clearTimeout(timeoutId);
+
+                //  ATUALIZA O SESSION ID SE O SERVIDOR RETORNAR UM NOVO
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.session_id && data.session_id !== this.sessionId) {
+                        this.sessionId = data.sessionId;
+                        localStorage.setItem('pwa_session_id', this.sessionId);
+                        console.log('Session ID migrado para:', this.sessionId);
+                    }
+                }
             } catch (error) {
-                // Silencia erros esperados (offline, timeout, etc.)
                 if (error.name !== 'AbortError') {
-                    console.debug('Heartbeat falhou (esperado em alguns casos):', error);
+                    console.debug('Heartbeat falhou:', error);
                 }
             }
         }

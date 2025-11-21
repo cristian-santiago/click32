@@ -50,23 +50,19 @@
         validateSessionId(sessionId) {
             if (!sessionId || typeof sessionId !== 'string') return false;
             
-
-            const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-            const localPattern = /^local_\d+_[a-z0-9]+$/;
-            
-            return (uuidPattern.test(sessionId) || localPattern.test(sessionId)) && sessionId.length <= 100;
+            // Permite apenas alfanuméricos, hífens e underscores
+            const validPattern = /^[a-zA-Z0-9\-_]+$/;
+            return validPattern.test(sessionId) && sessionId.length <= 100;
         }
 
         /**
          * Gera session ID local seguro
          */
-            generateLocalSessionId() {
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                    const r = Math.random() * 16 | 0;
-                    const v = c == 'x' ? r : (r & 0x3 | 0x8);
-                    return v.toString(16);
-                });
-            }
+        generateLocalSessionId() {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(2, 15);
+            return `local_${timestamp}_${random}`;
+        }
 
         async initialize() {
             if (this.initialized) return;
@@ -173,9 +169,9 @@
             
             try {
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 3000);
+                const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
 
-                const response = await fetch('/heartbeat/', {
+                await fetch('/heartbeat/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -186,18 +182,10 @@
                 });
                 
                 clearTimeout(timeoutId);
-
-                //  ATUALIZA O SESSION ID SE O SERVIDOR RETORNAR UM NOVO
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.session_id && data.session_id !== this.sessionId) {
-                        this.sessionId = data.session_id;
-                        localStorage.setItem('pwa_session_id', this.sessionId);
-                    }
-                }
             } catch (error) {
+                // Silencia erros esperados (offline, timeout, etc.)
                 if (error.name !== 'AbortError') {
-                    console.debug('Heartbeat falhou:', error);
+                    console.debug('Heartbeat falhou (esperado em alguns casos):', error);
                 }
             }
         }

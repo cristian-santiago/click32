@@ -20,7 +20,3 @@ body {
     height: 100%;
     overscroll-behavior-y: none; /* Prevents overscroll on body */
 }
-
-progress, [role="progressbar"] {
-        display: none !important;
-    }

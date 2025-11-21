@@ -15,11 +15,12 @@
     <link rel="manifest" href="{% static 'manifest.json' %}">
 
     <!-- Configurações de metadados para comportamento e aparência -->
-    <meta name="theme-color" content="#2c3e50">    
+    <meta name="theme-color" content="#2c3e50">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Click32">
+    <meta name="theme-color" content="#2c3e50">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -34,30 +35,6 @@
     <!-- Título da página -->
     <title>Click32</title>
 </head>
-<style>
-    /* Remove barras de progresso nativas do navegador */
-    progress, 
-    [role="progressbar"],
-    .progress-bar,
-    .loading-bar,
-    ::-webkit-progress-bar,
-    ::-webkit-progress-value,
-    ::-webkit-progress-inner-element {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        height: 0 !important;
-    }
-    
-    /* Remove a linha que atravessa a tela */
-    [class*="progress"], 
-    [class*="loading"],
-    hr[class*="progress"] {
-        display: none !important;
-        border: none !important;
-        height: 0 !important;
-    }
-</style>
 <body>
     <!-- Inclusão da barra de navegação -->
     {% include '_navbar.html' %}

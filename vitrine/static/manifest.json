@@ -11,19 +11,19 @@
   "categories": ["business", "utilities"],  
   "icons": [
   {
-    "src": "/static/icons/icon-152x152.png",
+    "src": "/static/icons/icon-152x152.webp",
     "sizes": "152x152",
     "type": "image/png",
     "purpose": "any"
   },
   {
-    "src": "/static/icons/icon-192x192.png",
+    "src": "/static/icons/icon-192x192.webp",
     "sizes": "192x192",
     "type": "image/png",
     "purpose": "any"
   },
   {
-    "src": "/static/icons/icon-512x512.png",
+    "src": "/static/icons/icon-512x512.webp",
     "sizes": "512x512",
     "type": "image/png",
     "purpose": "any"

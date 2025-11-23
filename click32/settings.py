@@ -82,6 +82,10 @@ TEMPLATES = [
     },
 ]
 
+
+COMPRESS_ENABLED = os.getenv('COMPRESS_ENABLED', 'False').lower() == 'true'
+COMPRESS_OFFLINE = os.getenv('COMPRESS_OFFLINE', 'False').lower() == 'true'
+
 WSGI_APPLICATION = 'click32.wsgi.application'
 
 # ==================== DATABASE ====================

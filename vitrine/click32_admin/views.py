@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.utils.text import slugify
 from datetime import date
+from PIL import Image
 from django.utils import timezone
 from datetime import timedelta
 import os
@@ -72,6 +73,39 @@ def store_list(request):
     return render(request, 'click32_admin/store_list.html', {'stores': stores})
 
 @check_permission(lambda u: u.is_superuser)
+def compress_image(image_field):
+    """Comprime imagem para WebP e atualiza o campo"""
+    try:
+        if image_field:
+            img_path = image_field.path
+            if img_path.lower().endswith(('.png', '.jpg', '.jpeg')):
+                # Abre a imagem
+                with Image.open(img_path) as img:
+                    # Converte para RGB se for PNG com transparência
+                    if img.mode in ('RGBA', 'LA'):
+                        background = Image.new('RGB', img.size, (255, 255, 255))
+                        background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
+                        img = background
+                    
+                    # Cria novo nome com extensão .webp
+                    base_name = os.path.splitext(img_path)[0]
+                    webp_path = base_name + '.webp'
+                    
+                    # Salva como WebP
+                    img.save(webp_path, 'WEBP', quality=80, optimize=True)
+                    
+                    # Remove o arquivo original
+                    os.remove(img_path)
+                    
+                    # Atualiza o campo para apontar para o novo arquivo WebP
+                    relative_path = os.path.relpath(webp_path, 'media')
+                    image_field.name = relative_path.replace('\\', '/')  # Para Windows
+                    
+                logger.info(f"Imagem convertida para WebP: {img_path} → {webp_path}")
+    except Exception as e:
+        logger.error(f"Erro ao comprimir imagem {image_field}: {str(e)}")
+
+@check_permission(lambda u: u.is_superuser)
 def store_create(request):
     try:
         if request.method == 'POST':
@@ -79,7 +113,21 @@ def store_create(request):
             form = StoreForm(request.POST, request.FILES)
             formset = StoreOpeningHourFormSet(request.POST, instance=Store())
             if form.is_valid() and formset.is_valid():
-                store = form.save()
+                store = form.save(commit=False)
+                
+                # Salva primeiro para ter o ID
+                store.save()
+                form.save_m2m()
+                
+                # Agora comprime as imagens
+                for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']:
+                    image_field = getattr(store, field_name)
+                    if image_field:
+                        compress_image(image_field)
+                
+                # Salva novamente para atualizar os caminhos das imagens
+                store.save()
+                
                 formset.instance = store
                 formset.save()
                 tags_raw = request.POST.get('tags', '')
@@ -117,7 +165,20 @@ def store_edit(request, store_id):
                 old_obj = Store.objects.get(pk=store.pk)
                 new_obj = form.save(commit=False)
                 
-                # Process file changes
+                # Salva primeiro
+                new_obj.save()
+                form.save_m2m()
+                
+                # Processa as imagens
+                for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']:
+                    image_field = getattr(new_obj, field_name)
+                    old_file = getattr(old_obj, field_name)
+                    
+                    # Se há uma nova imagem ou a imagem mudou
+                    if image_field and image_field != old_file:
+                        compress_image(image_field)
+                
+                # Process file changes (lógica de remoção mantida)
                 for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']:
                     old_file = getattr(old_obj, field_name)
                     new_file = getattr(new_obj, field_name)
@@ -137,8 +198,8 @@ def store_edit(request, store_id):
                         if field_name == 'flyer_pdf':
                             cleanup_temp_files(store_id)
                 
+                # Salva novamente após processar tudo
                 new_obj.save()
-                form.save_m2m()
                 formset.save()
                 
                 logger.info(f"Store updated successfully - Store: {store.name}, ID: {store_id}, User: {request.user}")
@@ -161,6 +222,7 @@ def store_edit(request, store_id):
     except Exception as e:
         logger.error(f"Error in store_edit - Store ID: {store_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
         raise
+
 
 @check_permission(lambda u: u.is_superuser)
 @require_POST

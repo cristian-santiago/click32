@@ -72,7 +72,7 @@ def store_list(request):
     logger.debug(f"Store list loaded - Count: {stores.count()}")
     return render(request, 'click32_admin/store_list.html', {'stores': stores})
 
-@check_permission(lambda u: u.is_superuser)
+
 def compress_image(image_field):
     """Comprime imagem para WebP e atualiza o campo"""
     try:

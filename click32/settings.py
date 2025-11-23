@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vitrine.click32_admin',
     'vitrine.apps.VitrineConfig',
+    'compressor',
 ]
 
 # ==================== SECURITY MIDDLEWARE ====================
@@ -169,6 +170,12 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder', 
+]
 
 # ==================== LOGGING ====================
 

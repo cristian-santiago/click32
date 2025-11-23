@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}?v={{ STATIC_VERSION }}">
 {% endblock %}
 
 {% block content %}
@@ -83,5 +83,5 @@
         </div>
     {% endif %}
 
-    <script src="{% static 'js/carousel_home.js' %}"></script>
+    <script src="{% static 'js/carousel_home.js' %}?v={{ STATIC_VERSION }}"></script>
 {% endblock %}

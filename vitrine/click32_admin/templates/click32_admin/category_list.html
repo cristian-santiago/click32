@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/category_list.css' %}">
+  <link rel="stylesheet" href="{% static 'css/category_list.css' %}?v={{ STATIC_VERSION }}">
 {% endblock %}
 
 {% block content %}

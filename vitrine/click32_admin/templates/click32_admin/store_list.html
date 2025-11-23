@@ -1,7 +1,7 @@
 {% extends "click32_admin/base.html" %}
 {% load static %}
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/store_list.css' %}">
+  <link rel="stylesheet" href="{% static 'css/store_list.css' %}?v={{ STATIC_VERSION }}">
    
 {%endblock%}
 

@@ -1,8 +1,11 @@
 {% load static %}
+{% load compress %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <!-- Configuração de ícones para diferentes tamanhos e dispositivos -->
+    
     <link rel="icon" href="{% static 'icons/icon-72x72.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="72x72">
     <link rel="icon" href="{% static 'icons/icon-96x96.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="96x96">
     <link rel="icon" href="{% static 'icons/icon-128x128.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="128x128">
@@ -13,6 +16,10 @@
     <link rel="icon" href="{% static 'icons/icon-512x512.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.webp' %}?v={{ STATIC_VERSION }}" sizes="180x180">
     <link rel="manifest" href="{% static 'manifest.json' %}?v={{ STATIC_VERSION }}">
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% endcompress %}
+
 
     <!-- Configurações de metadados para comportamento e aparência -->
     <meta name="theme-color" content="#2c3e50">    
@@ -24,7 +31,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Estilo base -->
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    
     <!-- Comentado: Estilo da toolbar (não utilizado) -->
     <!-- <link rel="stylesheet" href="{% static 'css/toolbar.css' %}"> -->
 
@@ -34,11 +41,8 @@
     <!-- Título da página -->
     <title>Click32</title>
 </head>
-<script>
-  // TESTE TEMPORÁRIO – deixa o carregamento 3s mais lento
-  const start = Date.now();
-  while (Date.now() - start < 3000) {}
-</script>
+
+
 <body>
     <!-- Inclusão da barra de navegação -->
     {% include '_navbar.html' %}
@@ -47,13 +51,16 @@
     {% block content %}{% endblock %}
 
     <!-- Bloco para scripts JavaScript adicionais -->
+   
     {% block extra_js %}
+    {% compress js %}
 
      <!-- Scripts JavaScript -->
     <script src="{% static 'js/service-worker-register.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/pwa_install.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/active_session.js' %}?v={{ STATIC_VERSION }}"></script>
-    
+    {% endcompress %}
     {% endblock %}
+
 </body>
 </html>

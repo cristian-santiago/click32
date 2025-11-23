@@ -1,7 +1,7 @@
 {% load static %}
 {% autoescape on %}
 <!-- Inclusão do CSS para estilização do rodapé -->
-<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}?v={{ STATIC_VERSION }}">
 
 <!-- Rodapé da página -->
 <div class="footer">

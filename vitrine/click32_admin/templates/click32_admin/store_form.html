@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/store_form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/store_form.css' %}?v={{ STATIC_VERSION }}">
 {% endblock %}
 
 {% block content %}

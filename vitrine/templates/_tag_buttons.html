@@ -43,9 +43,8 @@
     </ul>
 </div>
 <div class="overlay" id="overlay" tabindex="-1"></div>
-
 <script>
     // Já está protegido por CSRF_COOKIE_SECURE
     window.homeUrl = "{% url 'home' %}" || "/";
 </script>
-<script src="{% static 'js/sidebar.js' %?v={{ STATIC_VERSION }}" defer></script>
+<script src="{% static 'js/sidebar.js' %}?v={{ STATIC_VERSION }}" defer></script>

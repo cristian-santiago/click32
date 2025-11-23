@@ -3,15 +3,15 @@
 <html lang="pt-br">
 <head>
     <!-- Configuração de ícones para diferentes tamanhos e dispositivos -->
-    <link rel="icon" href="{% static 'icons/icon-72x72.png' %}" type="image/png" sizes="72x72">
-    <link rel="icon" href="{% static 'icons/icon-96x96.png' %}" type="image/png" sizes="96x96">
-    <link rel="icon" href="{% static 'icons/icon-128x128.png' %}" type="image/png" sizes="128x128">
-    <link rel="icon" href="{% static 'icons/icon-144x144.png' %}" type="image/png" sizes="144x144">
-    <link rel="icon" href="{% static 'icons/icon-152x152.png' %}" type="image/png" sizes="152x152">
-    <link rel="icon" href="{% static 'icons/icon-192x192.png' %}" type="image/png" sizes="192x192">
-    <link rel="icon" href="{% static 'icons/icon-384x384.png' %}" type="image/png" sizes="384x384">
-    <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
-    <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
+    <link rel="icon" href="{% static 'icons/icon-72x72.webp' %}" type="image/png" sizes="72x72">
+    <link rel="icon" href="{% static 'icons/icon-96x96.webp' %}" type="image/png" sizes="96x96">
+    <link rel="icon" href="{% static 'icons/icon-128x128.webp' %}" type="image/png" sizes="128x128">
+    <link rel="icon" href="{% static 'icons/icon-144x144.webp' %}" type="image/png" sizes="144x144">
+    <link rel="icon" href="{% static 'icons/icon-152x152.webp' %}" type="image/png" sizes="152x152">
+    <link rel="icon" href="{% static 'icons/icon-192x192.webp' %}" type="image/png" sizes="192x192">
+    <link rel="icon" href="{% static 'icons/icon-384x384.webp' %}" type="image/png" sizes="384x384">
+    <link rel="icon" href="{% static 'icons/icon-512x512.webp' %}" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.webp' %}" sizes="180x180">
     <link rel="manifest" href="{% static 'manifest.json' %}">
 
     <!-- Configurações de metadados para comportamento e aparência -->
@@ -34,30 +34,11 @@
     <!-- Título da página -->
     <title>Click32</title>
 </head>
-<style>
-    /* Remove barras de progresso nativas do navegador */
-    progress, 
-    [role="progressbar"],
-    .progress-bar,
-    .loading-bar,
-    ::-webkit-progress-bar,
-    ::-webkit-progress-value,
-    ::-webkit-progress-inner-element {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        height: 0 !important;
-    }
-    
-    /* Remove a linha que atravessa a tela */
-    [class*="progress"], 
-    [class*="loading"],
-    hr[class*="progress"] {
-        display: none !important;
-        border: none !important;
-        height: 0 !important;
-    }
-</style>
+<script>
+  // TESTE TEMPORÁRIO – deixa o carregamento 3s mais lento
+  const start = Date.now();
+  while (Date.now() - start < 3000) {}
+</script>
 <body>
     <!-- Inclusão da barra de navegação -->
     {% include '_navbar.html' %}

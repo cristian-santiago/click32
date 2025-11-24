@@ -179,7 +179,7 @@ if DEBUG:
     STATICFILES_FINDERS = [
         'django.contrib.staticfiles.finders.FileSystemFinder',
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-        # 'compressor.finders.CompressorFinder',  # ← COMENTAR EM DEV
+        'compressor.finders.CompressorFinder',
     ]
 
 # ==================== LOGGING ====================

@@ -229,7 +229,7 @@
 .store-info {
   position: fixed;
   bottom: 125px; /* Acima dos ícones sociais */
-  left: 0;
+  left: 0px;
   width: 100%;
   padding: 10px 48px;
   bottom: 22px;

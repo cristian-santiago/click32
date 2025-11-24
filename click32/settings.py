@@ -87,6 +87,10 @@ TEMPLATES = [
 COMPRESS_ENABLED = os.getenv('COMPRESS_ENABLED', 'False').lower() == 'true'
 COMPRESS_OFFLINE = os.getenv('COMPRESS_OFFLINE', 'False').lower() == 'true'
 
+if DEBUG:
+    COMPRESS_ENABLED = False
+    COMPRESS_OFFLINE = False
+
 WSGI_APPLICATION = 'click32.wsgi.application'
 
 # ==================== DATABASE ====================
@@ -144,7 +148,7 @@ CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'False') == 'True'
 
 # Internationalization - AJUSTADO PARA BRASIL
 LANGUAGE_CODE = 'pt-br'  
-TIME_ZONE = 'America/Sao_Paulo'  
+TIME_ZONE = 'America/Sao_Paulo'   
 USE_I18N = True
 USE_TZ = True
 
@@ -171,11 +175,12 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder', 
-]
+if DEBUG:
+    STATICFILES_FINDERS = [
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+        # 'compressor.finders.CompressorFinder',  # ← COMENTAR EM DEV
+    ]
 
 # ==================== LOGGING ====================
 

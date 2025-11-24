@@ -1,6 +1,8 @@
 /**
  * Description Scroll Manager - Versão segura com tratamento de erros
  */
+
+
 (function() {
     'use strict';
     

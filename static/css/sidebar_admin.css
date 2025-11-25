@@ -1,0 +1,74 @@
+:root {
+    --admin-sidebar-bg: #2c3e50;
+    --admin-sidebar-hover: #34495e;
+    --admin-text-light: #ecf0f1;
+    --admin-text-gray: #bdc3c7;
+}
+
+.admin-sidebar {
+    width: 160px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--admin-sidebar-bg);
+    color: var(--admin-text-light);
+    z-index: 2000;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    display: flex;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
+    flex-direction: column;    
+    will-change: transform;
+    min-height: 100%;
+}
+
+.admin-profile {
+    height: 60px;
+    text-align: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.admin-profile h2 {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    color: aqua;
+}
+
+.admin-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    overflow-y: visible;
+    padding: 0;
+    min-height: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-menu li:hover {
+    background: var(--admin-sidebar-hover);
+    cursor: pointer;
+}
+
+.admin-menu i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    width: 24px;
+}
+
+.admin-menu-item a {
+    display: flex;
+    align-items: center;
+    color: var(--admin-text-light);
+    text-decoration: none;
+    padding: 10px 20px;
+}
+
+.admin-menu-item a:hover {
+    color: var(--admin-text-light);
+}
+

@@ -84,12 +84,10 @@ TEMPLATES = [
 ]
 
 
-COMPRESS_ENABLED = os.getenv('COMPRESS_ENABLED', 'False').lower() == 'true'
-COMPRESS_OFFLINE = os.getenv('COMPRESS_OFFLINE', 'False').lower() == 'true'
+COMPRESS_ENABLED = os.getenv('COMPRESS_ENABLED', 'False').lower() == 'True'
+COMPRESS_OFFLINE = os.getenv('COMPRESS_OFFLINE', 'False').lower() == 'True'
 
-if DEBUG:
-    COMPRESS_ENABLED = False
-    COMPRESS_OFFLINE = False
+
 
 WSGI_APPLICATION = 'click32.wsgi.application'
 

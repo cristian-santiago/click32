@@ -16,11 +16,6 @@ echo "Coletando e comprimindo arquivos estáticos..."
 
 python manage.py collectstatic --noinput
 
-# Comprimir apenas se for produção
-if [ "$COMPRESS_ENABLED" = "True" ]; then
-    echo "Comprimindo arquivos CSS/JS..."
-    python manage.py compress --verbosity=0
-fi
 
 chown -R www-data:www-data /app/staticfiles
 

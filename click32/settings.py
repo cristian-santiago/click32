@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY: TUDO por variáveis de ambiente
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-in-production') 
-DEBUG = os.getenv('DEBUG', 'True') == 'True'  
+DEBUG = os.getenv('DEBUG', 'False') == 'False'  # ← Padrão False para produção
 
 # Hosts dinâmicos por ambiente
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
@@ -29,6 +29,7 @@ WHATSAPP_NUMBER = os.environ.get('WHATSAPP_NUMBER', '9999999999')
 # ==================== APPLICATION ====================
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',  # ← ADICIONA WhiteNoise
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,20 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vitrine.click32_admin',
     'vitrine.apps.VitrineConfig',
-    'compressor',
+    # 'compressor',  # ← REMOVE compressor
 ]
 
-# ==================== SECURITY MIDDLEWARE ====================
-
-# Security settings baseados no DEBUG
-SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'False') == 'True'
-CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
-CSRF_COOKIE_HTTPONLY = False  
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True 
+# ==================== MIDDLEWARE ====================
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ← ADICIONA WhiteNoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -59,6 +54,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'vitrine.middleware.HeartbeatLogFilter',
 ]
+
+# Security settings baseados no DEBUG
+SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'True') == 'True'  # ← Padrão True
+CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'True') == 'True'  # ← Padrão True
+CSRF_COOKIE_HTTPONLY = False  
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True 
 
 mimetypes.add_type("application/manifest+json", ".json")
 
@@ -82,12 +84,6 @@ TEMPLATES = [
         },
     },
 ]
-
-
-COMPRESS_ENABLED = os.getenv('COMPRESS_ENABLED', 'False').lower() == 'True'
-COMPRESS_OFFLINE = os.getenv('COMPRESS_OFFLINE', 'False').lower() == 'True'
-
-
 
 WSGI_APPLICATION = 'click32.wsgi.application'
 
@@ -160,28 +156,37 @@ SHORT_DATETIME_FORMAT = 'd/m/Y H:i'
 # Primeiro dia da semana = Segunda-feira
 FIRST_DAY_OF_WEEK = 0  # 0 = Domingo, 1 = Segunda
 
-# ==================== URLS & PATHS ====================
+# ==================== STATIC FILES (WHITENOISE) ====================
+
+if DEBUG:
+    WHITENOISE_MANIFEST_STRICT = False
 
 LOGIN_URL = '/admin/login/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Static files
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# WhiteNoise configuration
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+WHITENOISE_MAX_AGE = 31536000  # 1 year cache for static files
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_AUTOREFRESH = True  # Para desenvolvimento
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATIC_URL = 'static/'
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
+# Remove compress finders - usa apenas os padrões do Django
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ==================== LOGGING ====================
 

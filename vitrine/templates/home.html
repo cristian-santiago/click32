@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load compress %}
+
 
 
 {% block extra_css %}
-{% compress css %}
+
     <link rel="stylesheet" href="{% static 'css/home.css' %}?v={{ STATIC_VERSION }}">
-{% endcompress %}
+
 {% endblock %}
 
 {% block content %}
@@ -86,7 +86,7 @@
             {% endfor %}
         </div>
     {% endif %}
-{% compress js %}
+
 <script src="{% static 'js/carousel_home.js' %}?v={{ STATIC_VERSION }}"></script>
-{% endcompress %}
+
 {% endblock %}

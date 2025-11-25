@@ -1,4 +1,4 @@
-// social_links.js - Mobile otimizado
+/*// social_links.js - Mobile otimizado
 let linkClicked = false;
 
 document.querySelectorAll('a.social-link[data-redirect]').forEach(link => {
@@ -15,4 +15,4 @@ document.querySelectorAll('a.social-link[data-redirect]').forEach(link => {
         // Reseta após 2s (tempo pro app abrir)
         setTimeout(() => { linkClicked = false; }, 2000);
     });
-});
+});*/

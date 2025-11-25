@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load deep_links %}
 
 {% block extra_css %}
     {% autoescape on %}
@@ -11,7 +12,7 @@
     <link rel="stylesheet" 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-          crossorigin="anonymous">
+          crossorigin="anonymous">  
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" 
           rel="stylesheet"
           crossorigin="anonymous">
@@ -88,7 +89,7 @@
                 <a href="{% url 'track_click' store.id 'whatsapp_link_1' %}" 
                    
                    rel="noopener noreferrer"
-                   data-redirect="{{ store.whatsapp_link_1|escapejs }}" 
+                   data-redirect="{{ store.whatsapp_link_1|deep_link:'whatsapp'|escapejs }}" 
                    class="social-link">
                     <img src="{% static '/icons/whatsapp_icon_1.webp' %}" alt="WhatsApp 1" loading="lazy">
                 </a>
@@ -99,7 +100,7 @@
                 <a href="{% url 'track_click' store.id 'whatsapp_link_2' %}" 
                    
                    rel="noopener noreferrer"
-                   data-redirect="{{ store.whatsapp_link_2|escapejs }}" 
+                   data-redirect="{{ store.whatsapp_link_2|deep_link:'whatsapp'|escapejs }}" 
                    class="social-link">
                     <img src="{% static 'icons/whatsapp_icon_2.webp' %}" alt="WhatsApp 2" loading="lazy">
                 </a>
@@ -120,7 +121,7 @@
                 <a href="{% url 'track_click' store.id 'instagram_link' %}" 
                    
                    rel="noopener noreferrer"
-                   data-redirect="{{ store.instagram_link|escapejs }}" 
+                   data-redirect="{{ store.instagram_link|deep_link:'instagram'|escapejs }}" 
                    class="social-link">
                     <img src="{% static 'icons/instagram_icon.webp' %}" alt="Instagram" loading="lazy">
                 </a>
@@ -131,7 +132,7 @@
                 <a href="{% url 'track_click' store.id 'youtube_link' %}" 
                    
                    rel="noopener noreferrer"
-                   data-redirect="{{ store.youtube_link|escapejs }}" 
+                   data-redirect="{{ store.youtube_link|deep_link:'youtube'|escapejs }}" 
                    class="social-link">
                     <img src="{% static 'icons/youtube_icon.webp' %}" alt="Youtube" loading="lazy">
                 </a>
@@ -142,7 +143,7 @@
                 <a href="{% url 'track_click' store.id 'facebook_link' %}" 
                    
                    rel="noopener noreferrer"
-                   data-redirect="{{ store.facebook_link|escapejs }}" 
+                   data-redirect="{{ store.facebook_link|deep_link:'facebook'|escapejs }}" 
                    class="social-link">
                     <img src="{% static 'icons/facebook_icon.webp' %}" alt="Facebook" loading="lazy">
                 </a>
@@ -153,7 +154,7 @@
                 <a href="{% url 'track_click' store.id 'x_link' %}" 
                    
                    rel="noopener noreferrer"
-                   data-redirect="{{ store.x_link|escapejs }}" 
+                   data-redirect="{{ store.x_link|deep_link:'x'|escapejs }}" 
                    class="social-link">
                     <img src="{% static 'icons/x_icon.webp' %}" alt="X" loading="lazy">
                 </a>
@@ -161,10 +162,10 @@
         {% endif %}
         {% if store.google_maps_link %}
             <li>
-                <a href="{% url 'track_click' store.id 'google_maps_link' %}" 
+                <a href="{% url 'track_click' store.id 'google_maps' %}" 
                    
                    rel="noopener noreferrer"
-                   data-redirect="{{ store.google_maps_link|escapejs }}" 
+                   data-redirect="{{ store.google_maps_link|deep_link:'google_maps'|escapejs }}" 
                    class="social-link">
                     <img src="{% static 'icons/google_maps_icon.webp' %}" alt="Google Maps" loading="lazy">
                 </a>
@@ -175,7 +176,7 @@
                 <a href="{% url 'track_click' store.id 'anota_ai_link' %}" 
                    
                    rel="noopener noreferrer"
-                   data-redirect="{{ store.anota_ai_link|escapejs }}" 
+                   data-redirect="{{ store.anota_ai_link|deep_link:'anoota_ai'|escapejs }}" 
                    class="social-link">
                     <img src="{% static 'icons/anota_ai_icon.webp' %}" alt="Anota Ai" loading="lazy">
                 </a>
@@ -186,7 +187,7 @@
                 <a href="{% url 'track_click' store.id 'ifood_link' %}" 
                    
                    rel="noopener noreferrer"
-                   data-redirect="{{ store.ifood_link|escapejs }}" 
+                   data-redirect="{{ store.ifood_link|deep_link:'ifood'|escapejs }}" 
                    class="social-link">
                     <img src="{% static 'icons/ifood_icon.webp' %}" alt="iFood" loading="lazy">
                 </a>

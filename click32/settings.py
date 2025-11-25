@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vitrine.click32_admin',
     'vitrine.apps.VitrineConfig',
+    #'vitrine.templatetags',
     # 'compressor',  # ← REMOVE compressor
 ]
 

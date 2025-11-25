@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load compress %}
+
 {% block extra_css %}
     {% autoescape on %}
-    {% compress css %}
+    
     <!-- Inclusão de arquivos CSS externos para estilização -->
     <link rel="stylesheet" href="{% static 'css/store_detail.css' %}?v={{ STATIC_VERSION }}">
     <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}?v={{ STATIC_VERSION }}">
-    {% endcompress %}
+    
     <link rel="stylesheet" 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -239,7 +239,7 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
             crossorigin="anonymous"></script>
    
-    {% compress js %}
+    
     <script src="{% static 'js/description_scroll.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/share_modal.js' %}?v={{ STATIC_VERSION }}"></script>  
     <script src="{% static 'js/flyer_modal.js' %}?v={{ STATIC_VERSION }}"></script>
@@ -248,5 +248,5 @@
     <script src="{% static 'js/phone_click.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/url_removal.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/social_links.js' %}?v={{ STATIC_VERSION }}"></script>
-    {% endcompress %}
+    
 {% endblock %}

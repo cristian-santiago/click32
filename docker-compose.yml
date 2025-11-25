@@ -7,10 +7,6 @@ services:
     command: /entrypoint.sh
     env_file:
       - ${APP_ENV_FILE:-.env}
-    environment:
-      - STATIC_VERSION=${STATIC_VERSION:-1.0.0}
-      - COMPRESS_ENABLED=True
-      - COMPRESS_OFFLINE=True
     depends_on:
       - postgres_db
     networks:

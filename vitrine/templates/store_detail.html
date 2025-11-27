@@ -86,6 +86,9 @@
     <ul class="social-icons">
         {% if store.whatsapp_link_1 %}
             <li>
+
+                            <!-- DEBUG: Mostra o link gerado -->
+        
                 <a href="{% url 'track_click' store.id 'whatsapp_link_1' %}" 
                    
                    rel="noopener noreferrer"
@@ -129,6 +132,10 @@
         {% endif %}
         {% if store.youtube_link %}
             <li>
+                    <small style="color: red;">
+                Web: {{ store.youtube_link }}<br>
+                Deep: {{ store.youtube_link|deep_link:'youtube' }}
+            </small>
                 <a href="{% url 'track_click' store.id 'youtube_link' %}" 
                    
                    rel="noopener noreferrer"

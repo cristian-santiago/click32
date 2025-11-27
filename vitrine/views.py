@@ -263,7 +263,7 @@ def about(request):
         # Fallback básico
         return render(request, 'about.html', {'category_tags': []})
 #--------------------------------
-@check_permission(lambda u: u.is_superuser)
+#@check_permission(lambda u: u.is_superuser)
 def track_click(request, store_id=None, element_type=None):
     try:
         valid_elements = [

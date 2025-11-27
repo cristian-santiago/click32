@@ -1,20 +1,19 @@
-// social_links.js - Debug completo
+// social_links.js
 document.querySelectorAll('a.social-link[data-redirect]').forEach(link => {
-    link.addEventListener('click', async function(event) {
+    link.addEventListener('click', function(event) {
         event.preventDefault();
-        const deepLinkUrl = this.getAttribute('data-redirect');
+        const url = this.getAttribute('data-redirect');
         
-        console.log('=== DEBUG SOCIAL LINKS ===');
-        console.log('URL:', deepLinkUrl);
-        console.log('User Agent:', navigator.userAgent);
-        console.log('Protocol:', window.location.protocol);
-        console.log('Standalone:', window.matchMedia('(display-mode: standalone)').matches);
+        // Tenta abrir o app
+        window.location.href = url;
         
-        // Testa se o deep link é suportado
-        try {
-            window.location.href = deepLinkUrl;
-        } catch (error) {
-            console.error('Erro ao abrir deep link:', error);
-        }
+        // Se não abrir em 1s, abre na web
+        setTimeout(() => {
+            if (!document.hidden) {
+                // Converte deep link de volta para web se possível
+                const webUrl = url.replace(/^[a-z]+:\/\//, 'https://');
+                window.open(webUrl, '_blank', 'noopener,noreferrer');
+            }
+        }, 1000);
     });
 });

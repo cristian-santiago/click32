@@ -1,3 +1,4 @@
+
 from django import template
 from urllib.parse import urlparse
 import re
@@ -6,10 +7,10 @@ register = template.Library()
 
 @register.filter
 def deep_link(web_url, platform):
-    """
-    Gera deep link a partir de URL web, baseado na plataforma.
-    Ex.: deep_link:"https://www.instagram.com/click32.app/":"instagram" -> "instagram://user?username=click32.app"
-    """
+    
+    #Gera deep link a partir de URL web, baseado na plataforma.
+    #Ex.: deep_link:"https://www.instagram.com/click32.app/":"instagram" -> "instagram://user?username=click32.app"
+    
     if not web_url:
         return ''
     
@@ -22,9 +23,7 @@ def deep_link(web_url, platform):
         return f"instagram://user?username={username}"
     
     elif platform == 'whatsapp':
-        # Assume formato admin: https://wa.me/5511999999999 ou tel:+55...
-        phone = re.sub(r'https?://wa\.me/|tel:', '', web_url).strip()
-        return f"whatsapp://send?phone={phone}"
+        return web_url  # ← NÃO altera WhatsApp
     
     elif platform == 'youtube':
         # Assume /channel/UC... ou /watch?v=ID
@@ -55,3 +54,5 @@ def deep_link(web_url, platform):
     # Adicionar mais plataformas aqui (anota_ai, etc.)
     else:
         return web_url  # Fallback pra web se plataforma desconhecida
+
+    

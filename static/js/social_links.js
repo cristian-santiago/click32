@@ -1,18 +1,20 @@
-/*// social_links.js - Mobile otimizado
-let linkClicked = false;
-
+// social_links.js - Debug completo
 document.querySelectorAll('a.social-link[data-redirect]').forEach(link => {
-    link.addEventListener('click', function(event) {
-        if (linkClicked) return;
-        linkClicked = true;
-        
+    link.addEventListener('click', async function(event) {
         event.preventDefault();
-        const webUrl = this.getAttribute('data-redirect');
+        const deepLinkUrl = this.getAttribute('data-redirect');
         
-        // Abre o app - PWA vai para background (normal no mobile)
-        window.location.href = webUrl;
+        console.log('=== DEBUG SOCIAL LINKS ===');
+        console.log('URL:', deepLinkUrl);
+        console.log('User Agent:', navigator.userAgent);
+        console.log('Protocol:', window.location.protocol);
+        console.log('Standalone:', window.matchMedia('(display-mode: standalone)').matches);
         
-        // Reseta após 2s (tempo pro app abrir)
-        setTimeout(() => { linkClicked = false; }, 2000);
+        // Testa se o deep link é suportado
+        try {
+            window.location.href = deepLinkUrl;
+        } catch (error) {
+            console.error('Erro ao abrir deep link:', error);
+        }
     });
-});*/
+});

@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django_ratelimit.decorators import ratelimit
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.utils.text import slugify
@@ -155,7 +155,7 @@ def store_create(request):
 @check_permission(lambda u: u.is_superuser)
 def store_edit(request, store_id):
     try:
-        store = get_object_or_404(Store, pk=store_id)
+        store = Store.objects.get(pk=store_id)
         logger.info(f"Store edit accessed - Store: {store.name}, ID: {store_id}, User: {request.user}")
 
         if request.method == "POST":
@@ -216,13 +216,16 @@ def store_edit(request, store_id):
             'store': store,
             'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']
         })
-    except Store.DoesNotExist:
-        logger.error(f"Store not found for edit - Store ID: {store_id}, User: {request.user}")
-        raise
-    except Exception as e:
-        logger.error(f"Error in store_edit - Store ID: {store_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
-        raise
 
+    except Store.DoesNotExist:
+        # CORRIGIDO: Log limpo sem stack trace
+        logger.warning(f"Store não encontrada no admin - Store ID: {store_id}, User: {request.user.username}")
+        raise Http404("Store não encontrada")
+        
+    except Exception as e:
+        # ✅ CORRIGIDO: Remove exc_info=True
+        logger.error(f"Error in store_edit - Store ID: {store_id}, User: {request.user.username}, Error: {str(e)}")
+        raise
 
 @check_permission(lambda u: u.is_superuser)
 @require_POST

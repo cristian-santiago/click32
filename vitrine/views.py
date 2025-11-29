@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404  
 from django.core.exceptions import PermissionDenied
@@ -7,9 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django_ratelimit.decorators import ratelimit
 from django.core.cache import cache
-from django.db.models import Sum, Max, Q
 from .models import Store, ClickTrack, Category, ShareTrack, PWADownloadClick, ActiveSession
-from django.core.mail import send_mail
 import pdf2image
 import glob
 from django.urls import reverse
@@ -138,7 +136,7 @@ def home(request):
         return render(request, 'home.html', context)
 
     except Exception as e:
-        logger.error(f"Error rendering home page - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error rendering home page - Error: {str(e)}")
         # Fallback seguro em caso de erro
         return render(request, 'home.html', {
             'stores': [],
@@ -164,13 +162,9 @@ def store_detail(request, slug):
             logger.warning(f"Attempt to access reserved path as store slug: {slug}")
             return redirect('home')
 
-        # DEPOIS busca a loja no banco
-        store = get_object_or_404(Store, slug=slug)
         
-        if store.is_deactivated:
-            logger.warning(f"Attempt to access deactivated store - Slug: {slug}")
-            return redirect('home')
-
+        store = Store.objects.get(slug=slug, is_deactivated=False)
+        
         element_type = request.GET.get('element_type', 'direct_access')
         
         logger.info(f"Store detail accessed - Store: {store.name}, Slug: {slug}, Source: {element_type}")
@@ -199,13 +193,12 @@ def store_detail(request, slug):
         logger.info(f"Store detail rendered successfully - Store: {store.name}")
         return render(request, 'store_detail.html', context)
 
-    except Http404:  # ← CORRIGIDO: Captura Http404 em vez de DoesNotExist
-        # Log limpo, sem stack trace
+    except Store.DoesNotExist:
+        
         logger.warning(f"Store não encontrada - Slug: {slug}, IP: {request.META.get('REMOTE_ADDR')}")
         return redirect('home')
     except Exception as e:
-        # Remove exc_info=True para evitar stack trace
-        logger.error(f"Error rendering store detail - Slug: {slug}, Error: {str(e)}")  # ← SEM exc_info=True
+        logger.error(f"Error rendering store detail - Slug: {slug}, Error: {str(e)}") 
         return redirect('home')
         
 #@cache_page(60 * 60 * 24)
@@ -445,14 +438,6 @@ def advertise_success(request):
 
 '''
 
-import os
-import glob
-from django.conf import settings
-from django.http import JsonResponse, Http404
-from django.shortcuts import render, get_object_or_404
-import pdf2image
-from .models import Store, ClickTrack
-
 def safe_media_path(filename):
     # Remove path traversal attempts e valida extensão
     safe_name = get_valid_filename(os.path.basename(filename))
@@ -670,8 +655,7 @@ def start_session(request):
         return JsonResponse({'error': 'Método não permitido'}, status=405)
     
     try:
-        from .models import ActiveSession
-        
+                
         # Cria nova sessão
         session = ActiveSession.objects.create()
         
@@ -684,7 +668,7 @@ def start_session(request):
         })
         
     except Exception as e:
-        logger.error(f"Error creating new session - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error creating new session - Error: {str(e)}")
         return JsonResponse({'error': f'Erro ao criar sessão: {str(e)}'}, status=500)
 
 @ratelimit(key='ip', rate='50/m', block=True)
@@ -699,8 +683,7 @@ def heartbeat(request):
         return JsonResponse({'error': 'Método não permitido'}, status=405)
     
     try:
-        from .models import ActiveSession
-        
+                
         data = json.loads(request.body) if request.body else {}
         session_id = data.get('session_id')
         
@@ -753,8 +736,7 @@ def heartbeat(request):
 def active_users_count(request):
     """Retorna quantidade de usuários ativos nos últimos X minutos - ACESSO RESTRITO"""
     try:
-        from .models import ActiveSession
-        
+                
         minutes = int(request.GET.get('minutes', 5))
         cutoff_time = timezone.now() - timedelta(minutes=minutes)
         

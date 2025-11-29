@@ -27,6 +27,14 @@ import uuid
 logger = logging.getLogger(__name__)
 
 
+def custom_404(request, exception):
+    logger.warning(f"404 - Path: {request.path}, IP: {request.META.get('REMOTE_ADDR')}")
+    return render(request, '404.html', status=404)
+
+def custom_500(request):
+    logger.error(f"500 - Erro interno, IP: {request.META.get('REMOTE_ADDR')}")
+    return render(request, '500.html', status=500)
+
 def rate_limit_callback(request, exception):
     """Callback quando rate limit é excedido"""
     client_ip = request.META.get('REMOTE_ADDR', 'Unknown')

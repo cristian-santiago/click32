@@ -14,10 +14,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY: TUDO por variáveis de ambiente
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-in-production') 
-DEBUG = os.getenv('DEBUG', 'False') == 'False'  # ← Padrão False para produção
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 # Hosts dinâmicos por ambiente
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,c52e4c5eb27a.ngrok-free.app').split(',')
 
 # CSRF dinâmico
 csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:8000').split(',')

@@ -222,7 +222,7 @@ def store_edit(request, store_id):
         raise Http404("Store não encontrada")
         
     except Exception as e:
-        # ✅ CORRIGIDO: Remove exc_info=True
+        
         logger.error(f"Error in store_edit - Store ID: {store_id}, User: {request.user.username}, Error: {str(e)}")
         raise
 

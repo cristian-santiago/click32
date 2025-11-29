@@ -439,22 +439,33 @@ def advertise_success(request):
 '''
 
 def safe_media_path(filename):
-    # Remove path traversal attempts e valida extensão
-    safe_name = get_valid_filename(os.path.basename(filename))
+    """
+    Caminho seguro para arquivos media, preservando estrutura de diretórios
+    """
+    if not filename:
+        raise ValueError("Filename não pode ser vazio")
     
-    # VALIDAÇÃO DE EXTENSÃO
-    allowed_extensions = {'.pdf', '.png', '.jpg', '.jpeg'}
-    file_ext = os.path.splitext(safe_name)[1].lower()
-    if file_ext not in allowed_extensions:
-        raise ValueError(f"Extensão de arquivo não permitida: {file_ext}")
     
-    full_path = os.path.join(settings.MEDIA_ROOT, safe_name)
+    safe_path = os.path.normpath(filename)
     
-    # VERIFICAÇÃO PATH TRAVERSAL
+    # Remove path traversal attempts em CADA parte do caminho
+    path_parts = []
+    for part in safe_path.split(os.sep):
+        if part in ('.', '..'):
+            continue
+        safe_part = get_valid_filename(part)
+        if safe_part:
+            path_parts.append(safe_part)
+    
+    safe_filename = os.path.join(*path_parts)
+    full_path = os.path.join(settings.MEDIA_ROOT, safe_filename)
+    
+    
     media_root = os.path.abspath(settings.MEDIA_ROOT)
     requested_path = os.path.abspath(full_path)
+    
     if not requested_path.startswith(media_root):
-        raise ValueError("Tentativa de path traversal detectada")
+        raise ValueError(f"Tentativa de path traversal detectada: {filename}")
     
     return full_path
 

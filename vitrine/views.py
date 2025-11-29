@@ -211,7 +211,7 @@ def store_detail(request, slug):
 #@cache_page(60 * 60 * 24)
 def store_detail_by_id(request, store_id):
     try:
-        store = get_object_or_404(Store, id=store_id)
+        store = Store.objects.get(id=store_id)
         
         if store.is_deactivated:
             logger.warning(f"Attempt to access deactivated store by ID - Store ID: {store_id}")
@@ -224,16 +224,16 @@ def store_detail_by_id(request, store_id):
         return redirect(redirect_url)
 
     except Store.DoesNotExist:
-        logger.error(f"Store not found by ID - Store ID: {store_id}")
-        raise
+        logger.warning(f"Store not found by ID - Store ID: {store_id}")
+        return redirect('home')
     except Exception as e:
-        logger.error(f"Error in store_detail_by_id - Store ID: {store_id}, Error: {str(e)}", exc_info=True)
-        raise
+        logger.error(f"Error in store_detail_by_id - Store ID: {store_id}, Error: {str(e)}")
+        return redirect('home')
 
 #@cache_page(60 * 60 * 24)
 def store_detail_by_uuid(request, qr_uuid):
     try:
-        store = get_object_or_404(Store, qr_uuid=qr_uuid)
+        store = Store.objects.get(qr_uuid=qr_uuid)
         
         if store.is_deactivated:
             logger.warning(f"Attempt to access deactivated store by UUID - UUID: {qr_uuid}")
@@ -245,11 +245,11 @@ def store_detail_by_uuid(request, qr_uuid):
         return redirect(redirect_url)
 
     except Store.DoesNotExist:
-        logger.error(f"Store not found by UUID - UUID: {qr_uuid}")
-        raise
+        logger.warning(f"Store not found by UUID - UUID: {qr_uuid}")
+        return redirect('home')
     except Exception as e:
-        logger.error(f"Error in store_detail_by_uuid - UUID: {qr_uuid}, Error: {str(e)}", exc_info=True)
-        raise
+        logger.error(f"Error in store_detail_by_uuid - UUID: {qr_uuid}, Error: {str(e)}")
+        return redirect('home')
 
 #@cache_page(60 * 60 * 24)
 def advertise(request):
@@ -258,7 +258,7 @@ def advertise(request):
         context = {'category_tags': get_category_tags()}
         return render(request, 'advertise.html', context)
     except Exception as e:
-        logger.error(f"Error rendering advertise page - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error rendering advertise page - Error: {str(e)}")
         # Fallback básico
         return render(request, 'advertise.html', {'category_tags': []})
 
@@ -269,10 +269,12 @@ def about(request):
         context = {'category_tags': get_category_tags()}
         return render(request, 'about.html', context)
     except Exception as e:
-        logger.error(f"Error rendering about page - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error rendering about page - Error: {str(e)}")
         # Fallback básico
         return render(request, 'about.html', {'category_tags': []})
 #--------------------------------
+@ratelimit(key='ip', rate='50/m', block=True)
+@ratelimit(key='ip', rate='500/h', block=True)
 #@check_permission(lambda u: u.is_superuser)
 def track_click(request, store_id=None, element_type=None):
     try:
@@ -296,7 +298,7 @@ def track_click(request, store_id=None, element_type=None):
             logger.info("Click tracked: Home Access")
             return None
 
-        store = get_object_or_404(Store, id=store_id)
+        store = Store.objects.get(id=store_id)
 
         # Cria ou atualiza contagem do clique
         click_track, created = ClickTrack.objects.get_or_create(
@@ -326,6 +328,9 @@ def track_click(request, store_id=None, element_type=None):
                 return HttpResponseRedirect(link)
             return redirect('store_detail', store_id=store_id)
 
+    except Store.DoesNotExist:
+        logger.warning(f"Store not found for click tracking - Store ID: {store_id}")
+        return HttpResponse(status=404)
     except Exception as e:
         logger.error(f"Error tracking click: {e}")
         return HttpResponse(status=500)
@@ -343,7 +348,7 @@ def track_share(request, store_id):
             logger.warning(f"Invalid method in track_share - Method: {request.method}, Store ID: {store_id}")
             return JsonResponse({'error': 'Método não permitido'}, status=405)
         
-        store = get_object_or_404(Store, id=store_id)
+        store = Store.objects.get(id=store_id)
         
         # Log de debug para troubleshooting
         logger.debug(
@@ -363,10 +368,10 @@ def track_share(request, store_id):
         })
         
     except Store.DoesNotExist:
-        logger.error(f"Store not found in track_share - Store ID: {store_id}")
+        logger.warning(f"Store not found in track_share - Store ID: {store_id}")
         return JsonResponse({'error': 'Loja não encontrada'}, status=404)
     except Exception as e:
-        logger.error(f"Error tracking share - Store ID: {store_id}, Error: {str(e)}", exc_info=True)
+        logger.error(f"Error tracking share - Store ID: {store_id}, Error: {str(e)}")
         return JsonResponse({'error': 'Erro interno do servidor'}, status=500)
 
 #------------------ PWA DOWNLOAD CLICK
@@ -411,7 +416,7 @@ def track_pwa_click(request):
         logger.error(f"JSON decode error in track_pwa_click - Error: {str(e)}")
         return JsonResponse({'error': 'JSON inválido'}, status=400)
     except Exception as e:
-        logger.error(f"Error in track_pwa_click - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error in track_pwa_click - Error: {str(e)}")
         return JsonResponse({'error': 'Erro interno'}, status=500)
 
 '''
@@ -440,39 +445,81 @@ def advertise_success(request):
 
 '''
 
+import os
+import glob
+from django.conf import settings
+from django.http import JsonResponse, Http404
+from django.shortcuts import render, get_object_or_404
+import pdf2image
+from .models import Store, ClickTrack
+
 def safe_media_path(filename):
-    # Remove path traversal attempts
+    # Remove path traversal attempts e valida extensão
     safe_name = get_valid_filename(os.path.basename(filename))
-    return os.path.join(settings.MEDIA_ROOT, safe_name)
+    
+    # VALIDAÇÃO DE EXTENSÃO
+    allowed_extensions = {'.pdf', '.png', '.jpg', '.jpeg'}
+    file_ext = os.path.splitext(safe_name)[1].lower()
+    if file_ext not in allowed_extensions:
+        raise ValueError(f"Extensão de arquivo não permitida: {file_ext}")
+    
+    full_path = os.path.join(settings.MEDIA_ROOT, safe_name)
+    
+    # VERIFICAÇÃO PATH TRAVERSAL
+    media_root = os.path.abspath(settings.MEDIA_ROOT)
+    requested_path = os.path.abspath(full_path)
+    if not requested_path.startswith(media_root):
+        raise ValueError("Tentativa de path traversal detectada")
+    
+    return full_path
 
 def view_flyer(request, store_id):
     try:
-        store = get_object_or_404(Store, id=store_id)
+        # VALIDAÇÃO store_id
+        if not str(store_id).isdigit() or int(store_id) <= 0:
+            logger.warning(f"Invalid store_id format - Store ID: {store_id}")
+            raise Http404("ID da loja inválido")
+            
+        store = Store.objects.get(id=store_id)
         
         if not store.flyer_pdf:
             logger.info(f"Flyer requested but not available - Store: {store.name}, ID: {store_id}")
             return render(request, 'no_flyer.html', {'store': store})
 
-        # Ensure the PDF file exists
+        # VERIFICAÇÃO DE SEGURANÇA MELHORADA
         pdf_path = safe_media_path(store.flyer_pdf.name)
+        
         if not os.path.exists(pdf_path):
-            
+            logger.warning(f"Flyer PDF file not found - Store: {store.name}, Path: {pdf_path}")
             return render(request, 'no_flyer.html', {
                 'store': store,
                 'error': 'O arquivo PDF do encarte não foi encontrado.'
             })
 
+        # LIMITE DE PÁGINAS PARA EVITAR DOS
+        max_pages = 20
         logger.info(f"Processing flyer - Store: {store.name}, PDF: {store.flyer_pdf.name}")
 
         # Convert PDF to images for rendering
-        images = pdf2image.convert_from_path(pdf_path)
+        images = pdf2image.convert_from_path(pdf_path, last_page=max_pages)
         
+        # LIMITA O NÚMERO DE PÁGINAS PROCESSADAS
+        if len(images) > max_pages:
+            images = images[:max_pages]
+            logger.warning(f"Flyer truncated to {max_pages} pages - Store: {store.name}")
+
         # Generate URLs for each page
         page_urls = []
         for i, image in enumerate(images):
-            image_path = os.path.join(settings.MEDIA_ROOT, f'flyers/temp_page_{store_id}_{i}.png')
+            # NOME DE ARQUIVO SEGURO
+            image_filename = f'temp_page_{store_id}_{i}.png'
+            image_path = os.path.join(settings.MEDIA_ROOT, 'flyers', image_filename)
+            
+            # CRIA DIRETÓRIO COM PERMISSÕES SEGURAS
+            os.makedirs(os.path.dirname(image_path), exist_ok=True, mode=0o755)
+            
             image.save(image_path, 'PNG')
-            page_urls.append(f'{settings.MEDIA_URL}flyers/temp_page_{store_id}_{i}.png')
+            page_urls.append(f'{settings.MEDIA_URL}flyers/{image_filename}')
 
         # Track the click
         click_track, created = ClickTrack.objects.get_or_create(
@@ -493,30 +540,33 @@ def view_flyer(request, store_id):
         return render(request, 'flyer.html', context)
         
     except Store.DoesNotExist:
-        logger.error(f"Store not found for flyer - Store ID: {store_id}")
-        raise
+        logger.warning(f"Store not found for flyer - Store ID: {store_id}")
+        return render(request, 'no_flyer.html', {'error': 'Loja não encontrada.'})
+    except ValueError as e:
+        logger.warning(f"Security violation in flyer access - Store ID: {store_id}, Error: {str(e)}")
+        return render(request, 'no_flyer.html', {'error': 'Requisição inválida.'})
     except Exception as e:
-        logger.error(f"Error processing flyer - Store ID: {store_id}, Error: {str(e)}", exc_info=True)
+        logger.error(f"Error processing flyer - Store ID: {store_id}, Error: {str(e)}")
         return render(request, 'no_flyer.html', {
-            'store': store,
             'error': 'Erro ao processar o encarte.'
         })
-    
+
 def cleanup_temp_files(store_id):
     try:
-        # Padrão mais abrangente para capturar todos os PNGs temporários
-        patterns = [
-            f'flyers/temp_page_{store_id}_*.png',
-            f'flyers/temp_page_{store_id}-*.png',  # Padrão alternativo
-            f'**/temp_page_{store_id}_*.png',      # Busca recursiva
-        ]
+        # PADRÃO MAIS RESTRITIVO - apenas números no store_id
+        if not str(store_id).isdigit():
+            logger.warning(f"Invalid store_id in cleanup - Store ID: {store_id}")
+            return
+            
+        # PADRÃO SEGURO - apenas o padrão específico
+        pattern = os.path.join(settings.MEDIA_ROOT, 'flyers', f'temp_page_{store_id}_*.png')
+        temp_files = glob.glob(pattern)
         
-        temp_files = []
-        for pattern in patterns:
-            temp_files.extend(glob.glob(os.path.join(settings.MEDIA_ROOT, pattern)))
-        
-        # Remove duplicatas
-        temp_files = list(set(temp_files))
+        # LIMITE DE ARQUIVOS PARA EVITAR DOS
+        max_files = 50
+        if len(temp_files) > max_files:
+            logger.warning(f"Too many temp files - Store ID: {store_id}, Files: {len(temp_files)}")
+            temp_files = temp_files[:max_files]
         
         if temp_files:
             removed_count = 0
@@ -536,22 +586,21 @@ def cleanup_temp_files(store_id):
     except Exception as e:
         logger.error(f"Error during temp files cleanup - Store ID: {store_id}, Error: {str(e)}")
 
+@ratelimit(key='ip', rate='10/m', block=True)  # RATE LIMITING PARA PDF PROCESSING
 def fetch_flyer_pages(request, store_id):
     try:
-        store = get_object_or_404(Store, id=store_id)
+        # VALIDAÇÃO store_id
+        if not str(store_id).isdigit() or int(store_id) <= 0:
+            return JsonResponse({'error': 'ID da loja inválido.'}, status=400)
+            
+        store = Store.objects.get(id=store_id)
         
         if not store.flyer_pdf:
             logger.info(f"AJAX Flyer requested but not available - Store: {store.name}, ID: {store_id}")
             return JsonResponse({'error': 'Nenhum encarte disponível.'}, status=404)
 
-        #  VERIFICAÇÃO DE SEGURANÇA - previne path traversal
-        pdf_path = store.flyer_pdf.path
-        
-        # Garante que o arquivo está dentro do MEDIA_ROOT
-        media_root = settings.MEDIA_ROOT
-        if not os.path.abspath(pdf_path).startswith(os.path.abspath(media_root)):
-            logger.warning(f"Path traversal attempt detected - Store: {store.name}, Path: {pdf_path}")
-            return JsonResponse({'error': 'Caminho de arquivo inválido.'}, status=400)
+        # VERIFICAÇÃO DE SEGURANÇA MELHORADA
+        pdf_path = safe_media_path(store.flyer_pdf.name)
         
         if not os.path.exists(pdf_path):
             logger.warning(f"AJAX Flyer PDF file not found - Store: {store.name}, Path: {pdf_path}")
@@ -562,17 +611,26 @@ def fetch_flyer_pages(request, store_id):
         # Clean up old temporary files
         cleanup_temp_files(store_id)
         
-        # Convert PDF to images with lower DPI for faster loading
-        images = pdf2image.convert_from_path(pdf_path, dpi=100, last_page=5)
+        # LIMITES DE SEGURANÇA PARA PDF
+        max_pages = 10
+        max_dpi = 150
         
+        # Convert PDF to images with security limits
+        images = pdf2image.convert_from_path(pdf_path, dpi=max_dpi, last_page=max_pages)
+        
+        # LIMITA PÁGINAS
+        if len(images) > max_pages:
+            images = images[:max_pages]
+            logger.warning(f"AJAX Flyer truncated to {max_pages} pages - Store: {store.name}")
+
         page_urls = []
         for i, image in enumerate(images):
-            #  Nome de arquivo seguro - sem input do usuário
+            # NOME DE ARQUIVO SEGURO
             image_filename = f'temp_page_{store_id}_{i}.png'
             image_path = os.path.join(settings.MEDIA_ROOT, 'flyers', image_filename)
             
-            # Garante que o diretório existe
-            os.makedirs(os.path.dirname(image_path), exist_ok=True)
+            # CRIA DIRETÓRIO COM PERMISSÕES SEGURAS
+            os.makedirs(os.path.dirname(image_path), exist_ok=True, mode=0o755)
             
             image.save(image_path, 'PNG', quality=85)
             page_urls.append(f'{settings.MEDIA_URL}flyers/{image_filename}')
@@ -591,10 +649,13 @@ def fetch_flyer_pages(request, store_id):
         return JsonResponse({'page_urls': page_urls})
         
     except Store.DoesNotExist:
-        logger.error(f"Store not found for AJAX flyer - Store ID: {store_id}")
+        logger.warning(f"Store not found for AJAX flyer - Store ID: {store_id}")
         return JsonResponse({'error': 'Loja não encontrada.'}, status=404)
+    except ValueError as e:
+        logger.warning(f"Security violation in AJAX flyer - Store ID: {store_id}, Error: {str(e)}")
+        return JsonResponse({'error': 'Requisição inválida.'}, status=400)
     except Exception as e:
-        logger.error(f"Error processing AJAX flyer - Store ID: {store_id}, Error: {str(e)}", exc_info=True)
+        logger.error(f"Error processing AJAX flyer - Store ID: {store_id}, Error: {str(e)}")
         return JsonResponse({'error': 'Erro ao processar o encarte.'}, status=500)
 
 @ratelimit(key='ip', rate='50/m', block=True)  # Bloqueia completamente
@@ -626,6 +687,8 @@ def start_session(request):
         logger.error(f"Error creating new session - Error: {str(e)}", exc_info=True)
         return JsonResponse({'error': f'Erro ao criar sessão: {str(e)}'}, status=500)
 
+@ratelimit(key='ip', rate='50/m', block=True)
+@ratelimit(key='ip', rate='500/h', block=True)
 @csrf_protect
 def heartbeat(request):
     """
@@ -683,9 +746,8 @@ def heartbeat(request):
         logger.error(f"JSON decode error in heartbeat - Error: {str(e)}")
         return JsonResponse({'error': 'JSON inválido'}, status=400)
     except Exception as e:
-        logger.error(f"Error in heartbeat - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error in heartbeat - Error: {str(e)}")
         return JsonResponse({'error': f'Erro interno: {str(e)}'}, status=500)
-        
 
 @check_permission(lambda u: u.is_superuser)
 def active_users_count(request):
@@ -712,5 +774,5 @@ def active_users_count(request):
         logger.error(f"Invalid minutes parameter in active_users_count - Value: {request.GET.get('minutes')}")
         return JsonResponse({'error': 'Parâmetro minutes deve ser um número'}, status=400)
     except Exception as e:
-        logger.error(f"Error in active_users_count - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error in active_users_count - Error: {str(e)}")
         return JsonResponse({'error': f'Erro interno: {str(e)}'}, status=500)

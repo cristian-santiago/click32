@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404  
 from django.core.exceptions import PermissionDenied
 from django.utils.text import get_valid_filename
 from django.views.decorators.csrf import csrf_protect
@@ -154,10 +154,10 @@ def store_detail(request, slug):
     try:
         # PRIMEIRO valida os paths reservados (ANTES de buscar no banco)
         reserved_paths = [
-        'admin', 'api', 'static', 'media', 'anuncie', 'sobre',
-        'start-session', 'heartbeat', 'track-click', 'store',
-        'favicon.ico', 'robots.txt', 'sitemap.xml',
-        'login', 'logout', 'register',
+            'admin', 'api', 'static', 'media', 'anuncie', 'sobre',
+            'start-session', 'heartbeat', 'track-click', 'store',
+            'favicon.ico', 'robots.txt', 'sitemap.xml',
+            'login', 'logout', 'register',
         ]
         
         if slug in reserved_paths:
@@ -199,12 +199,14 @@ def store_detail(request, slug):
         logger.info(f"Store detail rendered successfully - Store: {store.name}")
         return render(request, 'store_detail.html', context)
 
-    except Store.DoesNotExist:
-        logger.error(f"Store not found - Slug: {slug}")
-        return redirect('home')  # Redireciona para home em vez de dar 404
+    except Http404:  # ← CORRIGIDO: Captura Http404 em vez de DoesNotExist
+        # Log limpo, sem stack trace
+        logger.warning(f"Store não encontrada - Slug: {slug}, IP: {request.META.get('REMOTE_ADDR')}")
+        return redirect('home')
     except Exception as e:
-        logger.error(f"Error rendering store detail - Slug: {slug}, Error: {str(e)}", exc_info=True)
-        return redirect('home')  # Redireciona para home em caso de erro
+        # Remove exc_info=True para evitar stack trace
+        logger.error(f"Error rendering store detail - Slug: {slug}, Error: {str(e)}")  # ← SEM exc_info=True
+        return redirect('home')
         
 #@cache_page(60 * 60 * 24)
 def store_detail_by_id(request, store_id):

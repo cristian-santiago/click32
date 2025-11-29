@@ -25,6 +25,25 @@ import uuid
 logger = logging.getLogger(__name__)
 
 
+@csrf_protect
+def log_debug(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            print("=== PWA DEBUG ===")
+            print(f"Level: {data.get('level')}")
+            print(f"Message: {data.get('message')}") 
+            print(f"URL: {data.get('url')}")
+            print(f"Standalone: {data.get('standalone')}")
+            print(f"User Agent: {data.get('user_agent')}")
+            print(f"Timestamp: {data.get('timestamp')}")
+            print("==================")
+            return JsonResponse({'status': 'logged'})
+        except Exception as e:
+            print(f"Erro no log: {e}")
+            return JsonResponse({'status': 'error'}, status=500)
+    return JsonResponse({'status': 'method not allowed'}, status=405)
+
 def custom_404(request, exception):
     logger.warning(f"404 - Path: {request.path}, IP: {request.META.get('REMOTE_ADDR')}")
     return render(request, '404.html', status=404)

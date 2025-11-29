@@ -39,6 +39,8 @@ urlpatterns = [
     path('track-share/<int:store_id>/', views.track_share, name='track_share'),
     path('track-pwa-click/', views.track_pwa_click, name='track_pwa_click'),
 
+    path('log-debug/', views.log_debug, name='log_debug'),
+
     # SEMPRE A ÚLTIMA
     path('<storeslug:slug>/', views.store_detail, name='store_detail'),
 

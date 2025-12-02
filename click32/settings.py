@@ -194,8 +194,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOG_DIR = os.path.join(BASE_DIR, 'logs')
 os.makedirs(LOG_DIR, exist_ok=True)
 
-today = datetime.now().strftime('%Y-%m-%d')
-log_filename = os.path.join(LOG_DIR, f'click32-{today}.log')
 
 LOGGING = {
     'version': 1,
@@ -234,11 +232,19 @@ LOGGING = {
             'formatter': 'verbose',
             'filters': ['console_heartbeat_filter'],
         },
+
+        # 🔥 ALTERADO: FileHandler → TimedRotatingFileHandler
         'file': {
-            'class': 'logging.FileHandler',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
             'formatter': 'verbose',
-            'filename': log_filename,
+            'filename': os.path.join(LOG_DIR, 'click32.log'),
+            'when': 'midnight',
+            'interval': 1,
+            'backupCount': 14,
             'encoding': 'utf-8',
+            'utc': False,
+            # filtros aplicados apenas se quiserem (mantive igual ao original)
+            # nenhum filtro existia aqui, então deixei como estava
         },
     },
     'root': {

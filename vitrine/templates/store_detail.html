@@ -82,7 +82,7 @@
         </p>
     </div>
 
-    <!-- Links de redes sociais -->
+<!-- Links de redes sociais -->
 <ul class="social-icons">
     {% if store.whatsapp_link_1 %}
         <li>
@@ -90,7 +90,8 @@
                target="_blank" 
                rel="noopener noreferrer"
                class="social-link"
-               onclick="trackSocialClick({{ store.id }}, 'whatsapp_link_1')">
+               data-store-id="{{ store.id }}"
+               data-link-type="whatsapp_link_1">
                 <img src="{% static 'icons/whatsapp_icon_1.webp' %}" alt="WhatsApp 1" loading="lazy">
             </a>
         </li>
@@ -102,7 +103,8 @@
                target="_blank" 
                rel="noopener noreferrer"
                class="social-link"
-               onclick="trackSocialClick({{ store.id }}, 'whatsapp_link_2')">
+               data-store-id="{{ store.id }}"
+               data-link-type="whatsapp_link_2">
                 <img src="{% static 'icons/whatsapp_icon_2.webp' %}" alt="WhatsApp 2" loading="lazy">
             </a>
         </li>
@@ -125,7 +127,8 @@
                target="_blank" 
                rel="noopener noreferrer"
                class="social-link"
-               onclick="trackSocialClick({{ store.id }}, 'instagram_link')">
+               data-store-id="{{ store.id }}"
+               data-link-type="instagram_link">
                 <img src="{% static 'icons/instagram_icon.webp' %}" alt="Instagram" loading="lazy">
             </a>
         </li>
@@ -137,7 +140,8 @@
                target="_blank" 
                rel="noopener noreferrer"
                class="social-link"
-               onclick="trackSocialClick({{ store.id }}, 'youtube_link')">
+               data-store-id="{{ store.id }}"
+               data-link-type="youtube_link">
                 <img src="{% static 'icons/youtube_icon.webp' %}" alt="Youtube" loading="lazy">
             </a>
         </li>
@@ -149,7 +153,8 @@
                target="_blank" 
                rel="noopener noreferrer"
                class="social-link"
-               onclick="trackSocialClick({{ store.id }}, 'facebook_link')">
+               data-store-id="{{ store.id }}"
+               data-link-type="facebook_link">
                 <img src="{% static 'icons/facebook_icon.webp' %}" alt="Facebook" loading="lazy">
             </a>
         </li>
@@ -161,7 +166,8 @@
                target="_blank" 
                rel="noopener noreferrer"
                class="social-link"
-               onclick="trackSocialClick({{ store.id }}, 'x_link')">
+               data-store-id="{{ store.id }}"
+               data-link-type="x_link">
                 <img src="{% static 'icons/x_icon.webp' %}" alt="X" loading="lazy">
             </a>
         </li>
@@ -173,7 +179,8 @@
                target="_blank" 
                rel="noopener noreferrer"
                class="social-link"
-               onclick="trackSocialClick({{ store.id }}, 'google_maps_link')">
+               data-store-id="{{ store.id }}"
+               data-link-type="google_maps_link">
                 <img src="{% static 'icons/google_maps_icon.webp' %}" alt="Google Maps" loading="lazy">
             </a>
         </li>
@@ -185,7 +192,8 @@
                target="_blank" 
                rel="noopener noreferrer"
                class="social-link"
-               onclick="trackSocialClick({{ store.id }}, 'anota_ai_link')">
+               data-store-id="{{ store.id }}"
+               data-link-type="anota_ai_link">
                 <img src="{% static 'icons/anota_ai_icon.webp' %}" alt="Anota Ai" loading="lazy">
             </a>
         </li>
@@ -197,7 +205,8 @@
                target="_blank" 
                rel="noopener noreferrer"
                class="social-link"
-               onclick="trackSocialClick({{ store.id }}, 'ifood_link')">
+               data-store-id="{{ store.id }}"
+               data-link-type="ifood_link">
                 <img src="{% static 'icons/ifood_icon.webp' %}" alt="iFood" loading="lazy">
             </a>
         </li>
@@ -256,23 +265,11 @@
     <script src="{% static 'js/description_scroll.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/share_modal.js' %}?v={{ STATIC_VERSION }}"></script>  
     <script src="{% static 'js/flyer_modal.js' %}?v={{ STATIC_VERSION }}"></script>
-    <script src="{% static 'js/carousel_store_detail.js' %}?v={{ STATIC_VERSION }}"></script>
-    
+    <script src="{% static 'js/carousel_store_detail.js' %}?v={{ STATIC_VERSION }}"></script>    
     <script src="{% static 'js/phone_click.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/url_removal.js' %}?v={{ STATIC_VERSION }}"></script>
    <script src="{% static 'js/social_links.js' %}?v={{ STATIC_VERSION }}"></script>
 
-<script>
-    // Função de tracking silencioso
-    function trackSocialClick(storeId, linkType) {
-        // Usa imagem invisível para tracking (não bloqueia navegação)
-        const trackingPixel = new Image();
-        trackingPixel.src = `/track-click/${storeId}/${linkType}/`;
-        
-        // Não previne comportamento padrão - o link abre normalmente
-        return true;
-    }
-</script>
 
     
 {% endblock %}

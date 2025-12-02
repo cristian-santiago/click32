@@ -189,12 +189,12 @@
     padding-left: 60px;
     padding-right: 48px;
     text-align: justify;
-    margin-top: 10px;
+    margin-top: 30px;
     display: block;
     height: 300px;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-family: "Roboto", sans-serif;
-    line-height: 18px;
+    line-height: 25px;
     overflow-y: auto;
 }
 

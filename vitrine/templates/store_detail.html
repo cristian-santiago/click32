@@ -55,7 +55,7 @@
             <button id="shareButton" class="share-btn" 
                     data-store-id="{{ store.id }}"
                     data-store-name="{{ store.name|escapejs }}"
-                    data-store-url="{{ request.build_absolute_uri|escapejs }}">
+                    data-store-url="{{ request.scheme }}://{{ request.get_host }}/{{ store.slug }}/">
                 <i class="fas fa-share-alt"></i>
             </button>
         </h2>

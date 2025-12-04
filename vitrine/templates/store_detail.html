@@ -211,7 +211,6 @@
             </a>
         </li>
     {% endif %}
-</ul>
 
 
         {% if store.flyer_pdf %}
@@ -220,7 +219,7 @@
                    class="open-flyer-modal" 
                    data-store-id="{{ store.id }}" 
                    title="Visualizar encarte na página">
-                    <img src="{% static 'icons/flyer_icon.png' %}" alt="Encarte" loading="lazy">
+                    <img src="{% static 'icons/flyer_icon.webp' %}" alt="Encarte" loading="lazy">
                 </a>
             </li>
         {% endif %}

@@ -26,6 +26,7 @@ urlpatterns = [
     path("admin/", include("vitrine.click32_admin.urls")), # redireciona para novas urls do novo admin.
 
     path('', include('vitrine.urls')), # redirecionando a raiz para o app
+    path('metrics', include('django_prometheus.urls')),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,1265 @@
+INFO 2026-01-06 13:37:22,174 autoreload Watching for file changes with StatReloader
+INFO 2026-01-06 13:37:22,174 autoreload Watching for file changes with StatReloader
+INFO 2026-01-06 13:37:50,574 views Store detail accessed - Store: Teste Comércio, Slug: teste-comercio, Source: direct_access
+INFO 2026-01-06 13:37:50,603 views Store detail rendered successfully - Store: Teste Comércio
+INFO 2026-01-06 13:37:51,421 basehttp "GET /teste-comercio/ HTTP/1.1" 200 14933
+INFO 2026-01-06 13:37:51,471 basehttp "GET /static/css/store_detail.css?v= HTTP/1.1" 200 16293
+INFO 2026-01-06 13:37:51,477 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:37:51,479 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:37:51,482 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:37:51,510 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:37:51,554 basehttp "GET /static/css/footer.css?v= HTTP/1.1" 200 668
+INFO 2026-01-06 13:37:51,571 basehttp "GET /static/js/description_scroll.js?v= HTTP/1.1" 200 8572
+INFO 2026-01-06 13:37:51,604 basehttp "GET /static/js/share_modal.js?v= HTTP/1.1" 200 2079
+INFO 2026-01-06 13:37:51,623 basehttp "GET /static/js/flyer_modal.js?v= HTTP/1.1" 200 25932
+INFO 2026-01-06 13:37:51,659 basehttp "GET /static/js/carousel_store_detail.js?v= HTTP/1.1" 200 8789
+INFO 2026-01-06 13:37:51,707 basehttp "GET /static/js/phone_click.js?v= HTTP/1.1" 200 970
+INFO 2026-01-06 13:37:51,740 basehttp "GET /static/js/url_removal.js?v= HTTP/1.1" 200 153
+INFO 2026-01-06 13:37:51,768 basehttp "GET /static/js/social_links.js?v= HTTP/1.1" 200 697
+INFO 2026-01-06 13:37:51,797 basehttp "GET /static/icons/instagram_icon.webp HTTP/1.1" 200 9988
+INFO 2026-01-06 13:37:51,803 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:37:51,807 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+WARNING 2026-01-06 13:37:51,811 views 404 - Path: /media/stores/teste-comercio/arte-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:37:51,812 views 404 - Path: /media/stores/teste-comercio/Studio-1020x765.webp, IP: 127.0.0.1
+INFO 2026-01-06 13:37:51,815 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:37:51,823 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:37:51,841 basehttp "GET /static/icons/ifood_icon.webp HTTP/1.1" 200 8846
+INFO 2026-01-06 13:37:51,843 basehttp "GET /static/icons/anota_ai_icon.webp HTTP/1.1" 200 6452
+WARNING 2026-01-06 13:37:51,851 log Not Found: /media/stores/teste-comercio/Studio-1020x765.webp
+WARNING 2026-01-06 13:37:51,852 basehttp "GET /media/stores/teste-comercio/Studio-1020x765.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:37:51,853 log Not Found: /media/stores/teste-comercio/arte-atelie.webp
+WARNING 2026-01-06 13:37:51,857 basehttp "GET /media/stores/teste-comercio/arte-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:37:51,870 basehttp "GET /static/icons/flyer_icon.webp HTTP/1.1" 200 5330
+INFO 2026-01-06 13:37:51,877 basehttp "GET /static/icons/google_maps_icon.webp HTTP/1.1" 200 4194
+INFO 2026-01-06 13:37:51,910 basehttp "GET /static/icons/whatsapp_icon_1.webp HTTP/1.1" 200 10412
+INFO 2026-01-06 13:37:51,931 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:37:51,999 views 404 - Path: /static/icons/icon-72x72.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:37:52,001 log Not Found: /static/icons/icon-72x72.webp
+WARNING 2026-01-06 13:37:52,004 basehttp "GET /static/icons/icon-72x72.webp?v= HTTP/1.1" 404 207
+WARNING 2026-01-06 13:37:52,013 views 404 - Path: /static/icons/icon-96x96.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:37:52,014 log Not Found: /static/icons/icon-96x96.webp
+WARNING 2026-01-06 13:37:52,016 basehttp "GET /static/icons/icon-96x96.webp?v= HTTP/1.1" 404 207
+INFO 2026-01-06 13:37:52,087 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:37:52,150 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:37:52,225 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:37:52,324 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:37:52,342 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:37:56,284 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:37:56,316 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:37:56,317 views Home page rendered successfully - Total stores displayed: 2
+INFO 2026-01-06 13:37:56,335 basehttp "GET / HTTP/1.1" 200 9840
+INFO 2026-01-06 13:37:56,380 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:37:56,395 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:37:56,443 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:37:56,445 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:37:56,464 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:37:56,471 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:37:56,473 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:37:56,476 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:37:56,506 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+WARNING 2026-01-06 13:38:03,987 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:38:03,990 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:38:03,992 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:38:14,923 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-01-06 13:38:14,966 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 666
+WARNING 2026-01-06 13:38:15,058 views 404 - Path: /favicon.ico, IP: 127.0.0.1
+WARNING 2026-01-06 13:38:15,059 log Not Found: /favicon.ico
+WARNING 2026-01-06 13:38:15,060 basehttp "GET /favicon.ico HTTP/1.1" 404 207
+INFO 2026-01-06 13:38:21,591 views Admin login attempt - Username: click32
+INFO 2026-01-06 13:38:22,063 views User authenticated - Username: click32, Staff: True, Superuser: True
+INFO 2026-01-06 13:38:22,100 views Admin login successful - User: click32
+INFO 2026-01-06 13:38:22,116 basehttp "POST /admin/login/ HTTP/1.1" 302 0
+INFO 2026-01-06 13:38:22,134 views Dashboard accessed - User: click32
+INFO 2026-01-06 13:38:22,208 basehttp "GET /admin/ HTTP/1.1" 200 2619
+INFO 2026-01-06 13:38:22,295 basehttp "GET /static/css/base_admin.css?v= HTTP/1.1" 200 192
+INFO 2026-01-06 13:38:22,295 basehttp "GET /static/css/sidebar_admin.css?v= HTTP/1.1" 200 548
+INFO 2026-01-06 13:38:23,894 views Store list accessed - User: click32
+INFO 2026-01-06 13:38:23,926 basehttp "GET /admin/stores/ HTTP/1.1" 200 2678
+INFO 2026-01-06 13:38:23,980 basehttp "GET /static/css/store_list.css?v= HTTP/1.1" 200 728
+WARNING 2026-01-06 13:38:24,055 views 404 - Path: /static/fonts/OpenSans/OpenSans-Regular.ttf, IP: 127.0.0.1
+WARNING 2026-01-06 13:38:24,056 log Not Found: /static/fonts/OpenSans/OpenSans-Regular.ttf
+WARNING 2026-01-06 13:38:24,057 basehttp "GET /static/fonts/OpenSans/OpenSans-Regular.ttf HTTP/1.1" 404 207
+WARNING 2026-01-06 13:38:27,506 log Forbidden (CSRF token from the 'X-Csrftoken' HTTP header incorrect.): /heartbeat/
+WARNING 2026-01-06 13:38:27,506 log Forbidden (CSRF token from the 'X-Csrftoken' HTTP header incorrect.): /heartbeat/
+WARNING 2026-01-06 13:38:27,507 basehttp "POST /heartbeat/ HTTP/1.1" 403 1028
+INFO 2026-01-06 13:38:30,438 basehttp "GET /admin/stores/create/ HTTP/1.1" 200 10738
+INFO 2026-01-06 13:38:30,483 basehttp "GET /static/css/store_form.css?v= HTTP/1.1" 200 1990
+INFO 2026-01-06 13:39:15,652 views Store creation attempted - User: click32
+INFO 2026-01-06 13:39:17,072 views Imagem convertida para WebP: /mnt/c/MyCodes/myProjects/click32/media/stores/test-2/blue.jpg → /mnt/c/MyCodes/myProjects/click32/media/stores/test-2/blue.webp
+INFO 2026-01-06 13:39:17,102 views Imagem convertida para WebP: /mnt/c/MyCodes/myProjects/click32/media/stores/test-2/number_one.png → /mnt/c/MyCodes/myProjects/click32/media/stores/test-2/number_one.webp
+INFO 2026-01-06 13:39:17,159 views Store created successfully - Store: test 2, ID: 16, User: click32
+INFO 2026-01-06 13:39:17,160 basehttp "POST /admin/stores/create/ HTTP/1.1" 302 0
+INFO 2026-01-06 13:39:17,178 views Store list accessed - User: click32
+INFO 2026-01-06 13:39:17,187 basehttp "GET /admin/stores/ HTTP/1.1" 200 2824
+WARNING 2026-01-06 13:39:17,278 views 404 - Path: /static/fonts/OpenSans/OpenSans-Regular.ttf, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:17,279 log Not Found: /static/fonts/OpenSans/OpenSans-Regular.ttf
+WARNING 2026-01-06 13:39:17,281 basehttp "GET /static/fonts/OpenSans/OpenSans-Regular.ttf HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:19,603 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:39:19,664 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:39:19,665 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:39:19,671 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:39:19,723 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:19,730 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:19,745 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:39:19,748 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:39:19,749 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:39:19,756 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:19,761 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:39:19,763 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:19,766 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:39:19,780 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:39:19,785 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:39:19,804 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+WARNING 2026-01-06 13:39:19,811 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+INFO 2026-01-06 13:39:19,828 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:39:19,829 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:39:19,837 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:19,837 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:19,845 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:19,851 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:39:19,873 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:39:19,875 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:19,883 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:19,915 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:39:19,938 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:39:19,962 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:39:19,966 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:19,997 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:20,024 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:20,090 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:22,975 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:39:23,025 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:39:23,026 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:39:23,031 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:39:23,080 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:23,084 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:23,097 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:39:23,099 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:39:23,104 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:39:23,116 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:23,117 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-01-06 13:39:23,119 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:39:23,119 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:23,130 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:39:23,131 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:39:23,136 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:39:23,143 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:39:23,167 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:23,170 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:39:23,174 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:23,193 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:23,194 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:23,198 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:39:23,200 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:39:23,202 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:23,205 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:23,222 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:39:23,268 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:39:23,290 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:39:23,296 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:23,302 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:23,396 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:23,464 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:24,888 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:39:24,948 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:39:24,948 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:39:24,954 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:39:25,008 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:25,008 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:25,014 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:39:25,015 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:39:25,016 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:39:25,031 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:25,034 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:39:25,036 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:25,037 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:39:25,043 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:39:25,048 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:39:25,054 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+INFO 2026-01-06 13:39:25,054 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+WARNING 2026-01-06 13:39:25,085 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:25,088 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:39:25,090 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:25,094 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:25,095 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:25,108 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:39:25,112 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:39:25,118 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:25,120 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:25,165 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:39:25,181 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:39:25,186 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:39:25,189 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:25,219 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:25,266 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:25,350 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:26,383 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:39:26,425 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:39:26,426 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:39:26,434 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:39:26,490 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:26,491 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:26,514 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:39:26,514 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:39:26,517 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:39:26,532 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:26,547 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-01-06 13:39:26,549 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:39:26,551 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:26,568 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:39:26,574 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:39:26,575 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:39:26,576 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+INFO 2026-01-06 13:39:26,592 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+WARNING 2026-01-06 13:39:26,596 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:26,600 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:39:26,604 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:26,612 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:26,618 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:26,619 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:39:26,622 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:39:26,624 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:26,626 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:26,700 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:39:26,708 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:39:26,717 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:26,723 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:26,740 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:26,815 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:27,679 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:39:27,727 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:39:27,728 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:39:27,735 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:39:27,782 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:27,783 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:27,796 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:39:27,799 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:39:27,799 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+WARNING 2026-01-06 13:39:27,802 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:27,808 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-01-06 13:39:27,810 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+WARNING 2026-01-06 13:39:27,813 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:27,820 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:39:27,826 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:39:27,832 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:39:27,834 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:39:27,857 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:27,859 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:39:27,860 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:27,864 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:27,866 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:39:27,869 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:27,894 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:27,904 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:39:27,907 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:27,920 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:39:27,929 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:39:28,000 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:39:28,010 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:28,019 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:28,077 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:28,159 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:29,199 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:39:29,244 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:39:29,246 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:39:29,252 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:39:29,307 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:29,310 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:29,315 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:39:29,317 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:39:29,318 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+WARNING 2026-01-06 13:39:29,322 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:29,325 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:39:29,328 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:29,335 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:39:29,341 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:39:29,344 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:39:29,349 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:39:29,353 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:39:29,378 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:29,380 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:39:29,381 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:29,387 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:29,392 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:39:29,397 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:29,419 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:29,422 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:39:29,433 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:29,465 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:39:29,466 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:39:29,506 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:29,521 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:29,529 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:39:29,536 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:29,621 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:30,339 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:39:30,376 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:39:30,377 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:39:30,384 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:39:30,458 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:30,458 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:30,466 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:39:30,469 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:39:30,470 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:39:30,476 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:30,483 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-01-06 13:39:30,486 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:39:30,488 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:30,495 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:39:30,497 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:39:30,502 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:39:30,515 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:39:30,534 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:30,536 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:39:30,538 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:30,551 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+WARNING 2026-01-06 13:39:30,552 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:30,561 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:30,565 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:39:30,582 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:39:30,589 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:30,606 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:30,639 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:39:30,647 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:39:30,659 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:30,686 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:30,688 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:30,780 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:31,477 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:39:31,516 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:39:31,516 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:39:31,524 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:39:31,580 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:31,583 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:31,584 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:39:31,588 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:39:31,590 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:39:31,601 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:31,605 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:39:31,608 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:31,611 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:39:31,619 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:39:31,621 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:39:31,629 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:39:31,633 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:39:31,657 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:31,660 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:39:31,662 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:31,670 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:31,677 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:39:31,678 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:31,699 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:31,706 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:39:31,757 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:31,796 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:39:31,798 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:39:31,805 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:31,812 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:39:31,836 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:31,882 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:31,949 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:33,092 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:39:33,137 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:39:33,137 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:39:33,143 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:39:33,193 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:33,198 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:39:33,202 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:39:33,202 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:39:33,209 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:39:33,216 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+INFO 2026-01-06 13:39:33,217 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:39:33,218 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:39:33,221 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:33,224 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:39:33,227 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:39:33,227 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:39:33,234 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:39:33,268 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:33,269 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:39:33,271 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:33,272 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:33,277 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:39:33,278 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:39:33,283 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:39:33,285 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:39:33,291 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:39:33,341 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:39:33,354 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:39:33,364 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:39:33,377 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:33,420 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:39:33,442 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:39:33,548 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:51,189 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:47:51,265 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:47:51,266 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:47:51,272 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:47:51,326 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:51,398 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:47:51,454 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:51,516 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:47:51,521 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:47:51,574 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:47:51,598 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+WARNING 2026-01-06 13:47:51,637 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:51,648 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:47:51,651 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:51,654 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:51,655 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:47:51,658 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:51,680 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+INFO 2026-01-06 13:47:51,684 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:47:51,684 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+WARNING 2026-01-06 13:47:51,690 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:51,704 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:47:51,706 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:51,709 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:51,717 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+WARNING 2026-01-06 13:47:51,718 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:47:51,723 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:51,747 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:47:51,756 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:51,853 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:51,933 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:52,043 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:47:52,073 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:53,653 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:47:53,695 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:47:53,696 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:47:53,702 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:47:53,762 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:53,762 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:53,767 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:47:53,769 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:47:53,778 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+WARNING 2026-01-06 13:47:53,782 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:53,786 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:47:53,788 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:53,795 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:47:53,801 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:47:53,802 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:47:53,803 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:47:53,814 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:47:53,833 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:53,835 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:47:53,836 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:53,843 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:53,844 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:47:53,847 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:53,851 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:53,860 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:47:53,864 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:53,902 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:47:53,918 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:47:53,953 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:47:53,963 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:53,968 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:54,060 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:54,102 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:54,639 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:47:54,785 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:47:54,786 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:47:54,791 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:47:54,874 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:54,876 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:54,880 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:47:54,884 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:47:54,885 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:47:54,893 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:54,902 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:47:54,903 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:54,908 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:47:54,917 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:47:54,920 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:47:54,921 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:47:54,942 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:47:54,980 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:54,986 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:47:55,003 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:55,016 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:55,018 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:55,028 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:47:55,036 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:47:55,039 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:55,039 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:55,057 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:47:55,057 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:47:55,077 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:55,081 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:47:55,122 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:55,156 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:55,228 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:55,800 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:47:55,836 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:47:55,838 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:47:55,844 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:47:55,890 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:55,896 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:55,897 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:47:55,904 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:47:55,904 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:47:55,914 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:55,916 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:47:55,920 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:55,925 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:47:55,939 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:47:55,941 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:47:55,942 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:47:55,945 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:47:55,964 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:55,965 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:47:55,966 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:55,979 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+WARNING 2026-01-06 13:47:55,986 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:55,987 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:55,992 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:47:55,994 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:47:55,999 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:56,000 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:56,033 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:47:56,111 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:47:56,120 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:56,126 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:56,217 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:56,283 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:56,883 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:47:56,917 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:47:56,917 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:47:56,925 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:47:56,975 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:56,977 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:47:56,977 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:56,982 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:47:56,988 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+WARNING 2026-01-06 13:47:56,992 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:56,999 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-01-06 13:47:57,000 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:47:57,003 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:57,015 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:47:57,015 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:47:57,021 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:47:57,031 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:47:57,064 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:57,080 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:57,081 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:57,088 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:47:57,123 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:47:57,138 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:47:57,144 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:57,148 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:57,155 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:57,192 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:47:57,196 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:47:57,219 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:47:57,223 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:57,258 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:57,284 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:57,355 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:57,961 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:47:58,004 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:47:58,005 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:47:58,014 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:47:58,067 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:58,070 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:47:58,071 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:58,073 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:47:58,076 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:47:58,081 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+WARNING 2026-01-06 13:47:58,087 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:58,089 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:47:58,091 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:58,102 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:47:58,103 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:47:58,103 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:47:58,104 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:47:58,136 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:58,137 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:47:58,138 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:58,156 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:58,157 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:58,157 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:47:58,159 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:47:58,169 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:58,178 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:58,205 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:47:58,236 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:47:58,241 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:47:58,255 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:58,275 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:58,276 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:58,349 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:59,160 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:47:59,195 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:47:59,196 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:47:59,204 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:47:59,254 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:59,254 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:47:59,259 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:47:59,265 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:47:59,267 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+WARNING 2026-01-06 13:47:59,274 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:59,277 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:47:59,279 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:59,282 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:47:59,286 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:47:59,288 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:47:59,289 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:47:59,293 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:47:59,330 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:59,339 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:47:59,351 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:59,352 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:47:59,352 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:59,355 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:47:59,372 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:47:59,401 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:47:59,403 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:47:59,456 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:47:59,456 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:47:59,478 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:59,484 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:47:59,518 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:47:59,537 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:47:59,606 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:00,304 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:00,338 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:00,339 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:00,346 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:00,396 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:00,396 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:00,404 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:00,406 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:00,406 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:48:00,415 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:00,420 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:00,426 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:00,431 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:48:00,436 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:00,443 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:00,446 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:00,452 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:00,482 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:00,487 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:00,489 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:00,505 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:00,509 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:00,510 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:00,534 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:00,538 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:00,542 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:00,553 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:00,560 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:00,568 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:00,605 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:00,615 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:00,617 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:00,712 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:01,656 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:01,689 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:01,690 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:01,698 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:01,744 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:01,744 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:01,753 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:01,753 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:48:01,755 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+WARNING 2026-01-06 13:48:01,769 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+INFO 2026-01-06 13:48:01,769 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:48:01,770 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:01,772 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:01,778 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:01,782 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:01,782 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:01,785 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:01,882 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:01,883 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:01,884 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:01,916 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:01,921 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:01,937 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:01,943 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:01,947 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:01,952 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:02,003 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:02,003 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:02,012 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:02,017 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:02,039 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:02,100 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:02,186 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:02,816 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:02,852 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:02,852 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:02,859 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:02,910 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:02,910 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:02,918 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:02,921 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:02,921 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:48:02,927 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:02,937 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:02,941 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:02,946 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:48:02,949 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:02,952 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:02,958 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:02,967 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:02,987 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:02,989 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:02,991 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:03,001 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:03,006 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:03,010 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:03,013 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:03,016 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:03,021 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:03,062 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:03,064 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:03,299 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:03,318 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:03,329 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:03,335 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:03,405 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:03,973 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:04,009 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:04,013 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:04,021 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:04,072 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:04,077 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:04,079 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:04,086 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:48:04,090 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+WARNING 2026-01-06 13:48:04,094 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:04,097 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-01-06 13:48:04,101 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:48:04,102 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:04,108 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:04,108 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:04,109 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:04,116 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:04,146 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:04,148 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:04,150 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:04,166 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:04,167 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:04,171 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:04,177 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:04,190 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:04,198 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:04,218 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:04,227 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:04,295 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:04,309 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:04,314 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:04,369 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:04,447 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:05,234 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:05,266 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:05,266 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:05,274 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:05,325 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:05,327 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:05,335 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:05,335 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:05,335 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:48:05,341 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:05,346 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:05,348 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:05,351 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:48:05,356 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:05,359 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:05,360 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:05,363 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:05,399 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:05,401 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:05,403 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:05,421 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:05,423 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:05,424 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:05,432 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:05,436 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:05,449 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:05,476 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:05,495 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:05,503 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:05,517 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:05,530 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:05,616 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:05,695 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:06,318 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:06,356 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:06,357 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:06,363 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:06,415 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:06,416 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:06,424 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:06,427 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:06,433 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:48:06,442 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:06,446 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-01-06 13:48:06,447 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:48:06,448 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:06,454 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:06,457 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:06,459 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:06,465 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:06,496 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:06,506 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:06,518 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:06,519 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:06,534 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:06,550 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:06,552 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:06,555 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:06,563 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:06,572 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:06,584 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:06,588 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:06,654 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:06,654 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:06,667 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:06,731 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:07,367 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:07,419 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:07,420 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:07,427 basehttp "GET / HTTP/1.1" 200 10901
+WARNING 2026-01-06 13:48:07,477 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:07,483 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:07,491 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:07,521 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:07,524 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:07,533 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:07,536 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:48:07,537 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:07,546 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:48:07,550 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:07,550 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:07,567 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+INFO 2026-01-06 13:48:07,568 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+WARNING 2026-01-06 13:48:07,589 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:07,590 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:07,592 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:07,599 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+INFO 2026-01-06 13:48:07,599 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+WARNING 2026-01-06 13:48:07,600 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:07,603 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:07,613 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:07,619 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:07,647 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:07,679 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:07,685 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:07,693 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:07,699 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:07,764 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:07,878 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:08,080 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:08,114 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:08,114 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:08,120 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:08,175 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:08,177 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:08,186 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:08,192 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:08,193 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:48:08,199 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:08,204 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:08,206 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:08,210 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:48:08,218 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:08,218 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:08,222 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:08,226 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:08,253 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:08,256 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:08,268 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:08,271 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:08,272 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:08,280 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:08,284 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:08,291 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:08,300 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:08,315 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:08,353 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:08,403 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:08,415 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:08,421 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:08,450 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:08,520 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:08,524 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:08,553 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:08,554 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:08,559 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:08,652 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:08,656 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:08,657 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:08,658 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:48:08,662 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:08,677 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:48:08,679 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:08,689 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:08,693 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:08,696 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:08,701 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:08,704 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:08,705 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:08,737 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:08,747 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:08,750 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:08,756 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:08,762 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:08,764 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:08,772 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:08,773 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:08,780 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:08,813 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:08,813 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:09,030 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:09,069 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:09,217 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:09,250 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:09,251 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:09,256 basehttp "GET / HTTP/1.1" 200 10901
+WARNING 2026-01-06 13:48:09,313 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:09,315 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:09,320 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:09,354 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:09,354 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:09,364 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:09,370 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:48:09,371 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:09,384 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:48:09,406 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:09,413 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:09,415 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+INFO 2026-01-06 13:48:09,421 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+WARNING 2026-01-06 13:48:09,427 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:09,429 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+INFO 2026-01-06 13:48:09,429 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+WARNING 2026-01-06 13:48:09,431 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:09,452 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:09,457 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:09,460 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:09,463 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:09,469 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:09,487 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:09,524 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:09,529 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:09,535 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:09,546 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:09,598 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:09,640 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:09,675 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:09,678 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:09,684 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:09,685 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:09,738 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:09,741 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:09,753 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:48:09,755 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:09,766 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:09,818 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:09,821 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:48:09,821 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:09,854 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+WARNING 2026-01-06 13:48:09,877 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:09,879 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:09,882 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:09,887 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:09,893 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:09,901 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:09,904 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:09,906 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:09,917 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:09,921 basehttp "GET /static/icons/icon-192x192.webp?v= HTTP/1.1" 200 5592
+INFO 2026-01-06 13:48:09,927 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+WARNING 2026-01-06 13:48:09,956 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:09,957 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:09,959 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:09,986 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+INFO 2026-01-06 13:48:10,066 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:10,083 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:10,085 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:10,090 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:10,161 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:10,177 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:10,242 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:10,243 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:10,249 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:10,272 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:10,347 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:10,348 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:10,355 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:10,357 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:10,358 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:48:10,373 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:10,378 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:10,380 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:10,382 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:48:10,387 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:10,395 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:10,397 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:10,402 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:10,426 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:10,433 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:10,452 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:10,455 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:10,456 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:10,466 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:10,491 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:10,500 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:10,502 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:10,522 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:10,529 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:10,531 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:10,571 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:10,585 views Home page accessed - Tag: None
+INFO 2026-01-06 13:48:10,625 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:10,627 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+ERROR 2026-01-06 13:48:10,635 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:10,635 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:10,649 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:10,752 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:10,752 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:10,764 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:48:10,764 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:10,767 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+WARNING 2026-01-06 13:48:10,774 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:10,777 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:48:10,779 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:10,782 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:10,788 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:10,796 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:48:10,797 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:10,818 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:10,842 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+INFO 2026-01-06 13:48:10,847 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+WARNING 2026-01-06 13:48:10,848 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:10,849 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:10,850 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:10,853 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:10,854 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:10,856 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:10,881 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:10,886 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:10,939 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:10,966 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:10,971 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:10,984 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:10,995 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:11,051 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:11,151 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:11,164 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:48:11,201 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:48:11,202 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:48:11,210 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:48:11,295 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:11,296 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:48:11,300 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:48:11,302 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:48:11,302 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:48:11,315 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:48:11,318 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:11,325 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-01-06 13:48:11,332 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:48:11,334 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:48:11,349 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:48:11,363 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:48:11,372 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:11,387 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:11,397 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:48:11,399 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:11,404 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:11,405 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:48:11,419 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:48:11,436 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:48:11,449 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:48:11,452 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:48:11,469 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:48:11,471 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:48:11,488 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:48:11,517 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:48:11,520 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:48:11,569 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:10,621 autoreload /mnt/c/MyCodes/myProjects/click32/vitrine/views.py changed, reloading.
+INFO 2026-01-06 13:50:10,621 autoreload /mnt/c/MyCodes/myProjects/click32/vitrine/views.py changed, reloading.
+INFO 2026-01-06 13:50:17,123 autoreload Watching for file changes with StatReloader
+INFO 2026-01-06 13:50:17,123 autoreload Watching for file changes with StatReloader
+INFO 2026-01-06 13:50:19,757 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+WARNING 2026-01-06 13:50:19,824 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:19,861 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:50:19,862 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:19,865 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:19,866 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:50:19,867 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:19,917 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:19,917 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:50:19,918 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:19,964 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:19,966 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:50:19,967 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:21,992 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:50:22,050 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:50:22,051 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:50:22,239 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:50:22,293 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:22,293 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:22,296 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:50:22,321 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:50:22,324 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:50:22,327 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:50:22,448 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:50:22,449 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:50:22,458 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+WARNING 2026-01-06 13:50:22,493 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:22,496 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:22,500 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:50:22,504 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:50:22,506 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:22,508 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:22,527 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:50:22,553 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:22,555 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:50:22,558 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:22,577 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+INFO 2026-01-06 13:50:22,577 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+WARNING 2026-01-06 13:50:22,579 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:50:22,582 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:22,666 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:50:22,672 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:22,713 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:22,796 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:50:22,949 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:50:22,980 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:50:27,303 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:50:27,353 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:50:27,353 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:50:27,362 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:50:27,407 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:27,411 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:27,416 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:50:27,417 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:50:27,418 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+INFO 2026-01-06 13:50:27,424 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:50:27,431 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+WARNING 2026-01-06 13:50:27,434 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:27,438 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:50:27,440 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:27,443 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:50:27,446 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:50:27,494 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:50:27,518 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:27,520 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:50:27,565 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:27,567 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:27,568 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:27,576 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:50:27,582 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:50:27,613 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:27,619 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:27,643 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:50:27,650 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:50:27,653 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:50:27,667 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:27,682 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:50:27,705 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:27,805 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:50:28,488 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:50:28,554 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:50:28,557 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:50:28,564 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:50:28,609 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:28,616 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:28,626 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:50:28,627 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:50:28,635 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:50:28,640 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:28,642 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-01-06 13:50:28,644 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+WARNING 2026-01-06 13:50:28,644 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:28,650 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:50:28,659 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:50:28,660 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:50:28,667 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:50:28,692 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:28,694 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:50:28,696 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:28,718 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:28,721 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:50:28,740 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:28,742 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:28,791 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:50:28,796 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:28,829 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:50:28,833 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:50:28,842 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:50:28,844 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:28,857 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:50:28,877 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:28,951 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:50:29,671 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:50:29,727 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:50:29,728 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:50:29,733 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:50:29,782 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:29,784 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:29,791 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:50:29,792 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:50:29,795 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:50:29,798 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:29,800 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:50:29,803 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:29,807 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:50:29,811 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:50:29,814 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:50:29,815 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:50:29,818 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:50:29,922 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:29,923 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:29,931 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:29,933 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:50:29,934 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:50:29,935 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:50:29,937 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:29,938 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:29,939 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:30,010 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:50:30,010 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:50:30,157 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:50:30,166 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:30,180 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:50:30,195 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:30,284 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610
+INFO 2026-01-06 13:50:30,924 views Home page accessed - Tag: None
+ERROR 2026-01-06 13:50:30,981 views Error tracking click: NOT NULL constraint failed: vitrine_clicktrack.store_id
+INFO 2026-01-06 13:50:30,982 views Home page rendered successfully - Total stores displayed: 3
+INFO 2026-01-06 13:50:30,987 basehttp "GET / HTTP/1.1" 200 10901
+INFO 2026-01-06 13:50:31,036 basehttp "GET /static/css/base.css HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:31,040 basehttp "GET /static/css/base.css?v= HTTP/1.1" 200 455
+INFO 2026-01-06 13:50:31,049 basehttp "GET /static/css/navbar.css?v= HTTP/1.1" 200 1930
+INFO 2026-01-06 13:50:31,050 basehttp "GET /static/css/tag_buttons.css?v= HTTP/1.1" 200 6432
+INFO 2026-01-06 13:50:31,052 basehttp "GET /static/css/home.css?v= HTTP/1.1" 200 7757
+WARNING 2026-01-06 13:50:31,058 views 404 - Path: /.well-known/appspecific/com.chrome.devtools.json, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:31,063 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-01-06 13:50:31,065 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:31,068 basehttp "GET /static/js/carousel_home.js?v= HTTP/1.1" 200 4654
+INFO 2026-01-06 13:50:31,072 basehttp "GET /static/js/service-worker-register.js?v= HTTP/1.1" 200 297
+INFO 2026-01-06 13:50:31,076 basehttp "GET /static/js/pwa_install.js?v= HTTP/1.1" 200 3285
+INFO 2026-01-06 13:50:31,079 basehttp "GET /static/js/active_session.js?v= HTTP/1.1" 200 9331
+INFO 2026-01-06 13:50:31,097 basehttp "GET /static/js/sidebar.js?v= HTTP/1.1" 200 5668
+WARNING 2026-01-06 13:50:31,114 views 404 - Path: /media/stores/teste-comercio/banner-atelie.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:31,121 views 404 - Path: /media/stores/test/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:31,124 log Not Found: /media/stores/teste-comercio/banner-atelie.webp
+WARNING 2026-01-06 13:50:31,133 views 404 - Path: /media/stores/test-2/blue.webp, IP: 127.0.0.1
+WARNING 2026-01-06 13:50:31,152 log Not Found: /media/stores/test/blue.webp
+WARNING 2026-01-06 13:50:31,155 basehttp "GET /media/stores/teste-comercio/banner-atelie.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:31,171 log Not Found: /media/stores/test-2/blue.webp
+WARNING 2026-01-06 13:50:31,182 basehttp "GET /media/stores/test/blue.webp HTTP/1.1" 404 207
+WARNING 2026-01-06 13:50:31,190 basehttp "GET /media/stores/test-2/blue.webp HTTP/1.1" 404 207
+INFO 2026-01-06 13:50:31,221 basehttp "GET /static/ad_banner.jpeg HTTP/1.1" 200 24731
+INFO 2026-01-06 13:50:31,226 basehttp "GET /static/profile-logo-clear.png HTTP/1.1" 200 44423
+INFO 2026-01-06 13:50:31,283 basehttp "GET /static/manifest.json?v= HTTP/1.1" 200 877
+INFO 2026-01-06 13:50:31,286 basehttp "GET /static/icons/icon-128x128.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:31,329 basehttp "GET /static/icons/icon-152x152.webp HTTP/1.1" 200 4610
+INFO 2026-01-06 13:50:31,363 basehttp "GET /static/icons/icon-144x144.webp?v= HTTP/1.1" 200 7300
+INFO 2026-01-06 13:50:31,436 basehttp "GET /static/icons/icon-152x152.webp?v= HTTP/1.1" 200 4610

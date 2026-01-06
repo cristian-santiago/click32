@@ -94,46 +94,31 @@ def home(request):
 
         logger.info(f"Home page accessed - Tag: {selected_tag or 'None'}")
 
-        # Chave de cache por tag (ou None)
-        cache_key = f'stores_cache_{selected_tag or "all"}'
-        cached_data = cache.get(cache_key)
+        # SEM CACHE - Busca sempre do banco
+        all_stores = Store.objects.filter(is_deactivated=False)
+        stores_deactivated = list(Store.objects.filter(is_deactivated=True))
 
-        if cached_data:
-            logger.debug(f"Cache hit - Key: {cache_key}")
-            stores, stores_vip, stores_deactivated = cached_data
-        else:
-            logger.debug(f"Cache miss - Key: {cache_key}")
-            all_stores = Store.objects.filter(is_deactivated=False)
-            stores_deactivated = list(Store.objects.filter(is_deactivated=True))
-
-            if selected_tag:
-                category = Category.objects.filter(name=selected_tag).first()
-                if category:
-                    filtered_stores = all_stores.filter(tags__in=category.tags.all()).distinct()
-                    logger.debug(f"Filtered by category - Category: {selected_tag}, Stores: {filtered_stores.count()}")
-                else:
-                    filtered_stores = all_stores.filter(tags__name=selected_tag).distinct()
-                    logger.debug(f"Filtered by tag - Tag: {selected_tag}, Stores: {filtered_stores.count()}")
-
-                highlights = list(filtered_stores.filter(highlight=True))
-                non_highlights = list(filtered_stores.filter(highlight=False))
-                stores = highlights + non_highlights
-            else:
-                stores_vip = list(all_stores.filter(is_vip=True)[:10])
-                stores = list(all_stores)
-                logger.debug(f"All stores loaded - VIP: {len(stores_vip)}, Total: {len(stores)}")
-
-            cache.set(cache_key, (stores, stores_vip, stores_deactivated), timeout=24*60*60)
-
-        # Sempre embaralha antes de renderizar
         if selected_tag:
-            highlights = [s for s in stores if s.highlight]
-            non_highlights = [s for s in stores if not s.highlight]
+            category = Category.objects.filter(name=selected_tag).first()
+            if category:
+                filtered_stores = all_stores.filter(tags__in=category.tags.all()).distinct()
+                logger.debug(f"Filtered by category - Category: {selected_tag}, Stores: {filtered_stores.count()}")
+            else:
+                filtered_stores = all_stores.filter(tags__name=selected_tag).distinct()
+                logger.debug(f"Filtered by tag - Tag: {selected_tag}, Stores: {filtered_stores.count()}")
+
+            highlights = list(filtered_stores.filter(highlight=True))
+            non_highlights = list(filtered_stores.filter(highlight=False))
             random.shuffle(highlights)
             random.shuffle(non_highlights)
             stores = highlights + non_highlights
             logger.debug(f"Stores shuffled with tag - Highlights: {len(highlights)}, Regular: {len(non_highlights)}")
         else:
+            stores_vip = list(all_stores.filter(is_vip=True)[:10])
+            stores = list(all_stores)
+            logger.debug(f"All stores loaded - VIP: {len(stores_vip)}, Total: {len(stores)}")
+            
+            # Shuffle apenas se não for tag específica
             if stores_vip:
                 random.shuffle(stores_vip)
             random.shuffle(stores)
@@ -164,7 +149,6 @@ def home(request):
             'category_tags': get_category_tags(),
             'selected_tag': None,
         })
-
 #@cache_page(60 * 60 * 24)   # 24 horas
 
 def store_detail(request, slug):

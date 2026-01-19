@@ -22,6 +22,7 @@ db.sqlite3
 *.logs
 *.bak
 *.tmp
+/logs
 
 # Mídia gerada (não versionar)
 media/flyers/

@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vitrine.click32_admin',
     'vitrine.apps.VitrineConfig',
-    'django_prometheus',
     #'vitrine.templatetags',
     # 'compressor',  # ← REMOVE compressor
 ]
@@ -46,7 +45,7 @@ INSTALLED_APPS = [
 # ==================== MIDDLEWARE ====================
 
 MIDDLEWARE = [
-    'django_prometheus.middleware.PrometheusBeforeMiddleware',
+ 
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # ← ADICIONA WhiteNoise
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,7 +55,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'vitrine.middleware.HeartbeatLogFilter',
-    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 # Security settings baseados no DEBUG
@@ -104,7 +102,6 @@ if POSTGRES_HOST and POSTGRES_DB:
     # Config para usar PostgreSQL (padrão para containers / produção)
     DATABASES = {
         "default": {
-            'ENGINE': 'django_prometheus.db.backends.postgresql',
             "ENGINE": "django.db.backends.postgresql",
             "NAME": POSTGRES_DB or "click32_db",
             "USER": POSTGRES_USER or "click32_user",

@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django_ratelimit.decorators import ratelimit
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponse
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.utils.text import slugify
@@ -21,6 +21,11 @@ import json
 from .forms import StoreForm, TagForm, CategoryForm, GroupForm, StoreOpeningHourFormSet
 from vitrine.models import Store, Tag, Category, ShareTrack, PWADownloadClick
 from vitrine.views import cleanup_temp_files
+import qrcode
+import qrcode.image.svg
+from io import BytesIO
+from django.core.files.base import ContentFile
+from django.conf import settings
 from .functions import get_session_metrics, get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate, get_dashboard_data
 
 logger = logging.getLogger(__name__)
@@ -927,3 +932,38 @@ def monthly_report_view(request, store_id):
     except Exception as e:
         logger.error(f"Error in monthly_report_view - Store ID: {store_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
         raise
+
+@check_permission(lambda u: u.is_superuser)
+def generate_qr_code(request, qr_uuid):
+    try:
+        store = Store.objects.get(qr_uuid=qr_uuid)
+        store_url = request.build_absolute_uri(
+            reverse('store_detail_by_uuid', args=[store.qr_uuid])
+        )
+        
+        qr_dir = os.path.join(settings.MEDIA_ROOT, 'qr_codes')
+        os.makedirs(qr_dir, exist_ok=True)
+        qr_path = os.path.join(qr_dir, f'{store.qr_uuid}.png')
+        
+        # 👇 SEMPRE EXCLUI O ARQUIVO ANTIGO SE EXISTIR
+        if os.path.exists(qr_path):
+            os.remove(qr_path)
+            logger.info(f"QR Code antigo excluído: {qr_path}")
+        
+        # GERA NOVO QR
+        qr = qrcode.QRCode(version=1, box_size=10, border=4)
+        qr.add_data(store_url)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        img.save(qr_path)
+        
+        logger.info(f"Novo QR Code gerado: {qr_path}")
+        
+        # RETORNA IMAGEM SEM CACHE
+        with open(qr_path, 'rb') as f:
+            response = HttpResponse(f.read(), content_type='image/png')
+            response['Cache-Control'] = 'no-cache, no-store'
+            return response
+            
+    except Store.DoesNotExist:
+        raise Http404("Loja não encontrada")

@@ -9,3 +9,5 @@ typing-extensions==4.13.2
 psycopg2-binary==2.9.9
 gunicorn==23.0.0
 django-ratelimit==4.1.0
+whitenoise>=6.0
+qrcode==7.4.2

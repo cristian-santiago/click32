@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/store_form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/store_form.css' %}?v={{ STATIC_VERSION }}">
 {% endblock %}
 
 {% block content %}
@@ -129,6 +129,37 @@
     </section>
 
     <section>
+      <div class="qr-code-section" style="margin-top: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
+    <h3>QR Code da Loja</h3>
+    
+    {% if store %}
+        <!-- URL para gerar/visualizar QR Code -->
+        <p>
+            <strong>URL do QR Code:</strong><br>
+            <small>{{ request.scheme }}://{{ request.get_host }}{% url 'store_detail_by_uuid' store.qr_uuid %}</small>
+        </p>
+        
+        <!-- Preview do QR Code -->
+        <div style="margin: 15px 0;">
+            <img id="qrCodePreview" 
+                 src="{% url 'click32_admin:generate_qr_code' store.qr_uuid %}" 
+                 alt="QR Code de {{ store.name }}"
+                 style="max-width: 250px; border: 1px solid #ccc; padding: 10px; background: white;">
+        </div>
+        
+        <!-- Botões de ação -->
+          <a href="{% url 'click32_admin:generate_qr_code' store.qr_uuid %}?download=1" 
+            class="btn btn-secondary"
+            target="_blank">
+            Baixar PNG
+          </a>
+    {% else %}
+        <p class="text-muted">Salve a loja primeiro para gerar o QR Code.</p>
+    {% endif %}
+</div>
+    </section>
+
+    <section>
       <h2>Imagens e Encarte</h2>
       <div class="image-grid">
         {% for campo in imagens %}
@@ -172,6 +203,8 @@
     </form>
   {% endif %}
 </main>
+
+<script src="{% static 'js/qr_code.js' %}"></script>
 
 <script>
 

@@ -26,7 +26,12 @@ urlpatterns = [
     path("admin/", include("vitrine.click32_admin.urls")), # redireciona para novas urls do novo admin.
 
     path('', include('vitrine.urls')), # redirecionando a raiz para o app
+    
 ]
 
 if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'vitrine.views.custom_404'
+handler500 = 'vitrine.views.custom_500'

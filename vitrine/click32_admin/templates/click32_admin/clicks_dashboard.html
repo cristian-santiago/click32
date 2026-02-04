@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/clicks-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/clicks-dashboard.css' %}?v={{ STATIC_VERSION }}">
   <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 {% endblock %}
@@ -29,6 +29,7 @@
           <th>Anota AI</th>
           <th>Ifood</th>
           <th>Flyer</th>
+          <th>QR Code Scan</th>
           <th>Total</th>
           <th>Último Clique</th>
         </tr>
@@ -49,6 +50,7 @@
           <td>{{ store.anota_ai }}</td>
           <td>{{ store.ifood }}</td>
           <td>{{ store.flyer }}</td>
+          <td>{{ store.qr_code_scan }}</td>
           <td>{{ store.total_clicks }}</td>
           <td>
             {% if store.last_clicked %}

@@ -1,17 +1,17 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import PermissionDenied
-from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django_ratelimit.decorators import ratelimit
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404, HttpResponse
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.utils.text import slugify
 from datetime import date
+from PIL import Image
 from django.utils import timezone
 from datetime import timedelta
 import os
@@ -21,6 +21,11 @@ import json
 from .forms import StoreForm, TagForm, CategoryForm, GroupForm, StoreOpeningHourFormSet
 from vitrine.models import Store, Tag, Category, ShareTrack, PWADownloadClick
 from vitrine.views import cleanup_temp_files
+import qrcode
+import qrcode.image.svg
+from io import BytesIO
+from django.core.files.base import ContentFile
+from django.conf import settings
 from .functions import get_session_metrics, get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate, get_dashboard_data
 
 logger = logging.getLogger(__name__)
@@ -71,6 +76,39 @@ def store_list(request):
     logger.debug(f"Store list loaded - Count: {stores.count()}")
     return render(request, 'click32_admin/store_list.html', {'stores': stores})
 
+
+def compress_image(image_field):
+    """Comprime imagem para WebP e atualiza o campo"""
+    try:
+        if image_field:
+            img_path = image_field.path
+            if img_path.lower().endswith(('.png', '.jpg', '.jpeg')):
+                # Abre a imagem
+                with Image.open(img_path) as img:
+                    # Converte para RGB se for PNG com transparência
+                    if img.mode in ('RGBA', 'LA'):
+                        background = Image.new('RGB', img.size, (255, 255, 255))
+                        background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
+                        img = background
+                    
+                    # Cria novo nome com extensão .webp
+                    base_name = os.path.splitext(img_path)[0]
+                    webp_path = base_name + '.webp'
+                    
+                    # Salva como WebP
+                    img.save(webp_path, 'WEBP', quality=80, optimize=True)
+                    
+                    # Remove o arquivo original
+                    os.remove(img_path)
+                    
+                    # Atualiza o campo para apontar para o novo arquivo WebP
+                    relative_path = os.path.relpath(webp_path, 'media')
+                    image_field.name = relative_path.replace('\\', '/')  # Para Windows
+                    
+                logger.info(f"Imagem convertida para WebP: {img_path} → {webp_path}")
+    except Exception as e:
+        logger.error(f"Erro ao comprimir imagem {image_field}: {str(e)}")
+
 @check_permission(lambda u: u.is_superuser)
 def store_create(request):
     try:
@@ -79,7 +117,21 @@ def store_create(request):
             form = StoreForm(request.POST, request.FILES)
             formset = StoreOpeningHourFormSet(request.POST, instance=Store())
             if form.is_valid() and formset.is_valid():
-                store = form.save()
+                store = form.save(commit=False)
+                
+                # Salva primeiro para ter o ID
+                store.save()
+                form.save_m2m()
+                
+                # Agora comprime as imagens
+                for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']:
+                    image_field = getattr(store, field_name)
+                    if image_field:
+                        compress_image(image_field)
+                
+                # Salva novamente para atualizar os caminhos das imagens
+                store.save()
+                
                 formset.instance = store
                 formset.save()
                 tags_raw = request.POST.get('tags', '')
@@ -107,7 +159,7 @@ def store_create(request):
 @check_permission(lambda u: u.is_superuser)
 def store_edit(request, store_id):
     try:
-        store = get_object_or_404(Store, pk=store_id)
+        store = Store.objects.get(pk=store_id)
         logger.info(f"Store edit accessed - Store: {store.name}, ID: {store_id}, User: {request.user}")
 
         if request.method == "POST":
@@ -117,7 +169,20 @@ def store_edit(request, store_id):
                 old_obj = Store.objects.get(pk=store.pk)
                 new_obj = form.save(commit=False)
                 
-                # Process file changes
+                # Salva primeiro
+                new_obj.save()
+                form.save_m2m()
+                
+                # Processa as imagens
+                for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']:
+                    image_field = getattr(new_obj, field_name)
+                    old_file = getattr(old_obj, field_name)
+                    
+                    # Se há uma nova imagem ou a imagem mudou
+                    if image_field and image_field != old_file:
+                        compress_image(image_field)
+                
+                # Process file changes (lógica de remoção mantida)
                 for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']:
                     old_file = getattr(old_obj, field_name)
                     new_file = getattr(new_obj, field_name)
@@ -137,8 +202,8 @@ def store_edit(request, store_id):
                         if field_name == 'flyer_pdf':
                             cleanup_temp_files(store_id)
                 
+                # Salva novamente após processar tudo
                 new_obj.save()
-                form.save_m2m()
                 formset.save()
                 
                 logger.info(f"Store updated successfully - Store: {store.name}, ID: {store_id}, User: {request.user}")
@@ -155,11 +220,15 @@ def store_edit(request, store_id):
             'store': store,
             'imagens': ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']
         })
+
     except Store.DoesNotExist:
-        logger.error(f"Store not found for edit - Store ID: {store_id}, User: {request.user}")
-        raise
+        # CORRIGIDO: Log limpo sem stack trace
+        logger.warning(f"Store não encontrada no admin - Store ID: {store_id}, User: {request.user.username}")
+        raise Http404("Store não encontrada")
+        
     except Exception as e:
-        logger.error(f"Error in store_edit - Store ID: {store_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
+        
+        logger.error(f"Error in store_edit - Store ID: {store_id}, User: {request.user.username}, Error: {str(e)}")
         raise
 
 @check_permission(lambda u: u.is_superuser)
@@ -230,6 +299,7 @@ def global_widgets_dashboard(request):
             'anota_ai': sum(data['anota_ai'] for data in clicks_data),
             'ifood': sum(data['ifood'] for data in clicks_data),
             'flyer': sum(data['flyer'] for data in clicks_data),
+            'qr_code_scan': sum(data.get('qr_code_scan', 0) for data in clicks_data),
         }
         
         site_metrics = get_site_metrics()
@@ -262,6 +332,7 @@ def global_widgets_dashboard(request):
             'active_users_count': session_metrics['active_5min'],
             'session_metrics': session_metrics,
            # 'session_metrics_json': json.dumps(session_metrics),
+            'qr_code_scans': clicks_summary['qr_code_scan'],
         }
         return render(request, 'click32_admin/global_dashboard.html', context)
         
@@ -863,3 +934,38 @@ def monthly_report_view(request, store_id):
     except Exception as e:
         logger.error(f"Error in monthly_report_view - Store ID: {store_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
         raise
+
+@check_permission(lambda u: u.is_superuser)
+def generate_qr_code(request, qr_uuid):
+    try:
+        store = Store.objects.get(qr_uuid=qr_uuid)
+        store_url = request.build_absolute_uri(
+            reverse('store_detail_by_uuid', args=[store.qr_uuid])
+        )
+        
+        qr_dir = os.path.join(settings.MEDIA_ROOT, 'qr_codes')
+        os.makedirs(qr_dir, exist_ok=True)
+        qr_path = os.path.join(qr_dir, f'{store.qr_uuid}.png')
+        
+        # 👇 SEMPRE EXCLUI O ARQUIVO ANTIGO SE EXISTIR
+        if os.path.exists(qr_path):
+            os.remove(qr_path)
+            logger.info(f"QR Code antigo excluído: {qr_path}")
+        
+        # GERA NOVO QR
+        qr = qrcode.QRCode(version=1, box_size=10, border=4)
+        qr.add_data(store_url)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        img.save(qr_path)
+        
+        logger.info(f"Novo QR Code gerado: {qr_path}")
+        
+        # RETORNA IMAGEM SEM CACHE
+        with open(qr_path, 'rb') as f:
+            response = HttpResponse(f.read(), content_type='image/png')
+            response['Cache-Control'] = 'no-cache, no-store'
+            return response
+            
+    except Store.DoesNotExist:
+        raise Http404("Loja não encontrada")

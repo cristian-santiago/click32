@@ -11,7 +11,12 @@ echo "Banco pronto! Aplicando migrations..."
 python manage.py migrate --noinput
 # To load dev data, uncomment the line below
 #python manage.py loaddata db.json
+
+echo "Coletando e comprimindo arquivos estáticos..."
+
 python manage.py collectstatic --noinput
+
+
 chown -R www-data:www-data /app/staticfiles
 
 echo "Iniciando Gunicorn..."

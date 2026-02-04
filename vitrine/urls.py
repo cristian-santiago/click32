@@ -14,6 +14,7 @@ register_converter(StoreSlugConverter, 'storeslug')
 urlpatterns = [
 
 
+
     path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     path('sitemap.xml', TemplateView.as_view(template_name='sitemap.xml', content_type='application/xml')),
 
@@ -37,6 +38,8 @@ urlpatterns = [
     path('track-click/<int:store_id>/<str:element_type>/', views.track_click, name='track_click'),
     path('track-share/<int:store_id>/', views.track_share, name='track_share'),
     path('track-pwa-click/', views.track_pwa_click, name='track_pwa_click'),
+
+    path('log-debug/', views.log_debug, name='log_debug'),
 
     # SEMPRE A ÚLTIMA
     path('<storeslug:slug>/', views.store_detail, name='store_detail'),

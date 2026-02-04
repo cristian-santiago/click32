@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
+from django.conf import settings
 import uuid
 
 class Tag(models.Model):
@@ -24,6 +25,16 @@ def store_image_path(instance, filename):
 
 class Store(models.Model):
     qr_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    @property
+    def qr_code_url(self):
+        """Retorna URL para gerar QR Code desta loja"""
+        from django.urls import reverse
+        return reverse('click32_admin:generate_qr_code', args=[self.qr_uuid])
+    
+    @property 
+    def qr_code_image_url(self):
+        """Retorna URL da imagem do QR Code (cache)"""
+        return f'{settings.MEDIA_URL}qr_codes/{self.qr_uuid}.png'
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
     def save(self, *args, **kwargs):
@@ -88,6 +99,7 @@ class ClickTrack(models.Model):
         ('phone_link', 'Phone Link'),
         ('home_access', 'Home Access'),
         ('flyer_pdf', 'flyer PDF'),
+        ('qr_code_scan', 'QR Code Scan'),
     ])
     click_count = models.PositiveIntegerField(default=0)
     last_clicked = models.DateTimeField(auto_now=True)

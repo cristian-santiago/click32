@@ -19,8 +19,10 @@ __pycache__/
 db.sqlite3
 *.sqlite3
 *.log
+*.logs
 *.bak
 *.tmp
+/logs
 
 # Mídia gerada (não versionar)
 media/flyers/

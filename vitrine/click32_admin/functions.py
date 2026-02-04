@@ -38,7 +38,8 @@ def get_timeline_data(store_id=None, start_date=None, end_date=None):
             'ifood': [0] * len(dates),
             'anota_ai': [0] * len(dates),         
             'google_maps': [0] * len(dates),
-            'flyer': [0] * len(dates)
+            'flyer': [0] * len(dates),
+            'qr_code_scan': [0] * len(dates),
         }
     }
     
@@ -59,6 +60,7 @@ def get_timeline_data(store_id=None, start_date=None, end_date=None):
             google_maps=Sum('click_count', filter=Q(element_type='google_maps_link')),
             anota_ai=Sum('click_count', filter=Q(element_type='anota_ai_link')),
             ifood=Sum('click_count', filter=Q(element_type='ifood_link')),
+            qr_code_scan=Sum('click_count', filter=Q(element_type='qr_code_scan')),
             flyer=Sum('click_count', filter=Q(element_type='flyer_pdf')),
         )
         for key in timeline_data['links']:
@@ -97,7 +99,7 @@ def get_clicks_data(store_id=None, start_date=None, end_date=None):
         
         clicks_data.append({
             'store': store,
-            'main_banner': stats_dict.get('main_banner', 0),
+            'main_banner': stats_dict.get('main_banner', 0) + stats_dict.get('qr_code_scan', 0),
             'whatsapp_1': stats_dict.get('whatsapp_link_1', 0),
             'whatsapp_2': stats_dict.get('whatsapp_link_2', 0),
             'phone': stats_dict.get('phone_link', 0),
@@ -110,7 +112,8 @@ def get_clicks_data(store_id=None, start_date=None, end_date=None):
             'anota_ai': stats_dict.get('anota_ai_link', 0),
             'flyer': stats_dict.get('flyer_pdf', 0),
             'total_clicks': total_clicks,
-            'secondary_clicks': total_clicks - stats_dict.get('main_banner', 0),
+            'qr_code_scan': stats_dict.get('qr_code_scan', 0),
+            'secondary_clicks': total_clicks - stats_dict.get('main_banner', 0),            
             'last_clicked': last_clicked
         })
     
@@ -172,7 +175,8 @@ def get_store_highlight_data(store_id=None):
         'google_maps': store_data.get('google_maps', 0),
         'ifood': store_data.get('ifood', 0),
         'anota_ai': store_data.get('anota_ai', 0),
-        'flyer_pdf': store_data.get('flyer_pdf', 0)
+        'flyer_pdf': store_data.get('flyer_pdf', 0),
+        'scan_qr_code': store_data.get('qr_code_scan', 0)
     }
 
 def get_engagement_rate(store_id=None, start_date=None, end_date=None):
@@ -208,9 +212,10 @@ def get_total_clicks_by_link_type(store_id=None, start_date=None, end_date=None)
         ifood=Sum('click_count', filter=Q(element_type='ifood_link')),
         anota_ai=Sum('click_count', filter=Q(element_type='anota_ai_link')),
         flyer=Sum('click_count', filter=Q(element_type='flyer_pdf')),
+        qr_code_scan=Sum('click_count', filter=Q(element_type='qr_code_scan')),
     )
     return {
-        'labels': ['WhatsApp 1', 'WhatsApp 2', 'Telefone', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Anota Ai', 'iFood', 'Flyer'],
+        'labels': ['WhatsApp 1', 'WhatsApp 2', 'Telefone', 'Instagram', 'Facebook', 'YouTube', 'X Link', 'Google Maps', 'Anota Ai', 'iFood', 'Flyer', 'QR Code Scan'],
         'data': [
             clicks.get('whatsapp_1', 0) or 0,
             clicks.get('whatsapp_2', 0) or 0,
@@ -223,6 +228,8 @@ def get_total_clicks_by_link_type(store_id=None, start_date=None, end_date=None)
             clicks.get('anota_ai', 0) or 0,
             clicks.get('ifood', 0) or 0,
             clicks.get('flyer', 0) or 0,
+            clicks.get('qr_code_scan', 0) or 0,
+
         ]
     }
 
@@ -252,6 +259,7 @@ def get_dashboard_data():
         'anota_ai': ClickTrack.objects.filter(element_type='anota_ai_link').aggregate(total=Count('click_count'))['total'] or 0,
         'ifood': ClickTrack.objects.filter(element_type='ifood_link').aggregate(total=Count('click_count'))['total'] or 0,
         'flyer': ClickTrack.objects.filter(element_type='flyer_pdf').aggregate(total=Count('click_count'))['total'] or 0,
+        'qr_code_scan': ClickTrack.objects.filter(element_type='qr_code_scan').aggregate(total=Count('click_count'))['total'] or 0,
     }
     
     # Dados do PWA Download

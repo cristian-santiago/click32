@@ -1,15 +1,13 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404  
 from django.core.exceptions import PermissionDenied
 from django.utils.text import get_valid_filename
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django_ratelimit.decorators import ratelimit
 from django.core.cache import cache
-from django.db.models import Sum, Max, Q
 from .models import Store, ClickTrack, Category, ShareTrack, PWADownloadClick, ActiveSession
-from django.core.mail import send_mail
 import pdf2image
 import glob
 from django.urls import reverse
@@ -26,6 +24,33 @@ import uuid
 
 logger = logging.getLogger(__name__)
 
+
+@csrf_protect
+def log_debug(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            print("=== PWA DEBUG ===")
+            print(f"Level: {data.get('level')}")
+            print(f"Message: {data.get('message')}") 
+            print(f"URL: {data.get('url')}")
+            print(f"Standalone: {data.get('standalone')}")
+            print(f"User Agent: {data.get('user_agent')}")
+            print(f"Timestamp: {data.get('timestamp')}")
+            print("==================")
+            return JsonResponse({'status': 'logged'})
+        except Exception as e:
+            print(f"Erro no log: {e}")
+            return JsonResponse({'status': 'error'}, status=500)
+    return JsonResponse({'status': 'method not allowed'}, status=405)
+
+def custom_404(request, exception):
+    logger.warning(f"404 - Path: {request.path}, IP: {request.META.get('REMOTE_ADDR')}")
+    return render(request, '404.html', status=404)
+
+def custom_500(request):
+    logger.error(f"500 - Erro interno, IP: {request.META.get('REMOTE_ADDR')}")
+    return render(request, '500.html', status=500)
 
 def rate_limit_callback(request, exception):
     """Callback quando rate limit é excedido"""
@@ -69,46 +94,31 @@ def home(request):
 
         logger.info(f"Home page accessed - Tag: {selected_tag or 'None'}")
 
-        # Chave de cache por tag (ou None)
-        cache_key = f'stores_cache_{selected_tag or "all"}'
-        cached_data = cache.get(cache_key)
+        # SEM CACHE - Busca sempre do banco
+        all_stores = Store.objects.filter(is_deactivated=False)
+        stores_deactivated = list(Store.objects.filter(is_deactivated=True))
 
-        if cached_data:
-            logger.debug(f"Cache hit - Key: {cache_key}")
-            stores, stores_vip, stores_deactivated = cached_data
-        else:
-            logger.debug(f"Cache miss - Key: {cache_key}")
-            all_stores = Store.objects.filter(is_deactivated=False)
-            stores_deactivated = list(Store.objects.filter(is_deactivated=True))
-
-            if selected_tag:
-                category = Category.objects.filter(name=selected_tag).first()
-                if category:
-                    filtered_stores = all_stores.filter(tags__in=category.tags.all()).distinct()
-                    logger.debug(f"Filtered by category - Category: {selected_tag}, Stores: {filtered_stores.count()}")
-                else:
-                    filtered_stores = all_stores.filter(tags__name=selected_tag).distinct()
-                    logger.debug(f"Filtered by tag - Tag: {selected_tag}, Stores: {filtered_stores.count()}")
-
-                highlights = list(filtered_stores.filter(highlight=True))
-                non_highlights = list(filtered_stores.filter(highlight=False))
-                stores = highlights + non_highlights
-            else:
-                stores_vip = list(all_stores.filter(is_vip=True)[:10])
-                stores = list(all_stores)
-                logger.debug(f"All stores loaded - VIP: {len(stores_vip)}, Total: {len(stores)}")
-
-            cache.set(cache_key, (stores, stores_vip, stores_deactivated), timeout=24*60*60)
-
-        # Sempre embaralha antes de renderizar
         if selected_tag:
-            highlights = [s for s in stores if s.highlight]
-            non_highlights = [s for s in stores if not s.highlight]
+            category = Category.objects.filter(name=selected_tag).first()
+            if category:
+                filtered_stores = all_stores.filter(tags__in=category.tags.all()).distinct()
+                logger.debug(f"Filtered by category - Category: {selected_tag}, Stores: {filtered_stores.count()}")
+            else:
+                filtered_stores = all_stores.filter(tags__name=selected_tag).distinct()
+                logger.debug(f"Filtered by tag - Tag: {selected_tag}, Stores: {filtered_stores.count()}")
+
+            highlights = list(filtered_stores.filter(highlight=True))
+            non_highlights = list(filtered_stores.filter(highlight=False))
             random.shuffle(highlights)
             random.shuffle(non_highlights)
             stores = highlights + non_highlights
             logger.debug(f"Stores shuffled with tag - Highlights: {len(highlights)}, Regular: {len(non_highlights)}")
         else:
+            stores_vip = list(all_stores.filter(is_vip=True)[:10])
+            stores = list(all_stores)
+            logger.debug(f"All stores loaded - VIP: {len(stores_vip)}, Total: {len(stores)}")
+            
+            # Shuffle apenas se não for tag específica
             if stores_vip:
                 random.shuffle(stores_vip)
             random.shuffle(stores)
@@ -130,7 +140,7 @@ def home(request):
         return render(request, 'home.html', context)
 
     except Exception as e:
-        logger.error(f"Error rendering home page - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error rendering home page - Error: {str(e)}")
         # Fallback seguro em caso de erro
         return render(request, 'home.html', {
             'stores': [],
@@ -139,49 +149,47 @@ def home(request):
             'category_tags': get_category_tags(),
             'selected_tag': None,
         })
-
 #@cache_page(60 * 60 * 24)   # 24 horas
 
 def store_detail(request, slug):
     try:
         # PRIMEIRO valida os paths reservados (ANTES de buscar no banco)
         reserved_paths = [
-        'admin', 'api', 'static', 'media', 'anuncie', 'sobre',
-        'start-session', 'heartbeat', 'track-click', 'store',
-        'favicon.ico', 'robots.txt', 'sitemap.xml',
-        'login', 'logout', 'register',
+            'admin', 'api', 'static', 'media', 'anuncie', 'sobre',
+            'start-session', 'heartbeat', 'track-click', 'store',
+            'favicon.ico', 'robots.txt', 'sitemap.xml',
+            'login', 'logout', 'register',
         ]
         
         if slug in reserved_paths:
             logger.warning(f"Attempt to access reserved path as store slug: {slug}")
             return redirect('home')
 
-        # DEPOIS busca a loja no banco
-        store = get_object_or_404(Store, slug=slug)
         
-        if store.is_deactivated:
-            logger.warning(f"Attempt to access deactivated store - Slug: {slug}")
-            return redirect('home')
-
+        store = Store.objects.get(slug=slug, is_deactivated=False)
+        
         element_type = request.GET.get('element_type', 'direct_access')
         
         logger.info(f"Store detail accessed - Store: {store.name}, Slug: {slug}, Source: {element_type}")
 
-        # Define o tipo de clique real que será rastreado
-        if element_type != 'main_banner':
+        # Define o tipo de clique baseado na origem
+        if element_type == 'qr_code_scan':
+            log_type = 'qr_code_scan'
+        else:
             log_type = 'main_banner'
-            click_track, created = ClickTrack.objects.get_or_create(
-                store=store,
-                element_type=log_type,
-                defaults={'click_count': 0, 'last_clicked': timezone.now()}
-            )
+        
+        # Registra UM clique (ou main_banner ou qr_code_scan)
+        click_track, created = ClickTrack.objects.get_or_create(
+            store=store,
+            element_type=log_type,
+            defaults={'click_count': 0, 'last_clicked': timezone.now()}
+        )
+        click_track.click_count = F('click_count') + 1
+        click_track.last_clicked = timezone.now()
+        click_track.save()
+        click_track.refresh_from_db()
 
-            click_track.click_count = F('click_count') + 1
-            click_track.last_clicked = timezone.now()
-            click_track.save()
-            click_track.refresh_from_db()
-
-            logger.debug(f"Store click tracked - Store: {store.name}, Type: {log_type}, Count: {click_track.click_count}")
+        logger.debug(f"Store click tracked - Store: {store.name}, Type: {log_type}, Count: {click_track.click_count}")
 
         context = {
             'store': store,
@@ -192,16 +200,17 @@ def store_detail(request, slug):
         return render(request, 'store_detail.html', context)
 
     except Store.DoesNotExist:
-        logger.error(f"Store not found - Slug: {slug}")
-        return redirect('home')  # Redireciona para home em vez de dar 404
+        
+        logger.warning(f"Store não encontrada - Slug: {slug}, IP: {request.META.get('REMOTE_ADDR')}")
+        return redirect('home')
     except Exception as e:
-        logger.error(f"Error rendering store detail - Slug: {slug}, Error: {str(e)}", exc_info=True)
-        return redirect('home')  # Redireciona para home em caso de erro
+        logger.error(f"Error rendering store detail - Slug: {slug}, Error: {str(e)}") 
+        return redirect('home')
         
 #@cache_page(60 * 60 * 24)
 def store_detail_by_id(request, store_id):
     try:
-        store = get_object_or_404(Store, id=store_id)
+        store = Store.objects.get(id=store_id)
         
         if store.is_deactivated:
             logger.warning(f"Attempt to access deactivated store by ID - Store ID: {store_id}")
@@ -214,32 +223,32 @@ def store_detail_by_id(request, store_id):
         return redirect(redirect_url)
 
     except Store.DoesNotExist:
-        logger.error(f"Store not found by ID - Store ID: {store_id}")
-        raise
+        logger.warning(f"Store not found by ID - Store ID: {store_id}")
+        return redirect('home')
     except Exception as e:
-        logger.error(f"Error in store_detail_by_id - Store ID: {store_id}, Error: {str(e)}", exc_info=True)
-        raise
+        logger.error(f"Error in store_detail_by_id - Store ID: {store_id}, Error: {str(e)}")
+        return redirect('home')
 
 #@cache_page(60 * 60 * 24)
 def store_detail_by_uuid(request, qr_uuid):
     try:
-        store = get_object_or_404(Store, qr_uuid=qr_uuid)
+        store = Store.objects.get(qr_uuid=qr_uuid)
         
         if store.is_deactivated:
             logger.warning(f"Attempt to access deactivated store by UUID - UUID: {qr_uuid}")
             return redirect('home')
 
-        redirect_url = f"{reverse('store_detail', args=[store.slug])}?element_type=direct_access"
+        redirect_url = f"{reverse('store_detail', args=[store.slug])}?element_type=qr_code_scan"
         
         logger.info(f"Redirecting store by UUID - UUID: {qr_uuid}, Store: {store.name}, Slug: {store.slug}")
         return redirect(redirect_url)
 
     except Store.DoesNotExist:
-        logger.error(f"Store not found by UUID - UUID: {qr_uuid}")
-        raise
+        logger.warning(f"Store not found by UUID - UUID: {qr_uuid}")
+        return redirect('home')
     except Exception as e:
-        logger.error(f"Error in store_detail_by_uuid - UUID: {qr_uuid}, Error: {str(e)}", exc_info=True)
-        raise
+        logger.error(f"Error in store_detail_by_uuid - UUID: {qr_uuid}, Error: {str(e)}")
+        return redirect('home')
 
 #@cache_page(60 * 60 * 24)
 def advertise(request):
@@ -248,7 +257,7 @@ def advertise(request):
         context = {'category_tags': get_category_tags()}
         return render(request, 'advertise.html', context)
     except Exception as e:
-        logger.error(f"Error rendering advertise page - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error rendering advertise page - Error: {str(e)}")
         # Fallback básico
         return render(request, 'advertise.html', {'category_tags': []})
 
@@ -259,11 +268,13 @@ def about(request):
         context = {'category_tags': get_category_tags()}
         return render(request, 'about.html', context)
     except Exception as e:
-        logger.error(f"Error rendering about page - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error rendering about page - Error: {str(e)}")
         # Fallback básico
         return render(request, 'about.html', {'category_tags': []})
 #--------------------------------
-@check_permission(lambda u: u.is_superuser)
+@ratelimit(key='ip', rate='50/m', block=True)
+@ratelimit(key='ip', rate='500/h', block=True)
+#@check_permission(lambda u: u.is_superuser)
 def track_click(request, store_id=None, element_type=None):
     try:
         valid_elements = [
@@ -286,7 +297,7 @@ def track_click(request, store_id=None, element_type=None):
             logger.info("Click tracked: Home Access")
             return None
 
-        store = get_object_or_404(Store, id=store_id)
+        store = Store.objects.get(id=store_id)
 
         # Cria ou atualiza contagem do clique
         click_track, created = ClickTrack.objects.get_or_create(
@@ -303,7 +314,7 @@ def track_click(request, store_id=None, element_type=None):
         # Redirecionamento específico por tipo
         if element_type == 'phone_link':
             # Retorna Json para o JS controlar o redirecionamento
-            return JsonResponse({'status': 'click_logged', 'phone': store.phone_link})
+            return JsonResponse({'status': 'click_logged'})
 
         if element_type == 'main_banner':
             redirect_url = f"{reverse('store_detail', args=[store.slug])}?element_type=main_banner"
@@ -316,6 +327,9 @@ def track_click(request, store_id=None, element_type=None):
                 return HttpResponseRedirect(link)
             return redirect('store_detail', store_id=store_id)
 
+    except Store.DoesNotExist:
+        logger.warning(f"Store not found for click tracking - Store ID: {store_id}")
+        return HttpResponse(status=404)
     except Exception as e:
         logger.error(f"Error tracking click: {e}")
         return HttpResponse(status=500)
@@ -333,7 +347,7 @@ def track_share(request, store_id):
             logger.warning(f"Invalid method in track_share - Method: {request.method}, Store ID: {store_id}")
             return JsonResponse({'error': 'Método não permitido'}, status=405)
         
-        store = get_object_or_404(Store, id=store_id)
+        store = Store.objects.get(id=store_id)
         
         # Log de debug para troubleshooting
         logger.debug(
@@ -353,10 +367,10 @@ def track_share(request, store_id):
         })
         
     except Store.DoesNotExist:
-        logger.error(f"Store not found in track_share - Store ID: {store_id}")
+        logger.warning(f"Store not found in track_share - Store ID: {store_id}")
         return JsonResponse({'error': 'Loja não encontrada'}, status=404)
     except Exception as e:
-        logger.error(f"Error tracking share - Store ID: {store_id}, Error: {str(e)}", exc_info=True)
+        logger.error(f"Error tracking share - Store ID: {store_id}, Error: {str(e)}")
         return JsonResponse({'error': 'Erro interno do servidor'}, status=500)
 
 #------------------ PWA DOWNLOAD CLICK
@@ -401,7 +415,7 @@ def track_pwa_click(request):
         logger.error(f"JSON decode error in track_pwa_click - Error: {str(e)}")
         return JsonResponse({'error': 'JSON inválido'}, status=400)
     except Exception as e:
-        logger.error(f"Error in track_pwa_click - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error in track_pwa_click - Error: {str(e)}")
         return JsonResponse({'error': 'Erro interno'}, status=500)
 
 '''
@@ -431,38 +445,83 @@ def advertise_success(request):
 '''
 
 def safe_media_path(filename):
-    # Remove path traversal attempts
-    safe_name = get_valid_filename(os.path.basename(filename))
-    return os.path.join(settings.MEDIA_ROOT, safe_name)
+    """
+    Caminho seguro para arquivos media, preservando estrutura de diretórios
+    """
+    if not filename:
+        raise ValueError("Filename não pode ser vazio")
+    
+    
+    safe_path = os.path.normpath(filename)
+    
+    # Remove path traversal attempts em CADA parte do caminho
+    path_parts = []
+    for part in safe_path.split(os.sep):
+        if part in ('.', '..'):
+            continue
+        safe_part = get_valid_filename(part)
+        if safe_part:
+            path_parts.append(safe_part)
+    
+    safe_filename = os.path.join(*path_parts)
+    full_path = os.path.join(settings.MEDIA_ROOT, safe_filename)
+    
+    
+    media_root = os.path.abspath(settings.MEDIA_ROOT)
+    requested_path = os.path.abspath(full_path)
+    
+    if not requested_path.startswith(media_root):
+        raise ValueError(f"Tentativa de path traversal detectada: {filename}")
+    
+    return full_path
 
 def view_flyer(request, store_id):
     try:
-        store = get_object_or_404(Store, id=store_id)
+        # VALIDAÇÃO store_id
+        if not str(store_id).isdigit() or int(store_id) <= 0:
+            logger.warning(f"Invalid store_id format - Store ID: {store_id}")
+            raise Http404("ID da loja inválido")
+            
+        store = Store.objects.get(id=store_id)
         
         if not store.flyer_pdf:
             logger.info(f"Flyer requested but not available - Store: {store.name}, ID: {store_id}")
             return render(request, 'no_flyer.html', {'store': store})
 
-        # Ensure the PDF file exists
+        # VERIFICAÇÃO DE SEGURANÇA MELHORADA
         pdf_path = safe_media_path(store.flyer_pdf.name)
+        
         if not os.path.exists(pdf_path):
-            
+            logger.warning(f"Flyer PDF file not found - Store: {store.name}, Path: {pdf_path}")
             return render(request, 'no_flyer.html', {
                 'store': store,
                 'error': 'O arquivo PDF do encarte não foi encontrado.'
             })
 
+        # LIMITE DE PÁGINAS PARA EVITAR DOS
+        max_pages = 20
         logger.info(f"Processing flyer - Store: {store.name}, PDF: {store.flyer_pdf.name}")
 
         # Convert PDF to images for rendering
-        images = pdf2image.convert_from_path(pdf_path)
+        images = pdf2image.convert_from_path(pdf_path, last_page=max_pages)
         
+        # LIMITA O NÚMERO DE PÁGINAS PROCESSADAS
+        if len(images) > max_pages:
+            images = images[:max_pages]
+            logger.warning(f"Flyer truncated to {max_pages} pages - Store: {store.name}")
+
         # Generate URLs for each page
         page_urls = []
         for i, image in enumerate(images):
-            image_path = os.path.join(settings.MEDIA_ROOT, f'flyers/temp_page_{store_id}_{i}.png')
+            # NOME DE ARQUIVO SEGURO
+            image_filename = f'temp_page_{store_id}_{i}.png'
+            image_path = os.path.join(settings.MEDIA_ROOT, 'flyers', image_filename)
+            
+            # CRIA DIRETÓRIO COM PERMISSÕES SEGURAS
+            os.makedirs(os.path.dirname(image_path), exist_ok=True, mode=0o755)
+            
             image.save(image_path, 'PNG')
-            page_urls.append(f'{settings.MEDIA_URL}flyers/temp_page_{store_id}_{i}.png')
+            page_urls.append(f'{settings.MEDIA_URL}flyers/{image_filename}')
 
         # Track the click
         click_track, created = ClickTrack.objects.get_or_create(
@@ -483,30 +542,33 @@ def view_flyer(request, store_id):
         return render(request, 'flyer.html', context)
         
     except Store.DoesNotExist:
-        logger.error(f"Store not found for flyer - Store ID: {store_id}")
-        raise
+        logger.warning(f"Store not found for flyer - Store ID: {store_id}")
+        return render(request, 'no_flyer.html', {'error': 'Loja não encontrada.'})
+    except ValueError as e:
+        logger.warning(f"Security violation in flyer access - Store ID: {store_id}, Error: {str(e)}")
+        return render(request, 'no_flyer.html', {'error': 'Requisição inválida.'})
     except Exception as e:
-        logger.error(f"Error processing flyer - Store ID: {store_id}, Error: {str(e)}", exc_info=True)
+        logger.error(f"Error processing flyer - Store ID: {store_id}, Error: {str(e)}")
         return render(request, 'no_flyer.html', {
-            'store': store,
             'error': 'Erro ao processar o encarte.'
         })
-    
+
 def cleanup_temp_files(store_id):
     try:
-        # Padrão mais abrangente para capturar todos os PNGs temporários
-        patterns = [
-            f'flyers/temp_page_{store_id}_*.png',
-            f'flyers/temp_page_{store_id}-*.png',  # Padrão alternativo
-            f'**/temp_page_{store_id}_*.png',      # Busca recursiva
-        ]
+        # PADRÃO MAIS RESTRITIVO - apenas números no store_id
+        if not str(store_id).isdigit():
+            logger.warning(f"Invalid store_id in cleanup - Store ID: {store_id}")
+            return
+            
+        # PADRÃO SEGURO - apenas o padrão específico
+        pattern = os.path.join(settings.MEDIA_ROOT, 'flyers', f'temp_page_{store_id}_*.png')
+        temp_files = glob.glob(pattern)
         
-        temp_files = []
-        for pattern in patterns:
-            temp_files.extend(glob.glob(os.path.join(settings.MEDIA_ROOT, pattern)))
-        
-        # Remove duplicatas
-        temp_files = list(set(temp_files))
+        # LIMITE DE ARQUIVOS PARA EVITAR DOS
+        max_files = 50
+        if len(temp_files) > max_files:
+            logger.warning(f"Too many temp files - Store ID: {store_id}, Files: {len(temp_files)}")
+            temp_files = temp_files[:max_files]
         
         if temp_files:
             removed_count = 0
@@ -526,22 +588,21 @@ def cleanup_temp_files(store_id):
     except Exception as e:
         logger.error(f"Error during temp files cleanup - Store ID: {store_id}, Error: {str(e)}")
 
+@ratelimit(key='ip', rate='10/m', block=True)  # RATE LIMITING PARA PDF PROCESSING
 def fetch_flyer_pages(request, store_id):
     try:
-        store = get_object_or_404(Store, id=store_id)
+        # VALIDAÇÃO store_id
+        if not str(store_id).isdigit() or int(store_id) <= 0:
+            return JsonResponse({'error': 'ID da loja inválido.'}, status=400)
+            
+        store = Store.objects.get(id=store_id)
         
         if not store.flyer_pdf:
             logger.info(f"AJAX Flyer requested but not available - Store: {store.name}, ID: {store_id}")
             return JsonResponse({'error': 'Nenhum encarte disponível.'}, status=404)
 
-        #  VERIFICAÇÃO DE SEGURANÇA - previne path traversal
-        pdf_path = store.flyer_pdf.path
-        
-        # Garante que o arquivo está dentro do MEDIA_ROOT
-        media_root = settings.MEDIA_ROOT
-        if not os.path.abspath(pdf_path).startswith(os.path.abspath(media_root)):
-            logger.warning(f"Path traversal attempt detected - Store: {store.name}, Path: {pdf_path}")
-            return JsonResponse({'error': 'Caminho de arquivo inválido.'}, status=400)
+        # VERIFICAÇÃO DE SEGURANÇA MELHORADA
+        pdf_path = safe_media_path(store.flyer_pdf.name)
         
         if not os.path.exists(pdf_path):
             logger.warning(f"AJAX Flyer PDF file not found - Store: {store.name}, Path: {pdf_path}")
@@ -552,17 +613,26 @@ def fetch_flyer_pages(request, store_id):
         # Clean up old temporary files
         cleanup_temp_files(store_id)
         
-        # Convert PDF to images with lower DPI for faster loading
-        images = pdf2image.convert_from_path(pdf_path, dpi=100, last_page=5)
+        # LIMITES DE SEGURANÇA PARA PDF
+        max_pages = 10
+        max_dpi = 150
         
+        # Convert PDF to images with security limits
+        images = pdf2image.convert_from_path(pdf_path, dpi=max_dpi, last_page=max_pages)
+        
+        # LIMITA PÁGINAS
+        if len(images) > max_pages:
+            images = images[:max_pages]
+            logger.warning(f"AJAX Flyer truncated to {max_pages} pages - Store: {store.name}")
+
         page_urls = []
         for i, image in enumerate(images):
-            #  Nome de arquivo seguro - sem input do usuário
+            # NOME DE ARQUIVO SEGURO
             image_filename = f'temp_page_{store_id}_{i}.png'
             image_path = os.path.join(settings.MEDIA_ROOT, 'flyers', image_filename)
             
-            # Garante que o diretório existe
-            os.makedirs(os.path.dirname(image_path), exist_ok=True)
+            # CRIA DIRETÓRIO COM PERMISSÕES SEGURAS
+            os.makedirs(os.path.dirname(image_path), exist_ok=True, mode=0o755)
             
             image.save(image_path, 'PNG', quality=85)
             page_urls.append(f'{settings.MEDIA_URL}flyers/{image_filename}')
@@ -581,15 +651,18 @@ def fetch_flyer_pages(request, store_id):
         return JsonResponse({'page_urls': page_urls})
         
     except Store.DoesNotExist:
-        logger.error(f"Store not found for AJAX flyer - Store ID: {store_id}")
+        logger.warning(f"Store not found for AJAX flyer - Store ID: {store_id}")
         return JsonResponse({'error': 'Loja não encontrada.'}, status=404)
+    except ValueError as e:
+        logger.warning(f"Security violation in AJAX flyer - Store ID: {store_id}, Error: {str(e)}")
+        return JsonResponse({'error': 'Requisição inválida.'}, status=400)
     except Exception as e:
-        logger.error(f"Error processing AJAX flyer - Store ID: {store_id}, Error: {str(e)}", exc_info=True)
+        logger.error(f"Error processing AJAX flyer - Store ID: {store_id}, Error: {str(e)}")
         return JsonResponse({'error': 'Erro ao processar o encarte.'}, status=500)
 
 @ratelimit(key='ip', rate='50/m', block=True)  # Bloqueia completamente
 @ratelimit(key='ip', rate='500/h', block=True)  # Limite horário também
-#@csrf_protect
+@csrf_protect
 def start_session(request):
     """
     Inicia uma nova sessão anônima - ACESSO PÚBLICO
@@ -599,8 +672,7 @@ def start_session(request):
         return JsonResponse({'error': 'Método não permitido'}, status=405)
     
     try:
-        from .models import ActiveSession
-        
+                
         # Cria nova sessão
         session = ActiveSession.objects.create()
         
@@ -613,9 +685,11 @@ def start_session(request):
         })
         
     except Exception as e:
-        logger.error(f"Error creating new session - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error creating new session - Error: {str(e)}")
         return JsonResponse({'error': f'Erro ao criar sessão: {str(e)}'}, status=500)
 
+@ratelimit(key='ip', rate='50/m', block=True)
+@ratelimit(key='ip', rate='500/h', block=True)
 @csrf_protect
 def heartbeat(request):
     """
@@ -626,8 +700,7 @@ def heartbeat(request):
         return JsonResponse({'error': 'Método não permitido'}, status=405)
     
     try:
-        from .models import ActiveSession
-        
+                
         data = json.loads(request.body) if request.body else {}
         session_id = data.get('session_id')
         
@@ -673,16 +746,14 @@ def heartbeat(request):
         logger.error(f"JSON decode error in heartbeat - Error: {str(e)}")
         return JsonResponse({'error': 'JSON inválido'}, status=400)
     except Exception as e:
-        logger.error(f"Error in heartbeat - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error in heartbeat - Error: {str(e)}")
         return JsonResponse({'error': f'Erro interno: {str(e)}'}, status=500)
-
 
 @check_permission(lambda u: u.is_superuser)
 def active_users_count(request):
     """Retorna quantidade de usuários ativos nos últimos X minutos - ACESSO RESTRITO"""
     try:
-        from .models import ActiveSession
-        
+                
         minutes = int(request.GET.get('minutes', 5))
         cutoff_time = timezone.now() - timedelta(minutes=minutes)
         
@@ -702,5 +773,5 @@ def active_users_count(request):
         logger.error(f"Invalid minutes parameter in active_users_count - Value: {request.GET.get('minutes')}")
         return JsonResponse({'error': 'Parâmetro minutes deve ser um número'}, status=400)
     except Exception as e:
-        logger.error(f"Error in active_users_count - Error: {str(e)}", exc_info=True)
+        logger.error(f"Error in active_users_count - Error: {str(e)}")
         return JsonResponse({'error': f'Erro interno: {str(e)}'}, status=500)

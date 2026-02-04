@@ -299,6 +299,7 @@ def global_widgets_dashboard(request):
             'anota_ai': sum(data['anota_ai'] for data in clicks_data),
             'ifood': sum(data['ifood'] for data in clicks_data),
             'flyer': sum(data['flyer'] for data in clicks_data),
+            'qr_code_scan': sum(data.get('qr_code_scan', 0) for data in clicks_data),
         }
         
         site_metrics = get_site_metrics()
@@ -331,6 +332,7 @@ def global_widgets_dashboard(request):
             'active_users_count': session_metrics['active_5min'],
             'session_metrics': session_metrics,
            # 'session_metrics_json': json.dumps(session_metrics),
+            'qr_code_scans': clicks_summary['qr_code_scan'],
         }
         return render(request, 'click32_admin/global_dashboard.html', context)
         

@@ -172,21 +172,24 @@ def store_detail(request, slug):
         
         logger.info(f"Store detail accessed - Store: {store.name}, Slug: {slug}, Source: {element_type}")
 
-        # Define o tipo de clique real que será rastreado
-        if element_type != 'main_banner':
+        # Define o tipo de clique baseado na origem
+        if element_type == 'qr_code_scan':
+            log_type = 'qr_code_scan'
+        else:
             log_type = 'main_banner'
-            click_track, created = ClickTrack.objects.get_or_create(
-                store=store,
-                element_type=log_type,
-                defaults={'click_count': 0, 'last_clicked': timezone.now()}
-            )
+        
+        # Registra UM clique (ou main_banner ou qr_code_scan)
+        click_track, created = ClickTrack.objects.get_or_create(
+            store=store,
+            element_type=log_type,
+            defaults={'click_count': 0, 'last_clicked': timezone.now()}
+        )
+        click_track.click_count = F('click_count') + 1
+        click_track.last_clicked = timezone.now()
+        click_track.save()
+        click_track.refresh_from_db()
 
-            click_track.click_count = F('click_count') + 1
-            click_track.last_clicked = timezone.now()
-            click_track.save()
-            click_track.refresh_from_db()
-
-            logger.debug(f"Store click tracked - Store: {store.name}, Type: {log_type}, Count: {click_track.click_count}")
+        logger.debug(f"Store click tracked - Store: {store.name}, Type: {log_type}, Count: {click_track.click_count}")
 
         context = {
             'store': store,

@@ -311,7 +311,7 @@ def track_click(request, store_id=None, element_type=None):
         # Redirecionamento específico por tipo
         if element_type == 'phone_link':
             # Retorna Json para o JS controlar o redirecionamento
-            return JsonResponse({'status': 'click_logged', 'phone': store.phone_link})
+            return JsonResponse({'status': 'click_logged'})
 
         if element_type == 'main_banner':
             redirect_url = f"{reverse('store_detail', args=[store.slug])}?element_type=main_banner"

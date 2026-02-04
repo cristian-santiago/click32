@@ -111,6 +111,7 @@ def get_clicks_data(store_id=None, start_date=None, end_date=None):
             'flyer': stats_dict.get('flyer_pdf', 0),
             'total_clicks': total_clicks,
             'secondary_clicks': total_clicks - stats_dict.get('main_banner', 0),
+            'qr_code_scan': stats_dict.get('qr_code_scan', 0),
             'last_clicked': last_clicked
         })
     

@@ -99,6 +99,7 @@ class ClickTrack(models.Model):
         ('phone_link', 'Phone Link'),
         ('home_access', 'Home Access'),
         ('flyer_pdf', 'flyer PDF'),
+        ('qr_code_scan', 'QR Code Scan'),
     ])
     click_count = models.PositiveIntegerField(default=0)
     last_clicked = models.DateTimeField(auto_now=True)

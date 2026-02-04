@@ -235,7 +235,7 @@ def store_detail_by_uuid(request, qr_uuid):
             logger.warning(f"Attempt to access deactivated store by UUID - UUID: {qr_uuid}")
             return redirect('home')
 
-        redirect_url = f"{reverse('store_detail', args=[store.slug])}?element_type=direct_access"
+        redirect_url = f"{reverse('store_detail', args=[store.slug])}?element_type=qr_code_scan"
         
         logger.info(f"Redirecting store by UUID - UUID: {qr_uuid}, Store: {store.name}, Slug: {store.slug}")
         return redirect(redirect_url)

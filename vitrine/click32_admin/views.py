@@ -910,7 +910,7 @@ def monthly_report_view(request, store_id):
         logger.info(f"Monthly report view accessed - Store: {store.name}, ID: {store_id}, User: {request.user}")
 
         end_date = timezone.now().date()
-        start_date = end_date - timedelta(days=29)
+        start_date = end_date.replace(day=1)
         
         report_data = _generate_report_data(request, store_id, start_date, end_date)
         if not report_data:

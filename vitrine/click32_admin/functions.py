@@ -72,29 +72,32 @@ def get_timeline_data(store_id=None, start_date=None, end_date=None):
 # Outras funções permanecem inalteradas
 
 def get_clicks_data(store_id=None, start_date=None, end_date=None):
-    """Versão otimizada - menos queries, mais performance"""
-    if start_date is None or end_date is None:
-        end_date = timezone.now().date()
-        start_date = end_date.replace(day=1)
-    
+    """Versão HISTÓRICA TOTAL - remove filtro de mês padrão"""
     stores = Store.objects.all()
     if store_id:
         stores = stores.filter(id=store_id)
     
     clicks_data = []
     for store in stores:
-        # Uma query eficiente para todos os cliques da loja
+        # 👇 REMOVA o filtro de data ou mantenha apenas se passado explicitamente
+        click_filter = {'store': store}
+        if start_date and end_date:
+            click_filter['last_clicked__date__range'] = [start_date, end_date]
+        
         click_stats = ClickTrack.objects.filter(
-            store=store,
-            last_clicked__date__range=[start_date, end_date]
+            **click_filter
         ).values('element_type').annotate(total=Sum('click_count'))
         
         stats_dict = {stat['element_type']: stat['total'] or 0 for stat in click_stats}
-        
         total_clicks = sum(stats_dict.values())
+        
+        # 👇 Último clique também sem filtro padrão
+        last_filter = {'store': store}
+        if start_date and end_date:
+            last_filter['last_clicked__date__range'] = [start_date, end_date]
+        
         last_clicked = ClickTrack.objects.filter(
-            store=store, 
-            last_clicked__date__range=[start_date, end_date]
+            **last_filter
         ).aggregate(last=Max('last_clicked'))['last']
         
         clicks_data.append({
@@ -113,7 +116,7 @@ def get_clicks_data(store_id=None, start_date=None, end_date=None):
             'flyer': stats_dict.get('flyer_pdf', 0),
             'total_clicks': total_clicks,
             'qr_code_scan': stats_dict.get('qr_code_scan', 0),
-            'secondary_clicks': total_clicks - stats_dict.get('main_banner', 0),            
+            'secondary_clicks': total_clicks - stats_dict.get('main_banner', 0),
             'last_clicked': last_clicked
         })
     
@@ -191,10 +194,10 @@ def get_engagement_rate(store_id=None, start_date=None, end_date=None):
     return round(engagement_rate, 1)
 
 def get_total_clicks_by_link_type(store_id=None, start_date=None, end_date=None):
-    # Período padrão como em get_clicks_data
+    # 👇 ALINHE COM get_timeline_data: últimos 30 dias se não passado
     if start_date is None or end_date is None:
         end_date = timezone.now().date()
-        start_date = end_date.replace(day=1)
+        start_date = end_date - timedelta(days=29)  # Últimos 30 dias
     
     base_filter = Q(last_clicked__date__range=[start_date, end_date])
     if store_id:
@@ -229,10 +232,8 @@ def get_total_clicks_by_link_type(store_id=None, start_date=None, end_date=None)
             clicks.get('ifood', 0) or 0,
             clicks.get('flyer', 0) or 0,
             clicks.get('qr_code_scan', 0) or 0,
-
         ]
     }
-
 
 def get_dashboard_data():
     # Agora Count está disponível

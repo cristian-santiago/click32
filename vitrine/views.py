@@ -178,18 +178,32 @@ def store_detail(request, slug):
         else:
             log_type = 'main_banner'
         
-        # Registra UM clique (ou main_banner ou qr_code_scan)
-        click_track, created = ClickTrack.objects.get_or_create(
-            store=store,
-            element_type=log_type,
-            defaults={'click_count': 0, 'last_clicked': timezone.now()}
-        )
-        click_track.click_count = F('click_count') + 1
-        click_track.last_clicked = timezone.now()
-        click_track.save()
+        # CORREÇÃO: Busca registro de HOJE para este tipo
+        hoje = timezone.now().date()
+        try:
+            # Tenta encontrar registro de HOJE
+            click_track = ClickTrack.objects.get(
+                store=store,
+                element_type=log_type,
+                last_clicked__date=hoje  # Filtra por data, não qualquer
+            )
+            # Atualiza registro existente de hoje
+            click_track.click_count = F('click_count') + 1
+           # click_track.last_clicked = timezone.now()
+            click_track.save()
+            created = False
+        except ClickTrack.DoesNotExist:
+            # Cria NOVO registro para hoje
+            click_track = ClickTrack.objects.create(
+                store=store,
+                element_type=log_type,
+                click_count=1,
+                last_clicked=timezone.now()
+            )
+            created = True
+        
         click_track.refresh_from_db()
-
-        logger.debug(f"Store click tracked - Store: {store.name}, Type: {log_type}, Count: {click_track.click_count}")
+        logger.debug(f"Store click tracked - Store: {store.name}, Type: {log_type}, Count: {click_track.click_count}, Created: {created}")
 
         context = {
             'store': store,
@@ -284,36 +298,55 @@ def track_click(request, store_id=None, element_type=None):
         if element_type not in valid_elements:
             return HttpResponse(status=400)
 
-        # Contagem de "home_access"
+        # "home_access" tracking
         if element_type == 'home_access':
-            click_track, created = ClickTrack.objects.get_or_create(
-                store=None,
-                element_type='home_access',
-                defaults={'click_count': 1}
-            )
-            if not created:
-                click_track.click_count += 1
+            hoje = timezone.now().date()
+            try:
+                click_track = ClickTrack.objects.get(
+                    store=None,
+                    element_type='home_access',
+                    last_clicked__date=hoje
+                )
+                click_track.click_count = F('click_count') + 1
+                #click_track.last_clicked = timezone.now()
                 click_track.save()
+            except ClickTrack.DoesNotExist:
+                ClickTrack.objects.create(
+                    store=None,
+                    element_type='home_access',
+                    click_count=1,
+                    last_clicked=timezone.now()
+                )
             logger.info("Click tracked: Home Access")
             return None
 
         store = Store.objects.get(id=store_id)
 
-        # Cria ou atualiza contagem do clique
-        click_track, created = ClickTrack.objects.get_or_create(
-            store=store,
-            element_type=element_type,
-            defaults={'click_count': 1}
-        )
-        if not created:
-            click_track.click_count += 1
+        # Find or create tracking for TODAY
+        hoje = timezone.now().date()
+        try:
+            click_track = ClickTrack.objects.get(
+                store=store,
+                element_type=element_type,
+                last_clicked__date=hoje
+            )
+            click_track.click_count = F('click_count') + 1
+            #click_track.last_clicked = timezone.now()
             click_track.save()
+            created = False
+        except ClickTrack.DoesNotExist:
+            click_track = ClickTrack.objects.create(
+                store=store,
+                element_type=element_type,
+                click_count=1,
+                last_clicked=timezone.now()
+            )
+            created = True
 
-        logger.info(f"Click tracked: {store.name} - {element_type}")
+        logger.info(f"Click tracked: {store.name} - {element_type}, Created: {created}")
 
-        # Redirecionamento específico por tipo
+        # Redirect based on element type
         if element_type == 'phone_link':
-            # Retorna Json para o JS controlar o redirecionamento
             return JsonResponse({'status': 'click_logged'})
 
         if element_type == 'main_banner':

@@ -20,7 +20,7 @@
             
             this.config = {
                 fetchTimeout: 10000,
-                preloadTimeout: 2000,
+                preloadTimeout: 5000,
                 maxZoom: 4,
                 minZoom: 1,
                 zoomStep: 0.5,
@@ -557,7 +557,7 @@
             this.modalElement.setAttribute('aria-hidden', 'false');
             this.modalElement.style.display = 'flex'; 
             document.body.style.overflow = 'hidden';
-            this.hideLoading();
+            //this.hideLoading();
         }
     }
         clearAllTimeouts() {

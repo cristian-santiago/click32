@@ -28,7 +28,6 @@ db.sqlite3
 media/flyers/
 media/stores/
 media_test/
-media/qr_codes/
 
 # Estáticos coletados (não versionar)
 staticfiles/

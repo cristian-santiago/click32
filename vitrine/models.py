@@ -105,7 +105,9 @@ class ClickTrack(models.Model):
     last_clicked = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('store', 'element_type')
+        indexes = [
+            models.Index(fields=['store', 'element_type'])
+        ]
 
     def __str__(self):
         store_name = self.store.name if self.store else 'No Store'

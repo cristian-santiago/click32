@@ -181,6 +181,18 @@ WHITENOISE_AUTOREFRESH = True  # Para desenvolvimento
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+# ===================== CACHE CONTROL =====================
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp/django_cache',
+        'TIMEOUT': None,  # Sem expiração automática
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,  # Limite de entradas no cache
+        }
+    }
+}
 
 # Remove compress finders - usa apenas os padrões do Django
 STATICFILES_FINDERS = [

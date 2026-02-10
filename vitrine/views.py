@@ -10,6 +10,7 @@ from django.core.cache import cache
 from .models import Store, ClickTrack, Category, ShareTrack, PWADownloadClick, ActiveSession
 import pdf2image
 import glob
+import hashlib
 from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
@@ -586,42 +587,10 @@ def view_flyer(request, store_id):
             'error': 'Erro ao processar o encarte.'
         })
 
-def cleanup_temp_files(store_id):
-    try:
-        # PADRÃO MAIS RESTRITIVO - apenas números no store_id
-        if not str(store_id).isdigit():
-            logger.warning(f"Invalid store_id in cleanup - Store ID: {store_id}")
-            return
-            
-        # PADRÃO SEGURO - apenas o padrão específico
-        pattern = os.path.join(settings.MEDIA_ROOT, 'flyers', f'temp_page_{store_id}_*.png')
-        temp_files = glob.glob(pattern)
-        
-        # LIMITE DE ARQUIVOS PARA EVITAR DOS
-        max_files = 50
-        if len(temp_files) > max_files:
-            logger.warning(f"Too many temp files - Store ID: {store_id}, Files: {len(temp_files)}")
-            temp_files = temp_files[:max_files]
-        
-        if temp_files:
-            removed_count = 0
-            for file_path in temp_files:
-                try:
-                    if os.path.exists(file_path):
-                        os.remove(file_path)
-                        removed_count += 1
-                        logger.debug(f"Temporary file cleaned up - File: {file_path}")
-                except Exception as e:
-                    logger.warning(f"Failed to remove temporary file - File: {file_path}, Error: {str(e)}")
-            
-            logger.info(f"Cleanup completed - Store ID: {store_id}, Files removed: {removed_count}/{len(temp_files)}")
-        else:
-            logger.debug(f"No temporary files found for cleanup - Store ID: {store_id}")
-            
-    except Exception as e:
-        logger.error(f"Error during temp files cleanup - Store ID: {store_id}, Error: {str(e)}")
+
 
 @ratelimit(key='ip', rate='10/m', block=True)  # RATE LIMITING PARA PDF PROCESSING
+@ratelimit(key='ip', rate='10/m', block=True)
 def fetch_flyer_pages(request, store_id):
     try:
         # VALIDAÇÃO store_id
@@ -634,44 +603,84 @@ def fetch_flyer_pages(request, store_id):
             logger.info(f"AJAX Flyer requested but not available - Store: {store.name}, ID: {store_id}")
             return JsonResponse({'error': 'Nenhum encarte disponível.'}, status=404)
 
-        # VERIFICAÇÃO DE SEGURANÇA MELHORADA
+        # GERA HASH DO PDF ATUAL
         pdf_path = safe_media_path(store.flyer_pdf.name)
         
         if not os.path.exists(pdf_path):
             logger.warning(f"AJAX Flyer PDF file not found - Store: {store.name}, Path: {pdf_path}")
             return JsonResponse({'error': 'O arquivo PDF do encarte não foi encontrado.'}, status=404)
-
-        logger.info(f"Processing AJAX flyer - Store: {store.name}, PDF: {store.flyer_pdf.name}")
-
-        # Clean up old temporary files
-        cleanup_temp_files(store_id)
         
-        # LIMITES DE SEGURANÇA PARA PDF
+        # Hash baseado no conteúdo do arquivo
+        with open(pdf_path, 'rb') as f:
+            pdf_hash = hashlib.md5(f.read()).hexdigest()
+        
+        cache_key = f'flyer_{store_id}_{pdf_hash}'
+        
+        # Tenta obter do cache (NUNCA expira automaticamente)
+        page_urls = cache.get(cache_key)
+        
+        if page_urls:
+            # VERIFICA se os arquivos físicos ainda existem
+            all_files_exist = True
+            for url in page_urls:
+                filename = url.split('/')[-1]
+                filepath = os.path.join(settings.MEDIA_ROOT, 'flyers', filename)
+                if not os.path.exists(filepath):
+                    all_files_exist = False
+                    logger.warning(f"Cache file missing - {filename}")
+                    break
+            
+            if all_files_exist:
+                logger.info(f"Serving flyer from cache - Store: {store.name}")
+                # Track click
+                click_track, _ = ClickTrack.objects.get_or_create(
+                    store=store,
+                    element_type='flyer_pdf',
+                    defaults={'click_count': 0}
+                )
+                click_track.click_count += 1
+                click_track.save()
+                
+                return JsonResponse({'page_urls': page_urls, 'cached': True})
+            else:
+                # Arquivos foram deletados - limpa cache e processa de novo
+                logger.warning(f"Cache invalid - files missing, reprocessing - Store: {store.name}")
+                cache.delete(cache_key)
+        
+        # Limpa arquivos órfãos antes de processar novo
+        cleanup_flyer_files(store_id, pdf_hash[:8])
+        
+        logger.info(f"Processing new flyer - Store: {store.name}, Hash: {pdf_hash[:8]}")
+
+        # LIMITES DE SEGURANÇA
         max_pages = 10
         max_dpi = 150
         
-        # Convert PDF to images with security limits
+        # Convert PDF to images
         images = pdf2image.convert_from_path(pdf_path, dpi=max_dpi, last_page=max_pages)
         
-        # LIMITA PÁGINAS
         if len(images) > max_pages:
             images = images[:max_pages]
             logger.warning(f"AJAX Flyer truncated to {max_pages} pages - Store: {store.name}")
 
         page_urls = []
         for i, image in enumerate(images):
-            # NOME DE ARQUIVO SEGURO
-            image_filename = f'temp_page_{store_id}_{i}.png'
+            # Nome de arquivo baseado no hash do PDF (permanente)
+            image_filename = f'flyer_{store_id}_{pdf_hash[:8]}_{i}.png'
             image_path = os.path.join(settings.MEDIA_ROOT, 'flyers', image_filename)
             
-            # CRIA DIRETÓRIO COM PERMISSÕES SEGURAS
-            os.makedirs(os.path.dirname(image_path), exist_ok=True, mode=0o755)
+            # Salva apenas se não existir
+            if not os.path.exists(image_path):
+                os.makedirs(os.path.dirname(image_path), exist_ok=True, mode=0o755)
+                image.save(image_path, 'PNG', quality=85)
             
-            image.save(image_path, 'PNG', quality=85)
             page_urls.append(f'{settings.MEDIA_URL}flyers/{image_filename}')
 
-        # Track the click
-        click_track, created = ClickTrack.objects.get_or_create(
+        # Salva no cache SEM EXPIRAÇÃO (até o cache ser limpo ou invalidadar manualmente)
+        cache.set(cache_key, page_urls, timeout=None)  # None = nunca expira
+        
+        # Track click
+        click_track, _ = ClickTrack.objects.get_or_create(
             store=store,
             element_type='flyer_pdf',
             defaults={'click_count': 0}
@@ -679,19 +688,66 @@ def fetch_flyer_pages(request, store_id):
         click_track.click_count += 1
         click_track.save()
 
-        logger.info(f"AJAX flyer processed successfully - Store: {store.name}, Pages: {len(page_urls)}")
+        logger.info(f"Flyer processed and cached - Store: {store.name}, Pages: {len(page_urls)}")
 
-        return JsonResponse({'page_urls': page_urls})
+        return JsonResponse({'page_urls': page_urls, 'cached': False})
         
     except Store.DoesNotExist:
         logger.warning(f"Store not found for AJAX flyer - Store ID: {store_id}")
         return JsonResponse({'error': 'Loja não encontrada.'}, status=404)
-    except ValueError as e:
-        logger.warning(f"Security violation in AJAX flyer - Store ID: {store_id}, Error: {str(e)}")
-        return JsonResponse({'error': 'Requisição inválida.'}, status=400)
     except Exception as e:
         logger.error(f"Error processing AJAX flyer - Store ID: {store_id}, Error: {str(e)}")
         return JsonResponse({'error': 'Erro ao processar o encarte.'}, status=500)
+    
+
+def cleanup_flyer_files(store_id, current_hash=None):
+    """
+    Remove arquivos órfãos de flyer (temp_page_* e flyer_* antigos)
+    Mantém arquivos com current_hash se fornecido
+    """
+    try:
+        if not str(store_id).isdigit():
+            logger.warning(f"Invalid store_id in cleanup - Store ID: {store_id}")
+            return
+        
+        flyers_dir = os.path.join(settings.MEDIA_ROOT, 'flyers')
+        
+        # Limpa arquivos temp_page_* (sistema antigo)
+        temp_pattern = os.path.join(flyers_dir, f'temp_page_{store_id}_*.png')
+        temp_files = glob.glob(temp_pattern)
+        
+        # Limpa arquivos flyer_* antigos (sistema novo)
+        flyer_pattern = os.path.join(flyers_dir, f'flyer_{store_id}_*.png')
+        flyer_files = glob.glob(flyer_pattern)
+        
+        # Combina todos os arquivos
+        all_files = temp_files + flyer_files
+        
+        # LIMITE DE SEGURANÇA
+        max_files = 100
+        if len(all_files) > max_files:
+            logger.warning(f"Too many flyer files - Store ID: {store_id}, Files: {len(all_files)}")
+            all_files = all_files[:max_files]
+        
+        removed_count = 0
+        for file_path in all_files:
+            try:
+                # Preserva arquivos com hash atual
+                if current_hash and current_hash in os.path.basename(file_path):
+                    continue
+                    
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    removed_count += 1
+                    logger.debug(f"Flyer file cleaned up - File: {file_path}")
+            except Exception as e:
+                logger.warning(f"Failed to remove flyer file - File: {file_path}, Error: {str(e)}")
+        
+        if removed_count > 0:
+            logger.info(f"Flyer cleanup completed - Store ID: {store_id}, Files removed: {removed_count}")
+            
+    except Exception as e:
+        logger.error(f"Error during flyer files cleanup - Store ID: {store_id}, Error: {str(e)}")
 
 @ratelimit(key='ip', rate='50/m', block=True)  # Bloqueia completamente
 @ratelimit(key='ip', rate='500/h', block=True)  # Limite horário também

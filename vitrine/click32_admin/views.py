@@ -20,7 +20,7 @@ import logging
 import json
 from .forms import StoreForm, TagForm, CategoryForm, GroupForm, StoreOpeningHourFormSet
 from vitrine.models import Store, Tag, Category, ShareTrack, PWADownloadClick
-from vitrine.views import cleanup_temp_files
+from vitrine.views import cleanup_flyer_files
 import qrcode
 import qrcode.image.svg
 from io import BytesIO
@@ -194,13 +194,13 @@ def store_edit(request, store_id):
                             logger.info(f"File cleared and deleted - Field: {field_name}, File: {old_file.path}")
                         setattr(new_obj, field_name, None)
                         if field_name == 'flyer_pdf':
-                            cleanup_temp_files(store_id)
+                            cleanup_flyer_files(store_id)
                     elif old_file and old_file != new_file:
                         if os.path.isfile(old_file.path):
                             os.remove(old_file.path)
                             logger.info(f"File replaced - Field: {field_name}, Old file: {old_file.path}")
                         if field_name == 'flyer_pdf':
-                            cleanup_temp_files(store_id)
+                            cleanup_flyer_files(store_id)
                 
                 # Salva novamente após processar tudo
                 new_obj.save()
@@ -239,7 +239,7 @@ def store_delete(request, store_id):
         logger.info(f"Store deletion attempted - Store: {store.name}, ID: {store_id}, User: {request.user}")
 
         # PRIMEIRO: Limpa arquivos temporários do flyer
-        cleanup_temp_files(store_id)
+        cleanup_flyer_files(store_id)
 
         # Delete associated files
         for image_field in [store.main_banner, store.carousel_2, store.carousel_3, store.carousel_4, store.flyer_pdf]:
@@ -947,21 +947,16 @@ def generate_qr_code(request, qr_uuid):
         os.makedirs(qr_dir, exist_ok=True)
         qr_path = os.path.join(qr_dir, f'{store.qr_uuid}.png')
         
-        # 👇 SEMPRE EXCLUI O ARQUIVO ANTIGO SE EXISTIR
-        if os.path.exists(qr_path):
-            os.remove(qr_path)
-            logger.info(f"QR Code antigo excluído: {qr_path}")
         
-        # GERA NOVO QR
-        qr = qrcode.QRCode(version=1, box_size=10, border=4)
-        qr.add_data(store_url)
-        qr.make(fit=True)
-        img = qr.make_image(fill_color="black", back_color="white")
-        img.save(qr_path)
+        if not os.path.exists(qr_path):
+            qr = qrcode.QRCode(version=1, box_size=10, border=4)
+            qr.add_data(store_url)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            img.save(qr_path)
+            logger.info(f"QR Code gerado: {qr_path}")
         
-        logger.info(f"Novo QR Code gerado: {qr_path}")
         
-        # RETORNA IMAGEM SEM CACHE
         with open(qr_path, 'rb') as f:
             response = HttpResponse(f.read(), content_type='image/png')
             response['Cache-Control'] = 'no-cache, no-store'

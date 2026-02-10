@@ -192,7 +192,7 @@ CACHES = {
             'MAX_ENTRIES': 1000,  # Limite de entradas no cache
         }
     }
-}
+}   
 
 # Remove compress finders - usa apenas os padrões do Django
 STATICFILES_FINDERS = [

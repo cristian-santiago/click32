@@ -165,7 +165,7 @@
                 this.setupScrollHandler();
                 this.initialized = true;
                 
-                console.log('Carousel inicializado com sucesso');
+                
             } catch (error) {
                 console.error('Falha na inicialização do carousel:', error);
             }

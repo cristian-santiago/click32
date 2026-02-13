@@ -150,7 +150,7 @@
                 
                 this.initialized = true;
                 
-                console.log('Description scroll manager inicializado com sucesso');
+                
             } catch (error) {
                 console.error('Falha na inicialização do description scroll manager:', error);
             }

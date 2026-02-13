@@ -507,10 +507,10 @@ def view_flyer(request, store_id):
         images = pdf2image.convert_from_path(
             pdf_path, 
             last_page=max_pages,
-            dpi=72,
+            dpi=220,
             fmt='jpeg',
             jpegopt={
-                'quality': 75,
+                'quality': 90,
                 'optimize': True,
                 'progressive': True
             }
@@ -534,7 +534,7 @@ def view_flyer(request, store_id):
             
             # Save as JPEG - mesmo formato da conversão
             if not os.path.exists(image_path):
-                image.save(image_path, 'JPEG', quality=75, optimize=True, progressive=True)
+                image.save(image_path, 'JPEG', quality=90, optimize=True, progressive=True)
             
             page_urls.append(f'{settings.MEDIA_URL}flyers/{image_filename}')
 
@@ -570,7 +570,7 @@ def view_flyer(request, store_id):
 
 
 
-@ratelimit(key='ip', rate='10/m', block=True)  # RATE LIMITING PARA PDF PROCESSING
+@ratelimit(key='ip', rate='100/m', block=False)
 def fetch_flyer_pages(request, store_id):
     try:
         if not str(store_id).isdigit() or int(store_id) <= 0:
@@ -629,10 +629,10 @@ def fetch_flyer_pages(request, store_id):
         images = pdf2image.convert_from_path(
             pdf_path, 
             last_page=max_pages,
-            dpi=72,
+            dpi=220,
             fmt='jpeg',
             jpegopt={
-                'quality': 75,
+                'quality': 90,
                 'optimize': True,
                 'progressive': True
             }
@@ -654,7 +654,7 @@ def fetch_flyer_pages(request, store_id):
                     image = image.convert('RGB')
                 
                 image.save(image_path, 'JPEG', 
-                          quality=75, 
+                          quality=90, 
                           optimize=True,
                           progressive=True)
             

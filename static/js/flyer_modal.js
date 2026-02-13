@@ -336,25 +336,10 @@
             }
         }
 
-        async preloadImages(urls) {
-            const preloadPromises = urls.map((url, index) => {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.onload = () => resolve(url);
-                    img.onerror = () => reject(new Error(`Falha ao carregar imagem ${index + 1}`));
-                    img.src = url;
-                });
-            });
-
-            const timeoutPromise = new Promise((_, reject) => {
-                const timeoutId = setTimeout(() => {
-                    reject(new Error('Timeout no carregamento de imagens'));
-                }, this.config.preloadTimeout);
-                this.timeouts.add(timeoutId);
-            });
-
-            return Promise.race([Promise.allSettled(preloadPromises), timeoutPromise]);
-        }
+async preloadImages(urls) {
+    // Remove completamente - não precisa pré-carregar
+    return Promise.resolve();
+}
 
         createCarouselItems(urls, carouselInner, indicatorsContainer) {
             try {

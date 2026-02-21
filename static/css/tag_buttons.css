@@ -7,6 +7,10 @@
     --dropdown-bg: #34495e;
 }
 
+.fa-beat-fade {
+  color: #00ccff !important;
+}
+
 /* Seção da Barra Lateral */
 .sidebar {
     width: 160px;
@@ -203,7 +207,7 @@
     margin-top: 0;
     margin-bottom: 0;
     padding-right: 0;
-    padding-left: 0;
+    padding-left: 1px;
 }
 
 /* Hover no Cabeçalho do Menu */
@@ -327,8 +331,8 @@
     text-rendering: auto;
     line-height: 1;
     display: inline-block;
-    color: var(--text-gray);
-    font-size: 1.2rem;
+    color: var(--text-light);
+    font-size: 1.4rem;
 
 }
 

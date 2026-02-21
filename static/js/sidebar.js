@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.remove('collapsed');
     overlay.style.display = 'block';
   } else {
-    sidebar.classList.add('collapsed');
+    sidebar.classList.add('collapsed'); 
     overlay.style.display = 'none';
   }
 
@@ -25,6 +25,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lastOpenDropdown && !sidebar.classList.contains('collapsed')) {
     openDropdown(lastOpenDropdown);
   }
+
+
+// Verifica se há uma tag na URL e ativa a animação do ícone correspondente
+const urlParams = new URLSearchParams(window.location.search);
+const activeTag = urlParams.get('tag');
+if (activeTag) {
+  // Procura o header cujo data-dropdown corresponde à tag ativa
+  document.querySelectorAll('.menu-header').forEach(header => {
+    const headerGroup = header.getAttribute('data-dropdown');
+    if (headerGroup === activeTag) {
+      const icon = header.querySelector('.category-icon');
+      if (icon) {
+        // Remove animação de todos e ativa no correto
+        document.querySelectorAll('.category-icon').forEach(i => {
+          i.classList.remove('fa-beat-fade');
+        });
+        icon.classList.add('fa-beat-fade');
+      }
+    }
+  });
+}
 
   /* Evento de clique no botão de alternância */
   toggleBtn.addEventListener('click', (e) => {
@@ -51,7 +72,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Evento de clique nos cabeçalhos do menu */
   document.querySelectorAll('.menu-header').forEach(header => {
+    const icon = header.querySelector('.category-icon');
+    
     header.addEventListener('click', (e) => {
+      // Primeiro: remove animação de todos os ícones
+      document.querySelectorAll('.category-icon').forEach(i => {
+        i.classList.remove('fa-beat-fade');
+      });
+      
+      // Depois: adiciona animação no ícone clicado (se existir)
+      if (icon) {
+        icon.classList.add('fa-beat-fade');
+      }
+
+      // Lógica original do menu
       const group = header.getAttribute('data-dropdown');
       if (!group) {
         return;
@@ -61,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         e.stopPropagation();
         localStorage.setItem('sidebar-last-dropdown', group);
-        // Uses homeUrl for redirection
         window.location.href = homeUrl + '?tag=' + encodeURIComponent(group);
       } else {
         const dropdown = header.nextElementSibling;
@@ -72,31 +105,37 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('sidebar-last-dropdown', group);
         } else {
           localStorage.removeItem('sidebar-last-dropdown');
+          // Se fechou o dropdown, remove a animação
+          if (icon) {
+            icon.classList.remove('fa-beat-fade');
+          }
         }
       }
     });
   });
 
-  /* Evento de clique nos itens do dropdown */
-  document.querySelectorAll('.dropdown-item').forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const dropdown = item.closest('.dropdown');
-      if (!dropdown) {
-        return;
-      }
-      const header = dropdown.previousElementSibling;
-      if (!header) {
-        return;
-      }
-      const group = header.getAttribute('data-dropdown');
-      if (!group) {
-        return;
-      }
-      localStorage.setItem('sidebar-last-dropdown', group);
-      collapseSidebar();
-    });
+  
+/*AINDA EM TESTES*/
+/* Evento de clique nos itens do dropdown */
+document.querySelectorAll('.dropdown-item').forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const dropdown = item.closest('.dropdown');
+    if (!dropdown) {
+      return;
+    }
+    const header = dropdown.previousElementSibling;
+    if (!header) {
+      return;
+    }
+    const group = header.getAttribute('data-dropdown');
+    if (!group) {
+      return;
+    }
+    localStorage.setItem('sidebar-last-dropdown', group);
+    collapseSidebar();
   });
+});
 
   /* Evento de clique fora da sidebar em dispositivos móveis */
   document.addEventListener('click', (e) => {
@@ -114,6 +153,15 @@ function openDropdown(group) {
   if (target) {
     document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
     target.nextElementSibling.classList.add('open');
+    
+    // Quando abre via localStorage, ativa a animação do ícone correspondente
+    const icon = target.querySelector('.category-icon');
+    if (icon) {
+      document.querySelectorAll('.category-icon').forEach(i => {
+        i.classList.remove('fa-beat-fade');
+      });
+      icon.classList.add('fa-beat-fade');
+    }
   }
 }
 
@@ -167,3 +215,4 @@ if (scrollContainer) {
     }
   }, { passive: false });
 }
+

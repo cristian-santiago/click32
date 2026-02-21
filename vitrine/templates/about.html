@@ -1,4 +1,6 @@
+
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,10 +15,10 @@
     <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
     <link rel="manifest" href="{% static 'manifest.json' %}">
+
     
-    <!-- Proteções de Segurança - CSP PERMITE estilo inline -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self';">
-    <meta http-equiv="X-Frame-Options" content="DENY">
+    <!-- Proteções de Segurança -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.gstatic.com; script-src 'self'; connect-src 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     
     <meta name="theme-color" content="#2c3e50">
@@ -24,7 +26,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Click32">
-    <meta name="theme-color" content="#2c3e50">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nós - Click32</title>
@@ -41,248 +42,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" 
           rel="stylesheet" 
           crossorigin="anonymous">
+    {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    {% endblock %}
     {% endautoescape %}
-    
-    <style>
-        /* SEU CSS ORIGINAL AQUI (inalterado) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: #f4f7f9;
-            color: #2c3e50;
-            line-height: 1.6;
-            padding-top: 48px;
-        }
-
-        .toolbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(44, 62, 80, 0.95);
-            z-index: 1000;
-            height: 48px;
-        }
-
-        .toolbar-container {
-            max-width: 720px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            height: 100%;
-            align-items: center;
-        }
-
-        .toolbar-container a {
-            color: #d1e8f0;
-            text-decoration: none;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            transition: all 0.3s ease;
-        }
-
-        .toolbar-container a:hover {
-            color: #00ccff;
-            transform: scale(1.1);
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #66d3f3 0%, #3b566e 60%);
-            color: #ecf0f1;
-            text-align: center;
-            padding: 80px 16px 40px 16px;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 16px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            max-width: 720px;
-            margin: 0 auto 20px;
-        }
-
-        .hero .cta-button {
-            display: inline-block;
-            background: #00ccff;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero .cta-button:hover {
-            background: #00b7e6;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-        }
-
-        .section {
-            padding: 60px 16px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .section h2 {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #2c3e50;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-
-        .section p {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 20px;
-            font-size: 1.1rem;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-            margin-top: 30px;
-        }
-
-        .card {
-            background: #ffffff;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card i {
-            font-size: 2rem;
-            color: #00ccff;
-            margin-bottom: 12px;
-        }
-
-        .card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            font-size: 1rem;
-            color: #34495e;
-            text-align: center;
-        }
-
-        .timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            margin-top: 30px;
-        }
-
-        .timeline-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-        }
-
-        .timeline-item i {
-            font-size: 1.5rem;
-            color: #00ccff;
-            margin-top: 4px;
-        }
-
-        .timeline-item div p {
-            margin: 0;
-            color: #34495e;
-            text-align: left;
-        }
-
-        /* Escondendo seções que não temos dados ainda */
-        .hidden-section {
-            display: none;
-        }
-
-        footer {
-            background: #2c3e50;
-            color: #ecf0f1;
-            text-align: center;
-            padding: 24px 16px;
-            font-size: 0.85rem;
-        }
-
-        @media (min-width: 768px) {
-            .cards {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-        }
-    </style>
 </head>
 <body>
-    <!-- SEU HTML ORIGINAL AQUI (inalterado) -->
     <div class="toolbar">
         <div class="toolbar-container">
             <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
             <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie"><i class="fas fa-bullhorn"></i></a>
             <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>
+            <a href="{% url 'faq' %}" class="tooltip" data-tooltip="FAQ"><i class="fas fa-question-circle"></i></a>
+
         </div>
     </div>
 
     <section class="hero">
-        <h1>Conectando o Seu Bairro</h1>
-        <p>Conectamos você diretamente aos melhores comércios locais, com perfis verificados e atualizados para sua segurança.</p>
-        <p>Encontre rapidamente o que precisa e apoie a economia local!</p>
+        <h1>Click32: conectando você ao comércio local</h1>
+        <p>Profissionais, comércios, serviços, aluguéis, eventos e muito mais — tudo reunido e organizado para você encontrar facilmente.</p>
+        <p>Use o app, encontre o que precisa e fortaleça o comércio local.</p>
         <a href="{% url 'home' %}" class="cta-button">Explorar Lojas</a>
+        
+                    <a href="#" id="installBtn" class="cta-button hidden" data-tooltip="Instalar App" aria-label="Instalar aplicativo">Baixe o App  
+                <i class="fas fa-download" aria-hidden="true"></i>
+            </a>
+         
     </section>
 
     <section class="section">
         <h2>Como Funciona</h2>
-        <p>O Click32 foi desenvolvido para simplificar a conexão direta entre moradores e estabelecimentos locais.</p>
+        <p>O Click32 foi desenvolvido para simplificar a conexão direta entre moradores e serviços locais.</p>
         <div class="cards">
-            <div class="card">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Perfis Verificados</h3>
-                <p>Todas as lojas são validadas pela nossa equipe para garantir informações confiáveis e seguras.</p>
-            </div>
+
             <div class="card">
                 <i class="fas fa-comments"></i>
-                <h3>Contato Direto</h3>
-                <p>Converse diretamente com os lojistas sem intermediários. Sua privacidade é respeitada.</p>
+                <h3>Contatos Diretos</h3>
+                <p>WhatsApp, Instagram, Google Maps e outros links disponíveis em ícones práticos — conversa direta, sem intermediários.</p>
             </div>
             <div class="card">
                 <i class="fas fa-qrcode"></i>
                 <h3>QR Code Exclusivo</h3>
-                <p>Cada loja tem um QR code único para compartilhar facilmente seu perfil com clientes.</p>
+                <p>Compartilhe o perfil da sua loja ou serviço com um QR code único.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Perfis Verificados</h3>
+                <p>Todos os perfis são validados pela nossa equipe para garantir informações confiáveis e seguras.</p>
             </div>
         </div>
     </section>
@@ -293,28 +99,28 @@
             <div class="timeline-item">
                 <i class="fas fa-bolt"></i>
                 <div>
-                    <h3>Encontre Rapidamente</h3>
+                    <h3>Encontre rapidamente</h3>
                     <p>Não perca tempo procurando contatos. Encontre serviços locais em poucos cliques.</p>
                 </div>
             </div>
             <div class="timeline-item">
-                <i class="fas fa-user-shield"></i>
+                <i class="fas fa-eye"></i>
                 <div>
-                    <h3>Segurança Garantida</h3>
-                    <p>Perfis supervisionados e atualizados regularmente para sua tranquilidade.</p>
+                    <h3>Presença garantida</h3>
+                    <p>Perfil da loja disponível todos os dias. Acesse os contatos disponíveis quando quiser.</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <i class="fas fa-leaf"></i>
                 <div>
-                    <h3>Digital e Sustentável</h3>
-                    <p>Reduza o uso de panfletos de papel com menus e promoções digitais acessíveis por QR code.</p>
+                    <h3>Digital e sustentável</h3>
+                    <p>Reduza o uso de panfletos. Menus e encartes de promoções ficam acessíveis no flyer digital.</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <i class="fas fa-hand-holding-heart"></i>
                 <div>
-                    <h3>Fomento Local</h3>
+                    <h3>Fomento local</h3>
                     <p>Apoie a economia do bairro descobrindo e utilizando serviços próximos a você.</p>
                 </div>
             </div>
@@ -327,22 +133,22 @@
         <div class="cards">
             <a href="{% url 'anuncie' %}" class="card" style="text-decoration:none; color:#2c3e50;">
                 <i class="fas fa-store"></i>
-                <h3>Anuncie sua Loja</h3>
-                <p>Solicite seu perfil verificado e aumente sua visibilidade no bairro</p>
+                <h3>Anuncie sua marca</h3>
+                <p>Solicite seu perfil verificado e aumente sua visibilidade no bairro.</p>
             </a>
             <a href="{% url 'home' %}" class="card" style="text-decoration:none; color:#2c3e50;">
                 <i class="fas fa-compass"></i>
-                <h3>Explore o Bairro</h3>
-                <p>Descubra serviços e produtos verificados perto de você</p>
+                <h3>Explore o bairro</h3>
+                <p>Descubra serviços e produtos verificados perto de você.</p>
             </a>
-            <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521980555851' }}" 
-                class="card" 
-                style="text-decoration:none; color:#2c3e50;"
-                target="_blank" 
-                rel="noopener noreferrer">
-                    <i class="bi bi-whatsapp"></i>
-                    <h3>Fale Conosco</h3>
-                    <p>Tire suas dúvidas sobre a plataforma</p>
+            <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}" 
+               class="card" 
+               style="text-decoration:none; color:#2c3e50;"
+               target="_blank" 
+               rel="noopener noreferrer">
+                <i class="fab fa-whatsapp fa-beat"></i>
+                <h3>Fale conosco</h3>
+                <p>Tire suas dúvidas sobre a plataforma.</p>
             </a>
         </div>
     </section>
@@ -351,64 +157,10 @@
         <p>© 2025 Click32. Conectando bairros com segurança e praticidade. Todos os direitos reservados.</p>
     </footer>
 
-    <script>
-        // CSRF token em variável JavaScript protegida
-        const CSRF_TOKEN = "{{ csrf_token }}";
-        
-        let deferredPrompt;
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const installBtn = document.getElementById('installBtn');
-            
-            if (installBtn) {
-                installBtn.addEventListener('click', async function() {
-                    await trackPwaAction('clicked');
-                    
-                    if (deferredPrompt) {
-                        try {
-                            deferredPrompt.prompt();
-                            const { outcome } = await deferredPrompt.userChoice;
-                            
-                            if (outcome === 'accepted') {
-                                await trackPwaAction('accepted');
-                            } else {
-                                await trackPwaAction('dismissed');
-                            }
-                            
-                            deferredPrompt = null;
-                            installBtn.classList.add('hidden');
-                            
-                        } catch (error) {
-                            console.error('Erro durante a instalação:', error);
-                        }
-                    }
-                });
-            }
-            
-            async function trackPwaAction(action) {
-                try {
-                    await fetch('{% url "track_pwa_click" %}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': CSRF_TOKEN,
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ action: action })
-                    });
-                } catch (error) {
-                    console.error('Erro ao registrar ação:', error);
-                }
-            }
-            
-            window.addEventListener('appinstalled', () => {
-                trackPwaAction('accepted');
-            });
-        });
-    </script>
+    <script src="{% static 'js/about.js' %}"></script>
+    <script src="{% static 'js/service-worker-register.js' %}?v={{ STATIC_VERSION }}"></script>
+    <script src="{% static 'js/pwa_install.js' %}?v={{ STATIC_VERSION }}"></script>
+    <script src="{% static 'js/active_session.js' %}?v={{ STATIC_VERSION }}"></script>
 </body>
+
 </html>

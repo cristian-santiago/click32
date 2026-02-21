@@ -21,27 +21,39 @@
              loading="lazy">
     </div>
 
-    <ul class="menu">
-        {% for category in category_tags %}
-            <li class="menu-item">
-                <div class="menu-header" data-dropdown="{{ category.name|escapejs }}">
-                    <i class="fas {{ category.icon }}" aria-hidden="true"></i>
-                    <span class="menu-text">{{ category.name|escape }}</span>
-                </div>
-                <ul class="dropdown" style="display: none;" aria-hidden="true">
-                    {% for tag in category.tags %}
-                        <li>
-                            <a href="{% url 'home' %}?tag={{ tag|urlencode }}" 
-                               class="dropdown-item">
-                                {{ tag|escape }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
-    </ul>
+<ul class="menu">
+    {% for category in category_tags %}
+        <li class="menu-item">
+            <div class="menu-header" data-dropdown="{{ category.name|escapejs }}">
+                <i class="fas {{ category.icon }} category-icon" aria-hidden="true"></i>
+                <span class="menu-text">{{ category.name|escape }}</span>
+            </div>
+            <ul class="dropdown" style="display: none;" aria-hidden="true">
+                {% for tag in category.tags %}
+                    <li>
+                        <a href="{% url 'home' %}?tag={{ tag|urlencode }}" 
+                           class="dropdown-item">
+                            {{ tag|escape }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+            <div class="sidebar-footer">
+            <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!" target="_blank" rel="noopener noreferrer" class="footer-icon">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="https://www.instagram.com/click32.app" target="_blank" rel="noopener noreferrer" class="footer-icon">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="{% url 'faq' %}" rel="noopener noreferrer" class="footer-icon" ><i class="fa-regular fa-circle-question"></i>
+                
+            </a>
+        </div>
 </div>
+
 <div class="overlay" id="overlay" tabindex="-1"></div>
 <script>
     // Já está protegido por CSRF_COOKIE_SECURE

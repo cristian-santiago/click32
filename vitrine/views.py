@@ -286,6 +286,11 @@ def about(request):
         logger.error(f"Error rendering about page - Error: {str(e)}")
         # Fallback básico
         return render(request, 'about.html', {'category_tags': []})
+    
+def faq(request):
+    """View para página de FAQ"""
+    return render(request, 'faq.html')
+
 #--------------------------------
 @ratelimit(key='ip', rate='50/m', block=True)
 @ratelimit(key='ip', rate='500/h', block=True)

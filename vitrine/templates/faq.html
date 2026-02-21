@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% autoescape on %}
+    <link rel="icon" href="{% static 'icons/icon-72x72.png' %}" type="image/png" sizes="72x72">
+    <link rel="icon" href="{% static 'icons/icon-96x96.png' %}" type="image/png" sizes="96x96">
+    <link rel="icon" href="{% static 'icons/icon-128x128.png' %}" type="image/png" sizes="128x128">
+    <link rel="icon" href="{% static 'icons/icon-144x144.png' %}" type="image/png" sizes="144x144">
+    <link rel="icon" href="{% static 'icons/icon-152x152.png' %}" type="image/png" sizes="152x152">
+    <link rel="icon" href="{% static 'icons/icon-192x192.png' %}" type="image/png" sizes="192x192">
+    <link rel="icon" href="{% static 'icons/icon-384x384.png' %}" type="image/png" sizes="384x384">
+    <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.gstatic.com; script-src 'self'; connect-src 'self';">
+    
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Click32">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Perguntas frequentes sobre o Click32 - Tire suas dúvidas sobre a plataforma">
+
+    <title>FAQ | Click32</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+          rel="stylesheet"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" 
+          rel="stylesheet"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/faq.css' %}">
+    {% endautoescape %}
+</head>
+<body>
+    <div class="toolbar">
+        <div class="toolbar-container">
+            <a href="{% url 'home' %}" aria-label="Início">
+                <i class="fas fa-house"></i>
+            </a>
+            <a href="{% url 'anuncie' %}" aria-label="Anuncie">
+                <i class="fas fa-bullhorn"></i>
+            </a>
+            <a href="{% url 'sobre' %}" aria-label="Sobre">
+                <i class="fas fa-info-circle"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Perguntas Frequentes</h1>
+            <p>Tire suas dúvidas sobre o Click32</p>
+        </div>
+    </div>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-list">
+                <!-- Pergunta 1 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-faq>
+                        <span class="question-text">O que é o Click32 e como funciona?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Click32 é uma plataforma que conecta lojistas e clientes na região KM32. Lojistas podem divulgar seus negócios, e clientes descobrem comércios locais de forma simples e rápida. Tudo diretamente no navegador, sem necessidade de baixar app.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pergunta 2 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-faq>
+                        <span class="question-text">Preciso pagar para usar o Click32?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Para clientes, o acesso é totalmente gratuito. Para lojistas, oferecemos planos a partir de R$ 19,90/mês para destacar seu negócio. Todos os planos incluem período de teste gratuito.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pergunta 3 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-faq>
+                        <span class="question-text">Como faço para anunciar minha loja?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Basta clicar no ícone de "Anuncie" na barra superior ou acessar diretamente a página de anúncio. Lá você preenche as informações do seu negócio e escolhe o plano ideal. Nossa equipe analisa e publica seu anúncio em até 24 horas.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pergunta 4 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-faq>
+                        <span class="question-text">Meus dados estão seguros na plataforma?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Sim! Seguimos as diretrizes da LGPD. Seus dados são criptografados, não compartilhamos informações com terceiros e você pode solicitar a exclusão dos seus dados a qualquer momento através do nosso suporte.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pergunta 5 -->
+                <div class="faq-item">
+                    <button class="faq-question" data-faq>
+                        <span class="question-text">Como entrar em contato com o suporte?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Você pode nos contactar por WhatsApp, Instagram ou email. Todos os canais estão disponíveis na seção abaixo. Respondemos em até 2 horas em dias úteis.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <h2>Não encontrou sua resposta?</h2>
+            <p>Fale diretamente com nossa equipe</p>
+            
+            <div class="contact-links">
+                <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Olá! Tenho uma dúvida sobre o Click32" 
+                   class="contact-link whatsapp" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+                
+                <a href="https://www.instagram.com/click32.app" 
+                   class="contact-link instagram" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+                
+                <a href="mailto:{{ settings.CONTACT_EMAIL|default:'click32.contato@gmail.com' }}?subject=Dúvida sobre o Click32" 
+                   class="contact-link email">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Click32. Todos os direitos reservados.</p>
+    </footer>
+    
+    <script src="{% static 'js/faq.js' %}"></script>
+</body>
+</html>

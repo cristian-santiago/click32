@@ -30,6 +30,7 @@ urlpatterns = [
     # Páginas estáticas
     path('anuncie/', views.advertise, name='anuncie'),
     path('sobre/', views.about, name='sobre'),
+    path('faq/', views.faq, name='faq'),
     
     # APIs
     path('start-session/', views.start_session, name='start_session'),

@@ -6,6 +6,7 @@
 {% block extra_css %}
 
     <link rel="stylesheet" href="{% static 'css/home.css' %}?v={{ STATIC_VERSION }}">
+    
 
 {% endblock %}
 
@@ -26,6 +27,13 @@
                                     width="300"
                                     height="200"
                                 >
+                                    {% if store.tags.exists %}
+                            <div class="banner-tag">
+                                {% for tag in store.tags.all %}
+                                    {{ tag.name }}{% if not forloop.last %} • {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                             </a>
                         </div>
                     {% endif %}
@@ -65,6 +73,13 @@
                             width="300"
                             height="200"
                         >
+                            {% if store.tags.exists %}
+                            <div class="banner-tag">
+                                {% for tag in store.tags.all %}
+                                    {{ tag.name }}{% if not forloop.last %} • {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </a>
                 {% endif %}
             {% endfor %}
@@ -81,6 +96,13 @@
                             width="300"
                             height="200"
                         >
+                         {% if store.tags.exists %}
+                            <div class="banner-tag">
+                                {% for tag in store.tags.all %}
+                                    {{ tag.name }}{% if not forloop.last %} • {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </a>
                 {% endif %}
             {% endfor %}

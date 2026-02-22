@@ -15,6 +15,10 @@ echo "Atualizando versão do Service Worker..."
 VERSION=$(date +%s)
 sed -i "s/CACHE_VERSION/$VERSION/g" /app/staticfiles/js/service-worker.js
 
+# FORÇA A ATUALIZAÇÃO NO NAVEGADOR
+echo "Criando arquivo de versão para forçar atualização..."
+echo "{\"version\": $VERSION}" > /app/staticfiles/js/version.json
+
 chown -R www-data:www-data /app/staticfiles
 
 echo "Iniciando Gunicorn..."

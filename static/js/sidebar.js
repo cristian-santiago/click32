@@ -26,88 +26,84 @@ document.addEventListener('DOMContentLoaded', () => {
     openDropdown(lastOpenDropdown);
   }
 
-
-// Verifica se há uma tag na URL e ativa a animação do ícone correspondente
-const urlParams = new URLSearchParams(window.location.search);
-const activeTag = urlParams.get('tag');
-if (activeTag) {
-  // Procura o header cujo data-dropdown corresponde à tag ativa
-  document.querySelectorAll('.menu-header').forEach(header => {
-    const headerGroup = header.getAttribute('data-dropdown');
-    if (headerGroup === activeTag) {
-      const icon = header.querySelector('.category-icon');
-      if (icon) {
-        // Remove animação de todos e ativa no correto
-        document.querySelectorAll('.category-icon').forEach(i => {
-          i.classList.remove('fa-beat-fade');
-        });
-        icon.classList.add('fa-beat-fade');
+  // Verifica se há uma tag na URL e ativa a animação do ícone correspondente
+  const urlParams = new URLSearchParams(window.location.search);
+  const activeTag = urlParams.get('tag');
+  if (activeTag) {
+    // Procura o header cujo data-dropdown corresponde à tag ativa
+    document.querySelectorAll('.menu-header').forEach(header => {
+      const headerGroup = header.getAttribute('data-dropdown');
+      if (headerGroup === activeTag) {
+        const icon = header.querySelector('.category-icon');
+        if (icon) {
+          // Remove animação de todos e ativa no correto
+          document.querySelectorAll('.category-icon').forEach(i => {
+            i.classList.remove('fa-beat-fade');
+          });
+          icon.classList.add('fa-beat-fade');
+        }
       }
-    }
-
-
-/* GESTOS DE DESLIZAR PARA SIDEBAR */
-let touchStartX = 0;
-let touchStartY = 0;
-let isSwiping = false;
-
-document.addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-  isSwiping = true;
-}, { passive: true });
-
-document.addEventListener('touchmove', (e) => {
-  if (!isSwiping) return;
-  
-  const touchCurrentX = e.touches[0].clientX;
-  const touchCurrentY = e.touches[0].clientY;
-  const diffX = Math.abs(touchCurrentX - touchStartX);
-  const diffY = Math.abs(touchCurrentY - touchStartY);
-  
-  // Se o movimento horizontal for maior que o vertical, previne scroll
-  if (diffX > diffY && diffX > 10) {
-    e.preventDefault();
+    });
   }
-}, { passive: false });
 
-document.addEventListener('touchend', (e) => {
-  if (!isSwiping) return;
-  
-  const touchEndX = e.changedTouches[0].clientX;
-  const swipeDistance = touchEndX - touchStartX;
-  const swipeThreshold = 50;
-  
-  // Swipe para direita na borda esquerda - ABRIR
-  if (swipeDistance > swipeThreshold && touchStartX < 60) {
-    if (sidebar.classList.contains('collapsed')) {
-      sidebar.classList.remove('collapsed');
-      overlay.style.display = 'block';
-      localStorage.setItem('sidebar-expanded', 'true');
-      
-      const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
-      if (lastOpenDropdown) {
-        openDropdown(lastOpenDropdown);
-      }
-    }
-  }
-  
-  // Swipe para esquerda - FECHAR (apenas se começou no sidebar)
-  if (swipeDistance < -swipeThreshold && touchStartX < 160) {
-    if (!sidebar.classList.contains('collapsed')) {
-      sidebar.classList.add('collapsed');
-      overlay.style.display = 'none';
-      localStorage.setItem('sidebar-expanded', 'false');
-      document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-    }
-  }
-  
-  isSwiping = false;
-}, { passive: true });
+  /* GESTOS DE DESLIZAR PARA SIDEBAR */
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isSwiping = false;
 
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    isSwiping = true;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!isSwiping) return;
     
-  });
-}
+    const touchCurrentX = e.touches[0].clientX;
+    const touchCurrentY = e.touches[0].clientY;
+    const diffX = Math.abs(touchCurrentX - touchStartX);
+    const diffY = Math.abs(touchCurrentY - touchStartY);
+    
+    // Se o movimento horizontal for maior que o vertical, previne scroll
+    if (diffX > diffY && diffX > 10) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  document.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const swipeDistance = touchEndX - touchStartX;
+    const swipeThreshold = 50;
+    
+    // Swipe para direita na borda esquerda - ABRIR
+    if (swipeDistance > swipeThreshold && touchStartX < 60) {
+      if (sidebar.classList.contains('collapsed')) {
+        sidebar.classList.remove('collapsed');
+        overlay.style.display = 'block';
+        localStorage.setItem('sidebar-expanded', 'true');
+        
+        const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
+        if (lastOpenDropdown) {
+          openDropdown(lastOpenDropdown);
+        }
+      }
+    }
+    
+    // Swipe para esquerda - FECHAR (apenas se começou no sidebar)
+    if (swipeDistance < -swipeThreshold && touchStartX < 160) {
+      if (!sidebar.classList.contains('collapsed')) {
+        sidebar.classList.add('collapsed');
+        overlay.style.display = 'none';
+        localStorage.setItem('sidebar-expanded', 'false');
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+      }
+    }
+    
+    isSwiping = false;
+  }, { passive: true });
 
   /* Evento de clique no botão de alternância */
   toggleBtn.addEventListener('click', (e) => {
@@ -176,28 +172,26 @@ document.addEventListener('touchend', (e) => {
     });
   });
 
-  
-/*AINDA EM TESTES*/
-/* Evento de clique nos itens do dropdown */
-document.querySelectorAll('.dropdown-item').forEach(item => {
-  item.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const dropdown = item.closest('.dropdown');
-    if (!dropdown) {
-      return;
-    }
-    const header = dropdown.previousElementSibling;
-    if (!header) {
-      return;
-    }
-    const group = header.getAttribute('data-dropdown');
-    if (!group) {
-      return;
-    }
-    localStorage.setItem('sidebar-last-dropdown', group);
-    collapseSidebar();
+  /* Evento de clique nos itens do dropdown */
+  document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const dropdown = item.closest('.dropdown');
+      if (!dropdown) {
+        return;
+      }
+      const header = dropdown.previousElementSibling;
+      if (!header) {
+        return;
+      }
+      const group = header.getAttribute('data-dropdown');
+      if (!group) {
+        return;
+      }
+      localStorage.setItem('sidebar-last-dropdown', group);
+      collapseSidebar();
+    });
   });
-});
 
   /* Evento de clique fora da sidebar em dispositivos móveis */
   document.addEventListener('click', (e) => {
@@ -277,4 +271,3 @@ if (scrollContainer) {
     }
   }, { passive: false });
 }
-

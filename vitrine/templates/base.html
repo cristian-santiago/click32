@@ -59,6 +59,35 @@
     <script src="{% static 'js/service-worker-register.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/pwa_install.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/active_session.js' %}?v={{ STATIC_VERSION }}"></script>
+
+    <script>
+// Força atualização do service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/static/js/service-worker.js')
+    .then(reg => {
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            window.location.reload();
+          }
+        });
+      });
+    });
+  
+  // Verifica versão a cada minuto
+  setInterval(() => {
+    fetch('/static/js/version.json?t=' + Date.now())
+      .then(r => r.json())
+      .then(data => {
+        if (data.version !== localStorage.getItem('app-version')) {
+          localStorage.setItem('app-version', data.version);
+          window.location.reload();
+        }
+      });
+  }, 60000);
+}
+</script>
     
     {% endblock %}
 

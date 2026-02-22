@@ -44,6 +44,68 @@ if (activeTag) {
         icon.classList.add('fa-beat-fade');
       }
     }
+
+
+/* GESTOS DE DESLIZAR PARA SIDEBAR */
+let touchStartX = 0;
+let touchStartY = 0;
+let isSwiping = false;
+
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+  isSwiping = true;
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+  if (!isSwiping) return;
+  
+  const touchCurrentX = e.touches[0].clientX;
+  const touchCurrentY = e.touches[0].clientY;
+  const diffX = Math.abs(touchCurrentX - touchStartX);
+  const diffY = Math.abs(touchCurrentY - touchStartY);
+  
+  // Se o movimento horizontal for maior que o vertical, previne scroll
+  if (diffX > diffY && diffX > 10) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+document.addEventListener('touchend', (e) => {
+  if (!isSwiping) return;
+  
+  const touchEndX = e.changedTouches[0].clientX;
+  const swipeDistance = touchEndX - touchStartX;
+  const swipeThreshold = 50;
+  
+  // Swipe para direita na borda esquerda - ABRIR
+  if (swipeDistance > swipeThreshold && touchStartX < 60) {
+    if (sidebar.classList.contains('collapsed')) {
+      sidebar.classList.remove('collapsed');
+      overlay.style.display = 'block';
+      localStorage.setItem('sidebar-expanded', 'true');
+      
+      const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
+      if (lastOpenDropdown) {
+        openDropdown(lastOpenDropdown);
+      }
+    }
+  }
+  
+  // Swipe para esquerda - FECHAR (apenas se começou no sidebar)
+  if (swipeDistance < -swipeThreshold && touchStartX < 160) {
+    if (!sidebar.classList.contains('collapsed')) {
+      sidebar.classList.add('collapsed');
+      overlay.style.display = 'none';
+      localStorage.setItem('sidebar-expanded', 'false');
+      document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+    }
+  }
+  
+  isSwiping = false;
+}, { passive: true });
+
+    
   });
 }
 

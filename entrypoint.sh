@@ -1,21 +1,19 @@
 #!/bin/sh
 
 echo "Esperando o Postgres ficar pronto..."
-
 while ! pg_isready -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" > /dev/null 2>&1; do
     sleep 1
 done
 
 echo "Banco pronto! Aplicando migrations..."
-
 python manage.py migrate --noinput
-# To load dev data, uncomment the line below
-#python manage.py loaddata db.json
 
 echo "Coletando e comprimindo arquivos estáticos..."
-
 python manage.py collectstatic --noinput
 
+echo "Atualizando versão do Service Worker..."
+VERSION=$(date +%s)
+sed -i "s/CACHE_VERSION/$VERSION/g" /app/staticfiles/js/service-worker.js
 
 chown -R www-data:www-data /app/staticfiles
 

@@ -1,6 +1,7 @@
 {
   "name": "Click32 - Aplicativo Web Progressivo",
   "short_name": "Click32",
+  "version": "1.0.1",
   "description": "Aplicativo Click32 para acesso rápido e offline.",
   "start_url": "/?source=pwa",
   "scope": "/",

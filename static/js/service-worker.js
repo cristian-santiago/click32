@@ -1,4 +1,4 @@
-const CACHE_NAME = 'click32-v1';
+const CACHE_NAME = 'click32-CACHE_VERSION';
 const urlsToCache = ['/', '/static/css/base.css', '/static/icons/icon-192x192.png'];
 
 self.addEventListener('install', event => {

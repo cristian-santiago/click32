@@ -4,8 +4,12 @@ Django settings for click32 project.
 
 from pathlib import Path
 import mimetypes
-from datetime import datetime
+import time
 import os
+
+
+
+CACHE_VERSION = os.getenv("CACHE_VERSION", str(int(time.time())))  # Usa timestamp atual como versão do cache se não for definido
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

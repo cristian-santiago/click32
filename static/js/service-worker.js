@@ -1,4 +1,4 @@
-const CACHE_NAME = 'click32-CACHE_VERSION';
+const CACHE_NAME = 'click32-' + process.env.CACHE_VERSION;
 const urlsToCache = ['/', '/static/css/base.css', '/static/icons/icon-192x192.png'];
 
 self.addEventListener('install', event => {
@@ -12,4 +12,9 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
+});
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });

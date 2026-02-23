@@ -11,9 +11,10 @@ python manage.py migrate --noinput
 echo "Coletando e comprimindo arquivos estáticos..."
 python manage.py collectstatic --noinput
 
+
 echo "Atualizando versão do Service Worker..."
 VERSION=$(date +%s)
-sed -i "s/CACHE_VERSION/$VERSION/g" /app/staticfiles/js/service-worker.js
+export CACHE_VERSION=$VERSION
 
 # FORÇA A ATUALIZAÇÃO NO NAVEGADOR
 echo "Criando arquivo de versão para forçar atualização..."

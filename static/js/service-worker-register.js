@@ -1,32 +1,41 @@
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-    .then(reg => {
-      console.log('Service Worker registrado');
+  // Registra com updateViaCache: 'none' - ESSENCIAL!
+  navigator.serviceWorker.register('/service-worker.js', {
+    updateViaCache: 'none'
+  })
+  .then(reg => {
+    console.log('Service Worker registrado');
 
-      reg.addEventListener('updatefound', () => {
-        const newWorker = reg.installing;
+    // Força verificação de atualização a cada visita
+    reg.update();
 
-        newWorker.addEventListener('statechange', () => {
-          console.log('Estado do worker:', newWorker.state);
-
-          if (newWorker.state === 'installed') {
-            // Se já existe um SW ativo, significa que é update
-            if (navigator.serviceWorker.controller) {
-              console.log('Nova versão detectada, ativando...');
-              newWorker.postMessage({ type: 'SKIP_WAITING' });
-            }
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
+      console.log('Nova versão encontrada!');
+      
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed') {
+          if (navigator.serviceWorker.controller) {
+            console.log('Nova versão instalada, ativando...');
+            newWorker.postMessage({ type: 'SKIP_WAITING' });
           }
-        });
+        }
       });
-    })
-    .catch(err => console.error('Erro ao registrar SW:', err));
-
-  // Quando o novo SW assumir controle, recarrega a página
-  let refreshing = false;
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (!refreshing) {
-      refreshing = true;
-      window.location.reload();
-    }
+    });
   });
 }
+
+// Auto-reload quando novo SW assumir
+let refreshing = false;
+navigator.serviceWorker.addEventListener('controllerchange', () => {
+  if (!refreshing) {
+    refreshing = true;
+    console.log('Novo Service Worker ativo, recarregando...');
+    window.location.reload();
+  }
+});
+
+// Força verificação periódica (a cada 1h)
+setInterval(() => {
+  navigator.serviceWorker.ready.then(reg => reg.update());
+}, 60 * 60 * 1000);

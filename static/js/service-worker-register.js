@@ -25,15 +25,7 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Auto-reload quando novo SW assumir
-let refreshing = false;
-navigator.serviceWorker.addEventListener('controllerchange', () => {
-  if (!refreshing) {
-    refreshing = true;
-    console.log('Novo Service Worker ativo, recarregando...');
-    window.location.reload();
-  }
-});
+
 
 // Força verificação periódica (a cada 1h)
 setInterval(() => {

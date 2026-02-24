@@ -56,9 +56,7 @@
     
 
      <!-- Scripts JavaScript -->
-<script>
-  window.CACHE_VERSION = "{{ CACHE_VERSION|escapejs }}";
-</script>
+
     <script src="{% static 'js/service-worker-register.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/pwa_install.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/active_session.js' %}?v={{ STATIC_VERSION }}"></script>

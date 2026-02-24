@@ -27,12 +27,12 @@ logger = logging.getLogger(__name__)
 
 
 def sw_config(request):
-    content = f"self.CACHE_VERSION = '{settings.CACHE_VERSION}';"
+    content = f"self.CACHE_VERSION = '{settings.STATIC_VERSION}';"
     return HttpResponse(content, content_type="application/javascript")
 
-
 def service_worker(request):
-    content = f"""
+    timestamp = timezone.now().timestamp()
+    content = f"""// Versão do Service Worker: {timestamp}
 importScripts('/sw-config.js');
 
 const CACHE_NAME = 'click32-' + self.CACHE_VERSION;
@@ -41,14 +41,17 @@ console.log('Service Worker iniciado com CACHE_NAME:', CACHE_NAME);
 
 self.addEventListener('install', event => {{
     self.skipWaiting();
+    console.log('Instalando nova versão:', CACHE_NAME);
 }});
 
 self.addEventListener('activate', event => {{
+    console.log('Ativando nova versão:', CACHE_NAME);
     event.waitUntil(
         caches.keys().then(cacheNames => {{
             return Promise.all(
                 cacheNames.map(cacheName => {{
                     if (cacheName !== CACHE_NAME) {{
+                        console.log('Removendo cache antigo:', cacheName);
                         return caches.delete(cacheName);
                     }}
                 }})

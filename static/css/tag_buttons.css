@@ -7,6 +7,10 @@
     --dropdown-bg: #34495e;
 }
 
+body {
+    background: green !important;
+}
+
 .fa-beat-fade {
   color: #00ccff !important;
 }

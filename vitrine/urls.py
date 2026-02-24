@@ -42,8 +42,8 @@ urlpatterns = [
     path('track-pwa-click/', views.track_pwa_click, name='track_pwa_click'),
 
     path('log-debug/', views.log_debug, name='log_debug'),
-    path("service-worker.js", views.service_worker),
-    path("sw-config.js", views.sw_config),
+    path("service-worker.js", views.service_worker, name="service_worker"),
+    path('sw-config.js', views.sw_config, name='sw_config'),
 
     # SEMPRE A ÚLTIMA
     path('<storeslug:slug>/', views.store_detail, name='store_detail'),

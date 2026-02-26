@@ -9,16 +9,11 @@ echo "Banco pronto! Aplicando migrations..."
 python manage.py migrate --noinput
 
 echo "Coletando e comprimindo arquivos estáticos..."
+echo "Coletando arquivos estáticos..."
 python manage.py collectstatic --noinput
 
-
-echo "Atualizando versão do Service Worker..."
-VERSION=$(date +%s)
-export CACHE_VERSION=$VERSION
-
-# FORÇA A ATUALIZAÇÃO NO NAVEGADOR
-echo "Criando arquivo de versão para forçar atualização..."
-echo "{\"version\": $VERSION}" > /app/staticfiles/js/version.json
+# A versão já vem do .env via settings
+echo "STATIC_VERSION=$STATIC_VERSION"t
 
 chown -R www-data:www-data /app/staticfiles
 

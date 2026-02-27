@@ -15,7 +15,7 @@
 
 .carousel-container {
     display: flex;
-    overflow-x: auto;
+    overflow-x: hidden;
     gap: 20px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
@@ -24,6 +24,12 @@
     touch-action: pan-x;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    scroll-snap-stop: always;
+    user-select: none;
+}
+
+.carousel-container.dragging {
+    scroll-behavior: auto; /* Remove smooth durante o arrasto */
 }
 
 .carousel-container::-webkit-scrollbar {

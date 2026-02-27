@@ -75,26 +75,13 @@
 
         /**
          * Scroll seguro para item específico
-         */
+                */
         scrollToItem(index) {
-            try {
-                if (index < 0 || index >= this.carouselItems.length) {
-                    console.warn('Índice de carousel inválido:', index);
-                    return;
-                }
-
-                const item = this.carouselItems[index];
-                const targetScrollLeft = item.offsetLeft - this.carouselContainer.offsetLeft;
-                
-                this.carouselContainer.scrollTo({
-                    left: targetScrollLeft,
-                    behavior: 'smooth'
-                });
-
-                this.updateActiveDot(index);
-            } catch (error) {
-                console.error('Erro ao fazer scroll para item:', error);
-            }
+            const itemWidth = this.carouselItems[0]?.offsetWidth + 10;
+            this.carouselContainer.scrollTo({
+                left: index * itemWidth,
+                behavior: 'smooth'
+            });
         }
 
         /**
@@ -123,31 +110,125 @@
         /**
          * Handler de scroll com debounce para performance
          */
-        setupScrollHandler() {
-            let scrollTimeout;
-            
-            this.scrollHandler = () => {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    try {
-                        const scrollLeft = this.carouselContainer.scrollLeft;
-                        const itemWidth = this.carouselItems[0]?.offsetWidth + 20;
-                        
-                        if (itemWidth && itemWidth > 0) {
-                            const activeIndex = Math.min(
-                                Math.round(scrollLeft / itemWidth),
-                                this.carouselItems.length - 1
-                            );
-                            this.updateActiveDot(activeIndex);
-                        }
-                    } catch (error) {
-                        console.error('Erro no handler de scroll:', error);
-                    }
-                }, 50); // Debounce de 50ms
-            };
 
-            this.carouselContainer.addEventListener('scroll', this.scrollHandler, { passive: true });
+setupScrollHandler() {
+    let isScrolling = false;
+    let targetIndex = 0;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let isDragging = false;
+    
+    const itemWidth = this.carouselItems[0]?.offsetWidth + 20;
+    
+    // Eventos de toque/mouse para capturar o swipe
+    this.carouselContainer.addEventListener('touchstart', (e) => {
+        if (isScrolling) return;
+        startX = e.touches[0].clientX;
+        startScrollLeft = this.carouselContainer.scrollLeft;
+        isDragging = true;
+    }, { passive: true });
+    
+    this.carouselContainer.addEventListener('touchmove', (e) => {
+        if (!isDragging || isScrolling) return;
+        e.preventDefault(); // Previne o scroll padrão
+        
+        const currentX = e.touches[0].clientX;
+        const diff = startX - currentX;
+        
+        // Aplica o deslocamento manualmente (sem scroll livre)
+        this.carouselContainer.scrollLeft = startScrollLeft + diff;
+    }, { passive: false });
+    
+    this.carouselContainer.addEventListener('touchend', (e) => {
+        if (!isDragging || isScrolling) return;
+        
+        const currentX = e.changedTouches[0].clientX;
+        const diff = startX - currentX;
+        const threshold = 50; // Distância mínima para considerar swipe
+        
+        isDragging = false;
+        
+        // Determina direção baseado na distância percorrida
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0 && targetIndex < this.carouselItems.length - 1) {
+                // Swipe esquerda -> próximo slide
+                targetIndex++;
+            } else if (diff < 0 && targetIndex > 0) {
+                // Swipe direita -> slide anterior
+                targetIndex--;
+            }
         }
+        
+        // Sempre faz scroll para o slide atual (targetIndex)
+        isScrolling = true;
+        this.scrollToItem(targetIndex);
+        
+        setTimeout(() => {
+            isScrolling = false;
+        }, 300);
+        
+        this.updateActiveDot(targetIndex);
+    }, { passive: true });
+    
+    // Previne o scroll padrão do mouse também
+    this.carouselContainer.addEventListener('mousedown', (e) => {
+        if (isScrolling) return;
+        e.preventDefault();
+        startX = e.clientX;
+        startScrollLeft = this.carouselContainer.scrollLeft;
+        isDragging = true;
+    });
+    
+    this.carouselContainer.addEventListener('mousemove', (e) => {
+        if (!isDragging || isScrolling) return;
+        e.preventDefault();
+        
+        const currentX = e.clientX;
+        const diff = startX - currentX;
+        
+        this.carouselContainer.scrollLeft = startScrollLeft + diff;
+    });
+    
+    this.carouselContainer.addEventListener('mouseup', (e) => {
+        if (!isDragging || isScrolling) return;
+        
+        const currentX = e.clientX;
+        const diff = startX - currentX;
+        const threshold = 50;
+        
+        isDragging = false;
+        
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0 && targetIndex < this.carouselItems.length - 1) {
+                targetIndex++;
+            } else if (diff < 0 && targetIndex > 0) {
+                targetIndex--;
+            }
+        }
+        
+        isScrolling = true;
+        this.scrollToItem(targetIndex);
+        
+        setTimeout(() => {
+            isScrolling = false;
+        }, 300);
+        
+        this.updateActiveDot(targetIndex);
+    });
+    
+    this.carouselContainer.addEventListener('mouseleave', () => {
+        if (isDragging) {
+            isDragging = false;
+            // Se soltar fora, volta para o slide atual
+            isScrolling = true;
+            this.scrollToItem(targetIndex);
+            
+            setTimeout(() => {
+                isScrolling = false;
+            }, 300);
+        }
+    });
+}
 
         /**
          * Inicialização principal com tratamento de erro

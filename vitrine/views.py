@@ -37,21 +37,16 @@ importScripts('/sw-config.js');
 
 const CACHE_NAME = 'click32-' + self.CACHE_VERSION;
 
-console.log('Service Worker iniciado com CACHE_NAME:', CACHE_NAME);
-
 self.addEventListener('install', event => {{
     self.skipWaiting();
-    console.log('Instalando nova versão:', CACHE_NAME);
 }});
 
 self.addEventListener('activate', event => {{
-    console.log('Ativando nova versão:', CACHE_NAME);
     event.waitUntil(
         caches.keys().then(cacheNames => {{
             return Promise.all(
                 cacheNames.map(cacheName => {{
                     if (cacheName !== CACHE_NAME) {{
-                        console.log('Removendo cache antigo:', cacheName);
                         return caches.delete(cacheName);
                     }}
                 }})

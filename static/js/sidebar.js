@@ -65,9 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const diffX = Math.abs(touchCurrentX - touchStartX);
     const diffY = Math.abs(touchCurrentY - touchStartY);
     
-    // Se o movimento horizontal for maior que o vertical, previne scroll
-    if (diffX > diffY && diffX > 10) {
-      e.preventDefault();
+    // SÓ interfere se o sidebar estiver ABERTO
+    if (!sidebar.classList.contains('collapsed')) {
+      if (diffX > diffY && diffX > 10) {
+        e.preventDefault();
+      }
     }
   }, { passive: false });
 

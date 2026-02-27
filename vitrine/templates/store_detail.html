@@ -6,8 +6,8 @@
     {% autoescape on %}
     
     <!-- Inclusão de arquivos CSS externos para estilização -->
-    <link rel="stylesheet" href="{% static 'css/store_detail.css' %}?v={{ STATIC_VERSION }}">
-    <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}?v={{ STATIC_VERSION }}">
+    <link rel="stylesheet" href="{% static 'css/store_detail.css' %}?v={{ static_version }}">
+    <link rel="stylesheet" href="{% static 'css/tag_buttons.css' %}?v={{ static_version }}">
     
     <link rel="stylesheet" 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -16,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" 
           rel="stylesheet"
           crossorigin="anonymous">
+
+    
     {% endautoescape %}
 {% endblock %}
 
@@ -50,7 +52,9 @@
 
     <!-- Nome da loja com botão de compartilhamento -->
     <div class="store-name">
+        
         <h2>
+            
             {{ store.name|escape }}
             <button id="shareButton" class="share-btn" 
                     data-store-id="{{ store.id }}"

@@ -9,7 +9,7 @@ import os
 
 
 
-STATIC_VERSION = os.getenv("STATIC_VERSION", str(int(time.time())))  # Usa timestamp atual como versão do cache se não for definido
+STATIC_VERSION = os.getenv("STATIC_VERSION")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +21,10 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-in-production')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 # Hosts dinâmicos por ambiente
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,d7b5-187-111-4-102.ngrok-free.app').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,b6e1-187-111-4-102.ngrok-free.app').split(',')
 
 # CSRF dinâmico
-csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://d7b5-187-111-4-102.ngrok-free.app').split(',')
+csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://b6e1-187-111-4-102.ngrok-free.app').split(',')
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins]
 
 # WhatsApp number
@@ -86,10 +86,13 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.csrf', 
+                'vitrine.context_processors.static_version',
+            
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'click32.wsgi.application'
 

@@ -34,7 +34,7 @@ def service_worker(request):
     timestamp = timezone.now().timestamp()
     content = f"""// Versão do Service Worker: {timestamp}
 importScripts('/sw-config.js');
-
+""
 const CACHE_NAME = 'click32-' + self.CACHE_VERSION;
 
 self.addEventListener('install', event => {{
@@ -56,6 +56,14 @@ self.addEventListener('activate', event => {{
 }});
 
 self.addEventListener('fetch', event => {{
+    // Ignora ícones, sw-config.js e flyers
+    if (event.request.url.includes('/icons/') || 
+        event.request.url.includes('sw-config.js') ||
+        event.request.url.includes('flyer_') ||  // Ignora qualquer arquivo com flyer_ no nome
+        event.request.url.includes('/media/')) {{  // Se os flyers estiverem em /media/
+        return;
+    }}
+    
     event.respondWith(fetch(event.request));
 }});
 

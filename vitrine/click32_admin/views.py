@@ -876,7 +876,14 @@ def _generate_report_data(request, store_id, start_date, end_date):
             'warning': 'Nenhum link configurado.' if not configured_links else None,
             'shares_count': shares_count,
         }
+        profile_accesses_safe = profile_accesses if profile_accesses else 1
+        secondary_clicks = store_data.get('secondary_clicks', 0)
 
+        report_data['computed'] = {
+            'engagement_per_visit': round(secondary_clicks / profile_accesses_safe, 2),
+            'avg_daily_clicks': round(total_links_sum / 30, 1),
+            'top3_percent': round(sum(i['percent'] for i in items[:3]), 1),
+        }
         logger.info(f"Report data generated successfully - Store: {store.name}, Total clicks: {total_clicks}, Timeline days: {len(timeline_list)}")
         return report_data
 

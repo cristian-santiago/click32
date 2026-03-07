@@ -21,10 +21,10 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-in-production')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 # Hosts dinâmicos por ambiente
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,b6e1-187-111-4-102.ngrok-free.app').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,e02c-187-111-4-102.ngrok-free.app').split(',')
 
 # CSRF dinâmico
-csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://b6e1-187-111-4-102.ngrok-free.app').split(',')
+csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://e02c-187-111-4-102.ngrok-free.app').split(',')
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins]
 
 # WhatsApp number

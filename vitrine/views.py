@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django_ratelimit.decorators import ratelimit
 from django.core.cache import cache
-from .models import Store, ClickTrack, Category, ShareTrack, PWADownloadClick, ActiveSession
+from .models import Store, ClickTrack, ClickTrackDaily, Category, ShareTrack, PWADownloadClick, ActiveSession
 import pdf2image
 import glob
 import hashlib
@@ -239,6 +239,9 @@ def store_detail(request, slug):
         click_track.save()
         click_track.refresh_from_db()
 
+        # Grava contagem diária para o relatório mensal
+        _track_daily_click(store, log_type)
+
         logger.debug(f"Store click tracked - Store: {store.name}, Type: {log_type}, Count: {click_track.click_count}")
 
         context = {
@@ -326,6 +329,17 @@ def faq(request):
     """View para página de FAQ"""
     return render(request, 'faq.html')
 
+def _track_daily_click(store, element_type):
+    """Grava ou incrementa o contador diário em ClickTrackDaily."""
+    today = timezone.now().date()
+    record, created = ClickTrackDaily.objects.get_or_create(
+        store=store,
+        element_type=element_type,
+        date=today,
+        defaults={'click_count': 0}
+    )
+    ClickTrackDaily.objects.filter(pk=record.pk).update(click_count=F('click_count') + 1)
+
 #--------------------------------
 @ratelimit(key='ip', rate='50/m', block=True)
 @ratelimit(key='ip', rate='500/h', block=True)
@@ -363,6 +377,9 @@ def track_click(request, store_id=None, element_type=None):
         if not created:
             click_track.click_count += 1
             click_track.save()
+
+        # Grava contagem diária para o relatório mensal
+        _track_daily_click(store, element_type)
 
         logger.info(f"Click tracked: {store.name} - {element_type}")
 
@@ -601,6 +618,9 @@ def view_flyer(request, store_id):
         click_track.click_count += 1
         click_track.save()
 
+        # Grava contagem diária para o relatório mensal
+        _track_daily_click(store, 'flyer_pdf')
+
         logger.info(f"Flyer displayed successfully - Store: {store.name}, Pages: {len(page_urls)}")
 
         context = {
@@ -668,7 +688,10 @@ def fetch_flyer_pages(request, store_id):
                 )
                 click_track.click_count += 1
                 click_track.save()
-                
+
+                # Grava contagem diária para o relatório mensal
+                _track_daily_click(store, 'flyer_pdf')
+
                 return JsonResponse({'page_urls': page_urls, 'cached': True})
             else:
                 logger.warning(f"Cache invalid - files missing, reprocessing - Store: {store.name}")
@@ -723,6 +746,9 @@ def fetch_flyer_pages(request, store_id):
         )
         click_track.click_count += 1
         click_track.save()
+
+        # Grava contagem diária para o relatório mensal
+        _track_daily_click(store, 'flyer_pdf')
 
         logger.info(f"Flyer processed and cached - Store: {store.name}, Pages: {len(page_urls)}")
 

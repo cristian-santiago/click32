@@ -83,28 +83,17 @@ def compress_image(image_field):
         if image_field:
             img_path = image_field.path
             if img_path.lower().endswith(('.png', '.jpg', '.jpeg')):
-                # Abre a imagem
                 with Image.open(img_path) as img:
-                    # Converte para RGB se for PNG com transparência
                     if img.mode in ('RGBA', 'LA'):
                         background = Image.new('RGB', img.size, (255, 255, 255))
                         background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
                         img = background
-                    
-                    # Cria novo nome com extensão .webp
                     base_name = os.path.splitext(img_path)[0]
                     webp_path = base_name + '.webp'
-                    
-                    # Salva como WebP
                     img.save(webp_path, 'WEBP', quality=80, optimize=True)
-                    
-                    # Remove o arquivo original
                     os.remove(img_path)
-                    
-                    # Atualiza o campo para apontar para o novo arquivo WebP
                     relative_path = os.path.relpath(webp_path, 'media')
-                    image_field.name = relative_path.replace('\\', '/')  # Para Windows
-                    
+                    image_field.name = relative_path.replace('\\', '/')
                 logger.info(f"Imagem convertida para WebP: {img_path} → {webp_path}")
     except Exception as e:
         logger.error(f"Erro ao comprimir imagem {image_field}: {str(e)}")
@@ -118,26 +107,18 @@ def store_create(request):
             formset = StoreOpeningHourFormSet(request.POST, instance=Store())
             if form.is_valid() and formset.is_valid():
                 store = form.save(commit=False)
-                
-                # Salva primeiro para ter o ID
                 store.save()
                 form.save_m2m()
-                
-                # Agora comprime as imagens
                 for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']:
                     image_field = getattr(store, field_name)
                     if image_field:
                         compress_image(image_field)
-                
-                # Salva novamente para atualizar os caminhos das imagens
                 store.save()
-                
                 formset.instance = store
                 formset.save()
                 tags_raw = request.POST.get('tags', '')
                 tag_ids = [int(t) for t in tags_raw.split(',') if t.isdigit()]
                 store.tags.set(tag_ids)
-                
                 logger.info(f"Store created successfully - Store: {store.name}, ID: {store.id}, User: {request.user}")
                 return redirect('click32_admin:store_list')
             else:
@@ -145,7 +126,6 @@ def store_create(request):
         else:
             form = StoreForm()
             formset = StoreOpeningHourFormSet(instance=Store())
-            
         return render(request, 'click32_admin/store_form.html', {
             'form': form,
             'formset': formset,
@@ -168,26 +148,17 @@ def store_edit(request, store_id):
             if form.is_valid() and formset.is_valid():
                 old_obj = Store.objects.get(pk=store.pk)
                 new_obj = form.save(commit=False)
-                
-                # Salva primeiro
                 new_obj.save()
                 form.save_m2m()
-                
-                # Processa as imagens
                 for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']:
                     image_field = getattr(new_obj, field_name)
                     old_file = getattr(old_obj, field_name)
-                    
-                    # Se há uma nova imagem ou a imagem mudou
                     if image_field and image_field != old_file:
                         compress_image(image_field)
-                
-                # Process file changes (lógica de remoção mantida)
                 for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']:
                     old_file = getattr(old_obj, field_name)
                     new_file = getattr(new_obj, field_name)
                     cleared = request.POST.get(f"{field_name}-clear")
-                    
                     if cleared:
                         if old_file and os.path.isfile(old_file.path):
                             os.remove(old_file.path)
@@ -201,11 +172,8 @@ def store_edit(request, store_id):
                             logger.info(f"File replaced - Field: {field_name}, Old file: {old_file.path}")
                         if field_name == 'flyer_pdf':
                             cleanup_flyer_files(store_id)
-                
-                # Salva novamente após processar tudo
                 new_obj.save()
                 formset.save()
-                
                 logger.info(f"Store updated successfully - Store: {store.name}, ID: {store_id}, User: {request.user}")
                 return redirect('click32_admin:store_list')
             else:
@@ -213,7 +181,6 @@ def store_edit(request, store_id):
         else:
             form = StoreForm(instance=store)
             formset = StoreOpeningHourFormSet(instance=store)
-            
         return render(request, 'click32_admin/store_form.html', {
             'form': form,
             'formset': formset,
@@ -222,12 +189,9 @@ def store_edit(request, store_id):
         })
 
     except Store.DoesNotExist:
-        # CORRIGIDO: Log limpo sem stack trace
         logger.warning(f"Store não encontrada no admin - Store ID: {store_id}, User: {request.user.username}")
         raise Http404("Store não encontrada")
-        
     except Exception as e:
-        
         logger.error(f"Error in store_edit - Store ID: {store_id}, User: {request.user.username}, Error: {str(e)}")
         raise
 
@@ -237,11 +201,7 @@ def store_delete(request, store_id):
     try:
         store = get_object_or_404(Store, pk=store_id)
         logger.info(f"Store deletion attempted - Store: {store.name}, ID: {store_id}, User: {request.user}")
-
-        # PRIMEIRO: Limpa arquivos temporários do flyer
         cleanup_flyer_files(store_id)
-
-        # Delete associated files
         for image_field in [store.main_banner, store.carousel_2, store.carousel_3, store.carousel_4, store.flyer_pdf]:
             if image_field and os.path.exists(image_field.path):
                 try:
@@ -249,8 +209,6 @@ def store_delete(request, store_id):
                     logger.info(f"Store image deleted - File: {image_field.path}")
                 except Exception as e:
                     logger.error(f"Error deleting store image - File: {image_field.path}, Error: {str(e)}")
-
-        # Delete store directory
         store_dir = os.path.join('media', f'stores/{slugify(store.name)}')
         if os.path.isdir(store_dir):
             try:
@@ -258,13 +216,10 @@ def store_delete(request, store_id):
                 logger.info(f"Store directory deleted - Path: {store_dir}")
             except Exception as e:
                 logger.error(f"Error deleting store directory - Path: {store_dir}, Error: {str(e)}")
-
         store_name = store.name
         store.delete()
-        
         logger.info(f"Store deleted successfully - Store: {store_name}, ID: {store_id}, User: {request.user}")
         return redirect('click32_admin:store_list')
-        
     except Store.DoesNotExist:
         logger.error(f"Store not found for deletion - Store ID: {store_id}, User: {request.user}")
         raise
@@ -285,7 +240,6 @@ def clicks_dashboard(request):
 def global_widgets_dashboard(request):
     try:
         logger.info(f"Global widgets dashboard accessed - User: {request.user}")
-        
         clicks_data = get_clicks_data()
         clicks_summary = {
             'whatsapp_1': sum(data['whatsapp_1'] for data in clicks_data),
@@ -301,25 +255,19 @@ def global_widgets_dashboard(request):
             'flyer': sum(data['flyer'] for data in clicks_data),
             'qr_code_scan': sum(data.get('qr_code_scan', 0) for data in clicks_data),
         }
-        
         site_metrics = get_site_metrics()
-        
         pwa_stats = {
             'total_clicks': PWADownloadClick.objects.count(),
             'accepted_installs': PWADownloadClick.objects.filter(action='accepted').count(),
             'dismissed_installs': PWADownloadClick.objects.filter(action='dismissed').count(),
             'button_clicks': PWADownloadClick.objects.filter(action='clicked').count(),
         }
-        
         if pwa_stats['button_clicks'] > 0:
             pwa_stats['conversion_rate'] = round((pwa_stats['accepted_installs'] / pwa_stats['button_clicks']) * 100, 1)
         else:
             pwa_stats['conversion_rate'] = 0
-        
         session_metrics = get_session_metrics()
-        
         logger.debug(f"Global dashboard metrics - Stores: {get_store_count()}, Active users: {session_metrics['active_5min']}, PWA conversion: {pwa_stats['conversion_rate']}%")
-
         context = {
             'store_count': get_store_count(),
             'global_clicks': get_global_clicks(),
@@ -331,11 +279,9 @@ def global_widgets_dashboard(request):
             'pwa_stats_json': json.dumps(pwa_stats),
             'active_users_count': session_metrics['active_5min'],
             'session_metrics': session_metrics,
-           # 'session_metrics_json': json.dumps(session_metrics),
             'qr_code_scans': clicks_summary['qr_code_scan'],
         }
         return render(request, 'click32_admin/global_dashboard.html', context)
-        
     except Exception as e:
         logger.error(f"Error in global_widgets_dashboard - User: {request.user}, Error: {str(e)}", exc_info=True)
         raise
@@ -360,27 +306,20 @@ def admin_login(request):
         if request.method == 'POST':
             username = request.POST.get('username')
             logger.info(f"Admin login attempt - Username: {username}")
-            
             password = request.POST.get('password')
             user = authenticate(request, username=username, password=password)
-            
             if user is not None:
                 logger.info(f"User authenticated - Username: {user.username}, Staff: {user.is_staff}, Superuser: {user.is_superuser}")
-                
                 if user.is_staff or user.is_superuser:
                     login(request, user)
                     logger.info(f"Admin login successful - User: {user.username}")
-                    
                     next_url = request.POST.get('next') or request.GET.get('next') or reverse('click32_admin:dashboard')
                     if not next_url or next_url == '':
                         next_url = reverse('click32_admin:dashboard')
-                    
-                    # Restrict access to certain URLs for non-superusers
                     if any(x in next_url for x in ['tags', 'categories', 'users', 'groups']):
                         if not user.is_superuser:
                             logger.warning(f"Non-superuser attempted restricted access - User: {user.username}, URL: {next_url}")
                             next_url = reverse('click32_admin:dashboard')
-                    
                     return redirect(next_url)
                 else:
                     logger.warning(f"Non-admin user attempted login - Username: {username}")
@@ -398,13 +337,10 @@ def admin_login(request):
             response = render(request, 'click32_admin/login.html', {
                 'next': request.GET.get('next', '')
             })
-        
-        # Prevent caching of the login page
         response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response['Pragma'] = 'no-cache'
         response['Expires'] = '0'
         return response
-        
     except Exception as e:
         logger.error(f"Error in admin_login - Error: {str(e)}", exc_info=True)
         raise
@@ -412,16 +348,12 @@ def admin_login(request):
 def admin_logout(request):
     username = request.user.username if request.user.is_authenticated else 'Anonymous'
     logger.info(f"Admin logout - User: {username}")
-    
     logout(request)
     request.session.flush()
     response = redirect('click32_admin:admin_login')
-    
-    # Prevent caching
     response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
-    
     return response
 
 # Tag management views
@@ -456,7 +388,6 @@ def tag_edit(request, tag_id):
     try:
         tag = get_object_or_404(Tag, pk=tag_id)
         logger.info(f"Tag edit accessed - Tag: {tag.name}, ID: {tag_id}, User: {request.user}")
-
         if request.method == 'POST':
             form = TagForm(request.POST, instance=tag)
             if form.is_valid():
@@ -493,7 +424,7 @@ def tag_delete(request, tag_id):
         logger.error(f"Error in tag_delete - Tag ID: {tag_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
         raise
 
-# Category management views (similar pattern as tags)
+# Category management views
 @check_permission(lambda u: u.is_superuser)
 def category_list(request):
     logger.info(f"Category list accessed - User: {request.user}")
@@ -525,7 +456,6 @@ def category_edit(request, category_id):
     try:
         category = get_object_or_404(Category, pk=category_id)
         logger.info(f"Category edit accessed - Category: {category.name}, ID: {category_id}, User: {request.user}")
-
         if request.method == 'POST':
             form = CategoryForm(request.POST, instance=category)
             if form.is_valid():
@@ -607,7 +537,6 @@ def user_edit(request, user_id):
     try:
         user = get_object_or_404(User, pk=user_id)
         logger.info(f"User edit accessed - Target: {user.username}, ID: {user_id}, By: {request.user}")
-
         if request.method == 'POST':
             form = UserChangeForm(request.POST, instance=user)
             if form.is_valid():
@@ -649,7 +578,6 @@ def user_change_password(request, user_id):
     try:
         user = get_object_or_404(User, pk=user_id)
         logger.info(f"Password change accessed - Target: {user.username}, ID: {user_id}, By: {request.user}")
-
         if request.method == 'POST':
             form = PasswordChangeForm(user, request.POST)
             if form.is_valid():
@@ -700,7 +628,6 @@ def group_edit(request, group_id):
     try:
         group = get_object_or_404(Group, pk=group_id)
         logger.info(f"Group edit accessed - Group: {group.name}, ID: {group_id}, User: {request.user}")
-
         if request.method == 'POST':
             form = GroupForm(request.POST, instance=group)
             if form.is_valid():
@@ -744,7 +671,7 @@ def _generate_report_data(request, store_id, start_date, end_date):
     """
     try:
         logger.info(f"Generating report data - Store ID: {store_id}, Period: {start_date} to {end_date}, User: {request.user}")
-        
+
         clicks_data = get_clicks_data(store_id=store_id, start_date=start_date, end_date=end_date)
         if not clicks_data:
             logger.warning(f"No clicks data found for report - Store ID: {store_id}, Period: {start_date} to {end_date}")
@@ -759,7 +686,6 @@ def _generate_report_data(request, store_id, start_date, end_date):
         profile_accesses = get_profile_accesses(store_id=store_id, start_date=start_date, end_date=end_date)
         total_clicks = get_global_clicks(store_id=store_id, start_date=start_date, end_date=end_date)
 
-        # map de links configuráveis
         link_map = {
             'whatsapp_1': {'label': 'WhatsApp 1', 'field': store.whatsapp_link_1},
             'whatsapp_2': {'label': 'WhatsApp 2', 'field': store.whatsapp_link_2},
@@ -774,11 +700,9 @@ def _generate_report_data(request, store_id, start_date, end_date):
             'flyer': {'label': 'Flyer', 'field': store.flyer_pdf},
         }
 
-        # origem dos totais por tipo de link
         full_labels = link_clicks_full.get('labels', [])
         full_data = link_clicks_full.get('data', [])
 
-        # monta lista de links configurados
         link_keys = ['whatsapp_1', 'whatsapp_2', 'phone', 'instagram', 'facebook', 'youtube', 'x_link', 'google_maps', 'anota_ai', 'ifood', 'flyer']
         configured_links = []
         for key in link_keys:
@@ -790,19 +714,14 @@ def _generate_report_data(request, store_id, start_date, end_date):
                 val = full_data[idx] if idx < len(full_data) else 0
                 configured_links.append({'key': key, 'label': info['label'], 'data': int(val)})
 
-        # soma total de cliques em links
         total_links_sum = sum(l['data'] for l in configured_links)
-
-        # Ordena os items por data desc
         configured_links_sorted = sorted(configured_links, key=lambda x: x['data'], reverse=True)
 
-        # Cria labels/data consistentes
         link_clicks = {
             'labels': [l['label'] for l in configured_links_sorted],
             'data': [l['data'] for l in configured_links_sorted]
         }
 
-        # timeline_raw -> timeline_list
         labels = timeline_raw.get('labels', [])
         links_dict = timeline_raw.get('links', {})
 
@@ -825,10 +744,8 @@ def _generate_report_data(request, store_id, start_date, end_date):
                 'top_link': day_top_link or 'Nenhum'
             })
 
-        # non_zero_days
         non_zero_days = sum(1 for d in timeline_list if d['total'] > 0)
 
-        # peak day
         if timeline_list and any(d['total'] > 0 for d in timeline_list):
             peak_day = max(timeline_list, key=lambda d: d['total'])
             peak_day_label = peak_day['label']
@@ -839,13 +756,11 @@ def _generate_report_data(request, store_id, start_date, end_date):
             peak_day_total = 0
             peak_percent_links = 0.0
 
-        # Monta items já ordenados
         items = []
         for l in configured_links_sorted:
             pct = round((l['data'] / total_links_sum * 100) if total_links_sum > 0 else 0, 1)
             items.append({'label': l['label'], 'data': l['data'], 'percent': pct})
-        
-        # Buscar compartilhamentos do mês
+
         shares_count = ShareTrack.objects.filter(
             store_id=store_id,
             shared_at__date__gte=start_date,
@@ -891,24 +806,34 @@ def _generate_report_data(request, store_id, start_date, end_date):
         logger.error(f"Error generating report data - Store ID: {store_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
         return None
 
+
+# ============================================================
+# ALTERADO: datas corrigidas para mês calendário atual
+# ============================================================
+
 @check_permission(lambda u: u.is_superuser)
-def monthly_report_api(request, store_id):    
+def monthly_report_api(request, store_id):
     try:
-        end_date = timezone.now().date()
-        start_date = end_date - timedelta(days=29)
-        
+        today = timezone.now().date()
+        start_date = today.replace(day=1)
+        if today.month == 12:
+            end_date = today.replace(year=today.year + 1, month=1, day=1) - timedelta(days=1)
+        else:
+            end_date = today.replace(month=today.month + 1, day=1) - timedelta(days=1)
+
         logger.info(f"Monthly report API accessed - Store ID: {store_id}, User: {request.user}")
-        
+
         report_data = _generate_report_data(request, store_id, start_date, end_date)
         if not report_data:
             logger.warning(f"No report data found for API - Store ID: {store_id}")
             return JsonResponse({'error': 'Loja não encontrada ou sem dados'}, status=404)
-        
+
         return JsonResponse(report_data)
-        
+
     except Exception as e:
         logger.error(f"Error in monthly_report_api - Store ID: {store_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
         return JsonResponse({'error': 'Erro interno do servidor'}, status=500)
+
 
 @check_permission(lambda u: u.is_superuser)
 def monthly_report_view(request, store_id):
@@ -916,31 +841,36 @@ def monthly_report_view(request, store_id):
         store = get_object_or_404(Store, id=store_id)
         logger.info(f"Monthly report view accessed - Store: {store.name}, ID: {store_id}, User: {request.user}")
 
-        end_date = timezone.now().date()
-        start_date = end_date - timedelta(days=29)
-        
+        today = timezone.now().date()
+        start_date = today.replace(day=1)
+        if today.month == 12:
+            end_date = today.replace(year=today.year + 1, month=1, day=1) - timedelta(days=1)
+        else:
+            end_date = today.replace(month=today.month + 1, day=1) - timedelta(days=1)
+
         report_data = _generate_report_data(request, store_id, start_date, end_date)
         if not report_data:
             logger.warning(f"No report data found for view - Store: {store.name}, ID: {store_id}")
             context = {'store_name': store.name, 'error': 'Sem dados para este período.'}
             return render(request, 'click32_admin/monthly_report.html', context)
-        
+
         context = {
             'store_id': store_id,
             'store_name': store.name,
             'report_data': report_data,
             'now': timezone.now(),
         }
-        
+
         logger.info(f"Monthly report rendered successfully - Store: {store.name}, User: {request.user}")
         return render(request, 'click32_admin/monthly_report.html', context)
-        
+
     except Store.DoesNotExist:
         logger.error(f"Store not found for monthly report - Store ID: {store_id}, User: {request.user}")
         raise
     except Exception as e:
         logger.error(f"Error in monthly_report_view - Store ID: {store_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
         raise
+
 
 @check_permission(lambda u: u.is_superuser)
 def generate_qr_code(request, qr_uuid):
@@ -949,12 +879,9 @@ def generate_qr_code(request, qr_uuid):
         store_url = request.build_absolute_uri(
             reverse('store_detail_by_uuid', args=[store.qr_uuid])
         )
-        
         qr_dir = os.path.join(settings.MEDIA_ROOT, 'qr_codes')
         os.makedirs(qr_dir, exist_ok=True)
         qr_path = os.path.join(qr_dir, f'{store.qr_uuid}.png')
-        
-        
         if not os.path.exists(qr_path):
             qr = qrcode.QRCode(version=1, box_size=10, border=4)
             qr.add_data(store_url)
@@ -962,12 +889,9 @@ def generate_qr_code(request, qr_uuid):
             img = qr.make_image(fill_color="black", back_color="white")
             img.save(qr_path)
             logger.info(f"QR Code gerado: {qr_path}")
-        
-        
         with open(qr_path, 'rb') as f:
             response = HttpResponse(f.read(), content_type='image/png')
             response['Cache-Control'] = 'no-cache, no-store'
             return response
-            
     except Store.DoesNotExist:
         raise Http404("Loja não encontrada")

@@ -299,7 +299,7 @@ body {
 }
 
 .problem-card {
-    background: #fafafa;
+    background: #e8f4f8;
     border: 1px solid #e8edf0;
     border-radius: var(--radius);
     padding: 20px;
@@ -538,7 +538,7 @@ body {
     align-items: flex-start;
     text-align: left;
     padding: 20px;
-    background: #fafafa;
+    background: #e8f4f8;
     border-radius: var(--radius);
     border: 1px solid #eaecef;
 }
@@ -823,7 +823,7 @@ body {
 }
 
 .faq-item {
-    background: #fafafa;
+    background: #e8f4f8;
     border: 1px solid #eaecef;
     border-radius: var(--radius);
     padding: 20px;

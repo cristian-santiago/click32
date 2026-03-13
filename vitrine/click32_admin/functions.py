@@ -1,5 +1,5 @@
 from django.db.models import Sum, Max, Q, Count
-from vitrine.models import Store, ClickTrack, Category, PWADownloadClick, ActiveSession  
+from vitrine.models import Store, ClickTrack, ClickTrackDaily, Category, PWADownloadClick, ActiveSession  
 from django.utils import timezone
 from datetime import timedelta
 import json
@@ -17,13 +17,17 @@ def get_category_tags():
     ]
 
 def get_timeline_data(store_id=None, start_date=None, end_date=None):
-    # Período padrão: últimos 30 dias se não passado
+    # Período padrão: mês calendário atual
     if start_date is None or end_date is None:
-        end_date = timezone.now().date()
-        start_date = end_date - timedelta(days=29)  # 30 dias
-    
+        today = timezone.now().date()
+        start_date = today.replace(day=1)
+        if today.month == 12:
+            end_date = today.replace(year=today.year + 1, month=1, day=1) - timedelta(days=1)
+        else:
+            end_date = today.replace(month=today.month + 1, day=1) - timedelta(days=1)
+
     dates = [start_date + timedelta(days=x) for x in range((end_date - start_date).days + 1)]
-    
+
     timeline_data = {
         'labels': [d.strftime('%d/%m') for d in dates],
         'links': {
@@ -36,37 +40,46 @@ def get_timeline_data(store_id=None, start_date=None, end_date=None):
             'youtube': [0] * len(dates),
             'x_link': [0] * len(dates),
             'ifood': [0] * len(dates),
-            'anota_ai': [0] * len(dates),         
+            'anota_ai': [0] * len(dates),
             'google_maps': [0] * len(dates),
             'flyer': [0] * len(dates),
             'qr_code_scan': [0] * len(dates),
         }
     }
-    
-    base_filter = Q(last_clicked__date__range=[start_date, end_date])
+
+    # Mapeamento element_type do banco para chave do timeline_data
+    element_type_map = {
+        'main_banner': 'main_banner',
+        'whatsapp_link_1': 'whatsapp_1',
+        'whatsapp_link_2': 'whatsapp_2',
+        'phone_link': 'phone',
+        'instagram_link': 'instagram',
+        'facebook_link': 'facebook',
+        'youtube_link': 'youtube',
+        'x_link': 'x_link',
+        'google_maps_link': 'google_maps',
+        'anota_ai_link': 'anota_ai',
+        'ifood_link': 'ifood',
+        'flyer_pdf': 'flyer',
+        'qr_code_scan': 'qr_code_scan',
+    }
+
+    base_filter = Q(date__range=[start_date, end_date])
     if store_id:
         base_filter &= Q(store_id=store_id)
-    
-    for i, date in enumerate(dates):
-        daily_clicks = ClickTrack.objects.filter(base_filter & Q(last_clicked__date=date)).aggregate(
-            main_banner=Sum('click_count', filter=Q(element_type='main_banner')),
-            whatsapp_1=Sum('click_count', filter=Q(element_type='whatsapp_link_1')),
-            whatsapp_2=Sum('click_count', filter=Q(element_type='whatsapp_link_2')),
-            phone=Sum('click_count', filter=Q(element_type='phone_link')),
-            instagram=Sum('click_count', filter=Q(element_type='instagram_link')),
-            facebook=Sum('click_count', filter=Q(element_type='facebook_link')),
-            youtube=Sum('click_count', filter=Q(element_type='youtube_link')),
-            x_link=Sum('click_count', filter=Q(element_type='x_link')),
-            google_maps=Sum('click_count', filter=Q(element_type='google_maps_link')),
-            anota_ai=Sum('click_count', filter=Q(element_type='anota_ai_link')),
-            ifood=Sum('click_count', filter=Q(element_type='ifood_link')),
-            qr_code_scan=Sum('click_count', filter=Q(element_type='qr_code_scan')),
-            flyer=Sum('click_count', filter=Q(element_type='flyer_pdf')),
-        )
-        for key in timeline_data['links']:
-            value = daily_clicks[key]
-            timeline_data['links'][key][i] = int(value) if value is not None and isinstance(value, (int, float)) else 0
-    
+
+    # Busca todos os registros do período de uma vez
+    records = ClickTrackDaily.objects.filter(base_filter).values('date', 'element_type', 'click_count')
+
+    # Índice de datas para acesso O(1)
+    date_index = {d: i for i, d in enumerate(dates)}
+
+    for record in records:
+        key = element_type_map.get(record['element_type'])
+        idx = date_index.get(record['date'])
+        if key and idx is not None:
+            timeline_data['links'][key][idx] += record['click_count']
+
     return timeline_data
 
 # Outras funções permanecem inalteradas
@@ -194,16 +207,20 @@ def get_engagement_rate(store_id=None, start_date=None, end_date=None):
     return round(engagement_rate, 1)
 
 def get_total_clicks_by_link_type(store_id=None, start_date=None, end_date=None):
-    # 👇 ALINHE COM get_timeline_data: últimos 30 dias se não passado
+    # Mês calendário atual se não passado
     if start_date is None or end_date is None:
-        end_date = timezone.now().date()
-        start_date = end_date - timedelta(days=29)  # Últimos 30 dias
-    
-    base_filter = Q(last_clicked__date__range=[start_date, end_date])
+        today = timezone.now().date()
+        start_date = today.replace(day=1)
+        if today.month == 12:
+            end_date = today.replace(year=today.year + 1, month=1, day=1) - timedelta(days=1)
+        else:
+            end_date = today.replace(month=today.month + 1, day=1) - timedelta(days=1)
+
+    base_filter = Q(date__range=[start_date, end_date])
     if store_id:
         base_filter &= Q(store_id=store_id)
-    
-    clicks = ClickTrack.objects.filter(base_filter).aggregate(
+
+    clicks = ClickTrackDaily.objects.filter(base_filter).aggregate(
         whatsapp_1=Sum('click_count', filter=Q(element_type='whatsapp_link_1')),
         whatsapp_2=Sum('click_count', filter=Q(element_type='whatsapp_link_2')),
         phone=Sum('click_count', filter=Q(element_type='phone_link')),

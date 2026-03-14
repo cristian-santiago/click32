@@ -40,7 +40,7 @@
           crossorigin="anonymous">
 
     {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    <link rel="stylesheet" href="{% static 'css/about.css' %}?v={{ STATIC_VERSION }}">
     {% endblock %}
     {% endautoescape %}
 </head>
@@ -188,7 +188,7 @@
         <p>© 2026 Click32 — Feito no Km32, para o Km32.</p>
     </footer>
 
-    <script src="{% static 'js/about.js' %}"></script>
+    <script src="{% static 'js/about.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/service-worker-register.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/pwa_install.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/active_session.js' %}?v={{ STATIC_VERSION }}"></script>

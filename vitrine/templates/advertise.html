@@ -39,7 +39,7 @@
           rel="stylesheet"
           crossorigin="anonymous">
 
-    <link rel="stylesheet" href="{% static 'css/advertise.css' %}">
+    <link rel="stylesheet" href="{% static 'css/advertise.css' %}?v={{ STATIC_VERSION }}">
     {% endautoescape %}
 </head>
 <body>
@@ -409,6 +409,6 @@
         <p>© 2026 Click32 — Feito no Km32, para o Km32.</p>
     </footer>
 
-    <script src="{% static 'js/advertise.js' %}"></script>
+    <script src="{% static 'js/advertise.js' %}?v={{ STATIC_VERSION }}"></script>
 </body>
 </html>

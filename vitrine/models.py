@@ -161,3 +161,22 @@ class ActiveSession(models.Model):
     def is_active(self, minutes=5):
         """Verifica se a sessão está ativa nos últimos X minutos"""
         return (timezone.now() - self.last_activity).total_seconds() < (minutes * 60)
+
+class ClickTrackDaily(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicktrack_daily', null=True, blank=True)
+    element_type = models.CharField(max_length=50, choices=ClickTrack._meta.get_field('element_type').choices)
+    date = models.DateField()
+    click_count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('store', 'element_type', 'date')
+        indexes = [
+            models.Index(fields=['store', 'date']),
+            models.Index(fields=['store', 'element_type', 'date']),
+        ]
+        verbose_name = "Clique Diário"
+        verbose_name_plural = "Cliques Diários"
+
+    def __str__(self):
+        store_name = self.store.name if self.store else 'No Store'
+        return f"{store_name} - {self.element_type} - {self.date} - {self.click_count} clicks"

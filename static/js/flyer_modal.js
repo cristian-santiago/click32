@@ -21,7 +21,7 @@
             
             this.config = {
                 fetchTimeout: 10000,
-                preloadTimeout: 2000,
+                preloadTimeout: 5000,
                 maxZoom: 4,
                 minZoom: 1,
                 zoomStep: 0.35,

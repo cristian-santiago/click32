@@ -52,12 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let isSwiping = false;
 
   document.addEventListener('touchstart', (e) => {
+    if (document.getElementById('flyerModal')?.classList.contains('show')) return;
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     isSwiping = true;
   }, { passive: true });
 
   document.addEventListener('touchmove', (e) => {
+    if (document.getElementById('flyerModal')?.classList.contains('show')) return;
     if (!isSwiping) return;
     
     const touchCurrentX = e.touches[0].clientX;
@@ -74,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: false });
 
   document.addEventListener('touchend', (e) => {
+    if (document.getElementById('flyerModal')?.classList.contains('show')) return;
     if (!isSwiping) return;
     
     const touchEndX = e.changedTouches[0].clientX;

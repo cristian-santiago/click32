@@ -1,5 +1,8 @@
 /**
- * Flyer Modal Manager - Versão segura e funcional
+ * Flyer Modal Manager - Versão com Swiper.js integrado
+ * Mantém o CSS original, adiciona classes do Swiper para compatibilidade.
+ * Remove lógica custom de zoom/swipe, usa Swiper para carrossel, zoom (pinch/wheel), swipe e pagination.
+ * Botões de zoom usam API do Swiper com cálculo de steps.
  */
 (function() {
     'use strict';
@@ -11,35 +14,18 @@
             this.errorMessage = null;
             this.isFetching = false;
             this.currentFlyerIndex = 0;
-            this.zoomState = this.getInitialZoomState();
             this.eventListeners = new Map();
             this.timeouts = new Set();
             this.initialized = false;
-            this.touchStartX = 0;
-            this.isSwiping = false;
+            this.swiper = null; // Instância do Swiper
             
             this.config = {
                 fetchTimeout: 10000,
                 preloadTimeout: 5000,
                 maxZoom: 4,
                 minZoom: 1,
-                zoomStep: 0.5,
-                swipeThreshold: 50,
-                wheelZoomStep: 0.1
-            };
-        }
-
-        getInitialZoomState() {
-            return {
-                scale: 1,
-                translateX: 0,
-                translateY: 0,
-                baseTranslateY: 0,
-                startDistance: 0,
-                startX: 0,
-                startY: 0,
-                isPinching: false,
-                isDragging: false
+                zoomStep: 0.35,
+                swipeThreshold: 50
             };
         }
 
@@ -87,8 +73,8 @@
         initializeModal() {
             try {
                 this.modalElement = document.getElementById('flyerModal');
-                this.loadingSpinner = document.querySelector('.flyer-modal .loading-spinner');
-                this.errorMessage = document.querySelector('.flyer-modal .error-message');
+                this.loadingSpinner = document.querySelector('.flyer-modal .flyer-loading-spinner');
+                this.errorMessage = document.querySelector('.flyer-modal .flyer-error-message');
                 
                 if (!this.modalElement) {
                     console.warn('Modal element não encontrado');
@@ -123,152 +109,38 @@
                 
                 this.isFetching = false;
                 this.currentFlyerIndex = 0;
-                this.zoomState = this.getInitialZoomState();
                 
-                const carouselInner = document.getElementById('flyerCarouselInner');
-                const indicatorsContainer = document.getElementById('flyerIndicators');
-                if (carouselInner) carouselInner.innerHTML = '';
+                const carouselTrack = document.getElementById('flyerCarouselTrack');
+                const indicatorsContainer = document.getElementById('flyerCarouselIndicators');
+                if (carouselTrack) carouselTrack.innerHTML = '';
                 if (indicatorsContainer) indicatorsContainer.innerHTML = '';
                 
                 this.clearAllTimeouts();
+                
+                // Destroi Swiper se existir
+                if (this.swiper) {
+                    this.swiper.destroy(true, true);
+                    this.swiper = null;
+                }
                 
             } catch (error) {
                 console.error('Erro ao fechar modal:', error);
             }
         }
 
-        getTouchDistance(touches) {
-            try {
-                const dx = touches[0].clientX - touches[1].clientX;
-                const dy = touches[0].clientY - touches[1].clientY;
-                return Math.sqrt(dx * dx + dy * dy);
-            } catch (error) {
-                console.error('Erro ao calcular distância de toque:', error);
-                return 0;
-            }
-        }
-
-        applyTransform(img) {
-            try {
-                if (!img) return;
-                const totalTranslateY = this.zoomState.translateY + this.zoomState.baseTranslateY;
-                img.style.transform = `scale(${this.zoomState.scale}) translate(${this.zoomState.translateX}px, ${totalTranslateY}px)`;
-            } catch (error) {
-                console.error('Erro ao aplicar transformação:', error);
-            }
-        }
-
-        adjustInitialPosition(img) {
-            try {
-                const container = img.parentElement;
-                if (!container) return;
-
-                const containerHeight = container.clientHeight;
-                const containerWidth = container.clientWidth;
-                const imgHeight = img.clientHeight;
-                const imgWidth = img.clientWidth;
-
-                this.zoomState.scale = 1;
-                this.zoomState.translateX = 0;
-                this.zoomState.translateY = 0;
-
-                if (imgHeight < containerHeight) {
-                    this.zoomState.baseTranslateY = (containerHeight - imgHeight) / 2;
-                } else {
-                    this.zoomState.baseTranslateY = 0;
-                }
-
-                if (imgWidth < containerWidth) {
-                    this.zoomState.translateX = (containerWidth - imgWidth) / 2;
-                }
-
-                this.applyTransform(img);
-            } catch (error) {
-                console.error('Erro ao ajustar posição inicial:', error);
-            }
-        }
-
-        setupSwipeNavigation() {
-            const carouselInner = document.getElementById('flyerCarouselInner');
-            if (!carouselInner) return;
-
-            const handleTouchStart = (e) => {
-                if (e.touches.length === 1 && this.zoomState.scale === 1) {
-                    this.touchStartX = e.touches[0].clientX;
-                    this.isSwiping = true;
-                }
-            };
-
-            const handleTouchMove = (e) => {
-                if (e.touches.length > 1) this.isSwiping = false;
-            };
-
-            const handleTouchEnd = (e) => {
-                if (!this.isSwiping || this.zoomState.scale > 1) {
-                    this.isSwiping = false;
-                    return;
-                }
-
-                const endX = e.changedTouches[0].clientX;
-                const deltaX = endX - this.touchStartX;
-                const items = document.querySelectorAll('.flyer-modal .carousel-item');
-                
-                if (Math.abs(deltaX) > this.config.swipeThreshold) {
-                    if (deltaX > 0 && this.currentFlyerIndex > 0) {
-                        this.goToSlide(this.currentFlyerIndex - 1);
-                    } else if (deltaX < 0 && this.currentFlyerIndex < items.length - 1) {
-                        this.goToSlide(this.currentFlyerIndex + 1);
-                    }
-                }
-                
-                this.isSwiping = false;
-            };
-
-            carouselInner.addEventListener('touchstart', handleTouchStart, { passive: true });
-            carouselInner.addEventListener('touchmove', handleTouchMove, { passive: true });
-            carouselInner.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-            this.eventListeners.set(carouselInner, {
-                touchstart: handleTouchStart,
-                touchmove: handleTouchMove,
-                touchend: handleTouchEnd
-            });
-        }
-
-            applyModalStyles() {
-                if (!this.modalElement) return;
-                
-                const modalDialog = this.modalElement.querySelector('.modal-dialog');
-                if (modalDialog) {
-                    modalDialog.style.display = 'flex';
-                    modalDialog.style.alignItems = 'center';
-                    modalDialog.style.minHeight = '100vh';
-                    modalDialog.style.margin = '0 auto';
-                }
-
-                // SÓ configurar estilos, NÃO mostrar
-                this.modalElement.style.alignItems = 'center';
-                this.modalElement.style.justifyContent = 'center';
-                this.modalElement.style.position = 'fixed';
-                this.modalElement.style.top = '0';
-                this.modalElement.style.left = '0';
-                this.modalElement.style.width = '100%';
-                this.modalElement.style.height = '100%';
-                this.modalElement.style.zIndex = '9999';
-                this.modalElement.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-                // NÃO definir display aqui - isso será feito no openModal()
-            }
         async handleFlyerFetch(storeId) {
             if (this.isFetching || !this.validateStoreId(storeId)) return;
 
             this.isFetching = true;
 
             try {
-                const carouselInner = document.getElementById('flyerCarouselInner');
-                const indicatorsContainer = document.getElementById('flyerIndicators');
+                const carouselTrack = document.getElementById('flyerCarouselTrack');
+                const indicatorsContainer = document.getElementById('flyerCarouselIndicators');
 
-                if (!carouselInner || !indicatorsContainer) {
+                if (!carouselTrack || !indicatorsContainer) {
+                    console.error('Elementos não encontrados:', { carouselTrack, indicatorsContainer });
                     this.showError('Elementos do carrossel não encontrados.');
+                    this.closeModal();
                     return;
                 }
 
@@ -306,7 +178,7 @@
                     return;
                 }
 
-                await this.loadFlyerPages(data.page_urls, carouselInner, indicatorsContainer);
+                await this.loadFlyerPages(data.page_urls, carouselTrack, indicatorsContainer);
                 
             } catch (error) {
                 console.error('Erro ao carregar flyer:', error);
@@ -317,205 +189,149 @@
             }
         }
 
-        async loadFlyerPages(pageUrls, carouselInner, indicatorsContainer) {
-            try {
-                const safeUrls = pageUrls
-                    .map(url => this.sanitizeUrl(url))
-                    .filter(url => url !== null);
+        loadFlyerPages(pageUrls, carouselTrack, indicatorsContainer) {
+            const safeUrls = pageUrls.map(url => this.sanitizeUrl(url)).filter(Boolean);
+            if (!safeUrls.length) return this.showError('Nenhuma URL válida');
 
-                if (safeUrls.length === 0) throw new Error('Nenhuma URL válida encontrada');
-
-                await this.preloadImages(safeUrls);
-                this.createCarouselItems(safeUrls, carouselInner, indicatorsContainer);
-                this.setupSwipeNavigation();
-                this.setupZoomControls();
-                
-            } catch (error) {
-                console.error('Erro ao carregar páginas:', error);
-                throw error;
-            }
+            this.createCarouselItems(safeUrls, carouselTrack, indicatorsContainer);
+            this.initializeSwiper(carouselTrack, indicatorsContainer);
+            this.setupWheelZoom();
+            this.setupZoomControls();
         }
 
-async preloadImages(urls) {
-    // Remove completamente - não precisa pré-carregar
-    return Promise.resolve();
+        createCarouselItems(urls, carouselTrack, indicatorsContainer) {
+            carouselTrack.innerHTML = '';
+            indicatorsContainer.innerHTML = '';
+
+            const container = carouselTrack.parentElement;
+            container.classList.add('swiper');
+            carouselTrack.classList.add('swiper-wrapper');
+
+            urls.forEach((url, i) => {
+                const slide = this.createSafeElement('div', {
+                    class: `swiper-slide flyer-carousel-item ${i === 0 ? 'active' : ''}`,
+                    'data-index': i
+                });
+
+                const zoomContainer = this.createSafeElement('div', {
+                    class: 'swiper-zoom-container flyer-pinch-zoom-container'
+                });
+
+                const img = this.createSafeElement('img', {
+                    src: url,
+                    alt: `Página ${i + 1}`,
+                    class: 'swiper-lazy flyer-carousel-image',
+                    loading: 'lazy'
+                });
+
+                const preloader = this.createSafeElement('div', { class: 'swiper-lazy-preloader' });
+
+                zoomContainer.append(img, preloader);
+                slide.appendChild(zoomContainer);
+                carouselTrack.appendChild(slide);
+            });
+        }
+initializeSwiper(track, indicators) {
+
+    this.swiper = new Swiper(track.parentElement, {
+
+        slidesPerView: 1,
+        spaceBetween: 0,
+
+        effect: "slide",
+        speed: 350,
+
+        centeredSlides: false,
+
+        threshold: this.config.swipeThreshold,
+
+        longSwipesRatio: 0.1,
+        longSwipesMs: 200,
+        shortSwipes: true,
+
+        followFinger: false,
+
+        resistance: false,
+        touchReleaseOnEdges: false,
+
+        zoom: {
+            maxRatio: this.config.maxZoom,
+            minRatio: this.config.minZoom,
+            toggle: true
+        },
+
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true
+        },
+
+        lazy: true,
+        preloadImages: false,
+
+        on: {
+
+            slideChange: () => {
+                this.currentFlyerIndex = this.swiper.activeIndex;
+            },
+
+            zoomChange: (swiper, scale) => {
+
+                if (scale > 1) {
+                    swiper.allowTouchMove = false;
+                } else {
+                    swiper.allowTouchMove = true;
+                }
+
+            }
+
+        }
+
+    });
+
 }
 
-        createCarouselItems(urls, carouselInner, indicatorsContainer) {
-            try {
-                carouselInner.innerHTML = '';
-                indicatorsContainer.innerHTML = '';
+        setupWheelZoom() {
+    const container = this.swiper?.el;
 
-                urls.forEach((url, index) => {
-                    const carouselItem = this.createSafeElement('div', {
-                        'class': `carousel-item ${index === 0 ? 'active' : ''}`,
-                        'data-index': index
-                    });
-                    
-                    carouselItem.style.transform = index === 0 ? 'translateX(0)' : 'translateX(100%)';
-                    carouselItem.style.opacity = index === 0 ? '1' : '0';
+    if (!container) return;
 
-                    const zoomContainer = this.createSafeElement('div', {
-                        'class': 'pinch-zoom-container',
-                        'style': 'width: 100%; height: 100%; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; overflow-x: hidden; touch-action: pan-y;'
-                    });
+    container.addEventListener('wheel', (e) => {
+        if (!this.swiper) return;
 
-                    const img = this.createSafeElement('img', {
-                        'src': url,
-                        'alt': `Página ${index + 1} do encarte`,
-                        'style': 'width: 100%; height: auto; max-width: none; user-select: none; -webkit-user-drag: none; display: block;',
-                        'loading': 'lazy'
-                    });
+        e.preventDefault();
 
-                    zoomContainer.appendChild(img);
-                    carouselItem.appendChild(zoomContainer);
-                    carouselInner.appendChild(carouselItem);
+        const current = this.swiper.zoom.scale || 1;
 
-                    this.setupImageEvents(img, zoomContainer);
-                    this.createCarouselIndicator(index, indicatorsContainer);
-                });
-
-                this.currentFlyerIndex = 0;
-
-            } catch (error) {
-                console.error('Erro ao criar itens do carousel:', error);
-                throw error;
-            }
+        if (e.deltaY < 0) {
+            this.swiper.zoom.in(Math.min(current + this.config.zoomStep, this.config.maxZoom));
+        } else {
+            this.swiper.zoom.in(Math.max(current - this.config.zoomStep, this.config.minZoom));
         }
 
-        setupImageEvents(img, container) {
-            const handleWheel = (e) => {
-                e.preventDefault();
-                const delta = e.deltaY > 0 ? -this.config.wheelZoomStep : this.config.wheelZoomStep;
-                this.zoomState.scale = Math.max(this.config.minZoom, Math.min(this.config.maxZoom, this.zoomState.scale + delta));
-                this.applyTransform(img);
-            };
+    }, { passive: false });
+}
 
-            const handleTouchStart = (e) => {
-                if (e.touches.length === 2) {
-                    this.zoomState.isPinching = true;
-                    this.zoomState.startDistance = this.getTouchDistance(e.touches);
-                }
-            };
-
-            const handleTouchMove = (e) => {
-                if (this.zoomState.isPinching && e.touches.length === 2) {
-                    e.preventDefault();
-                    const currentDistance = this.getTouchDistance(e.touches);
-                    const scaleChange = currentDistance / this.zoomState.startDistance;
-                    this.zoomState.scale = Math.max(this.config.minZoom, Math.min(this.config.maxZoom, this.zoomState.scale * scaleChange));
-                    this.zoomState.startDistance = currentDistance;
-                    this.applyTransform(img);
-                }
-            };
-
-            const handleTouchEnd = () => {
-                this.zoomState.isPinching = false;
-            };
-
-            const handleImageLoad = () => {
-                this.adjustInitialPosition(img);
-            };
-
-            container.addEventListener('wheel', handleWheel, { passive: false });
-            container.addEventListener('touchstart', handleTouchStart, { passive: true });
-            container.addEventListener('touchmove', handleTouchMove, { passive: false });
-            container.addEventListener('touchend', handleTouchEnd, { passive: true });
-            img.addEventListener('load', handleImageLoad);
-
-            this.eventListeners.set(container, {
-                wheel: handleWheel,
-                touchstart: handleTouchStart,
-                touchmove: handleTouchMove,
-                touchend: handleTouchEnd
-            });
-
-            this.eventListeners.set(img, { load: handleImageLoad });
-        }
-
-        createCarouselIndicator(index, container) {
-            const indicator = this.createSafeElement('button', {
-                'type': 'button',
-                'class': `carousel-indicator ${index === 0 ? 'active' : ''}`,
-                'aria-label': `Slide ${index + 1}`
-            });
-
-            const handleClick = () => this.goToSlide(index);
-            indicator.addEventListener('click', handleClick);
-            this.eventListeners.set(indicator, { click: handleClick });
-            container.appendChild(indicator);
-        }
-
-        goToSlide(index) {
-            try {
-                const items = document.querySelectorAll('.flyer-modal .carousel-item');
-                const indicators = document.querySelectorAll('.flyer-modal .carousel-indicator');
-                
-                if (index < 0 || index >= items.length) return;
-
-                items.forEach((item, i) => {
-                    item.classList.remove('active');
-                    item.style.transform = i < index ? 'translateX(-100%)' : 'translateX(100%)';
-                    item.style.opacity = '0';
-                });
-
-                items[index].classList.add('active');
-                items[index].style.transform = 'translateX(0)';
-                items[index].style.opacity = '1';
-
-                indicators.forEach(ind => ind.classList.remove('active'));
-                indicators[index].classList.add('active');
-
-                this.currentFlyerIndex = index;
-                this.zoomState = this.getInitialZoomState();
-                
-                const img = items[index].querySelector('img');
-                if (img) {
-                    // REPOSICIONA a imagem após resetar o zoom
-                    setTimeout(() => {
-                        this.adjustInitialPosition(img);
-                        this.applyTransform(img);
-                    }, 50);
-                }
-
-            } catch (error) {
-                console.error('Erro ao navegar para slide:', error);
-            }
-        }
         setupZoomControls() {
-            const setupZoomButton = (selector, action) => {
-                document.querySelectorAll(selector).forEach(button => {
-                    const handleClick = () => {
-                        const items = document.querySelectorAll('.flyer-modal .carousel-item');
-                        const img = items[this.currentFlyerIndex]?.querySelector('img');
-                        if (img) {
-                            action();
-                            this.applyTransform(img);
-                        }
-                    };
-                    button.addEventListener('click', handleClick);
-                    this.eventListeners.set(button, { click: handleClick });
+            const step = this.config.zoomStep;
+            document.querySelectorAll('.flyer-zoom-in').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!this.swiper) return;
+                    const current = this.swiper.zoom.scale || 1;
+                    this.swiper.zoom.in(Math.min(current + step, this.config.maxZoom));
                 });
-            };
-
-            setupZoomButton('.zoom-in', () => {
-                this.zoomState.scale = Math.min(this.config.maxZoom, this.zoomState.scale + this.config.zoomStep);
             });
 
-            setupZoomButton('.zoom-out', () => {
-                this.zoomState.scale = Math.max(this.config.minZoom, this.zoomState.scale - this.config.zoomStep);
+            document.querySelectorAll('.flyer-zoom-out').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!this.swiper) return;
+                    const current = this.swiper.zoom.scale || 1;
+                    this.swiper.zoom.in(Math.max(current - step, this.config.minZoom));
+                });
             });
 
-            setupZoomButton('.zoom-reset', () => {
-              this.zoomState = this.getInitialZoomState();
-              const items = document.querySelectorAll('.flyer-modal .carousel-item');
-              const img = items[this.currentFlyerIndex]?.querySelector('img');
-              if (img) {
-                  // REPOSICIONA após reset
-                  this.adjustInitialPosition(img);
-                  this.applyTransform(img);
-              }
-          });
+            document.querySelectorAll('.flyer-zoom-reset').forEach(btn => {
+                btn.addEventListener('click', () => this.swiper?.zoom.in(this.config.minZoom));
+            });
         }
 
         showLoading() {
@@ -535,16 +351,16 @@ async preloadImages(urls) {
             }
         }
 
-    openModal() {
-        if (this.modalElement) {
-            this.applyModalStyles();
-            this.modalElement.classList.add('show');
-            this.modalElement.setAttribute('aria-hidden', 'false');
-            this.modalElement.style.display = 'flex'; 
-            document.body.style.overflow = 'hidden';
-            //this.hideLoading();
+        openModal() {
+            if (this.modalElement) {
+                this.modalElement.classList.add('show');
+                this.modalElement.setAttribute('aria-hidden', 'false');
+                this.modalElement.style.display = 'flex'; 
+                document.body.style.overflow = 'hidden';
+                this.hideLoading();
+            }
         }
-    }
+
         clearAllTimeouts() {
             this.timeouts.forEach(timeoutId => clearTimeout(timeoutId));
             this.timeouts.clear();
@@ -572,7 +388,6 @@ async preloadImages(urls) {
             try {
                 if (!this.initializeModal()) return;
 
-                
                 document.querySelectorAll('.open-flyer-modal').forEach(link => {
                     const handleClick = (e) => {
                         e.preventDefault();
@@ -584,7 +399,7 @@ async preloadImages(urls) {
                     this.eventListeners.set(link, { click: handleClick });
                 });
 
-                const closeBtn = this.modalElement?.querySelector('.btn-close');
+                const closeBtn = this.modalElement?.querySelector('.flyer-btn-close');
                 if (closeBtn) {
                     const handleClose = () => {
                         this.closeModal();
@@ -602,26 +417,14 @@ async preloadImages(urls) {
         }
     }
 
-    function initializeFlyerModalSafe() {
-        let modalManager = null;
-        
-        try {
-            modalManager = new FlyerModalManager();
-            
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => modalManager.initialize());
-            } else {
-                setTimeout(() => modalManager.initialize(), 0);
-            }
-            
-            window.addEventListener('beforeunload', () => {
-                modalManager?.destroy();
-            }, { passive: true });
-            
-        } catch (error) {
-            console.error('Falha crítica na inicialização do flyer modal:', error);
+function initializeFlyerModalSafe() {
+        let modalManager = new FlyerModalManager();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => modalManager.initialize());
+        } else {
+            setTimeout(() => modalManager.initialize(), 0);
         }
-        
+        window.addEventListener('beforeunload', () => modalManager.destroy?.(), { passive: true });
         return modalManager;
     }
 

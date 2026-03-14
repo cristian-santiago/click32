@@ -1,0 +1,419 @@
+/* Container principal do modal */
+.flyer-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.flyer-modal.show {
+    display: flex !important;
+}
+
+/* Estrutura interna */
+.flyer-modal .flyer-modal-content {
+    background: transparent;
+    border: none;
+
+    width: 100vw;
+    height: 100vh;
+
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.flyer-modal .flyer-modal-body {
+    padding: 0;
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container do carrossel */
+.flyer-modal .flyer-carousel-container {
+    width: 100%;
+    height: 100vh;
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* Wrapper controlado pelo Swiper */
+.flyer-modal .flyer-carousel-track {
+    width: 100%;
+    height: 100%;
+}
+
+/* Slides */
+.flyer-modal .flyer-carousel-item {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    
+ 
+}
+
+/* Imagens */
+.flyer-modal .flyer-carousel-image {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    user-select: none;
+    -webkit-user-drag: none;
+
+    z-index: 1000;
+    display: block;
+}
+
+/* Botão fechar */
+.flyer-modal .flyer-btn-close {
+    position: absolute;
+
+    top: 5%;
+    right: 20px;
+
+    z-index: 2200;
+
+    background: rgba(0,0,0,0.5);
+    border: none;
+
+    color: #fff;
+
+    font-size: 2rem;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 1;
+    line-height: 1;
+
+    cursor: pointer;
+    border-radius: 50%;
+
+    transition: background 0.3s ease;
+}
+
+.flyer-modal .flyer-btn-close:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.flyer-modal .flyer-btn-close i {
+    display: block;
+}
+
+/* Loading spinner */
+.flyer-modal .flyer-loading-spinner {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 2100;
+
+    width: 60px;
+    height: 60px;
+
+    display: none;
+
+    color: #ffffff;
+    font-size: 60px;
+
+    opacity: 1;
+    pointer-events: none;
+}
+
+.flyer-modal .flyer-loading-spinner.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flyer-modal .flyer-loading-spinner i {
+    display: block;
+    animation: flyer-spin 1s linear infinite;
+}
+
+
+/* Mensagem erro */
+.flyer-modal .flyer-error-message {
+    display: none;
+
+    color: #fff;
+    text-align: center;
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 2100;
+
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
+
+    padding: 15px 25px;
+
+    background: rgba(220,53,69,0.9);
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    backdrop-filter: blur(5px);
+}
+
+/* Container zoom */
+.flyer-modal .flyer-pinch-zoom-container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    background: transparent;
+}
+
+.flyer-modal .flyer-pinch-zoom-container img {
+    width: 100%;
+    height: auto;
+
+    max-width: 100%;
+
+    object-fit: contain;
+
+    user-select: none;
+    -webkit-user-drag: none;
+
+    transition: transform 0.05s ease-out;
+
+    will-change: transform;
+    display: block;
+}
+
+/* Controles de zoom */
+.flyer-modal .flyer-zoom-controls {
+    position: absolute;
+
+    top: 5%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 15px;
+
+    z-index: 2200;
+
+    background: rgba(0,0,0,0.5);
+
+    padding: 5px 10px;
+
+    border-radius: 30px;
+
+    backdrop-filter: blur(5px);
+}
+
+.flyer-modal .flyer-zoom-controls button {
+    background: #007bff;
+
+    color: white;
+    border: none;
+
+    border-radius: 50%;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+
+    font-size: 1.2rem;
+}
+
+.flyer-modal .flyer-zoom-controls button:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+}
+
+.flyer-modal .flyer-zoom-controls .flyer-zoom-reset {
+    background: #6c757d;
+}
+
+.flyer-modal .flyer-zoom-controls .flyer-zoom-reset:hover {
+    background: #5a6268;
+}
+
+/* Spinner */
+@keyframes flyer-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== SWIPER ===== */
+
+.flyer-modal .swiper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.flyer-modal .swiper-wrapper {
+    height: 100%;
+}
+
+.flyer-modal .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* todos os slides começam invisíveis */
+.flyer-modal .swiper-slide {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+/* slide ativo aparece */
+.flyer-modal .swiper-slide-active {
+    opacity: 1;
+}
+
+
+
+/* Zoom */
+.flyer-modal .swiper-zoom-container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: visible;
+}
+
+.flyer-modal .swiper-zoom-container img {
+    max-width: none;
+    max-height: none;
+
+    object-fit: contain;
+}
+
+/* ===== PAGINATION / INDICADORES ===== */
+
+/* PAGINATION */
+
+.flyer-modal .swiper-pagination {
+    position:absolute;
+    bottom:calc(5% + 20px) !important;  
+    
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+  
+    
+
+    margin:0;
+    z-index:1100;
+
+}
+
+
+
+/* barras */
+
+.flyer-modal .swiper-pagination-bullet{
+    width:30px;
+    height:4px;
+
+    background:#ffffff80;
+
+    border-radius:1px;
+
+    cursor:pointer;
+
+    transition:background .3s ease;
+
+    opacity:1;
+}
+
+/* ativo */
+
+.flyer-modal .swiper-pagination-bullet-active{
+    background:#ffffff;
+}
+
+/* hover */
+
+.flyer-modal .swiper-pagination-bullet:hover{
+    background:#ffffffcc;
+}
+
+/* Lazy loader */
+.flyer-modal .swiper-lazy-preloader {
+    display: none;
+}
+
+/* Mobile */
+@media (max-width:768px){
+
+    .flyer-modal .flyer-btn-close{
+        top:3%;
+        right:15px;
+        width:35px;
+        height:35px;
+        font-size:1.5rem;
+    }
+
+    .flyer-modal .flyer-carousel-image{
+        max-height:75%;
+    }
+
+
+    .flyer-modal .flyer-loading-spinner{
+        width:48px;
+        height:48px;
+        font-size:48px;
+    }
+
+    .flyer-modal .flyer-pinch-zoom-container{
+        height:100vh;
+    }
+}
+

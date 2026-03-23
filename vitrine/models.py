@@ -38,15 +38,15 @@ class Store(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
     def save(self, *args, **kwargs):
-        if not self.slug:
-            base_slug = slugify(self.name)
-            slug = base_slug
-            n = 1
-            # Evita duplicidade de slug
-            while Store.objects.filter(slug=slug).exists():
-                slug = f"{base_slug}-{n}"
-                n += 1
-            self.slug = slug
+        # Sempre atualiza o slug baseado no nome atual
+        base_slug = slugify(self.name)
+        slug = base_slug
+        n = 1
+        # Evita duplicidade de slug, ignorando o próprio objeto se já existir
+        while Store.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+            slug = f"{base_slug}-{n}"
+            n += 1
+        self.slug = slug
         super().save(*args, **kwargs)
     description = models.TextField(blank=True)
     address = models.CharField(max_length=255, blank=True)

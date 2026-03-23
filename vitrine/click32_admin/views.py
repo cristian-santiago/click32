@@ -137,50 +137,122 @@ def store_create(request):
         raise
 
 @check_permission(lambda u: u.is_superuser)
+def update_store_file_paths(store, old_slug, new_slug):
+    """Atualiza os caminhos dos arquivos quando o slug muda"""
+    updated = False
+    
+    for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']:
+        field = getattr(store, field_name)
+        if field and field.name:
+            old_path = field.name
+            new_path = old_path.replace(old_slug, new_slug)
+            if old_path != new_path:
+                setattr(store, field_name, new_path)
+                updated = True
+                logger.info(f"Updated file path for {field_name}: {old_path} -> {new_path}")
+    
+    if updated:
+        store.save()
+    
+    return updated
+
+@check_permission(lambda u: u.is_superuser)
 def store_edit(request, store_id):
     try:
         store = Store.objects.get(pk=store_id)
+        old_name = store.name
+        old_slug = store.slug
         logger.info(f"Store edit accessed - Store: {store.name}, ID: {store_id}, User: {request.user}")
 
         if request.method == "POST":
             form = StoreForm(request.POST, request.FILES, instance=store)
             formset = StoreOpeningHourFormSet(request.POST, instance=store)
+            
             if form.is_valid() and formset.is_valid():
-                old_obj = Store.objects.get(pk=store.pk)
-                new_obj = form.save(commit=False)
-                new_obj.save()
+                # Salva o objeto ANTES de processar os arquivos para ter o novo slug
+                new_store = form.save(commit=False)
+                new_store.save()  # Isso vai gerar o novo slug automaticamente
+                
+                # Verifica se o slug mudou
+                slug_changed = old_slug != new_store.slug
+                
+                if slug_changed:
+                    logger.info(f"Store slug changed - From: {old_slug}, To: {new_store.slug}")
+                    
+                    # Renomeia o diretório da loja
+                    old_dir = os.path.join(settings.MEDIA_ROOT, f'stores/{old_slug}')
+                    new_dir = os.path.join(settings.MEDIA_ROOT, f'stores/{new_store.slug}')
+                    
+                    if os.path.isdir(old_dir):
+                        try:
+                            # Move o diretório inteiro
+                            shutil.move(old_dir, new_dir)
+                            logger.info(f"Store directory renamed - From: {old_dir}, To: {new_dir}")
+                            
+                            # Atualiza os caminhos dos arquivos no banco de dados
+                            for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']:
+                                field = getattr(new_store, field_name)
+                                if field and field.name:
+                                    # Atualiza o caminho do arquivo com o novo slug
+                                    old_path = field.name
+                                    new_path = old_path.replace(old_slug, new_store.slug)
+                                    if old_path != new_path:
+                                        setattr(new_store, field_name, new_path)
+                            
+                            new_store.save()
+                        except Exception as e:
+                            logger.error(f"Error renaming store directory - Error: {str(e)}")
+                            # Se falhar ao renomear, não prossegue com a edição
+                            raise
+                
+                # Salva os relacionamentos many-to-many
                 form.save_m2m()
+                
+                # Processa as imagens (compressão)
                 for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4']:
-                    image_field = getattr(new_obj, field_name)
-                    old_file = getattr(old_obj, field_name)
-                    if image_field and image_field != old_file:
-                        compress_image(image_field)
+                    image_field = getattr(new_store, field_name)
+                    if image_field:
+                        # Pega o objeto antigo para comparar
+                        old_obj = Store.objects.get(pk=store_id)
+                        old_file = getattr(old_obj, field_name)
+                        
+                        # Se é uma nova imagem ou imagem diferente
+                        if image_field and (not old_file or image_field != old_file):
+                            compress_image(image_field)
+                
+                # Processa limpeza de arquivos
                 for field_name in ['main_banner', 'carousel_2', 'carousel_3', 'carousel_4', 'flyer_pdf']:
+                    old_obj = Store.objects.get(pk=store_id)
                     old_file = getattr(old_obj, field_name)
-                    new_file = getattr(new_obj, field_name)
+                    new_file = getattr(new_store, field_name)
                     cleared = request.POST.get(f"{field_name}-clear")
+                    
                     if cleared:
                         if old_file and os.path.isfile(old_file.path):
                             os.remove(old_file.path)
                             logger.info(f"File cleared and deleted - Field: {field_name}, File: {old_file.path}")
-                        setattr(new_obj, field_name, None)
+                        setattr(new_store, field_name, None)
                         if field_name == 'flyer_pdf':
                             cleanup_flyer_files(store_id)
-                    elif old_file and old_file != new_file:
+                    elif old_file and old_file != new_file and new_file:
+                        # Se foi substituído por um novo arquivo
                         if os.path.isfile(old_file.path):
                             os.remove(old_file.path)
                             logger.info(f"File replaced - Field: {field_name}, Old file: {old_file.path}")
                         if field_name == 'flyer_pdf':
                             cleanup_flyer_files(store_id)
-                new_obj.save()
+                
+                new_store.save()
                 formset.save()
-                logger.info(f"Store updated successfully - Store: {store.name}, ID: {store_id}, User: {request.user}")
+                
+                logger.info(f"Store updated successfully - Store: {new_store.name}, Slug: {new_store.slug}, ID: {store_id}, User: {request.user}")
                 return redirect('click32_admin:store_list')
             else:
                 logger.warning(f"Store edit form invalid - Store: {store.name}, Errors: {form.errors}, User: {request.user}")
         else:
             form = StoreForm(instance=store)
             formset = StoreOpeningHourFormSet(instance=store)
+        
         return render(request, 'click32_admin/store_form.html', {
             'form': form,
             'formset': formset,
@@ -200,26 +272,35 @@ def store_edit(request, store_id):
 def store_delete(request, store_id):
     try:
         store = get_object_or_404(Store, pk=store_id)
-        logger.info(f"Store deletion attempted - Store: {store.name}, ID: {store_id}, User: {request.user}")
+        store_slug = store.slug  # Pega o slug do objeto
+        logger.info(f"Store deletion attempted - Store: {store.name}, Slug: {store_slug}, ID: {store_id}, User: {request.user}")
+        
         cleanup_flyer_files(store_id)
+        
+        # Deleta arquivos individuais
         for image_field in [store.main_banner, store.carousel_2, store.carousel_3, store.carousel_4, store.flyer_pdf]:
-            if image_field and os.path.exists(image_field.path):
+            if image_field and hasattr(image_field, 'path') and os.path.exists(image_field.path):
                 try:
                     os.remove(image_field.path)
                     logger.info(f"Store image deleted - File: {image_field.path}")
                 except Exception as e:
                     logger.error(f"Error deleting store image - File: {image_field.path}, Error: {str(e)}")
-        store_dir = os.path.join('media', f'stores/{slugify(store.name)}')
+        
+        # Deleta o diretório da loja
+        store_dir = os.path.join(settings.MEDIA_ROOT, f'stores/{store_slug}')
         if os.path.isdir(store_dir):
             try:
                 shutil.rmtree(store_dir)
                 logger.info(f"Store directory deleted - Path: {store_dir}")
             except Exception as e:
                 logger.error(f"Error deleting store directory - Path: {store_dir}, Error: {str(e)}")
+        
         store_name = store.name
         store.delete()
+        
         logger.info(f"Store deleted successfully - Store: {store_name}, ID: {store_id}, User: {request.user}")
         return redirect('click32_admin:store_list')
+        
     except Store.DoesNotExist:
         logger.error(f"Store not found for deletion - Store ID: {store_id}, User: {request.user}")
         raise

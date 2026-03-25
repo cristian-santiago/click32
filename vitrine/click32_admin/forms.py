@@ -6,7 +6,7 @@ from django.forms import inlineformset_factory
 from django.utils.html import strip_tags
 from django.template.defaultfilters import filesizeformat
 from vitrine.models import Store, Tag, Category, StoreOpeningHour
-
+from django_ckeditor_5.widgets import CKEditor5Widget
 class MaxFileSizeValidator:
     def __init__(self, max_size):
         self.max_size = max_size
@@ -48,7 +48,7 @@ class StoreForm(forms.ModelForm):
             'anota_ai_link', 'ifood_link', 'flyer_pdf'
         ]
         widgets = {
-            'description': forms.Textarea(attrs={'rows': 5}),
+            'description': CKEditor5Widget(config_name='default'),
         }
 
     def __init__(self, *args, **kwargs):
@@ -63,7 +63,9 @@ class StoreForm(forms.ModelForm):
 
     def clean_description(self):
         description = self.cleaned_data.get('description', '')
-        return strip_tags(description)  # Remove HTML para prevenir XSS
+        allowed_tags = ['p', 'br', 'strong', 'em', 'u', 'ul', 'ol', 'li', 'blockquote']
+        import bleach
+        return bleach.clean(description, tags=allowed_tags, strip=True)
 
 class TagForm(forms.ModelForm):
     class Meta:

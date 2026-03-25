@@ -42,9 +42,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vitrine.click32_admin',
     'vitrine.apps.VitrineConfig',
+    'django_ckeditor_5',
     #'vitrine.templatetags',
     # 'compressor',  # ← REMOVE compressor
 ]
+
+# ==================== CKEDITOR 5 ====================
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "toolbar": [
+            "bold", "italic", "underline", "|",
+            "bulletedList", "numberedList", "|",
+            "blockQuote", "|",
+            "undo", "redo"
+        ]
+    }
+}
 
 # ==================== MIDDLEWARE ====================
 

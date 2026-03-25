@@ -70,7 +70,7 @@
 
     <!-- Descrição da loja -->
     <div class="description">
-        <p>{{ store.description|escape }}</p>
+        {{ store.description|safe }}
     </div>
 
     <!-- Informações da loja (horários e endereço) -->

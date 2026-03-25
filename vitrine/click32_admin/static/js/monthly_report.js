@@ -40,6 +40,8 @@ function initDailyClicksChart(labels, data) {
             }]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: { display: false },
                 title: {
@@ -93,6 +95,8 @@ function initLinkDistributionChart(labels, data) {
             }]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             indexAxis: 'y',
             plugins: {
                 legend: { display: false },

@@ -189,26 +189,43 @@
 }
 
 /* Seção da Descrição */
-.description p {
-    position: relative;
-    color: #4A4A4A;
-    padding-left: 60px;
-    padding-right: 48px;
-    text-align: justify;
-    margin-top: 30px;
-    display: block;
+.description {
+    padding: 0 16px 0 48px;
+    margin-top: 21px;
     height: 300px;
-    font-size: 1.25rem;
-    font-family: "Roboto", sans-serif;
-    line-height: 25px;
     overflow-y: auto;
 }
+
+.description p,
+.description ul,
+.description ol,
+.description li {
+    color: #4A4A4A;
+    font-size: 1.1rem;
+    font-family: "Roboto", sans-serif;
+    line-height: 1.4;
+    text-align: justify;
+    margin: 0;
+    padding: 0;
+}
+
+.description ul,
+.description ol {
+    padding-left: 1.2em;
+    margin-top: 4px;
+}
+
+.description ul { list-style: disc outside; }
+.description ol { list-style: decimal outside; }
+
+
+
 
 /* Sombra superior saindo da parte inferior do store-name */
 .store-name.scroll-shadow-top::after {
     content: "";
     position: absolute;
-    bottom: -30px;
+    bottom: -40px;
     left: 0;
     right: 0;
     height: 20px;
@@ -321,10 +338,7 @@
         padding-right: 10px;
     }
 
-    .description p {
-        padding-left: 48px;
-        padding-right: 10px;
-    }
+    
 }
 
 @media (max-height: 720px) {

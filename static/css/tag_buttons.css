@@ -7,6 +7,12 @@
     --dropdown-bg: #34495e;
 }
 
+
+
+.fa-beat-fade {
+  color: #00ccff !important;
+}
+
 /* Seção da Barra Lateral */
 .sidebar {
     width: 160px;
@@ -190,7 +196,7 @@
 /* Cabeçalho do Menu */
 .menu-header {
     display: flex;
-    margin-left: 20px;
+    margin-left: 10px;
     padding: 10px;
     overflow: hidden;
 }
@@ -203,7 +209,7 @@
     margin-top: 0;
     margin-bottom: 0;
     padding-right: 0;
-    padding-left: 0;
+    padding-left: 1px;
 }
 
 /* Hover no Cabeçalho do Menu */
@@ -302,4 +308,41 @@
         opacity: 0;
         display: block !important;
     }
+}
+
+
+
+
+/* Seção do Rodapé da Barra Lateral */
+.sidebar-footer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 8px;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ícones do Rodapé */
+.footer-icon i {
+    /*font-family: 'Font Awesome 6 Free', 'Font Awesome 5 Free', 'Font Awesome 6 Pro', sans-serif;*/
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    display: inline-block;
+    color: var(--text-light);
+    font-size: 1.4rem;
+
+}
+
+.footer-icon:hover {
+    color: var(--text-light); 
+}
+
+/* Rodapé na barra lateral colapsada */
+.sidebar.collapsed .sidebar-footer {
+    display: none;
 }

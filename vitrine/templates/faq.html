@@ -1,0 +1,268 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% autoescape on %}
+    <link rel="icon" href="{% static 'icons/icon-72x72.png' %}" type="image/png" sizes="72x72">
+    <link rel="icon" href="{% static 'icons/icon-96x96.png' %}" type="image/png" sizes="96x96">
+    <link rel="icon" href="{% static 'icons/icon-128x128.png' %}" type="image/png" sizes="128x128">
+    <link rel="icon" href="{% static 'icons/icon-144x144.png' %}" type="image/png" sizes="144x144">
+    <link rel="icon" href="{% static 'icons/icon-152x152.png' %}" type="image/png" sizes="152x152">
+    <link rel="icon" href="{% static 'icons/icon-192x192.png' %}" type="image/png" sizes="192x192">
+    <link rel="icon" href="{% static 'icons/icon-384x384.png' %}" type="image/png" sizes="384x384">
+    <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.gstatic.com; script-src 'self'; connect-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Click32">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Perguntas frequentes sobre o Click32 — tire suas dúvidas sobre o app e sobre como anunciar.">
+
+    <title>FAQ — Click32</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          rel="stylesheet"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap"
+          rel="stylesheet"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/faq.css' %}?v={{ STATIC_VERSION }}">
+    {% endautoescape %}
+</head>
+<body>
+    <div class="toolbar">
+        <div class="toolbar-container">
+            <a href="{% url 'home' %}" aria-label="Início">
+                <i class="fas fa-house"></i>
+            </a>
+            <a href="{% url 'anuncie' %}" aria-label="Anuncie">
+                <i class="fas fa-bullhorn"></i>
+            </a>
+            <a href="{% url 'sobre' %}" aria-label="Sobre">
+                <i class="fas fa-info-circle"></i>
+            </a>
+            <a href="{% url 'faq' %}" aria-label="FAQ">
+                <i class="fas fa-question-circle"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <div class="container">
+            <h1>Perguntas frequentes</h1>
+            <p>Tire suas dúvidas sobre o Click32</p>
+        </div>
+    </div>
+
+    <!-- FAQ COM ABAS -->
+    <section class="faq-section">
+        <div class="container">
+
+            <!-- ABAS -->
+            <div class="faq-tabs">
+                <button class="faq-tab active" data-tab="users">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Quem usa o app</span>
+                </button>
+                <button class="faq-tab" data-tab="advertisers">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Quem quer anunciar</span>
+                </button>
+            </div>
+
+            <!-- PAINEL: USUÁRIOS -->
+            <div class="faq-panel active" data-panel="users">
+                <div class="faq-list">
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">O Click32 é gratuito?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Sim. Para usar o app, encontrar negócios e entrar em contato com anunciantes é totalmente gratuito. Sem cadastro, sem mensalidade.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">Preciso criar uma conta para usar?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Não. Você abre o app e já pode navegar. Sem cadastro, sem senha, sem nenhuma etapa antes de encontrar o que precisa.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">Como instalo o Click32 no meu celular?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                O Click32 instala direto pelo navegador, sem passar pela loja de aplicativos.
+                                <br><br>
+                                <strong>Android</strong><br>
+                                Quando acessar pelo celular, uma opção de instalação vai aparecer automaticamente — é só confirmar e ele fica na sua tela inicial.
+                                <br><br>
+                                <strong>iPhone / iPad (iOS)</strong><br>
+                                No Safari, o botão automático não aparece. Para instalar:
+                                <ol style="margin: 8px 0 0 20px; line-height: 2;">
+                                    <li>Abra o Click32 no <strong>Safari</strong></li>
+                                    <li>Toque no ícone de <strong>compartilhar</strong> (quadrado com seta para cima) na barra inferior</li>
+                                    <li>Role a lista e toque em <strong>"Adicionar à Tela de Início"</strong></li>
+                                    <li>Toque em <strong>"Adicionar"</strong> no canto superior direito</li>
+                                </ol>
+                                <br>
+                                O ícone do Click32 vai aparecer na sua tela inicial como qualquer outro app.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">Os perfis são confiáveis?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Todos os perfis são criados e validados pela nossa equipe antes de ir ao ar. Nenhum anunciante entra no Click32 sem passar por essa verificação.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">O app funciona só para quem mora no KM32?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                O app pode ser acessado por qualquer pessoa, mas o conteúdo é focado no KM32 — todos os anunciantes cadastrados são do bairro.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PAINEL: ANUNCIANTES -->
+            <div class="faq-panel" data-panel="advertisers">
+                <div class="faq-list">
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">Quem pode anunciar no Click32?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Se você tem algo a oferecer no KM32, seu lugar é aqui. Loja, serviço, profissional autônomo, espaço para locação — não importa o tamanho, importa estar onde o cliente está procurando.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">Quanto custa anunciar?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Os planos variam entre autônomos e estabelecimentos. Os primeiros a se cadastrar garantem o preço de fundador — um desconto fixo e permanente. <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20o%20pre%C3%A7o%20de%20fundador%20do%20Click32." target="_blank" rel="noopener noreferrer">Saiba mais</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">Como faço para anunciar e o que preciso?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Entre em contato, informe seus principais dados — contatos, redes sociais, localidade e horário de funcionamento — e montamos seu perfil. Sem complicação, sem configuração técnica.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">Quanto tempo leva para meu perfil ficar no ar?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Em poucos minutos. Você passa as informações, o perfil é montado e já está visível para todo o KM32.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" data-faq>
+                            <span class="question-text">Posso atualizar meu perfil depois?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Sempre. O seu negócio muda, o perfil acompanha. Novos links de contato, novo horário, nova promoção — é só avisar e atualizamos na hora.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section class="contact-section">
+        <div class="container">
+            <h2>Não encontrou sua resposta?</h2>
+            <p>Fale diretamente conosco</p>
+            <div class="contact-links">
+                <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Olá! Tenho uma dúvida sobre o Click32"
+                   class="contact-link whatsapp"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+                <a href="https://www.instagram.com/click32.app"
+                   class="contact-link instagram"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+                <a href="mailto:{{ settings.CONTACT_EMAIL|default:'click32.contato@gmail.com' }}?subject=Dúvida sobre o Click32"
+                   class="contact-link email">
+                    <i class="fas fa-envelope"></i>
+                    <span>E-mail</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Click32 — Feito no KM32, para o KM32.</p>
+    </footer>
+
+    <script src="{% static 'js/faq.js' %}?v={{ STATIC_VERSION }}"></script>
+</body>
+</html>

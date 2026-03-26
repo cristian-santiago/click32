@@ -7,9 +7,10 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django_ratelimit.decorators import ratelimit
 from django.core.cache import cache
-from .models import Store, ClickTrack, Category, ShareTrack, PWADownloadClick, ActiveSession
+from .models import Store, ClickTrack, ClickTrackDaily, Category, ShareTrack, PWADownloadClick, ActiveSession
 import pdf2image
 import glob
+import hashlib
 from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
@@ -24,6 +25,55 @@ import uuid
 
 logger = logging.getLogger(__name__)
 
+
+def sw_config(request):
+    content = f"self.CACHE_VERSION = '{settings.STATIC_VERSION}';"
+    return HttpResponse(content, content_type="application/javascript")
+
+def service_worker(request):
+    timestamp = timezone.now().timestamp()
+    content = f"""// Versão do Service Worker: {timestamp}
+importScripts('/sw-config.js');
+""
+const CACHE_NAME = 'click32-' + self.CACHE_VERSION;
+
+self.addEventListener('install', event => {{
+    self.skipWaiting();
+}});
+
+self.addEventListener('activate', event => {{
+    event.waitUntil(
+        caches.keys().then(cacheNames => {{
+            return Promise.all(
+                cacheNames.map(cacheName => {{
+                    if (cacheName !== CACHE_NAME) {{
+                        return caches.delete(cacheName);
+                    }}
+                }})
+            );
+        }}).then(() => self.clients.claim())
+    );
+}});
+
+self.addEventListener('fetch', event => {{
+    // Ignora ícones, sw-config.js e flyers
+    if (event.request.url.includes('/icons/') || 
+        event.request.url.includes('sw-config.js') ||
+        event.request.url.includes('flyer_') ||  // Ignora qualquer arquivo com flyer_ no nome
+        event.request.url.includes('/media/')) {{  // Se os flyers estiverem em /media/
+        return;
+    }}
+    
+    event.respondWith(fetch(event.request));
+}});
+
+self.addEventListener('message', event => {{
+    if (event.data && event.data.type === 'SKIP_WAITING') {{
+        self.skipWaiting();
+    }}
+}});
+"""
+    return HttpResponse(content, content_type="application/javascript")
 
 @csrf_protect
 def log_debug(request):
@@ -178,16 +228,34 @@ def store_detail(request, slug):
         else:
             log_type = 'main_banner'
         
-        # Registra UM clique (ou main_banner ou qr_code_scan)
-        click_track, created = ClickTrack.objects.get_or_create(
-            store=store,
-            element_type=log_type,
-            defaults={'click_count': 0, 'last_clicked': timezone.now()}
-        )
-        click_track.click_count = F('click_count') + 1
-        click_track.last_clicked = timezone.now()
-        click_track.save()
+        # CORREÇÃO: Busca registro de HOJE para este tipo
+        hoje = timezone.now().date()
+        try:
+            # Tenta encontrar registro de HOJE
+            click_track = ClickTrack.objects.get(
+                store=store,
+                element_type=log_type,
+                last_clicked__date=hoje  # Filtra por data, não qualquer
+            )
+            # Atualiza registro existente de hoje
+            click_track.click_count = F('click_count') + 1
+           # click_track.last_clicked = timezone.now()
+            click_track.save()
+            created = False
+        except ClickTrack.DoesNotExist:
+            # Cria NOVO registro para hoje
+            click_track = ClickTrack.objects.create(
+                store=store,
+                element_type=log_type,
+                click_count=1,
+                last_clicked=timezone.now()
+            )
+            created = True
+        
         click_track.refresh_from_db()
+
+        # Grava contagem diária para o relatório mensal
+        _track_daily_click(store, log_type)
 
         logger.debug(f"Store click tracked - Store: {store.name}, Type: {log_type}, Count: {click_track.click_count}")
 
@@ -271,6 +339,26 @@ def about(request):
         logger.error(f"Error rendering about page - Error: {str(e)}")
         # Fallback básico
         return render(request, 'about.html', {'category_tags': []})
+    
+def faq(request):
+    """View para página de FAQ"""
+    return render(request, 'faq.html')
+
+def flyer_landing(request):
+    """View para página de destino do flyer (exemplo)"""
+    return render(request, 'flyer_landing.html')
+
+def _track_daily_click(store, element_type):
+    """Grava ou incrementa o contador diário em ClickTrackDaily."""
+    today = timezone.now().date()
+    record, created = ClickTrackDaily.objects.get_or_create(
+        store=store,
+        element_type=element_type,
+        date=today,
+        defaults={'click_count': 0}
+    )
+    ClickTrackDaily.objects.filter(pk=record.pk).update(click_count=F('click_count') + 1)
+
 #--------------------------------
 @ratelimit(key='ip', rate='50/m', block=True)
 @ratelimit(key='ip', rate='500/h', block=True)
@@ -284,36 +372,58 @@ def track_click(request, store_id=None, element_type=None):
         if element_type not in valid_elements:
             return HttpResponse(status=400)
 
-        # Contagem de "home_access"
+        # "home_access" tracking
         if element_type == 'home_access':
-            click_track, created = ClickTrack.objects.get_or_create(
-                store=None,
-                element_type='home_access',
-                defaults={'click_count': 1}
-            )
-            if not created:
-                click_track.click_count += 1
+            hoje = timezone.now().date()
+            try:
+                click_track = ClickTrack.objects.get(
+                    store=None,
+                    element_type='home_access',
+                    last_clicked__date=hoje
+                )
+                click_track.click_count = F('click_count') + 1
+                #click_track.last_clicked = timezone.now()
                 click_track.save()
+            except ClickTrack.DoesNotExist:
+                ClickTrack.objects.create(
+                    store=None,
+                    element_type='home_access',
+                    click_count=1,
+                    last_clicked=timezone.now()
+                )
             logger.info("Click tracked: Home Access")
             return None
 
         store = Store.objects.get(id=store_id)
 
-        # Cria ou atualiza contagem do clique
-        click_track, created = ClickTrack.objects.get_or_create(
-            store=store,
-            element_type=element_type,
-            defaults={'click_count': 1}
-        )
-        if not created:
-            click_track.click_count += 1
+        # Find or create tracking for TODAY
+        hoje = timezone.now().date()
+        try:
+            click_track = ClickTrack.objects.get(
+                store=store,
+                element_type=element_type,
+                last_clicked__date=hoje
+            )
+            click_track.click_count = F('click_count') + 1
+            #click_track.last_clicked = timezone.now()
             click_track.save()
+            created = False
+        except ClickTrack.DoesNotExist:
+            click_track = ClickTrack.objects.create(
+                store=store,
+                element_type=element_type,
+                click_count=1,
+                last_clicked=timezone.now()
+            )
+            created = True
+
+        # Grava contagem diária para o relatório mensal
+        _track_daily_click(store, element_type)
 
         logger.info(f"Click tracked: {store.name} - {element_type}")
 
-        # Redirecionamento específico por tipo
+        # Redirect based on element type
         if element_type == 'phone_link':
-            # Retorna Json para o JS controlar o redirecionamento
             return JsonResponse({'status': 'click_logged'})
 
         if element_type == 'main_banner':
@@ -502,8 +612,18 @@ def view_flyer(request, store_id):
         max_pages = 20
         logger.info(f"Processing flyer - Store: {store.name}, PDF: {store.flyer_pdf.name}")
 
-        # Convert PDF to images for rendering
-        images = pdf2image.convert_from_path(pdf_path, last_page=max_pages)
+        # Convert PDF to images OPTIMIZED FOR MOBILE
+        images = pdf2image.convert_from_path(
+            pdf_path, 
+            last_page=max_pages,
+            dpi=220,
+            fmt='jpeg',
+            jpegopt={
+                'quality': 90,
+                'optimize': True,
+                'progressive': True
+            }
+        )
         
         # LIMITA O NÚMERO DE PÁGINAS PROCESSADAS
         if len(images) > max_pages:
@@ -513,14 +633,18 @@ def view_flyer(request, store_id):
         # Generate URLs for each page
         page_urls = []
         for i, image in enumerate(images):
-            # NOME DE ARQUIVO SEGURO
-            image_filename = f'temp_page_{store_id}_{i}.png'
+            # Usa cache em vez de timestamp - mais eficiente
+            import hashlib
+            with open(pdf_path, 'rb') as f:
+                pdf_hash = hashlib.md5(f.read()).hexdigest()[:8]
+            
+            image_filename = f'flyer_{store_id}_{pdf_hash}_{i}.jpg'  # .jpg
             image_path = os.path.join(settings.MEDIA_ROOT, 'flyers', image_filename)
             
-            # CRIA DIRETÓRIO COM PERMISSÕES SEGURAS
-            os.makedirs(os.path.dirname(image_path), exist_ok=True, mode=0o755)
+            # Save as JPEG - mesmo formato da conversão
+            if not os.path.exists(image_path):
+                image.save(image_path, 'JPEG', quality=90, optimize=True, progressive=True)
             
-            image.save(image_path, 'PNG')
             page_urls.append(f'{settings.MEDIA_URL}flyers/{image_filename}')
 
         # Track the click
@@ -531,6 +655,9 @@ def view_flyer(request, store_id):
         )
         click_track.click_count += 1
         click_track.save()
+
+        # Grava contagem diária para o relatório mensal
+        _track_daily_click(store, 'flyer_pdf')
 
         logger.info(f"Flyer displayed successfully - Store: {store.name}, Pages: {len(page_urls)}")
 
@@ -553,45 +680,11 @@ def view_flyer(request, store_id):
             'error': 'Erro ao processar o encarte.'
         })
 
-def cleanup_temp_files(store_id):
-    try:
-        # PADRÃO MAIS RESTRITIVO - apenas números no store_id
-        if not str(store_id).isdigit():
-            logger.warning(f"Invalid store_id in cleanup - Store ID: {store_id}")
-            return
-            
-        # PADRÃO SEGURO - apenas o padrão específico
-        pattern = os.path.join(settings.MEDIA_ROOT, 'flyers', f'temp_page_{store_id}_*.png')
-        temp_files = glob.glob(pattern)
-        
-        # LIMITE DE ARQUIVOS PARA EVITAR DOS
-        max_files = 50
-        if len(temp_files) > max_files:
-            logger.warning(f"Too many temp files - Store ID: {store_id}, Files: {len(temp_files)}")
-            temp_files = temp_files[:max_files]
-        
-        if temp_files:
-            removed_count = 0
-            for file_path in temp_files:
-                try:
-                    if os.path.exists(file_path):
-                        os.remove(file_path)
-                        removed_count += 1
-                        logger.debug(f"Temporary file cleaned up - File: {file_path}")
-                except Exception as e:
-                    logger.warning(f"Failed to remove temporary file - File: {file_path}, Error: {str(e)}")
-            
-            logger.info(f"Cleanup completed - Store ID: {store_id}, Files removed: {removed_count}/{len(temp_files)}")
-        else:
-            logger.debug(f"No temporary files found for cleanup - Store ID: {store_id}")
-            
-    except Exception as e:
-        logger.error(f"Error during temp files cleanup - Store ID: {store_id}, Error: {str(e)}")
 
-@ratelimit(key='ip', rate='10/m', block=True)  # RATE LIMITING PARA PDF PROCESSING
+
+@ratelimit(key='ip', rate='100/m', block=False)
 def fetch_flyer_pages(request, store_id):
     try:
-        # VALIDAÇÃO store_id
         if not str(store_id).isdigit() or int(store_id) <= 0:
             return JsonResponse({'error': 'ID da loja inválido.'}, status=400)
             
@@ -601,44 +694,90 @@ def fetch_flyer_pages(request, store_id):
             logger.info(f"AJAX Flyer requested but not available - Store: {store.name}, ID: {store_id}")
             return JsonResponse({'error': 'Nenhum encarte disponível.'}, status=404)
 
-        # VERIFICAÇÃO DE SEGURANÇA MELHORADA
         pdf_path = safe_media_path(store.flyer_pdf.name)
         
         if not os.path.exists(pdf_path):
             logger.warning(f"AJAX Flyer PDF file not found - Store: {store.name}, Path: {pdf_path}")
             return JsonResponse({'error': 'O arquivo PDF do encarte não foi encontrado.'}, status=404)
-
-        logger.info(f"Processing AJAX flyer - Store: {store.name}, PDF: {store.flyer_pdf.name}")
-
-        # Clean up old temporary files
-        cleanup_temp_files(store_id)
         
-        # LIMITES DE SEGURANÇA PARA PDF
+        with open(pdf_path, 'rb') as f:
+            pdf_hash = hashlib.md5(f.read()).hexdigest()
+        
+        cache_key = f'flyer_{store_id}_{pdf_hash}'
+        
+        page_urls = cache.get(cache_key)
+        
+        if page_urls:
+            all_files_exist = True
+            for url in page_urls:
+                filename = url.split('/')[-1]
+                filepath = os.path.join(settings.MEDIA_ROOT, 'flyers', filename)
+                if not os.path.exists(filepath):
+                    all_files_exist = False
+                    logger.warning(f"Cache file missing - {filename}")
+                    break
+            
+            if all_files_exist:
+                logger.info(f"Serving flyer from cache - Store: {store.name}")
+                click_track, _ = ClickTrack.objects.get_or_create(
+                    store=store,
+                    element_type='flyer_pdf',
+                    defaults={'click_count': 0}
+                )
+                click_track.click_count += 1
+                click_track.save()
+
+                # Grava contagem diária para o relatório mensal
+                _track_daily_click(store, 'flyer_pdf')
+
+                return JsonResponse({'page_urls': page_urls, 'cached': True})
+            else:
+                logger.warning(f"Cache invalid - files missing, reprocessing - Store: {store.name}")
+                cache.delete(cache_key)
+        
+        cleanup_flyer_files(store_id, pdf_hash[:8])
+        
+        logger.info(f"Processing new flyer - Store: {store.name}, Hash: {pdf_hash[:8]}")
+
         max_pages = 10
-        max_dpi = 150
         
-        # Convert PDF to images with security limits
-        images = pdf2image.convert_from_path(pdf_path, dpi=max_dpi, last_page=max_pages)
+        images = pdf2image.convert_from_path(
+            pdf_path, 
+            last_page=max_pages,
+            dpi=220,
+            fmt='jpeg',
+            jpegopt={
+                'quality': 90,
+                'optimize': True,
+                'progressive': True
+            }
+        )
         
-        # LIMITA PÁGINAS
         if len(images) > max_pages:
             images = images[:max_pages]
             logger.warning(f"AJAX Flyer truncated to {max_pages} pages - Store: {store.name}")
 
         page_urls = []
         for i, image in enumerate(images):
-            # NOME DE ARQUIVO SEGURO
-            image_filename = f'temp_page_{store_id}_{i}.png'
+            image_filename = f'flyer_{store_id}_{pdf_hash[:8]}_{i}.jpg'
             image_path = os.path.join(settings.MEDIA_ROOT, 'flyers', image_filename)
             
-            # CRIA DIRETÓRIO COM PERMISSÕES SEGURAS
-            os.makedirs(os.path.dirname(image_path), exist_ok=True, mode=0o755)
+            if not os.path.exists(image_path):
+                os.makedirs(os.path.dirname(image_path), exist_ok=True, mode=0o755)
+                
+                if image.mode in ('RGBA', 'LA', 'P'):
+                    image = image.convert('RGB')
+                
+                image.save(image_path, 'JPEG', 
+                          quality=90, 
+                          optimize=True,
+                          progressive=True)
             
-            image.save(image_path, 'PNG', quality=85)
             page_urls.append(f'{settings.MEDIA_URL}flyers/{image_filename}')
 
-        # Track the click
-        click_track, created = ClickTrack.objects.get_or_create(
+        cache.set(cache_key, page_urls, timeout=None)
+        
+        click_track, _ = ClickTrack.objects.get_or_create(
             store=store,
             element_type='flyer_pdf',
             defaults={'click_count': 0}
@@ -646,19 +785,61 @@ def fetch_flyer_pages(request, store_id):
         click_track.click_count += 1
         click_track.save()
 
-        logger.info(f"AJAX flyer processed successfully - Store: {store.name}, Pages: {len(page_urls)}")
+        # Grava contagem diária para o relatório mensal
+        _track_daily_click(store, 'flyer_pdf')
 
-        return JsonResponse({'page_urls': page_urls})
+        logger.info(f"Flyer processed and cached - Store: {store.name}, Pages: {len(page_urls)}")
+
+        return JsonResponse({'page_urls': page_urls, 'cached': False})
         
     except Store.DoesNotExist:
         logger.warning(f"Store not found for AJAX flyer - Store ID: {store_id}")
         return JsonResponse({'error': 'Loja não encontrada.'}, status=404)
-    except ValueError as e:
-        logger.warning(f"Security violation in AJAX flyer - Store ID: {store_id}, Error: {str(e)}")
-        return JsonResponse({'error': 'Requisição inválida.'}, status=400)
     except Exception as e:
         logger.error(f"Error processing AJAX flyer - Store ID: {store_id}, Error: {str(e)}")
         return JsonResponse({'error': 'Erro ao processar o encarte.'}, status=500)
+
+
+def cleanup_flyer_files(store_id, current_hash=None):
+    try:
+        if not str(store_id).isdigit():
+            logger.warning(f"Invalid store_id in cleanup - Store ID: {store_id}")
+            return
+        
+        flyers_dir = os.path.join(settings.MEDIA_ROOT, 'flyers')
+        
+        temp_pattern = os.path.join(flyers_dir, f'temp_page_{store_id}_*.png')
+        temp_files = glob.glob(temp_pattern)
+        
+        flyer_pattern_jpg = os.path.join(flyers_dir, f'flyer_{store_id}_*.jpg')
+        flyer_pattern_png = os.path.join(flyers_dir, f'flyer_{store_id}_*.png')
+        flyer_files = glob.glob(flyer_pattern_jpg) + glob.glob(flyer_pattern_png)
+        
+        all_files = temp_files + flyer_files
+        
+        max_files = 100
+        if len(all_files) > max_files:
+            logger.warning(f"Too many flyer files - Store ID: {store_id}, Files: {len(all_files)}")
+            all_files = all_files[:max_files]
+        
+        removed_count = 0
+        for file_path in all_files:
+            try:
+                if current_hash and current_hash in os.path.basename(file_path):
+                    continue
+                    
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    removed_count += 1
+                    logger.debug(f"Flyer file cleaned up - File: {file_path}")
+            except Exception as e:
+                logger.warning(f"Failed to remove flyer file - File: {file_path}, Error: {str(e)}")
+        
+        if removed_count > 0:
+            logger.info(f"Flyer cleanup completed - Store ID: {store_id}, Files removed: {removed_count}")
+            
+    except Exception as e:
+        logger.error(f"Error during flyer files cleanup - Store ID: {store_id}, Error: {str(e)}")
 
 @ratelimit(key='ip', rate='50/m', block=True)  # Bloqueia completamente
 @ratelimit(key='ip', rate='500/h', block=True)  # Limite horário também

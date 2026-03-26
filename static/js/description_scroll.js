@@ -27,7 +27,7 @@
          */
         getDOMElements() {
             try {
-                this.descriptionP = document.querySelector('.description p');
+                this.descriptionP = document.querySelector('.description');
                 this.storeName = document.querySelector('.store-name');
                 this.storeInfo = document.querySelector('.store-info');
                 
@@ -150,7 +150,7 @@
                 
                 this.initialized = true;
                 
-                console.log('Description scroll manager inicializado com sucesso');
+                
             } catch (error) {
                 console.error('Falha na inicialização do description scroll manager:', error);
             }
@@ -204,7 +204,7 @@
             
             // Inicialização com verificação de elementos
             const initWhenReady = () => {
-                if (document.querySelector('.description p')) {
+                if (document.querySelector('.description')) {
                     scrollManager.initialize();
                 } else {
                     // Tenta novamente se elementos ainda não carregaram

@@ -13,402 +13,184 @@
     <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
     <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
     <link rel="manifest" href="{% static 'manifest.json' %}">
-    
-    <!-- Proteções de Segurança - CSP PERMITE estilo inline -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self';">
-    <meta http-equiv="X-Frame-Options" content="DENY">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.gstatic.com; script-src 'self'; connect-src 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    
     <meta name="theme-color" content="#2c3e50">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Click32">
-    <meta name="theme-color" content="#2c3e50">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nós - Click32</title>
-    
-    <!-- Links Externos Seguros -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
-          rel="stylesheet" 
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+    <meta name="description" content="O Click32 é o lugar onde o Km32 se encontra. Tudo que o bairro tem a oferecer, reunido em um só app.">
+
+    <title>Sobre o Click32</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          rel="stylesheet"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
           crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" 
-          rel="stylesheet" 
-          integrity="sha512-d1XYo2FCAh//0pj/2QbNA9hjrJwUL7Nz8mJH7Ep7T2XlLStaBxpv/wKMhVGY9TwZ1hwmgvj9VxH30LxJbmjD1w==" 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet"
+          integrity="sha512-d1XYo2FCAh//0pj/2QbNA9hjrJwUL7Nz8mJH7Ep7T2XlLStaBxpv/wKMhVGY9TwZ1hwmgvj9VxH30LxJbmjD1w=="
           crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" 
-          rel="stylesheet" 
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap"
+          rel="stylesheet"
           crossorigin="anonymous">
+
+    {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}?v={{ STATIC_VERSION }}">
+    {% endblock %}
     {% endautoescape %}
-    
-    <style>
-        /* SEU CSS ORIGINAL AQUI (inalterado) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: #f4f7f9;
-            color: #2c3e50;
-            line-height: 1.6;
-            padding-top: 48px;
-        }
-
-        .toolbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(44, 62, 80, 0.95);
-            z-index: 1000;
-            height: 48px;
-        }
-
-        .toolbar-container {
-            max-width: 720px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            height: 100%;
-            align-items: center;
-        }
-
-        .toolbar-container a {
-            color: #d1e8f0;
-            text-decoration: none;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            transition: all 0.3s ease;
-        }
-
-        .toolbar-container a:hover {
-            color: #00ccff;
-            transform: scale(1.1);
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #66d3f3 0%, #3b566e 60%);
-            color: #ecf0f1;
-            text-align: center;
-            padding: 80px 16px 40px 16px;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 16px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            max-width: 720px;
-            margin: 0 auto 20px;
-        }
-
-        .hero .cta-button {
-            display: inline-block;
-            background: #00ccff;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero .cta-button:hover {
-            background: #00b7e6;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-        }
-
-        .section {
-            padding: 60px 16px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .section h2 {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #2c3e50;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-
-        .section p {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 20px;
-            font-size: 1.1rem;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-            margin-top: 30px;
-        }
-
-        .card {
-            background: #ffffff;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card i {
-            font-size: 2rem;
-            color: #00ccff;
-            margin-bottom: 12px;
-        }
-
-        .card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            font-size: 1rem;
-            color: #34495e;
-            text-align: center;
-        }
-
-        .timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            margin-top: 30px;
-        }
-
-        .timeline-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-        }
-
-        .timeline-item i {
-            font-size: 1.5rem;
-            color: #00ccff;
-            margin-top: 4px;
-        }
-
-        .timeline-item div p {
-            margin: 0;
-            color: #34495e;
-            text-align: left;
-        }
-
-        /* Escondendo seções que não temos dados ainda */
-        .hidden-section {
-            display: none;
-        }
-
-        footer {
-            background: #2c3e50;
-            color: #ecf0f1;
-            text-align: center;
-            padding: 24px 16px;
-            font-size: 0.85rem;
-        }
-
-        @media (min-width: 768px) {
-            .cards {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-        }
-    </style>
 </head>
 <body>
-    <!-- SEU HTML ORIGINAL AQUI (inalterado) -->
     <div class="toolbar">
         <div class="toolbar-container">
-            <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início"><i class="fas fa-house"></i></a>
-            <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie"><i class="fas fa-bullhorn"></i></a>
-            <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre"><i class="fas fa-info-circle"></i></a>
+            <a href="{% url 'home' %}" class="tooltip" data-tooltip="Início" aria-label="Página inicial">
+                <i class="fas fa-house"></i>
+            </a>
+            <a href="{% url 'anuncie' %}" class="tooltip" data-tooltip="Anuncie" aria-label="Anuncie">
+                <i class="fas fa-bullhorn"></i>
+            </a>
+            <a href="{% url 'sobre' %}" class="tooltip" data-tooltip="Sobre" aria-label="Sobre">
+                <i class="fas fa-info-circle"></i>
+            </a>
+            <a href="{% url 'faq' %}" class="tooltip" data-tooltip="FAQ" aria-label="FAQ">
+                <i class="fas fa-question-circle"></i>
+            </a>
         </div>
     </div>
 
+    <!-- HERO -->
     <section class="hero">
-        <h1>Conectando o Seu Bairro</h1>
-        <p>Conectamos você diretamente aos melhores comércios locais, com perfis verificados e atualizados para sua segurança.</p>
-        <p>Encontre rapidamente o que precisa e apoie a economia local!</p>
-        <a href="{% url 'home' %}" class="cta-button">Explorar Lojas</a>
-    </section>
-
-    <section class="section">
-        <h2>Como Funciona</h2>
-        <p>O Click32 foi desenvolvido para simplificar a conexão direta entre moradores e estabelecimentos locais.</p>
-        <div class="cards">
-            <div class="card">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Perfis Verificados</h3>
-                <p>Todas as lojas são validadas pela nossa equipe para garantir informações confiáveis e seguras.</p>
+        <div class="hero-bg-shapes" aria-hidden="true">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-info-circle"></i>
+                <span>Sobre o Click32</span>
             </div>
-            <div class="card">
-                <i class="fas fa-comments"></i>
-                <h3>Contato Direto</h3>
-                <p>Converse diretamente com os lojistas sem intermediários. Sua privacidade é respeitada.</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-qrcode"></i>
-                <h3>QR Code Exclusivo</h3>
-                <p>Cada loja tem um QR code único para compartilhar facilmente seu perfil com clientes.</p>
+            <h1>O bairro tem muito mais<br><span class="highlight">do que você imagina.</span></h1>
+            <p>O Click32 reúne tudo que existe no Km32 — comércios, serviços e profissionais — em um só lugar. Fácil de achar, fácil de usar, sem precisar perguntar em grupos.</p>
+            <div class="hero-ctas">
+                <a href="{% url 'home' %}" class="cta-primary">Explorar o Km32 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                <a href="#" id="installBtn" class="cta-secondary hidden" aria-label="Instalar aplicativo">
+                    Baixar o app <i class="fas fa-download" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </section>
 
+    <!-- O QUE É -->
     <section class="section">
-        <h2>Por que usar o Click32?</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <i class="fas fa-bolt"></i>
-                <div>
-                    <h3>Encontre Rapidamente</h3>
-                    <p>Não perca tempo procurando contatos. Encontre serviços locais em poucos cliques.</p>
+        <div class="container">
+            <div class="section-label">O que é o Click32</div>
+            <h2>Um endereço digital para o seu bairro.</h2>
+            <p>O Click32 é um app para descobrir o que o Km32 tem a oferecer. Cada negócio, profissional ou serviço cadastrado tem seu próprio perfil — com contatos, localização e tudo mais para você chegar até quem precisa, sem rodeios.</p>
+            <p>Sem cadastro, sem login. Você abre, navega e encontra.</p>
+            <div class="cards">
+                <div class="card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Contato direto</h3>
+                    <p>WhatsApp, Instagram, telefone, localização — tudo no perfil, com um toque você já está falando com quem precisa.</p>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <i class="fas fa-user-shield"></i>
-                <div>
-                    <h3>Segurança Garantida</h3>
-                    <p>Perfis supervisionados e atualizados regularmente para sua tranquilidade.</p>
+                <div class="card">
+                    <i class="fas fa-file-image"></i>
+                    <h3>Encarte digital</h3>
+                    <p>Alguns perfis disponibilizam um encarte digital — acesse com um toque e veja o que o anunciante tem para mostrar, na hora.</p>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <i class="fas fa-leaf"></i>
-                <div>
-                    <h3>Digital e Sustentável</h3>
-                    <p>Reduza o uso de panfletos de papel com menus e promoções digitais acessíveis por QR code.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <i class="fas fa-hand-holding-heart"></i>
-                <div>
-                    <h3>Fomento Local</h3>
-                    <p>Apoie a economia do bairro descobrindo e utilizando serviços próximos a você.</p>
+                <div class="card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Tudo verificado</h3>
+                    <p>Nenhum perfil entra no ar sem passar pela nossa validação. O que você vê aqui é real e confiável.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <h2>Pronto para fazer parte?</h2>
-        <p>Junte-se à nossa comunidade e fortaleça o comércio local com segurança e praticidade.</p>
-        <div class="cards">
-            <a href="{% url 'anuncie' %}" class="card" style="text-decoration:none; color:#2c3e50;">
-                <i class="fas fa-store"></i>
-                <h3>Anuncie sua Loja</h3>
-                <p>Solicite seu perfil verificado e aumente sua visibilidade no bairro</p>
-            </a>
-            <a href="{% url 'home' %}" class="card" style="text-decoration:none; color:#2c3e50;">
-                <i class="fas fa-compass"></i>
-                <h3>Explore o Bairro</h3>
-                <p>Descubra serviços e produtos verificados perto de você</p>
-            </a>
-            <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521980555851' }}" 
-                class="card" 
-                style="text-decoration:none; color:#2c3e50;"
-                target="_blank" 
-                rel="noopener noreferrer">
-                    <i class="bi bi-whatsapp"></i>
-                    <h3>Fale Conosco</h3>
-                    <p>Tire suas dúvidas sobre a plataforma</p>
-            </a>
+    <!-- POR QUE USAR -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-label">Por que usar</div>
+            <h2>Menos tempo procurando.<br>Mais tempo resolvendo.</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fas fa-bolt"></i></div>
+                    <div>
+                        <h3>Tudo num lugar só</h3>
+                        <p>Chega de procurar contato em grupo de WhatsApp, no Google ou numa indicação que pode estar desatualizada. Está tudo aqui.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div>
+                        <h3>Funciona como app</h3>
+                        <p>O Click32 pode ser instalado direto no celular, sem passar por loja de aplicativos. Fica na sua tela inicial, pronto para usar quando precisar.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fas fa-eye"></i></div>
+                    <div>
+                        <h3>Sempre atualizado</h3>
+                        <p>Os perfis são gerenciados pela nossa equipe. Informação errada ou desatualizada não fica no ar.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div>
+                        <h3>O bairro ganha junto</h3>
+                        <p>Cada vez que você encontra e usa um serviço daqui, o Km32 fica mais forte. É simples assim.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="section section-cta">
+        <div class="container">
+            <h2>Faz parte do Km32?<br>Então o Click32 é seu.</h2>
+            <p>Seja para encontrar um serviço ou para colocar o seu negócio no mapa — o Click32 está aqui para isso.</p>
+            <div class="cards">
+                <a href="{% url 'home' %}" class="card card-link">
+                    <i class="fas fa-compass"></i>
+                    <h3>Explorar o bairro</h3>
+                    <p>Veja tudo que o Km32 tem a oferecer.</p>
+                </a>
+                <a href="{% url 'anuncie' %}" class="card card-link">
+                    <i class="fas fa-store"></i>
+                    <h3>Anunciar no Click32</h3>
+                    <p>Coloque seu negócio ou serviço no mapa do bairro.</p>
+                </a>
+                <a href="{% url 'home' %}" class="card card-link">
+                    <i class="fas fa-share-nodes"></i>
+                    <h3>Compartilhe com o bairro</h3>
+                    <p>Encontrou algo útil? Manda para quem precisa.</p>
+                
+
+
+                <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}"
+                   class="card card-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp fa-beat"></i>
+                    <h3>Fale com a gente</h3>
+                    <p>Dúvida, sugestão ou só um oi — a gente responde.</p>
+                </a>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p>© 2025 Click32. Conectando bairros com segurança e praticidade. Todos os direitos reservados.</p>
+        <p>© 2026 Click32 — Feito no Km32, para o Km32.</p>
     </footer>
 
-    <script>
-        // CSRF token em variável JavaScript protegida
-        const CSRF_TOKEN = "{{ csrf_token }}";
-        
-        let deferredPrompt;
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const installBtn = document.getElementById('installBtn');
-            
-            if (installBtn) {
-                installBtn.addEventListener('click', async function() {
-                    await trackPwaAction('clicked');
-                    
-                    if (deferredPrompt) {
-                        try {
-                            deferredPrompt.prompt();
-                            const { outcome } = await deferredPrompt.userChoice;
-                            
-                            if (outcome === 'accepted') {
-                                await trackPwaAction('accepted');
-                            } else {
-                                await trackPwaAction('dismissed');
-                            }
-                            
-                            deferredPrompt = null;
-                            installBtn.classList.add('hidden');
-                            
-                        } catch (error) {
-                            console.error('Erro durante a instalação:', error);
-                        }
-                    }
-                });
-            }
-            
-            async function trackPwaAction(action) {
-                try {
-                    await fetch('{% url "track_pwa_click" %}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': CSRF_TOKEN,
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ action: action })
-                    });
-                } catch (error) {
-                    console.error('Erro ao registrar ação:', error);
-                }
-            }
-            
-            window.addEventListener('appinstalled', () => {
-                trackPwaAction('accepted');
-            });
-        });
-    </script>
+    <script src="{% static 'js/about.js' %}?v={{ STATIC_VERSION }}"></script>
+    <script src="{% static 'js/service-worker-register.js' %}?v={{ STATIC_VERSION }}"></script>
+    <script src="{% static 'js/pwa_install.js' %}?v={{ STATIC_VERSION }}"></script>
+    <script src="{% static 'js/active_session.js' %}?v={{ STATIC_VERSION }}"></script>
 </body>
 </html>

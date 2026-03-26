@@ -1,0 +1,372 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% autoescape on %}
+    <link rel="icon" href="{% static 'icons/icon-72x72.png' %}" type="image/png" sizes="72x72">
+    <link rel="icon" href="{% static 'icons/icon-192x192.png' %}" type="image/png" sizes="192x192">
+    <link rel="icon" href="{% static 'icons/icon-512x512.png' %}" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; script-src 'self'; connect-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Click32">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Encarte digital para o seu negócio no KM32. QR Code exclusivo, sem complicação.">
+
+    <title>Encarte Digital — Click32</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          rel="stylesheet"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&display=swap"
+          rel="stylesheet"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/flyer_landing.css' %}?v={{ STATIC_VERSION }}">
+    {% endautoescape %}
+</head>
+<body>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+        <div class="toolbar-container">
+            <a href="{% url 'home' %}" aria-label="Início">
+                <i class="fas fa-house"></i>
+            </a>
+            <a href="{% url 'anuncie' %}" aria-label="Anuncie">
+                <i class="fas fa-bullhorn"></i>
+            </a>
+            <a href="{% url 'sobre' %}" aria-label="Sobre">
+                <i class="fas fa-info-circle"></i>
+            </a>
+            <a href="{% url 'faq' %}" aria-label="FAQ">
+                <i class="fas fa-question-circle"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- ══ HERO ══ -->
+    <section class="hero">
+        <div class="hero-bg" aria-hidden="true">
+            <div class="hero-shape s1"></div>
+            <div class="hero-shape s2"></div>
+            <div class="hero-shape s3"></div>
+            <div class="hero-grid"></div>
+        </div>
+        <div class="container">
+            <div class="hero-inner">
+                <div class="hero-copy reveal">
+                    <div class="hero-badge">
+                        <i class="fas fa-file-image"></i>
+                        <span>Encarte Digital</span>
+                    </div>
+                    <h1>Seu encarte,<br><span class="highlight">agora digital.</span></h1>
+                    <p>Disponível pelo celular, com um toque. Sem complicação.</p>
+                    <div class="hero-pills">
+                        <span><i class="fas fa-check"></i> QR Code exclusivo</span>
+                        <span><i class="fas fa-check"></i> A gente configura tudo</span>
+                        <span><i class="fas fa-check"></i> Sem taxa por venda</span>
+                    </div>
+                </div>
+
+                <!-- TELEFONES -->
+                <div class="hero-visual reveal reveal-delay">
+                    <div class="phones-group">
+
+                        <!-- TELEFONE ESQUERDA (atrás) -->
+                        <div class="phone-mockup phone-mockup--side phone-mockup--left">
+                            <div class="phone-screen">
+                                <div class="phone-punch"></div>
+                                <img src="{% static 'exemplo_encarte_lanchonete.jpeg' %}"
+                                     alt=""
+                                     class="phone-screen-img">
+                            </div>
+                        </div>
+
+                        <!-- TELEFONE CENTRAL (frente) -->
+                        <div class="phone-mockup phone-mockup--main">
+                            <div class="phone-screen">
+                                <div class="phone-punch"></div>
+                                <img src="{% static 'exemplo_encarte_pintor.jpeg' %}"
+                                     alt="Encarte digital aberto no Click32"
+                                     class="phone-screen-img">
+                            </div>
+                            <div class="phone-btn phone-btn--power"></div>
+                            <div class="phone-btn phone-btn--vol-up"></div>
+                            <div class="phone-btn phone-btn--vol-down"></div>
+                        </div>
+
+                        <!-- TELEFONE DIREITA (atrás) -->
+                        <div class="phone-mockup phone-mockup--side phone-mockup--right">
+                            <div class="phone-screen">
+                                <div class="phone-punch"></div>
+                                <img src="{% static 'exemplo_encarte_salao.jpeg' %}"
+                                     alt=""
+                                     class="phone-screen-img">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="hero-cta reveal">
+                    <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20meu%20encarte%20digital%20no%20Click32!"
+                       class="btn-primary"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Quero meu encarte digital
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-hint" aria-hidden="true">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- ══ COMO FUNCIONA ══ -->
+    <section class="how-section" id="como-funciona">
+        <div class="container">
+            <div class="section-label reveal">Simples assim</div>
+            <h2 class="reveal">Do material ao ar em menos de 24h.</h2>
+            <div class="steps-row">
+                <div class="step-card reveal">
+                    <div class="step-num">01</div>
+                    <div class="step-icon"><i class="fas fa-paper-plane"></i></div>
+                    <h3>Você nos envia o material</h3>
+                    <p>Imagem, PDF — o que tiver. Manda pelo WhatsApp e pronto.</p>
+                </div>
+                <div class="step-arrow reveal" aria-hidden="true"><i class="fas fa-arrow-right"></i></div>
+                <div class="step-card reveal">
+                    <div class="step-num">02</div>
+                    <div class="step-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                    <h3>A gente sobe no seu perfil</h3>
+                    <p>Configuramos tudo. Você não precisa de login, painel ou conhecimento técnico.</p>
+                </div>
+                <div class="step-arrow reveal" aria-hidden="true"><i class="fas fa-arrow-right"></i></div>
+                <div class="step-card reveal">
+                    <div class="step-num">03</div>
+                    <div class="step-icon"><i class="fas fa-mobile-screen"></i></div>
+                    <h3>Cliente acessa pelo link ou QR</h3>
+                    <p>Um toque e está vendo tudo. Entra em contato direto com você.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ POR SEGMENTO ══ -->
+    <section class="segments-section" id="segmentos">
+        <div class="container">
+            <div class="section-label light reveal">Para o seu negócio</div>
+            <h2 class="reveal">Funciona para qualquer tipo de negócio.</h2>
+            <p class="section-sub reveal">Não importa o que você vende ou oferece. Se tem algo visual para mostrar ao cliente, tem espaço no encarte digital.</p>
+
+            <div class="segments-grid">
+
+                <div class="segment-card reveal" data-segment="lanchonetes">
+                    <div class="segment-icon"><i class="fas fa-burger"></i></div>
+                    <div class="segment-body">
+                        <h3>Lanchonetes</h3>
+                        <p>Aquele encarte com as promoções da semana que você imprime? Agora ele também é digital. O cliente vê, escolhe e já entra em contato direto pelo WhatsApp. Sem intermediário, sem taxa.</p>
+                        <div class="segment-tags">
+                            <span>Promoções da semana</span>
+                            <span>Combos</span>
+                            <span>Bebidas em destaque</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="segment-card reveal" data-segment="farmacias">
+                    <div class="segment-icon"><i class="fas fa-pills"></i></div>
+                    <div class="segment-body">
+                        <h3>Farmácias</h3>
+                        <p>Seu encarte de ofertas sempre foi impresso. Agora ele também é digital. O cliente vê os produtos e promoções pelo celular e entra em contato direto. Você ainda aparece nas categorias certas para quem procura no bairro.</p>
+                        <div class="segment-tags">
+                            <span>Ofertas semanais</span>
+                            <span>Produtos em promoção</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="segment-card reveal" data-segment="lojas">
+                    <div class="segment-icon"><i class="fas fa-shirt"></i></div>
+                    <div class="segment-body">
+                        <h3>Lojas de Roupa</h3>
+                        <p>Aquela coleção nova ou liquidação de fim de estação? Seu encarte digital chega antes do cliente vir até você.</p>
+                        <div class="segment-tags">
+                            <span>Lançamento de coleção</span>
+                            <span>Liquidação</span>
+                            <span>Queima de estoque</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="segment-card reveal" data-segment="mercados">
+                    <div class="segment-icon"><i class="fas fa-basket-shopping"></i></div>
+                    <div class="segment-body">
+                        <h3>Mercados e Mercearias</h3>
+                        <p>Ofertas da semana, produtos em destaque. Seu cliente vê tudo pelo celular e já sabe o que vai buscar.</p>
+                        <div class="segment-tags">
+                            <span>Ofertas semanais</span>
+                            <span>Produtos em destaque</span>
+                            <span>Hortifrúti</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="segments-obs reveal">E muito mais. Se você tem algo para mostrar no KM32, tem espaço aqui.</p>
+        </div>
+    </section>
+
+    <!-- ══ DIFERENCIAIS ══ -->
+    <section class="diff-section" id="diferenciais">
+        <div class="container">
+            <div class="section-label reveal">Por que funciona</div>
+            <h2 class="reveal">Tudo que você precisa.<br>Nada que você não precisa.</h2>
+            <div class="diff-grid">
+                <div class="diff-card reveal">
+                    <div class="diff-icon"><i class="fas fa-qrcode"></i></div>
+                    <h3>QR Code exclusivo</h3>
+                    <p>Cada anunciante tem seu próprio QR, gerado automaticamente. Imprime e coloca onde quiser — porta, balcão, encarte físico.</p>
+                </div>
+                <div class="diff-card reveal">
+                    <div class="diff-icon"><i class="fas fa-share-nodes"></i></div>
+                    <h3>Link compartilhável</h3>
+                    <p>Envia por WhatsApp, Instagram, ou coloca na bio. O cliente acessa de onde estiver.</p>
+                </div>
+                <div class="diff-card reveal">
+                    <div class="diff-icon"><i class="fas fa-hands"></i></div>
+                    <h3>A gente cuida de tudo</h3>
+                    <p>Você envia o material, a gente sobe. Sem login, sem painel, sem complicação.</p>
+                </div>
+                <div class="diff-card reveal">
+                    <div class="diff-icon"><i class="fas fa-circle-xmark"></i></div>
+                    <h3>Sem taxa por venda</h3>
+                    <p>O cliente entra em contato direto com você. Zero comissão, zero intermediário.</p>
+                </div>
+                <div class="diff-card reveal">
+                    <div class="diff-icon"><i class="fas fa-crosshairs"></i></div>
+                    <h3>Aparece na categoria certa</h3>
+                    <p>Seu negócio aparece para quem procura no bairro, na categoria certa, na hora certa.</p>
+                </div>
+                <div class="diff-card reveal">
+                    <div class="diff-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3>Perfil validado por nós</h3>
+                    <p>Tudo que está no Click32 foi verificado antes de ir ao ar. Confiável para o cliente, seguro para você.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ MOCKUP VISUAL ══ -->
+    <section class="visual-section">
+        <div class="container">
+            <div class="visual-inner">
+                <div class="visual-copy reveal">
+                    <div class="section-label">Como fica no app</div>
+                    <h2>O cliente vê tudo<br>com um toque.</h2>
+                    <p>Seu encarte fica disponível direto no seu perfil no Click32. O cliente abre, visualiza página por página, e entra em contato na hora — sem sair do app.</p>
+                    <ul class="visual-list">
+                        <li><i class="fas fa-check-circle"></i> Acesso pelo perfil ou pelo QR Code</li>
+                        <li><i class="fas fa-check-circle"></i> Visualização em tela cheia no celular</li>
+                        <li><i class="fas fa-check-circle"></i> Contato direto com um toque</li>
+                    </ul>
+                </div>
+                <div class="visual-screens reveal reveal-delay">
+                    <!-- TELA 1: perfil com ícone encarte -->
+                    <div class="screen-card screen-back">
+                        <div class="screen-label">Perfil no app</div>
+                        <!-- Substituir pela imagem real: screenshot do perfil -->
+                        <div class="screen-img-placeholder">
+                            <i class="fas fa-mobile-screen-button"></i>
+                            <span>Screenshot do perfil</span>
+                        </div>
+                    </div>
+                    <!-- TELA 2: encarte aberto -->
+                    <div class="screen-card screen-front">
+                        <div class="screen-label highlight-label">Encarte aberto</div>
+                        <!-- Substituir pela imagem real: screenshot do encarte aberto -->
+                        <div class="screen-img-placeholder">
+                            <i class="fas fa-file-image"></i>
+                            <span>Screenshot do encarte</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ DEPOIMENTO ══ -->
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="testimonial-card reveal">
+                <div class="quote-mark">"</div>
+                <blockquote>Agora meus clientes veem as ofertas pelo celular antes de vir à loja. Já chegam sabendo o que querem.</blockquote>
+                <cite>— Anunciante do KM32</cite>
+                <!-- Substituir pelo depoimento real assim que disponível -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ CTA FINAL ══ -->
+    <section class="cta-section" id="contato">
+        <div class="container">
+            <div class="cta-inner reveal">
+                <div class="cta-badge">
+                    <i class="fas fa-rocket"></i>
+                    <span>Comece agora</span>
+                </div>
+                <h2>Pronto para digitalizar<br>seu encarte?</h2>
+                <p>Fala com a gente. A gente configura tudo — você só precisa enviar o material.</p>
+                <div class="cta-links">
+                    <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20meu%20encarte%20digital%20no%20Click32!"
+                       class="cta-link whatsapp"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <strong>WhatsApp</strong>
+                            <span>Resposta rápida</span>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/click32.app"
+                       class="cta-link instagram"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                        <div>
+                            <strong>Instagram</strong>
+                            <span>@click32.app</span>
+                        </div>
+                    </a>
+                    <a href="mailto:{{ settings.CONTACT_EMAIL|default:'click32.contato@gmail.com' }}?subject=Quero%20meu%20encarte%20digital"
+                       class="cta-link email">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>E-mail</strong>
+                            <span>Prefere escrever?</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Click32 — Feito no KM32, para o KM32.</p>
+    </footer>
+
+    <script src="{% static 'js/flyer_landing.js' %}?v={{ STATIC_VERSION }}"></script>
+</body>
+</html>

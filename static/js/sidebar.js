@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.remove('collapsed');
     overlay.style.display = 'block';
   } else {
-    sidebar.classList.add('collapsed');
+    sidebar.classList.add('collapsed'); 
     overlay.style.display = 'none';
   }
 
@@ -25,6 +25,90 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lastOpenDropdown && !sidebar.classList.contains('collapsed')) {
     openDropdown(lastOpenDropdown);
   }
+
+  // Verifica se há uma tag na URL e ativa a animação do ícone correspondente
+  const urlParams = new URLSearchParams(window.location.search);
+  const activeTag = urlParams.get('tag');
+  if (activeTag) {
+    // Procura o header cujo data-dropdown corresponde à tag ativa
+    document.querySelectorAll('.menu-header').forEach(header => {
+      const headerGroup = header.getAttribute('data-dropdown');
+      if (headerGroup === activeTag) {
+        const icon = header.querySelector('.category-icon');
+        if (icon) {
+          // Remove animação de todos e ativa no correto
+          document.querySelectorAll('.category-icon').forEach(i => {
+            i.classList.remove('fa-beat-fade');
+          });
+          icon.classList.add('fa-beat-fade');
+        }
+      }
+    });
+  }
+
+  /* GESTOS DE DESLIZAR PARA SIDEBAR */
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isSwiping = false;
+
+  document.addEventListener('touchstart', (e) => {
+    if (document.getElementById('flyerModal')?.classList.contains('show')) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    isSwiping = true;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (document.getElementById('flyerModal')?.classList.contains('show')) return;
+    if (!isSwiping) return;
+    
+    const touchCurrentX = e.touches[0].clientX;
+    const touchCurrentY = e.touches[0].clientY;
+    const diffX = Math.abs(touchCurrentX - touchStartX);
+    const diffY = Math.abs(touchCurrentY - touchStartY);
+    
+    // SÓ interfere se o sidebar estiver ABERTO
+    if (!sidebar.classList.contains('collapsed')) {
+      if (diffX > diffY && diffX > 10) {
+        e.preventDefault();
+      }
+    }
+  }, { passive: false });
+
+  document.addEventListener('touchend', (e) => {
+    if (document.getElementById('flyerModal')?.classList.contains('show')) return;
+    if (!isSwiping) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const swipeDistance = touchEndX - touchStartX;
+    const swipeThreshold = 50;
+    
+    // Swipe para direita na borda esquerda - ABRIR
+    if (swipeDistance > swipeThreshold && touchStartX < 60) {
+      if (sidebar.classList.contains('collapsed')) {
+        sidebar.classList.remove('collapsed');
+        overlay.style.display = 'block';
+        localStorage.setItem('sidebar-expanded', 'true');
+        
+        const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
+        if (lastOpenDropdown) {
+          openDropdown(lastOpenDropdown);
+        }
+      }
+    }
+    
+    // Swipe para esquerda - FECHAR (apenas se começou no sidebar)
+    if (swipeDistance < -swipeThreshold && touchStartX < 160) {
+      if (!sidebar.classList.contains('collapsed')) {
+        sidebar.classList.add('collapsed');
+        overlay.style.display = 'none';
+        localStorage.setItem('sidebar-expanded', 'false');
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+      }
+    }
+    
+    isSwiping = false;
+  }, { passive: true });
 
   /* Evento de clique no botão de alternância */
   toggleBtn.addEventListener('click', (e) => {
@@ -51,7 +135,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Evento de clique nos cabeçalhos do menu */
   document.querySelectorAll('.menu-header').forEach(header => {
+    const icon = header.querySelector('.category-icon');
+    
     header.addEventListener('click', (e) => {
+      // Primeiro: remove animação de todos os ícones
+      document.querySelectorAll('.category-icon').forEach(i => {
+        i.classList.remove('fa-beat-fade');
+      });
+      
+      // Depois: adiciona animação no ícone clicado (se existir)
+      if (icon) {
+        icon.classList.add('fa-beat-fade');
+      }
+
+      // Lógica original do menu
       const group = header.getAttribute('data-dropdown');
       if (!group) {
         return;
@@ -61,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         e.stopPropagation();
         localStorage.setItem('sidebar-last-dropdown', group);
-        // Uses homeUrl for redirection
         window.location.href = homeUrl + '?tag=' + encodeURIComponent(group);
       } else {
         const dropdown = header.nextElementSibling;
@@ -72,6 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('sidebar-last-dropdown', group);
         } else {
           localStorage.removeItem('sidebar-last-dropdown');
+          // Se fechou o dropdown, remove a animação
+          if (icon) {
+            icon.classList.remove('fa-beat-fade');
+          }
         }
       }
     });
@@ -114,6 +214,15 @@ function openDropdown(group) {
   if (target) {
     document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
     target.nextElementSibling.classList.add('open');
+    
+    // Quando abre via localStorage, ativa a animação do ícone correspondente
+    const icon = target.querySelector('.category-icon');
+    if (icon) {
+      document.querySelectorAll('.category-icon').forEach(i => {
+        i.classList.remove('fa-beat-fade');
+      });
+      icon.classList.add('fa-beat-fade');
+    }
   }
 }
 

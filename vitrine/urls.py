@@ -4,6 +4,7 @@ from vitrine.admin_instance import click32_admin_site
 from . import views
 
 
+
 class StoreSlugConverter:
     regex = '[\w-]+'  # slugs com letras, números e hífens
     def to_python(self, value): return value
@@ -30,6 +31,8 @@ urlpatterns = [
     # Páginas estáticas
     path('anuncie/', views.advertise, name='anuncie'),
     path('sobre/', views.about, name='sobre'),
+    path('faq/', views.faq, name='faq'),
+    path('flyer-landing/', views.flyer_landing, name='flyer_landing'),
     
     # APIs
     path('start-session/', views.start_session, name='start_session'),
@@ -40,6 +43,8 @@ urlpatterns = [
     path('track-pwa-click/', views.track_pwa_click, name='track_pwa_click'),
 
     path('log-debug/', views.log_debug, name='log_debug'),
+    path("service-worker.js", views.service_worker, name="service_worker"),
+    path('sw-config.js', views.sw_config, name='sw_config'),
 
     # SEMPRE A ÚLTIMA
     path('<storeslug:slug>/', views.store_detail, name='store_detail'),

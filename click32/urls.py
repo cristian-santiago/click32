@@ -26,6 +26,7 @@ urlpatterns = [
     path("admin/", include("vitrine.click32_admin.urls")), # redireciona para novas urls do novo admin.
 
     path('', include('vitrine.urls')), # redirecionando a raiz para o app
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     
 ]
 

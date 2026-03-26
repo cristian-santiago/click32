@@ -344,6 +344,10 @@ def faq(request):
     """View para página de FAQ"""
     return render(request, 'faq.html')
 
+def flyer_landing(request):
+    """View para página de destino do flyer (exemplo)"""
+    return render(request, 'flyer_landing.html')
+
 def _track_daily_click(store, element_type):
     """Grava ou incrementa o contador diário em ClickTrackDaily."""
     today = timezone.now().date()

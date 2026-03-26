@@ -206,6 +206,7 @@
 
       <!-- info chips fixos acima -->
       <div class="info-row">
+        <!-- ✅ 3 horários em linha -->
         <div class="info-chip">
           <div class="info-chip-label">Seg – Sex</div>
           <div class="info-chip-value">09h – 19h</div>
@@ -214,11 +215,13 @@
           <div class="info-chip-label">Sáb – Dom</div>
           <div class="info-chip-value">09h – 14h</div>
         </div>
-          <div class="info-chip">
+        <div class="info-chip">
           <div class="info-chip-label">Feriados</div>
           <div class="info-chip-value">09h – 14h</div>
         </div>
-        <div class="info-chip">
+        
+        <!-- ✅ endereço com classe .address ocupa linha inteira -->
+        <div class="info-chip address">
           <div class="info-chip-label">Endereço</div>
           <div class="info-chip-value">Avenida B, 39</div>
         </div>
@@ -247,6 +250,11 @@
         <a class="social-item" href="#" title="Facebook">
           <div class="social-icon">
             <img src="{% static 'icons/facebook_icon.webp' %}" alt="Facebook" loading="lazy">
+          </div>
+        </a>
+        <a class="social-item" href="#" title="Google Maps">
+          <div class="social-icon">
+            <img src="{% static 'icons/google_maps_icon.webp' %}" alt="Google Maps" loading="lazy">
           </div>
         </a>
         <a class="social-item" href="#" title="Encarte">

@@ -364,11 +364,12 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
 }
 
 /* info chips — topo do painel */
+/* info chips — topo do painel */
 .info-row {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 2 colunas iguais */
+  grid-template-columns: repeat(3, 1fr); 
   gap: 8px;
-  padding: 10px 14px 10px;
+  padding: 10px 14px 6px; 
 }
 
 .info-chip {
@@ -376,6 +377,12 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
   border-radius: 12px;
   padding: 7px 9px;
   border: 1px solid var(--border);
+}
+
+/* ✅ endereço ocupa linha completa */
+.info-chip.address {
+  grid-column: 1 / -1; 
+  margin-top: 2px;
 }
 
 .info-chip-label {
@@ -460,3 +467,4 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .social-row { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
 }
+

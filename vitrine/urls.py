@@ -33,6 +33,7 @@ urlpatterns = [
     path('sobre/', views.about, name='sobre'),
     path('faq/', views.faq, name='faq'),
     path('flyer-landing/', views.flyer_landing, name='flyer_landing'),
+    path('new-ui/', views.new_ui, name='new_ui'),
     
     # APIs
     path('start-session/', views.start_session, name='start_session'),

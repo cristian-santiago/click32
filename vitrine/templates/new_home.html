@@ -1,0 +1,309 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Click32 — Início</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/new_home.css' %}?v={{ STATIC_VERSION }}">
+</head>
+<body>
+
+
+
+   <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="toolbar-top">
+        <div class="tb-logo-area">
+          <span class="tb-logo-text">Click<strong>32</strong></span>
+        </div>
+
+        <div class="tb-right">
+          <div class="tb-location">
+            <i class="fas fa-location-dot tb-location-icon"></i>
+            <span class="tb-location-text">Km32, Nova Iguaçu</span>
+          </div>
+          <button class="tb-btn" title="Notificações">
+            <i class="fas fa-bell"></i>
+            <span class="tb-dot"></span>
+          </button>
+          <button class="tb-btn" title="Mais opções" id="btnMais">
+            <i class="fas fa-ellipsis-vertical"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+<div class="sb-overlay" id="sbOverlay"></div>
+
+<div class="shell">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <button class="sb-toggle" id="sbToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="sb-logo">
+      <img src="https://via.placeholder.com/110x32/2c3e50/ecf0f1?text=Click32" alt="Logo">
+    </div>
+{% load frontend_tags %}
+    <ul class="sb-menu">
+
+  <li class="sb-item">
+    <a href="#" class="sb-row active">
+      <span class="icon">{% icon_home %}</span>
+      <span class="sb-label">Início</span>
+    </a>
+  </li>
+
+  <li class="sb-item has-dropdown">
+    <div class="sb-row" role="button">
+      <span class="icon">{% icon_utensils %}</span>
+      <span class="sb-label">Alimentação</span>
+    </div>
+    <ul class="sb-dropdown">
+      <li><a href="#">Restaurantes</a></li>
+      <li><a href="#">Lanchonetes</a></li>
+      <li><a href="#">Padarias</a></li>
+      <li><a href="#">Delivery</a></li>
+    </ul>
+  </li>
+
+  <li class="sb-item has-dropdown">
+    <div class="sb-row" role="button">
+      <span class="icon">{% icon_store %}</span>
+      <span class="sb-label">Comércio</span>
+    </div>
+    <ul class="sb-dropdown">
+      <li><a href="#">Lojas</a></li>
+      <li><a href="#">Mercados</a></li>
+      <li><a href="#">Farmácias</a></li>
+    </ul>
+  </li>
+
+  <li class="sb-item">
+    <a href="#" class="sb-row">
+      <span class="icon">{% icon_gym %}</span>
+      <span class="sb-label">Esportes</span>
+    </a>
+  </li>
+
+  <li class="sb-item">
+    <a href="#" class="sb-row">
+      <span class="icon">{% icon_heart_pulse %}</span>
+      <span class="sb-label">Saúde</span>
+    </a>
+  </li>
+
+  <li class="sb-item">
+    <a href="#" class="sb-row">
+      <span class="icon">{% icon_wrench %}</span>
+      <span class="sb-label">Serviços</span>
+    </a>
+  </li>
+
+  <li class="sb-item">
+    <a href="#" class="sb-row">
+      <span class="icon">{% icon_graduation %}</span>
+      <span class="sb-label">Educação</span>
+    </a>
+  </li>
+
+</ul>
+
+    <div class="sb-footer">
+      <a href="#" title="Anúncios"><i class="fas fa-bullhorn fa-beat-fade"></i></a>
+      <a href="#" title="Notificações"><i class="fas fa-bell"></i></a>
+      <a href="#" title="Sobre"><i class="fas fa-circle-info"></i></a>
+    </div>
+
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <div class="main">
+
+   
+
+    <!-- VIP CAROUSEL — fixo acima do feed -->
+    <div class="vip-fixed-block">
+
+      <div class="vip-carousel-section">
+        <div class="vip-carousel" id="vipCarousel">
+          <div class="vip-slides" id="vipSlides">
+
+            <div class="vip-slide">
+              <a href="#" class="vip-slide-inner">
+                <img src="https://picsum.photos/seed/loja1/800/250" alt="Loja VIP 1" loading="lazy">
+                <div class="vip-slide-overlay"></div>
+                <div class="vip-slide-meta">
+                  <div class="vip-badge">Alimentação · Delivery</div>
+                  <div class="vip-store-name">Sabor da Serra Restaurante</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="vip-slide">
+              <a href="#" class="vip-slide-inner">
+                <img src="https://picsum.photos/seed/loja2/800/250" alt="Loja VIP 2" loading="lazy">
+                <div class="vip-slide-overlay"></div>
+                <div class="vip-slide-meta">
+                  <div class="vip-badge">Comércio · Moda</div>
+                  <div class="vip-store-name">Boutique Estilo Único</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="vip-slide">
+              <a href="#" class="vip-slide-inner">
+                <img src="https://picsum.photos/seed/loja3/800/250" alt="Loja VIP 3" loading="lazy">
+                <div class="vip-slide-overlay"></div>
+                <div class="vip-slide-meta">
+                  <div class="vip-badge">Serviços · Reformas</div>
+                  <div class="vip-store-name">Pedro Pintura & Reformas</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="vip-slide">
+              <a href="#" class="vip-slide-inner vip-slide-ad">
+                <img src="{% static 'ad_banner.jpeg' %}" alt="Anuncie aqui" loading="lazy">
+                <div class="vip-slide-overlay"></div>
+                <div class="vip-slide-meta">
+                  <div class="vip-badge vip-badge-ad">
+                    <i class="fas fa-bullhorn"></i> Anuncie aqui
+                  </div>
+                </div>
+              </a>
+            </div>
+
+          </div>
+        </div>
+        <div class="vip-dots" id="vipDots"></div>
+      </div>
+
+      <!-- SECTION HEADER -->
+      <div class="section-header">
+        <span class="section-title">Em destaque</span>
+      </div>
+
+      <!-- linha de fade — blur mask -->
+      <div class="feed-fade-mask"></div>
+
+    </div><!-- /vip-fixed-block -->
+
+    <!-- SCROLL AREA -->
+    <div class="scroll-area" id="scrollArea">
+
+      <!-- STORE FEED -->
+      <div class="store-feed" id="storeFeed">
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store1/800/250" alt="Loja 1" loading="lazy">
+          </div>
+          <div class="store-card-tag">Alimentação · Delivery</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store2/800/250" alt="Loja 2" loading="lazy">
+          </div>
+          <div class="store-card-tag">Comércio · Moda</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store3/800/250" alt="Loja 3" loading="lazy">
+          </div>
+          <div class="store-card-tag">Saúde · Farmácia</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store4/800/250" alt="Loja 4" loading="lazy">
+          </div>
+          <div class="store-card-tag">Serviços · Reformas</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store5/800/250" alt="Loja 5" loading="lazy">
+          </div>
+          <div class="store-card-tag">Educação · Cursos</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store6/800/250" alt="Loja 6" loading="lazy">
+          </div>
+          <div class="store-card-tag">Alimentação · Padaria</div>
+        </a>
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store1/800/250" alt="Loja 1" loading="lazy">
+          </div>
+          <div class="store-card-tag">Alimentação · Delivery</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store2/800/250" alt="Loja 2" loading="lazy">
+          </div>
+          <div class="store-card-tag">Comércio · Moda</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store3/800/250" alt="Loja 3" loading="lazy">
+          </div>
+          <div class="store-card-tag">Saúde · Farmácia</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store4/800/250" alt="Loja 4" loading="lazy">
+          </div>
+          <div class="store-card-tag">Serviços · Reformas</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store5/800/250" alt="Loja 5" loading="lazy">
+          </div>
+          <div class="store-card-tag">Educação · Cursos</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store6/800/250" alt="Loja 6" loading="lazy">
+          </div>
+          <div class="store-card-tag">Alimentação · Padaria</div>
+        </a>
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store3/800/250" alt="Loja 3" loading="lazy">
+          </div>
+          <div class="store-card-tag">Saúde · Farmácia</div>
+        </a>
+
+      </div>
+
+    </div><!-- /scroll-area -->
+   
+  </div><!-- /main -->
+  
+   <div class="feed-fade-mask-bottom"></div>
+   <div class="app-footer"></div>
+   
+</div><!-- /shell -->
+
+
+<script src="{% static 'js/new_home.js' %}?v={{ STATIC_VERSION }}"></script>
+</body>
+</html>

@@ -104,33 +104,50 @@
   <!-- ══════════ MAIN ══════════ -->
   <div class="main">
 
-    <!-- TOOLBAR -->
-    <div class="toolbar">
-      <button class="tb-back" title="Voltar">
-        <i class="fas fa-chevron-left"></i>
+    
+<!-- TOOLBAR -->
+<div class="toolbar">
+  
+  <!-- ✅ linha superior -->
+  <div class="toolbar-top">
+    <button class="tb-back" title="Voltar">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <span class="tb-title">Pedro Pintura & Reformas</span>
+    <div class="tb-actions">
+      <button class="tb-btn" title="Notificações">
+        <i class="fas fa-bell"></i>
+        <span class="tb-dot"></span>
       </button>
-      <span class="tb-title">Pedro Pintura & Reformas</span>
-      <div class="tb-actions">
-        <button class="tb-btn" title="Notificações">
-          <i class="fas fa-bell"></i>
-          <span class="tb-dot"></span>
-        </button>
-        <button class="tb-btn" id="btnMais" title="Mais opções">
-          <i class="fas fa-ellipsis-vertical"></i>
-        </button>
-      </div>
-      <div class="popup-menu" id="popupMenu">
-        <div class="popup-item" data-action="faq">
-          <i class="fas fa-circle-question"></i>Perguntas Frequentes
-        </div>
-        <div class="popup-item" data-action="anuncio">
-          <i class="fas fa-bullhorn"></i>Anunciar aqui
-        </div>
-        <div class="popup-item" data-action="about">
-          <i class="fas fa-circle-info"></i>Sobre o app
-        </div>
-      </div>
+      <button class="tb-btn" id="btnMais" title="Mais opções">
+        <i class="fas fa-ellipsis-vertical"></i>
+      </button>
     </div>
+  </div>
+
+  <!-- ✅ linha inferior — tags dinâmicas -->
+  <div class="toolbar-tags">
+    <span class="tag-item">Pintor</span>
+    <span class="tag-separator"></span>
+    <span class="tag-item">Reformas</span>
+    <span class="tag-separator"></span>
+    <span class="tag-item">Serviços</span>
+  </div>
+  
+  <!-- popup menu continua igual -->
+  <div class="popup-menu" id="popupMenu">
+    <div class="popup-item" data-action="faq">
+      <i class="fas fa-circle-question"></i>Perguntas Frequentes
+    </div>
+    <div class="popup-item" data-action="anuncio">
+      <i class="fas fa-bullhorn"></i>Anunciar aqui
+    </div>
+    <div class="popup-item" data-action="about">
+      <i class="fas fa-circle-info"></i>Sobre o app
+    </div>
+  </div>
+  
+</div>
 
     <!-- SCROLL AREA -->
     <div class="scroll-area">
@@ -161,9 +178,7 @@
             <span class="store-badge primary">
               <i class="fas fa-circle-check"></i> Verificado
             </span>
-            <span class="store-badge cat">Pintor</span>
-            <span class="store-badge cat">Reforma</span>
-            <span class="store-badge cat">Serviços</span>
+          
           </div>
 
           <div class="store-title">Pedro Pintura & Reformas</div>
@@ -215,10 +230,7 @@
           <div class="info-chip-label">Sáb – Dom</div>
           <div class="info-chip-value">09h – 14h</div>
         </div>
-        <div class="info-chip">
-          <div class="info-chip-label">Feriados</div>
-          <div class="info-chip-value">09h – 14h</div>
-        </div>
+      
         
         <!-- ✅ endereço com classe .address ocupa linha inteira -->
         <div class="info-chip address">

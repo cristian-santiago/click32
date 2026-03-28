@@ -352,6 +352,10 @@ def new_ui(request):
     """View para nova interface (exemplo)"""
     return render(request, 'new_ui.html')
 
+def new_home(request):
+    """View para nova interface (exemplo)"""
+    return render(request, 'new_home.html')
+
 def _track_daily_click(store, element_type):
     """Grava ou incrementa o contador diário em ClickTrackDaily."""
     today = timezone.now().date()

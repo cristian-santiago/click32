@@ -1,66 +1,37 @@
 {% load static %}
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <!-- Configuração de ícones para diferentes tamanhos e dispositivos -->
-    
- 
-    <link rel="icon" href="{% static 'icons/icon-128x128.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="128x128">
-    <link rel="icon" href="{% static 'icons/icon-144x144.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="144x144">
-    <link rel="icon" href="{% static 'icons/icon-152x152.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="152x152">
-    <link rel="icon" href="{% static 'icons/icon-192x192.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="192x192">
-    <link rel="icon" href="{% static 'icons/icon-384x384.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="384x384">
-    <link rel="icon" href="{% static 'icons/icon-512x512.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="512x512">
-    <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.webp' %}?v={{ STATIC_VERSION }}" sizes="180x180">
-    <link rel="manifest" href="{% static 'manifest.json' %}?v={{ STATIC_VERSION }}">
-    
-    <link rel="stylesheet" href="{% static 'css/base.css' %}?v={{ STATIC_VERSION }}">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2c3e50">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Click32">
 
+  <link rel="icon" href="{% static 'icons/icon-128x128.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="128x128">
+  <link rel="icon" href="{% static 'icons/icon-144x144.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="144x144">
+  <link rel="icon" href="{% static 'icons/icon-152x152.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="152x152">
+  <link rel="icon" href="{% static 'icons/icon-192x192.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="192x192">
+  <link rel="icon" href="{% static 'icons/icon-384x384.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="384x384">
+  <link rel="icon" href="{% static 'icons/icon-512x512.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="512x512">
+  <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.webp' %}?v={{ STATIC_VERSION }}" sizes="180x180">
+  <link rel="manifest" href="{% static 'manifest.json' %}?v={{ STATIC_VERSION }}">
 
-    <!-- Configurações de metadados para comportamento e aparência -->
-    <meta name="theme-color" content="#2c3e50">    
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Click32">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block extra_css %}{% endblock %}
 
-    <!-- Estilo base -->
-    
-    <!-- Comentado: Estilo da toolbar (não utilizado) -->
-    <!-- <link rel="stylesheet" href="{% static 'css/toolbar.css' %}"> -->
-
-    <!-- Bloco para inclusão de CSS adicionais -->
-    {% block extra_css %}{% endblock %}
-
-    <!-- Título da página -->
-    <title>Click32</title>
+  <title>Click32</title>
 </head>
-
-
 <body>
-    <!-- Inclusão da barra de navegação -->
-    {% include '_navbar.html' %}
 
-    <!-- Bloco para conteúdo principal -->
-    {% block content %}{% endblock %}
+  {% block content %}{% endblock %}
 
-    <!-- Bloco para scripts JavaScript adicionais -->
-   
-    {% block extra_js %}
-    
-
-     <!-- Scripts JavaScript -->
-
-    <script src="{% static 'js/service-worker-register.js' %}?v={{ STATIC_VERSION }}"></script>
-    <script src="{% static 'js/pwa_install.js' %}?v={{ STATIC_VERSION }}"></script>
-    <script src="{% static 'js/active_session.js' %}?v={{ STATIC_VERSION }}"></script>
-
-    {% endblock %}
+  {% block extra_js %}
+  <script src="{% static 'js/service-worker-register.js' %}?v={{ STATIC_VERSION }}"></script>
+  <script src="{% static 'js/pwa_install.js' %}?v={{ STATIC_VERSION }}"></script>
+  <script src="{% static 'js/active_session.js' %}?v={{ STATIC_VERSION }}"></script>
+  {% endblock %}
 
 </body>
 </html>

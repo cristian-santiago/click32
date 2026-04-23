@@ -22,13 +22,26 @@
   );
   overlay.addEventListener('click', closeSB);
 
-  sidebar.querySelectorAll('.sb-row[role="button"]').forEach(row => {
+sidebar.querySelectorAll('.sb-row[role="button"]').forEach(row => {
     row.addEventListener('click', () => {
-      if (!sidebar.classList.contains('expanded')) { openSB(); return; }
-      const item   = row.closest('.sb-item');
-      const isOpen = item.classList.contains('open');
-      sidebar.querySelectorAll('.sb-item.open').forEach(el => el.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+      const item     = row.closest('.sb-item');
+      const isOpen   = item.classList.contains('open');
+      const wasCollapsed = !sidebar.classList.contains('expanded');
+
+      if (wasCollapsed) openSB();
+
+      // fecha todos — reseta max-height dos abertos
+      sidebar.querySelectorAll('.sb-item.open').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.sb-dropdown').style.maxHeight = '0';
+      });
+
+      // abre o clicado com altura real
+      if (!isOpen) {
+        item.classList.add('open');
+        const drop = item.querySelector('.sb-dropdown');
+        drop.style.maxHeight = drop.scrollHeight + 'px';
+      }
     });
   });
 
@@ -124,127 +137,3 @@
 
 })();
 
-/* ═══════════════════════════════
-   SWIPE GESTURE - SIDEBAR (CORRIGIDO)
-═══════════════════════════════ */
-(function() {
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('sbOverlay');
-  
-  let touchStartX = 0;
-  let touchEndX = 0;
-  let touchStartY = 0;
-  let touchEndY = 0;
-  let isSwiping = false;
-  
-  const MIN_SWIPE_DISTANCE = 60;
-  const EDGE_ZONE = 40;
-  const SIDEBAR_COLLAPSED = 50;
-  const SIDEBAR_EXPANDED = 160;
-  
-  // ✅ detecta início do toque
-  document.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    
-    const isSidebarOpen = sidebar.classList.contains('expanded');
-    const isEdgeTouch = touchStartX <= EDGE_ZONE;
-    
-    if (isEdgeTouch || isSidebarOpen) {
-      isSwiping = true;
-      // ✅ desativa transição pra seguir o dedo
-      sidebar.style.transition = 'none';
-      sidebar.style.willChange = 'width';
-    }
-  }, { passive: true });
-  
-  // ✅ FEEDBACK VISUAL - ajusta WIDTH
-  document.addEventListener('touchmove', (e) => {
-    if (!isSwiping) return;
-    
-    touchEndX = e.touches[0].clientX;
-    touchEndY = e.touches[0].clientY;
-    
-    const deltaX = touchEndX - touchStartX;
-    const deltaY = Math.abs(touchEndY - touchStartY);
-    const isSidebarOpen = sidebar.classList.contains('expanded');
-    
-    // ignora movimento vertical (scroll)
-    if (deltaY > Math.abs(deltaX) * 1.5) {
-      isSwiping = false;
-      sidebar.style.transition = '';
-      sidebar.style.willChange = '';
-      return;
-    }
-    
-    // ✅ ABRINDO - arrasta da esquerda
-    if (!isSidebarOpen && deltaX > 0) {
-      const newWidth = Math.min(SIDEBAR_COLLAPSED + deltaX, SIDEBAR_EXPANDED);
-      sidebar.style.width = `${newWidth}px`;
-      
-      // mostra overlay gradualmente
-      const progress = (newWidth - SIDEBAR_COLLAPSED) / (SIDEBAR_EXPANDED - SIDEBAR_COLLAPSED);
-      overlay.style.opacity = progress * 0.32;
-      
-      if (deltaX > 20) {
-        overlay.classList.add('visible');
-      }
-    }
-    
-    // ✅ FECHANDO - arrasta pra esquerda
-    if (isSidebarOpen && deltaX < 0) {
-      const newWidth = Math.max(SIDEBAR_EXPANDED + deltaX, SIDEBAR_COLLAPSED);
-      sidebar.style.width = `${newWidth}px`;
-      
-      // esconde overlay gradualmente
-      const progress = (newWidth - SIDEBAR_COLLAPSED) / (SIDEBAR_EXPANDED - SIDEBAR_COLLAPSED);
-      overlay.style.opacity = progress * 0.32;
-    }
-    
-  }, { passive: true });
-  
-  // ✅ detecta fim do toque
-  document.addEventListener('touchend', (e) => {
-    if (!isSwiping) return;
-    
-    const deltaX = touchEndX - touchStartX;
-    const deltaY = Math.abs(touchEndY - touchStartY);
-    const isSidebarOpen = sidebar.classList.contains('expanded');
-    
-    // ✅ restaura comportamento normal
-    sidebar.style.transition = '';
-    sidebar.style.width = '';
-    sidebar.style.willChange = '';
-    overlay.style.opacity = '';
-    
-    // ignora se foi scroll vertical
-    if (deltaY > Math.abs(deltaX) * 1.5) {
-      isSwiping = false;
-      if (!isSidebarOpen) {
-        overlay.classList.remove('visible');
-      }
-      return;
-    }
-    
-    // ✅ decide ação baseado na distância
-    if (deltaX > MIN_SWIPE_DISTANCE && !isSidebarOpen) {
-      // abrir
-      sidebar.classList.add('expanded');
-      overlay.classList.add('visible');
-    } else if (deltaX < -MIN_SWIPE_DISTANCE && isSidebarOpen) {
-      // fechar
-      sidebar.classList.remove('expanded');
-      overlay.classList.remove('visible');
-    } else {
-      // não atingiu mínimo, volta ao estado anterior
-      if (!isSidebarOpen) {
-        overlay.classList.remove('visible');
-      }
-    }
-    
-    isSwiping = false;
-    touchStartX = 0;
-    touchEndX = 0;
-  }, { passive: true });
-  
-})();

@@ -23,13 +23,26 @@
   );
   overlay.addEventListener('click', closeSB);
 
-  sidebar.querySelectorAll('.sb-row[role="button"]').forEach(row => {
+sidebar.querySelectorAll('.sb-row[role="button"]').forEach(row => {
     row.addEventListener('click', () => {
-      if (!sidebar.classList.contains('expanded')) { openSB(); return; }
-      const item   = row.closest('.sb-item');
-      const isOpen = item.classList.contains('open');
-      sidebar.querySelectorAll('.sb-item.open').forEach(el => el.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+      const item     = row.closest('.sb-item');
+      const isOpen   = item.classList.contains('open');
+      const wasCollapsed = !sidebar.classList.contains('expanded');
+
+      if (wasCollapsed) openSB();
+
+      // fecha todos — reseta max-height dos abertos
+      sidebar.querySelectorAll('.sb-item.open').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.sb-dropdown').style.maxHeight = '0';
+      });
+
+      // abre o clicado com altura real
+      if (!isOpen) {
+        item.classList.add('open');
+        const drop = item.querySelector('.sb-dropdown');
+        drop.style.maxHeight = drop.scrollHeight + 'px';
+      }
     });
   });
 

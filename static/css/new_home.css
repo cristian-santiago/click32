@@ -192,7 +192,8 @@ html, body {
 .sb-dropdown {
   list-style: none; background: var(--sb-dropdown);
   max-height: 0; overflow: hidden;
-  transition: max-height .32s ease;
+  transition: max-height .32s cubic-bezier(.4,0,.2,1);
+
 }
 .sidebar:not(.expanded) .sb-dropdown { display: none; }
 .sb-item.open .sb-dropdown { max-height: 500px; }

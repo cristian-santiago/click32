@@ -1,7 +1,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --sb-collapsed: 50px;
+  --sb-collapsed: 40px;
   --sb-expanded: 160px;
   --sb-bg: #2c3e50;
   --sb-hover: #34495e;
@@ -29,7 +29,14 @@
 }
 
 html, body { height: 100%; font-family: var(--font); background: var(--bg); overflow: hidden; }
-.shell { display: flex; height: 100dvh; height: 100vh; overflow: hidden; }
+
+/* wrapper que engloba toolbar + shell */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.shell { display: flex; flex: 1; min-height: 0; overflow: hidden; }
 
 /* ── OVERLAY ── */
 .sb-overlay {
@@ -59,11 +66,13 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
   display: flex;
   flex-direction: column;
   z-index: 2000;
-  height: 100%;
+  height: calc(100dvh - 70px);
   overflow: hidden;
-  transition: width .28s cubic-bezier(.4,0,.2,1);
-  will-change: width;
+  transition: width .35s ease;
   position: relative;
+  left: 5px;
+  top: 10px;
+  border-radius: 10px;
 }
 .sidebar.expanded { width: var(--sb-expanded); overflow-y: auto; }
 .sidebar::-webkit-scrollbar { display: none; }
@@ -101,15 +110,33 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
 
 /* logo */
 .sb-logo {
-  height: 40px; display: flex; align-items: center;
-  justify-content: center; overflow: hidden;
-  margin-bottom: 4px; flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: height .35s ease, opacity .25s ease;
+}
+.sidebar.expanded .sb-logo {
+  height: 48px;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
 }
 .sb-logo img {
   height: 32px; width: 110px; object-fit: contain;
-  opacity: 0; transition: opacity .2s .08s; pointer-events: none;
+  pointer-events: none;
 }
-.sidebar.expanded .sb-logo img { opacity: 1; }
+
+/* download bounce */
+.sb-download .icon {
+  animation: bounce 0.8s infinite;
+}
+.hidden { display: none !important; }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
 
 /* menu */
 .sb-menu { list-style: none; flex: 1; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
@@ -131,7 +158,7 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
   transition: background .15s;
 }
 .sidebar.expanded .sb-row {
-  padding: 0 8px 0 13px;
+  padding: 0 8px 0 8px;
   justify-content: flex-start;
   gap: 10px;
 }
@@ -140,7 +167,7 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
 
 .sb-row .icon {
   font-size: 1.3rem;
-  width: var(--sb-collapsed);
+  width: 40px;
   flex-shrink: 0;
   text-align: center;
   color: var(--sb-muted);
@@ -209,15 +236,17 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
    TOOLBAR — agora com 2 linhas
 ═══════════════════════════════ */
 .toolbar {
-  height: auto; /* ✅ altura automática pra 2 linhas */
+  height: auto;
   min-height: var(--toolbar-h);
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  display: flex; 
-  flex-direction: column; /* ✅ empilha linhas */
+  box-shadow: 0 2px 0 var(--border);
+  display: flex;
+  flex-direction: column;
   padding: 0;
-  flex-shrink: 0; 
+  flex-shrink: 0;
   z-index: 100;
+  position: relative;
 }
 
 /* linha superior — botão voltar + título + ações */
@@ -272,6 +301,7 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
   gap: 6px;
   padding: 0 8px 8px;
   flex-wrap: wrap; /* ✅ quebra se tiver muitas tags */
+  display: none;
 }
 
 .tag-item {
@@ -315,9 +345,11 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
    SCROLL AREA
 ═══════════════════════════════ */
 .scroll-area {
-  flex: 1; overflow-y: auto; overflow-x: hidden;
-  -webkit-overflow-scrolling: touch; scrollbar-width: none;
-  padding-bottom: calc(var(--bottom-h) + 16px);
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 .scroll-area::-webkit-scrollbar { display: none; }
 
@@ -327,8 +359,12 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
 .hero {
   position: relative; margin: 10px 12px 0;
   border-radius: var(--radius-card); overflow: hidden;
-  aspect-ratio: 4/2.6; background: #d0d5e8;
+  aspect-ratio: 15/16;
+  object-fit: cover;
+
+  background: #d0d5e8;
   box-shadow: var(--shadow-card);
+  flex-shrink: 0;
 }
 .hero-slides { display: flex; height: 100%; transition: transform .35s cubic-bezier(.4,0,.2,1); user-select: none; }
 .hero-slide { flex: 0 0 100%; height: 100%; }
@@ -351,6 +387,7 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
   padding: 14px 16px 12px; box-shadow: var(--shadow-card);
   display: flex; align-items: flex-start;
   justify-content: space-between; gap: 10px;
+  flex-shrink: 0;
 }
 .store-header-left { flex: 1; min-width: 0; }
 
@@ -393,12 +430,64 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
    DESCRIPTION CARD
 ═══════════════════════════════ */
 .desc-card {
-  margin: 10px 12px 0; background: var(--surface);
-  border-radius: var(--radius-card); padding: 14px 16px;
+  margin: 10px 12px;
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  padding: 14px 16px 0;
   box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  flex: 1;
+  min-height: 0;
 }
-.card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-3); text-transform: uppercase; margin-bottom: 8px; }
-.desc-text { font-size: 13.5px; line-height: 1.5; color: var(--text-2); }
+
+.card-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  color: var(--text-3); text-transform: uppercase;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+/* ── DESCRIPTION TEXT — scroll interno com fades ── */
+.desc-text {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-2);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex: 1;
+  min-height: 0;
+  padding-bottom: 14px;
+}
+.desc-text::-webkit-scrollbar { display: none; }
+
+/* Estado 1 — FADE BOTTOM apenas: início, tem conteúdo abaixo */
+.desc-card.fade-bottom .desc-text {
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
+  mask-image:         linear-gradient(to bottom, black 0%, black 80%, transparent 100%);
+}
+
+/* Estado 2 — FADE AMBOS: no meio do scroll */
+.desc-card.fade-top.fade-bottom .desc-text {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 80%, transparent 100%);
+  mask-image:         linear-gradient(to bottom, transparent 0%, black 15%, black 80%, transparent 100%);
+}
+
+/* Estado 3 — FADE TOP apenas: chegou ao fim */
+.desc-card.fade-top .desc-text {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
+  mask-image:         linear-gradient(to bottom, transparent 0%, black 15%, black 100%);
+}
+
+/* sem overflow — nenhum fade */
+.desc-card.no-scroll .desc-text {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
 .desc-text strong { color: var(--text-1); font-weight: 600; }
 .desc-text ul { padding-left: 1.1em; list-style: disc; margin-top: 6px; display: flex; flex-direction: column; gap: 2px; }
 
@@ -407,7 +496,7 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
    — info-chip acima, divisória, social icons abaixo
 ═══════════════════════════════ */
 .bottom-panel {
-  position: absolute; bottom: 0; left: 0; right: 0;
+  flex-shrink: 0;
   background: var(--surface);
   border-top: 1px solid var(--border);
   z-index: 150;
@@ -519,4 +608,3 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); over
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .social-row { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
 }
-

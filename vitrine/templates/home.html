@@ -1,114 +1,225 @@
 {% extends 'base.html' %}
 {% load static %}
-
-
+{% load frontend_tags %}
 
 {% block extra_css %}
 
-    <link rel="stylesheet" href="{% static 'css/home.css' %}?v={{ STATIC_VERSION }}">
-    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/new_home.css' %}?v={{ STATIC_VERSION }}">
 
 {% endblock %}
 
 {% block content %}
-    {% include '_tag_buttons.html' %}
 
-    {% if stores_vip %}
-        <div class="carousel-wrapper">
-            <div class="carousel-container">
-                {% for store in stores_vip %}
-                    {% if store.main_banner %}
-                        <div class="carousel-item">
-                            <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="store-banner">
-                                <img 
-                                    src="{{ store.main_banner.url }}" 
-                                    alt="{{ store.name }}"
-                                    loading="lazy"
-                                    width="300"
-                                    height="200"
-                                >
-                                    {% if store.tags.exists %}
-                            <div class="banner-tag">
-                                {% for tag in store.tags.all %}
-                                    {{ tag.name }}{% if not forloop.last %} • {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                            </a>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+<!-- OVERLAY -->
+<div class="sb-overlay" id="sbOverlay"></div>
 
-                <!-- Banner de anúncio com configuração segura -->
-                <div class="carousel-item">
-                    <a 
-                        href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                    >
-                        <img 
-                            src="{% static 'ad_banner.jpeg' %}" 
-                            alt="Anuncie aqui - Entre em contato"
-                            loading="lazy"
-                            width="300"
-                            height="200"
-                        >
-                    </a>
-                </div>
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-top">
+    <div class="tb-logo">
+      {% icon_logo_dark %}
+    </div>
+    <div class="tb-right">
+      <div class="tb-location">
+        <i class="fas fa-location-dot tb-location-icon"></i>
+        <span class="tb-location-text">Km32, Nova Iguaçu</span>
+      </div>
+      <button class="tb-btn" title="Notificações">
+        <i class="fas fa-bell"></i>
+        <span class="tb-dot"></span>
+      </button>
+      <button class="tb-btn" title="Mais opções" id="btnMais">
+        <i class="fas fa-ellipsis-vertical"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <button class="sb-toggle" id="sbToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="sb-logo">
+      {% icon_logo_white %}
+    </div>
+
+    <ul class="sb-menu">
+
+      <!-- download — só aparece colapsado -->
+        <li class="sb-item  sb-download " >
+            
+            <a href="#" hidden id="installBtn" class="sb-row"  aria-label="Instalar aplicativo">
+            <span class="icon">{% icon_download %}</span>
+            <span class="sb-label">Instalar App</span>
+        </a>
+            
+       
+        </li>
+
+
+      <!-- início -->
+      <li class="sb-item">
+        <a href="{% url 'home' %}" class="sb-row {% if not request.GET.tag %}active{% endif %}">
+          <span class="icon">{% icon_home %}</span>
+          <span class="sb-label">Início</span>
+        </a>
+      </li>
+
+      <!-- categorias dinâmicas do admin -->
+      {% for category in category_tags %}
+        {% if category.tags %}
+          <!-- tem dropdown -->
+          <li class="sb-item has-dropdown">
+            <div class="sb-row" role="button">
+              <span class="icon">{% icon_by_name category.icon %}</span>
+              <span class="sb-label">{{ category.name }}</span>
             </div>
-            <div class="carousel-dots"></div>
-        </div>
-        
-        <div class="hide-banners"></div>
-        <div class="carousel-fade-mask hidden"></div>
+            <ul class="sb-dropdown">
+              {% for tag in category.tags %}
+                <li>
+                  <a href="{% url 'home' %}?tag={{ tag|urlencode }}"
+                     class="{% if request.GET.tag == tag %}active{% endif %}">
+                    {{ tag }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% else %}
+          <!-- sem dropdown -->
+          <li class="sb-item">
+            <a href="{% url 'home' %}?tag={{ category.name|urlencode }}" class="sb-row {% if request.GET.tag == category.name %}active{% endif %}">
+              <span class="icon">{% icon_by_name category.icon %}</span>
+              <span class="sb-label">{{ category.name }}</span>
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
 
-        <div class="store-list">
-            {% for store in stores %}
-                {% if store.main_banner %}
-                    <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="store-banner">
-                        <img 
-                            src="{{ store.main_banner.url }}" 
-                            alt="{{ store.name }}"
-                            loading="lazy"
-                            width="300"
-                            height="200"
-                        >
-                            {% if store.tags.exists %}
-                            <div class="banner-tag">
-                                {% for tag in store.tags.all %}
-                                    {{ tag.name }}{% if not forloop.last %} • {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </a>
-                {% endif %}
+    </ul>
+
+    <div class="sb-footer">
+      <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!"
+         target="_blank" rel="noopener noreferrer" title="Anúncios">
+        <i class="fas fa-bullhorn fa-beat-fade"></i>
+      </a>
+      <a href="https://www.instagram.com/click32.app"
+         target="_blank" rel="noopener noreferrer" title="Instagram">
+        {% icon_instagram %}
+      </a>
+      <a href="{% url 'faq' %}" title="Sobre">
+        {% icon_info %}
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <div class="main">
+
+    {% if stores_vip and not request.GET.tag %}
+    <!-- VIP FIXED BLOCK — só aparece sem filtro -->
+    <div class="vip-fixed-block">
+
+      <div class="vip-carousel-section">
+        <div class="vip-carousel" id="vipCarousel">
+          <div class="vip-slides" id="vipSlides">
+
+            {% for store in stores_vip %}
+              {% if store.main_banner %}
+                <div class="vip-slide">
+                  <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="vip-slide-inner">
+                    <img src="{{ store.main_banner.url }}" alt="{{ store.name }}" loading="lazy">
+                    <div class="vip-slide-overlay"></div>
+                    <div class="vip-slide-meta">
+                      {% if store.tags.exists %}
+                        <div class="vip-badge">
+                          {% for tag in store.tags.all %}
+                            {{ tag.name }}{% if not forloop.last %} · {% endif %}
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                      <div class="vip-store-name">{{ store.name }}</div>
+                    </div>
+                  </a>
+                </div>
+              {% endif %}
             {% endfor %}
+
+            <!-- banner anúncio — sempre por último -->
+            <div class="vip-slide">
+              <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!"
+                 target="_blank" rel="noopener noreferrer" class="vip-slide-inner">
+                <img src="{% static 'ad_banner.jpeg' %}" alt="Anuncie aqui" loading="lazy">
+                <div class="vip-slide-overlay"></div>
+                <div class="vip-slide-meta">
+                  <div class="vip-badge vip-badge-ad">
+                    <i class="fas fa-bullhorn"></i> Anuncie aqui
+                  </div>
+                </div>
+              </a>
+            </div>
+
+          </div>
         </div>
-    {% else %}
-        <div class="store-list-filter">
-            {% for store in stores %}
-                {% if store.main_banner %}
-                    <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="store-banner">
-                        <img 
-                            src="{{ store.main_banner.url }}" 
-                            alt="{{ store.name }}"
-                            loading="lazy"
-                            width="300"
-                            height="200"
-                        >
-                         {% if store.tags.exists %}
-                            <div class="banner-tag">
-                                {% for tag in store.tags.all %}
-                                    {{ tag.name }}{% if not forloop.last %} • {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </a>
-                {% endif %}
-            {% endfor %}
-        </div>
+        <div class="vip-dots" id="vipDots"></div>
+      </div>
+
+      <div class="section-header">
+        <span class="section-title">Em destaque</span>
+      </div>
+
+      <div class="feed-fade-mask"></div>
+
+    </div>
     {% endif %}
 
-<script src="{% static 'js/carousel_home.js' %}?v={{ STATIC_VERSION }}"></script>
+    <!-- SCROLL AREA -->
+    <div class="scroll-area" id="scrollArea">
+
+      <div class="store-feed {% if request.GET.tag %}store-list-filter{% else %}store-list{% endif %}" id="storeFeed">
+
+        {% for store in stores %}
+          {% if store.main_banner %}
+            <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="store-card">
+              <div class="store-card-img-wrap">
+                <img src="{{ store.main_banner.url }}" alt="{{ store.name }}" loading="lazy">
+              </div>
+              {% if store.tags.exists %}
+                <div class="store-card-tag">
+                  {% for tag in store.tags.all %}
+                    {{ tag.name }}{% if not forloop.last %} · {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </a>
+          {% endif %}
+        {% endfor %}
+
+      </div>
+
+    </div><!-- /scroll-area -->
+
+    
+
+  </div><!-- /main -->
+<div class="feed-fade-mask-bottom"></div>
+    <div class="app-footer"></div>
+</div><!-- /shell -->
+
+{% endblock %}
+
+{% block extra_js %}
+
+{{ block.super }}
+<script src="{% static 'js/new_home.js' %}?v={{ STATIC_VERSION }}"></script>
 
 {% endblock %}

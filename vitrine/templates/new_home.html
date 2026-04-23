@@ -1,0 +1,319 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Click32 — Início</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/new_home.css' %}?v={{ STATIC_VERSION }}">
+</head>
+<body>
+{% load frontend_tags %}
+
+<div class="sb-overlay" id="sbOverlay"></div>
+   <!-- TOOLBAR -->
+     
+    <div class="toolbar">
+     
+      <div class="toolbar-top">
+         <div class="tb-logo">
+           {% icon_logo_dark %}          
+        </div>
+        <div class="tb-right">
+          <div class="tb-location">
+            <i class="fas fa-location-dot tb-location-icon"></i>
+            <span class="tb-location-text">Km32, Nova Iguaçu</span>
+          </div>
+          <button class="tb-btn" title="Notificações">
+            <i class="fas fa-bell"></i>
+            <span class="tb-dot"></span>
+          </button>
+          <button class="tb-btn" title="Mais opções" id="btnMais">
+            <i class="fas fa-ellipsis-vertical"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+<div class="shell">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <button class="sb-toggle" id="sbToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="sb-logo" >
+       {% icon_logo_white %}
+       
+    </div>
+
+    <ul class="sb-menu">
+
+
+  <li class="sb-item sb-download" >
+    <a href="#" class="sb-row" role="button">
+ <i class="icon"> {% icon_download %}</i>
+ <span class="sb-label">Download</span>
+    </a>
+   
+  </li> 
+  <li class="sb-item">
+    <a href="#" class="sb-row">
+      <span class="icon">{% icon_home %}</span>
+      <span class="sb-label">Início</span>
+    </a>
+  </li>
+
+  <li class="sb-item has-dropdown">
+    <div class="sb-row" role="button">
+      <span class="icon">{% icon_utensils %}</span>
+      <span class="sb-label">Alimentação</span>
+    </div>
+    <ul class="sb-dropdown">
+      <li><a href="#">Restaurantes</a></li>
+      <li><a href="#">Lanchonetes</a></li>
+      <li><a href="#">Padarias</a></li>
+      <li><a href="#">Delivery</a></li>
+    </ul>
+  </li>
+
+  <li class="sb-item has-dropdown">
+    <div class="sb-row" role="button">
+      <span class="icon">{% icon_store %}</span>
+      <span class="sb-label">Comércio</span>
+    </div>
+    <ul class="sb-dropdown">
+      <li><a href="#">Lojas</a></li>
+      <li><a href="#">Mercados</a></li>
+      <li><a href="#">Farmácias</a></li>
+    </ul>
+  </li>
+
+  <li class="sb-item">
+    <a href="#" class="sb-row">
+      <span class="icon">{% icon_gym %}</span>
+      <span class="sb-label">Esportes</span>
+    </a>
+  </li>
+
+  <li class="sb-item">
+    <a href="#" class="sb-row">
+      <span class="icon">{% icon_heart_pulse %}</span>
+      <span class="sb-label">Saúde</span>
+    </a>
+  </li>
+
+  <li class="sb-item">
+    <a href="#" class="sb-row">
+      <span class="icon">{% icon_wrench %}</span>
+      <span class="sb-label">Serviços</span>
+    </a>
+  </li>
+
+  <li class="sb-item">
+    <a href="#" class="sb-row">
+      <span class="icon">{% icon_graduation %}</span>
+      <span class="sb-label">Educação</span>
+    </a>
+  </li>
+
+</ul>
+
+    <div class="sb-footer">
+      <a href="#" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path fill="rgb(189, 195, 199)" d="M320.3 205C256.8 204.8 205.2 256.2 205 319.7C204.8 383.2 256.2 434.8 319.7 435C383.2 435.2 434.8 383.8 435 320.3C435.2 256.8 383.8 205.2 320.3 205zM319.7 245.4C360.9 245.2 394.4 278.5 394.6 319.7C394.8 360.9 361.5 394.4 320.3 394.6C279.1 394.8 245.6 361.5 245.4 320.3C245.2 279.1 278.5 245.6 319.7 245.4zM413.1 200.3C413.1 185.5 425.1 173.5 439.9 173.5C454.7 173.5 466.7 185.5 466.7 200.3C466.7 215.1 454.7 227.1 439.9 227.1C425.1 227.1 413.1 215.1 413.1 200.3zM542.8 227.5C541.1 191.6 532.9 159.8 506.6 133.6C480.4 107.4 448.6 99.2 412.7 97.4C375.7 95.3 264.8 95.3 227.8 97.4C192 99.1 160.2 107.3 133.9 133.5C107.6 159.7 99.5 191.5 97.7 227.4C95.6 264.4 95.6 375.3 97.7 412.3C99.4 448.2 107.6 480 133.9 506.2C160.2 532.4 191.9 540.6 227.8 542.4C264.8 544.5 375.7 544.5 412.7 542.4C448.6 540.7 480.4 532.5 506.6 506.2C532.8 480 541 448.2 542.8 412.3C544.9 375.3 544.9 264.5 542.8 227.5zM495 452C487.2 471.6 472.1 486.7 452.4 494.6C422.9 506.3 352.9 503.6 320.3 503.6C287.7 503.6 217.6 506.2 188.2 494.6C168.6 486.8 153.5 471.7 145.6 452C133.9 422.5 136.6 352.5 136.6 319.9C136.6 287.3 134 217.2 145.6 187.8C153.4 168.2 168.5 153.1 188.2 145.2C217.7 133.5 287.7 136.2 320.3 136.2C352.9 136.2 423 133.6 452.4 145.2C472 153 487.1 168.1 495 187.8C506.7 217.3 504 287.3 504 319.9C504 352.5 506.7 422.6 495 452z"/></svg></i></a>
+      <a href="#" title="Notificações"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-icon lucide-bell"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg></a>
+      <a href="#" title="Sobre"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info-icon lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></i></a>
+    </div>
+
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <div class="main">
+
+   
+
+    <!-- VIP CAROUSEL — fixo acima do feed -->
+    <div class="vip-fixed-block">
+
+      <div class="vip-carousel-section">
+        <div class="vip-carousel" id="vipCarousel">
+          <div class="vip-slides" id="vipSlides">
+
+            <div class="vip-slide">
+              <a href="#" class="vip-slide-inner">
+                <img src="https://picsum.photos/seed/loja1/800/250" alt="Loja VIP 1" loading="lazy">
+                <div class="vip-slide-overlay"></div>
+                <div class="vip-slide-meta">
+                  <div class="vip-badge">Alimentação · Delivery</div>
+                  <div class="vip-store-name">Sabor da Serra Restaurante</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="vip-slide">
+              <a href="#" class="vip-slide-inner">
+                <img src="https://picsum.photos/seed/loja2/800/250" alt="Loja VIP 2" loading="lazy">
+                <div class="vip-slide-overlay"></div>
+                <div class="vip-slide-meta">
+                  <div class="vip-badge">Comércio · Moda</div>
+                  <div class="vip-store-name">Boutique Estilo Único</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="vip-slide">
+              <a href="#" class="vip-slide-inner">
+                <img src="https://picsum.photos/seed/loja3/800/250" alt="Loja VIP 3" loading="lazy">
+                <div class="vip-slide-overlay"></div>
+                <div class="vip-slide-meta">
+                  <div class="vip-badge">Serviços · Reformas</div>
+                  <div class="vip-store-name">Pedro Pintura & Reformas</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="vip-slide">
+              <a href="#" class="vip-slide-inner vip-slide-ad">
+                <img src="{% static 'ad_banner.jpeg' %}" alt="Anuncie aqui" loading="lazy">
+                <div class="vip-slide-overlay"></div>
+                <div class="vip-slide-meta">
+                  <div class="vip-badge vip-badge-ad">
+                    <i class="fas fa-bullhorn"></i> Anuncie aqui
+                  </div>
+                </div>
+              </a>
+            </div>
+
+          </div>
+        </div>
+        <div class="vip-dots" id="vipDots"></div>
+      </div>
+
+      <!-- SECTION HEADER -->
+      <div class="section-header">
+        <span class="section-title">Em destaque</span>
+      </div>
+
+      <!-- linha de fade — blur mask -->
+      <div class="feed-fade-mask"></div>
+
+    </div><!-- /vip-fixed-block -->
+
+    <!-- SCROLL AREA -->
+    <div class="scroll-area" id="scrollArea">
+
+      <!-- STORE FEED -->
+      <div class="store-feed" id="storeFeed">
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store1/800/250" alt="Loja 1" loading="lazy">
+          </div>
+          <div class="store-card-tag">Alimentação · Delivery</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store2/800/250" alt="Loja 2" loading="lazy">
+          </div>
+          <div class="store-card-tag">Comércio · Moda</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store3/800/250" alt="Loja 3" loading="lazy">
+          </div>
+          <div class="store-card-tag">Saúde · Farmácia</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store4/800/250" alt="Loja 4" loading="lazy">
+          </div>
+          <div class="store-card-tag">Serviços · Reformas</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store5/800/250" alt="Loja 5" loading="lazy">
+          </div>
+          <div class="store-card-tag">Educação · Cursos</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store6/800/250" alt="Loja 6" loading="lazy">
+          </div>
+          <div class="store-card-tag">Alimentação · Padaria</div>
+        </a>
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store1/800/250" alt="Loja 1" loading="lazy">
+          </div>
+          <div class="store-card-tag">Alimentação · Delivery</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store2/800/250" alt="Loja 2" loading="lazy">
+          </div>
+          <div class="store-card-tag">Comércio · Moda</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store3/800/250" alt="Loja 3" loading="lazy">
+          </div>
+          <div class="store-card-tag">Saúde · Farmácia</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store4/800/250" alt="Loja 4" loading="lazy">
+          </div>
+          <div class="store-card-tag">Serviços · Reformas</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store5/800/250" alt="Loja 5" loading="lazy">
+          </div>
+          <div class="store-card-tag">Educação · Cursos</div>
+        </a>
+
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store6/800/250" alt="Loja 6" loading="lazy">
+          </div>
+          <div class="store-card-tag">Alimentação · Padaria</div>
+        </a>
+        <a href="#" class="store-card">
+          <div class="store-card-img-wrap">
+            <img src="https://picsum.photos/seed/store3/800/250" alt="Loja 3" loading="lazy">
+          </div>
+          <div class="store-card-tag">Saúde · Farmácia</div>
+        </a>
+
+      </div>
+
+    </div><!-- /scroll-area -->
+   
+  </div><!-- /main -->
+  
+   <div class="feed-fade-mask-bottom"></div>
+   <div class="app-footer"></div>
+   
+</div><!-- /shell -->
+
+
+<script src="{% static 'js/new_home.js' %}?v={{ STATIC_VERSION }}"></script>
+</body>
+</html>

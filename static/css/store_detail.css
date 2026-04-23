@@ -1,91 +1,323 @@
-/** {
-  outline: 1px solid limegreen;
-}
-*/
+/* ============================================================
+   STORE DETAIL — Modern Clean Redesign
+   Fonte: DM Sans (display) + Nunito (body)
+   Paleta: Branco puro · Cinza glacial · Azul-ardósia · Acento âmbar
+   ============================================================ */
 
-/* Seção do Carousel */
+:root {
+    --sidebar-offset: 48px;
+    --sidebar-offset-sm: 45px;
+
+    --color-bg:          #f7f8fa;
+    --color-surface:     #ffffff;
+    --color-border:      #e8eaee;
+    --color-text-strong: #1a1d23;
+    --color-text-body:   #4a4f5c;
+    --color-text-muted:  #8b92a5;
+    --color-accent:      #2563eb;
+    --color-accent-soft: #eff4ff;
+    --color-shadow-sm:   0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.07);
+    --color-shadow-md:   0 4px 24px rgba(0,0,0,.10), 0 1px 4px rgba(0,0,0,.06);
+
+    --radius-sm:  8px;
+    --radius-md:  14px;
+    --radius-lg:  20px;
+    --radius-pill: 999px;
+
+    --font-display: 'DM Sans', sans-serif;
+    --font-body:    'Nunito', sans-serif;
+
+    --store-info-height: 205px;
+
+    --transition-base: 0.22s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Reset de base ────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    background: var(--color-bg);
+    font-family: var(--font-body);
+}
+
+/* ============================================================
+   CAROUSEL
+   ============================================================ */
 .carousel-wrapper {
     max-width: 500px;
     margin: 0 auto;
-    padding: 0 5px;
-    padding-left: 45px;
+    padding: 0 10px 0 var(--sidebar-offset-sm);
     position: relative;
-    background-color: transparent;
+    background: transparent;
 }
 
 .carousel-container {
     display: flex;
     overflow-x: hidden;
-    gap: 20px;
+    gap: 0;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
-    -webkit-scroll-snap-type: x mandatory;
     touch-action: pan-x;
     scrollbar-width: none;
     -ms-overflow-style: none;
     scroll-snap-stop: always;
     user-select: none;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--color-shadow-md);
 }
 
 .carousel-container.dragging {
-    scroll-behavior: auto; /* Remove smooth durante o arrasto */
+    scroll-behavior: auto;
 }
 
-.carousel-container::-webkit-scrollbar {
-    display: none;
-}
+.carousel-container::-webkit-scrollbar { display: none; }
 
 .carousel-container .carousel-item {
     flex: 0 0 100%;
     scroll-snap-align: start;
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
+    position: relative;
 }
+
+/* Overlay sutil no hover */
+.carousel-container .carousel-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 55%,
+        rgba(0,0,0,.28) 100%
+    );
+    border-radius: var(--radius-lg);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+}
+
+.carousel-container .carousel-item:hover::after { opacity: 1; }
 
 .carousel-container .carousel-item img {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(.4,0,.2,1);
 }
 
 .carousel-container .carousel-item:hover img {
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
+/* Dots */
 .carousel-dots {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     position: absolute;
-    bottom: 10px;
+    bottom: 12px;
     left: calc(50% + 22.5px);
     transform: translateX(-50%);
     z-index: 10;
 }
 
 .carousel-dot {
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    background: rgba(255,255,255,.45);
+    border-radius: var(--radius-pill);
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background var(--transition-base),
+                width var(--transition-base),
+                transform var(--transition-base);
 }
 
 .carousel-dot.active {
     background: #ffffff;
-    transform: scale(1.4);
+    width: 20px;
+    transform: none;
 }
 
-.carousel-dot:hover {
-    background: #ffffffcc;
+.carousel-dot:hover:not(.active) {
+    background: rgba(255,255,255,.75);
+    transform: scale(1.2);
 }
 
-/* Seção de Ícones Sociais */
+/* ============================================================
+   STORE NAME
+   ============================================================ */
+.store-name {
+    margin-top: 18px;
+    padding-left: var(--sidebar-offset);
+    padding-right: 12px;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.store-name h2 {
+    color: var(--color-text-strong);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 4vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+    display: inline;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.store-name h2 .share-btn {
+    background: var(--color-accent-soft);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--color-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-pill);
+    padding: 0;
+    margin-left: 8px;
+    vertical-align: middle;
+    transition: background var(--transition-base),
+                color var(--transition-base),
+                transform var(--transition-base);
+}
+
+.store-name h2 .share-btn:hover {
+    background: var(--color-accent);
+    color: #fff;
+    transform: scale(1.08);
+    outline: none;
+}
+
+.store-name h2 .share-btn:active {
+    transform: scale(0.95);
+    outline: none;
+}
+
+.store-name h2 .share-btn:focus { outline: none; }
+
+/* ============================================================
+   DESCRIPTION
+   ============================================================ */
+.description {
+    padding: 0 16px 0 var(--sidebar-offset);
+    margin-top: 16px;
+    height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+}
+
+.description::-webkit-scrollbar { width: 4px; }
+.description::-webkit-scrollbar-track { background: transparent; }
+.description::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--radius-pill);
+}
+
+.description p,
+.description ul,
+.description ol,
+.description li {
+    color: var(--color-text-body);
+    font-size: 1.05rem;
+    font-family: var(--font-body);
+    line-height: 1.4;
+    text-align: justify;
+    margin: 0;
+    padding: 0;
+}
+
+.description p + p { margin-top: 4px; }
+
+.description strong { color: var(--color-text-strong); font-weight: 700; }
+
+.description ul,
+.description ol {
+    padding-left: 1.2em;
+    margin-top: 4px;
+}
+
+.description ul { list-style: disc outside; }
+.description ol { list-style: decimal outside; }
+
+/* ============================================================
+   SOMBRAS DE SCROLL
+   ============================================================ */
+.store-name.scroll-shadow-top::after {
+    content: "";
+    position: absolute;
+    bottom: -36px;
+    left: 0;
+    right: 0;
+    height: 36px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0,0,0,.10), transparent);
+    z-index: 10;
+}
+
+.store-info.scroll-shadow-bottom::before {
+    content: "";
+    position: absolute;
+    top: -24px;
+    left: 0;
+    right: 0;
+    height: 24px;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,.08), transparent);
+    z-index: 10;
+}
+
+/* ============================================================
+   STORE INFO
+   ============================================================ */
+/* --social-icons-height é setado via CSS: ícones 40px + bottom 45px + gap = ~95px */
+.store-info {
+    position: fixed;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    padding: 10px var(--sidebar-offset);
+    height: var(--store-info-height);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -4px 24px rgba(0,0,0,.07);
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.store-info p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-body);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    z-index: 1001;
+    position: relative;
+}
+
+.store-info p strong {
+    color: var(--color-text-strong);
+    font-weight: 700;
+}
+
+.store-info li {
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+}
+
+/* ============================================================
+   SOCIAL ICONS
+   ============================================================ */
 .social-icons {
     position: fixed;
     bottom: 45px;
@@ -93,11 +325,14 @@
     width: 100%;
     padding-left: 40px;
     display: flex;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
     list-style: none;
     z-index: 1000;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .social-icons li {
@@ -109,12 +344,14 @@
     width: 40px;
     height: 40px;
     object-fit: contain;
-    transition: transform 0.2s ease;
+    transition: transform var(--transition-base);
     animation: jumpWave 3.5s ease-in-out infinite;
     -webkit-animation: jumpWave 3.5s ease-in-out infinite;
     will-change: transform;
+    display: block;
 }
 
+/* Sombra no chão — original */
 .social-icons li::after {
     content: '';
     position: absolute;
@@ -129,12 +366,23 @@
     z-index: -1;
 }
 
-.social-icons li:nth-child(1) img, .social-icons li:nth-child(1)::after { animation-delay: 0s; -webkit-animation-delay: 0s; }
-.social-icons li:nth-child(2) img, .social-icons li:nth-child(2)::after { animation-delay: 0.1s; -webkit-animation-delay: 0.1s; }
-.social-icons li:nth-child(3) img, .social-icons li:nth-child(3)::after { animation-delay: 0.2s; -webkit-animation-delay: 0.2s; }
-.social-icons li:nth-child(4) img, .social-icons li:nth-child(4)::after { animation-delay: 0.3s; -webkit-animation-delay: 0.3s; }
-.social-icons li:nth-child(5) img, .social-icons li:nth-child(5)::after { animation-delay: 0.4s; -webkit-animation-delay: 0.4s; }
-.social-icons li:nth-child(6) img, .social-icons li:nth-child(6)::after { animation-delay: 0.5s; -webkit-animation-delay: 0.5s; }
+/* delays escalonados */
+.social-icons li:nth-child(1) img,
+.social-icons li:nth-child(1)::after { animation-delay: 0s;   -webkit-animation-delay: 0s;   }
+.social-icons li:nth-child(2) img,
+.social-icons li:nth-child(2)::after { animation-delay: 0.1s; -webkit-animation-delay: 0.1s; }
+.social-icons li:nth-child(3) img,
+.social-icons li:nth-child(3)::after { animation-delay: 0.2s; -webkit-animation-delay: 0.2s; }
+.social-icons li:nth-child(4) img,
+.social-icons li:nth-child(4)::after { animation-delay: 0.3s; -webkit-animation-delay: 0.3s; }
+.social-icons li:nth-child(5) img,
+.social-icons li:nth-child(5)::after { animation-delay: 0.4s; -webkit-animation-delay: 0.4s; }
+.social-icons li:nth-child(6) img,
+.social-icons li:nth-child(6)::after { animation-delay: 0.5s; -webkit-animation-delay: 0.5s; }
+.social-icons li:nth-child(7) img,
+.social-icons li:nth-child(7)::after { animation-delay: 0.6s; -webkit-animation-delay: 0.6s; }
+.social-icons li:nth-child(8) img,
+.social-icons li:nth-child(8)::after { animation-delay: 0.7s; -webkit-animation-delay: 0.7s; }
 
 .social-icons img:hover {
     transform: scale(1.1);
@@ -146,142 +394,9 @@
     opacity: 0;
 }
 
-/* Seção do Nome da Loja */
-.store-name {
-    margin-top: 20px;
-    padding-left: 48px;
-    padding-right: 5px;
-    text-align: center;
-    position: relative;
-    box-sizing: border-box;
-}
-
-.store-name h2 {
-    color: #333333;
-    height: auto;
-    font-family: "Roboto", sans-serif;
-    margin: 0;
-    display: inline;
-    white-space: normal;
-    text-align: center;
-}
-
-.store-name h2 .share-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.7rem;
-    color: #6c757d;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin-left: 5px;
-    vertical-align: bottom;
-    margin-bottom: 1px;
-}
-
-.store-name h2 .share-btn:hover,
-.store-name h2 .share-btn:active,
-.store-name h2 .share-btn:focus {
-    color: #bdc3c7;
-    outline: none;
-}
-
-/* Seção da Descrição */
-.description {
-    padding: 0 16px 0 48px;
-    margin-top: 21px;
-    height: 300px;
-    overflow-y: auto;
-}
-
-.description p,
-.description ul,
-.description ol,
-.description li {
-    color: #4A4A4A;
-    font-size: 1.1rem;
-    font-family: "Roboto", sans-serif;
-    line-height: 1.4;
-    text-align: justify;
-    margin: 0;
-    padding: 0;
-}
-
-.description ul,
-.description ol {
-    padding-left: 1.2em;
-    margin-top: 4px;
-}
-
-.description ul { list-style: disc outside; }
-.description ol { list-style: decimal outside; }
-
-
-
-
-/* Sombra superior saindo da parte inferior do store-name */
-.store-name.scroll-shadow-top::after {
-    content: "";
-    position: absolute;
-    bottom: -40px;
-    left: 0;
-    right: 0;
-    height: 20px;
-    pointer-events: none;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent);
-    z-index: 10;
-}
-
-/* Sombra inferior saindo da parte superior do store-info */
-.store-info.scroll-shadow-bottom::before {
-    content: "";
-    position: absolute;
-    top: -20px;
-    left: 0;
-    right: 0;
-    height: 20px;
-    pointer-events: none;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.15), transparent);
-    z-index: 10;
-}
-
-/* Seção de Informações da Loja */
-.store-info {
-    position: fixed;
-    bottom: 125px;
-    left: 0px;
-    width: 100%;
-    padding: 10px 48px;
-    bottom: 22px;
-    height: 205px;
-    background-color: #f4f4f4;
-    z-index: 1000;
-    box-sizing: border-box;
-}
-
-.store-info p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #4A4A4A;  
-    font-family: "Roboto", sans-serif;
-    line-height: 18px;
-    z-index: 1001;
-    position: relative;
-}
-
-.store-info li {
-    margin-bottom: 2px;
-    font-size: 0.95rem;
-}
-
-/* Seção de Variáveis de Estilo */
-:root {
-    --store-info-height: 90px;
-}
-
-/* Seção de Media Queries */
+/* ============================================================
+   MEDIA QUERIES
+   ============================================================ */
 @media (min-width: 768px) {
     .social-icons {
         margin-top: calc(60% - 15px);
@@ -293,7 +408,7 @@
     }
 
     .social-icons li::after {
-        width: 30px;
+        width: 28px;
         height: 5px;
     }
 }
@@ -309,12 +424,12 @@
     }
 
     .social-icons img {
-        width: 60px;
-        height: 60px;
+        width: 58px;
+        height: 58px;
     }
 
     .social-icons li::after {
-        width: 36px;
+        width: 34px;
         height: 6px;
     }
 
@@ -326,19 +441,12 @@
 @media (max-width: 768px) {
     .carousel-wrapper {
         max-width: 100%;
-        padding-left: 45px;
+        padding-left: var(--sidebar-offset-sm);
     }
 
     .social-icons {
         padding-left: 40px;
     }
-
-    .description h2 {
-        padding-left: 48px;
-        padding-right: 10px;
-    }
-
-    
 }
 
 @media (max-height: 720px) {
@@ -350,29 +458,30 @@
 @media (max-width: 950px) and (orientation: landscape) {
     .store-info {
         position: relative;
-        bottom: 125px;
+        bottom: 100px;
         left: 0;
         width: 100%;
-        padding: 10px 48px;
-        bottom: 100px;
+        padding: 10px var(--sidebar-offset);
         height: 135px;
-        background-color: #f4f4f4;
+        background: var(--color-surface);
+        border-top: 1px solid var(--color-border);
+        box-shadow: 0 -4px 20px rgba(0,0,0,.06);
         z-index: 1000;
         box-sizing: border-box;
     }
 
     .store-info p {
         margin: 0;
-        font-size: 0.9rem;
-        color: #4A4A4A;  
-        font-family: "Roboto", sans-serif;
-        line-height: 18px;
+        font-size: 0.875rem;
+        color: var(--color-text-body);
+        font-family: var(--font-body);
+        line-height: 1.55;
         z-index: 1001;
     }
 
     .store-info li {
         margin-bottom: 2px;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
     }
 
     .social-icons {
@@ -383,7 +492,7 @@
         width: 100%;
         padding-left: 40px;
         display: flex;
-        gap: 15px;
+        gap: 12px;
         flex-wrap: wrap;
         justify-content: center;
         list-style: none;
@@ -392,40 +501,59 @@
 
     .description p {
         position: relative;
-        color: #4A4A4A;
+        color: var(--color-text-body);
         padding-left: 110px;
         padding-right: 75px;
         text-align: justify;
         margin-top: 10px;
         display: block;
         height: 300px;
-        font-size: 1.1rem;
-        font-family: "Roboto", sans-serif;
-        line-height: 18px;
+        font-size: 1rem;
+        font-family: var(--font-body);
+        line-height: 1.6;
         overflow-y: auto;
     }
 }
 
-/* Seção de Animações */
+/* ============================================================
+   ANIMAÇÕES
+   ============================================================ */
 @keyframes jumpWave {
-    0%, 10% { transform: translateY(0); }
-    5% { transform: translateY(-10px); }
-    10.1%, 100% { transform: translateY(0); }
+    0%, 10%    { transform: translateY(0); }
+    5%         { transform: translateY(-10px); }
+    10.1%, 100%{ transform: translateY(0); }
 }
 
 @-webkit-keyframes jumpWave {
-    0%, 10% { -webkit-transform: translateY(0); }
-    5% { -webkit-transform: translateY(-10px); }
-    10.1%, 100% { -webkit-transform: translateY(0); }
+    0%, 10%    { -webkit-transform: translateY(0); }
+    5%         { -webkit-transform: translateY(-10px); }
+    10.1%, 100%{ -webkit-transform: translateY(0); }
 }
 
 @keyframes shadowWave {
-    0%, 10% { transform: translateX(-50%) scale(1); opacity: 0; }
-    5% { transform: translateX(-50%) scale(0.7); opacity: 0.4; }
-    10.1%, 100% { transform: translateX(-50%) scale(1); opacity: 0; }
+    0%, 10%    { transform: translateX(-50%) scale(1);   opacity: 0; }
+    5%         { transform: translateX(-50%) scale(0.7); opacity: 0.35; }
+    10.1%, 100%{ transform: translateX(-50%) scale(1);   opacity: 0; }
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
+    0%   { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   FADE-IN DE ENTRADA — toda a página sobe suavemente
+   ============================================================ */
+.carousel-wrapper,
+.store-name,
+.description {
+    animation: fadeUp 0.45s cubic-bezier(.4,0,.2,1) both;
+}
+
+.store-name  { animation-delay: 0.08s; }
+.description { animation-delay: 0.15s; }
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
 }

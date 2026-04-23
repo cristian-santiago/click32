@@ -1,0 +1,286 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Pedro Pintura & Reformas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/new_ui.css' %}?v={{ STATIC_VERSION }}">
+<!-- <link rel="stylesheet" href="{% static 'css/store_detail.css' %}?v={{ STATIC_VERSION }}"> -->
+</head>
+<body>
+
+<div class="sb-overlay" id="sbOverlay"></div>
+
+<div class="shell">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <button class="sb-toggle" id="sbToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="sb-logo">
+      <img src="https://via.placeholder.com/110x32/2c3e50/ecf0f1?text=Click32" alt="Logo">
+    </div>
+
+    <ul class="sb-menu">
+
+      <li class="sb-item">
+        <a href="#" class="sb-row active">
+          <i class="fas fa-house icon"></i>
+          <span class="sb-label">Início</span>
+        </a>
+      </li>
+
+      <li class="sb-item has-dropdown">
+        <div class="sb-row" role="button">
+          <i class="fas fa-utensils icon"></i>
+          <span class="sb-label">Alimentação</span>
+        </div>
+        <ul class="sb-dropdown">
+          <li><a href="#">Restaurantes</a></li>
+          <li><a href="#">Lanchonetes</a></li>
+          <li><a href="#">Padarias</a></li>
+          <li><a href="#">Delivery</a></li>
+        </ul>
+      </li>
+
+      <li class="sb-item has-dropdown">
+        <div class="sb-row" role="button">
+          <i class="fas fa-store icon"></i>
+          <span class="sb-label">Comércio</span>
+        </div>
+        <ul class="sb-dropdown">
+          <li><a href="#">Lojas</a></li>
+          <li><a href="#">Mercados</a></li>
+          <li><a href="#">Farmácias</a></li>
+        </ul>
+      </li>
+
+      <li class="sb-item">
+        <a href="#" class="sb-row">
+          <i class="fas fa-futbol icon"></i>
+          <span class="sb-label">Esportes</span>
+        </a>
+      </li>
+
+      <li class="sb-item">
+        <a href="#" class="sb-row">
+          <i class="fas fa-heart-pulse icon"></i>
+          <span class="sb-label">Saúde</span>
+        </a>
+      </li>
+
+      <li class="sb-item">
+        <a href="#" class="sb-row">
+          <i class="fas fa-screwdriver-wrench icon"></i>
+          <span class="sb-label">Serviços</span>
+        </a>
+      </li>
+
+      <li class="sb-item">
+        <a href="#" class="sb-row">
+          <i class="fas fa-graduation-cap icon"></i>
+          <span class="sb-label">Educação</span>
+        </a>
+      </li>
+
+    </ul>
+
+    <div class="sb-footer">
+      <a href="#" title="Anúncios"><i class="fas fa-bullhorn fa-beat-fade"></i></a>
+      <a href="#" title="Notificações"><i class="fas fa-bell"></i></a>
+      <a href="#" title="Sobre"><i class="fas fa-circle-info"></i></a>
+    </div>
+
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <div class="main">
+
+    
+<!-- TOOLBAR -->
+<div class="toolbar">
+  
+  <!-- ✅ linha superior -->
+  <div class="toolbar-top">
+    <button class="tb-back" title="Voltar">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <span class="tb-title">Pedro Pintura & Reformas</span>
+    <div class="tb-actions">
+      <button class="tb-btn" title="Notificações">
+        <i class="fas fa-bell"></i>
+        <span class="tb-dot"></span>
+      </button>
+      <button class="tb-btn" id="btnMais" title="Mais opções">
+        <i class="fas fa-ellipsis-vertical"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ✅ linha inferior — tags dinâmicas -->
+  <div class="toolbar-tags">
+    <span class="tag-item">Pintor</span>
+    <span class="tag-separator"></span>
+    <span class="tag-item">Reformas</span>
+    <span class="tag-separator"></span>
+    <span class="tag-item">Serviços</span>
+  </div>
+  
+  <!-- popup menu continua igual -->
+  <div class="popup-menu" id="popupMenu">
+    <div class="popup-item" data-action="faq">
+      <i class="fas fa-circle-question"></i>Perguntas Frequentes
+    </div>
+    <div class="popup-item" data-action="anuncio">
+      <i class="fas fa-bullhorn"></i>Anunciar aqui
+    </div>
+    <div class="popup-item" data-action="about">
+      <i class="fas fa-circle-info"></i>Sobre o app
+    </div>
+  </div>
+  
+</div>
+
+    <!-- SCROLL AREA -->
+    <div class="scroll-area">
+
+      <!-- CAROUSEL -->
+      <div class="hero" id="hero">
+        <div class="hero-slides" id="heroSlides">
+          <div class="hero-slide">
+            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=80" alt="Pintura 1">
+          </div>
+          <div class="hero-slide">
+            <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=800&q=80" alt="Pintura 2">
+          </div>
+          <div class="hero-slide">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Reforma 3">
+          </div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-dots" id="heroDots"></div>
+      </div>
+
+      <!-- STORE HEADER -->
+      <div class="store-header">
+        <div class="store-header-left">
+
+          <!-- badges: 1 verificado + 3 de categoria -->
+          <div class="store-badges">
+            <span class="store-badge primary">
+              <i class="fas fa-circle-check"></i> Verificado
+            </span>
+          
+          </div>
+
+          <div class="store-title">Pedro Pintura & Reformas</div>
+          <div class="store-meta">
+            <div class="store-status">
+              <div class="store-status-dot"></div>
+              Aberto agora
+            </div>
+            <span style="color:var(--text-3);font-size:11px">·</span>
+            <div class="store-rating">
+              <i class="fas fa-star"></i>
+              4.9 <span style="font-weight:400;color:var(--text-3)">(128)</span>
+            </div>
+          </div>
+        </div>
+        <button class="store-share-btn" id="shareBtn">
+          <i class="fas fa-share-nodes"></i>
+        </button>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="desc-card">
+        <div class="card-label">Sobre</div>
+        <div class="desc-text">
+          Há mais de <strong>10 anos</strong> no mercado, a Pedro Pintura & Reformas é sinônimo
+          de confiança, capricho e pontualidade.
+          <ul>
+            <li>Reformas e pinturas residenciais</li>
+            <li>Decorações internas e externas</li>
+            <li>Impermeabilização</li>
+            <li>Pequenos reparos e acabamentos</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /scroll-area -->
+
+    <!-- BOTTOM PANEL -->
+    <div class="bottom-panel" id="bottomPanel">
+
+      <!-- info chips fixos acima -->
+      <div class="info-row">
+        <!-- ✅ 3 horários em linha -->
+        <div class="info-chip">
+          <div class="info-chip-label">Seg – Sex</div>
+          <div class="info-chip-value">09h – 19h</div>
+        </div>
+        <div class="info-chip">
+          <div class="info-chip-label">Sáb – Dom</div>
+          <div class="info-chip-value">09h – 14h</div>
+        </div>
+      
+        
+        <!-- ✅ endereço com classe .address ocupa linha inteira -->
+        <div class="info-chip address">
+          <div class="info-chip-label">Endereço</div>
+          <div class="info-chip-value">Avenida B, 39</div>
+        </div>
+      </div>
+
+      <!-- divisória -->
+      <div class="panel-divider"></div>
+
+      <!-- social icons — carro-chefe -->
+      <div class="social-row">
+        <a class="social-item" href="#" title="WhatsApp">
+          <div class="social-icon">
+            <img src="{% static 'icons/whatsapp_icon_1.webp' %}" alt="WhatsApp" loading="lazy">
+          </div>
+        </a>
+        <a class="social-item" href="#" title="Telefone">
+          <div class="social-icon">
+            <img src="{% static 'icons/phone_icon.webp' %}" alt="Telefone" loading="lazy">
+          </div>
+        </a>
+        <a class="social-item" href="#" title="Instagram">
+          <div class="social-icon">
+            <img src="{% static 'icons/instagram_icon.webp' %}" alt="Instagram" loading="lazy">
+          </div>
+        </a>
+        <a class="social-item" href="#" title="Facebook">
+          <div class="social-icon">
+            <img src="{% static 'icons/facebook_icon.webp' %}" alt="Facebook" loading="lazy">
+          </div>
+        </a>
+        <a class="social-item" href="#" title="Google Maps">
+          <div class="social-icon">
+            <img src="{% static 'icons/google_maps_icon.webp' %}" alt="Google Maps" loading="lazy">
+          </div>
+        </a>
+        <a class="social-item" href="#" title="Encarte">
+          <div class="social-icon">
+            <img src="{% static 'icons/flyer_icon.webp' %}" alt="Maps" loading="lazy">
+          </div>
+        </a>
+      </div>
+
+    </div><!-- /bottom-panel -->
+
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script src="{% static 'js/new_ui.js' %}?v={{ STATIC_VERSION }}"></script>
+</body>
+</html>

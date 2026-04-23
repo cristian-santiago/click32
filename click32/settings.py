@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'vitrine.click32_admin',
     'vitrine.apps.VitrineConfig',
     'django_ckeditor_5',
+    'vitrine.templatetags.frontend_tags',
     #'vitrine.templatetags',
     # 'compressor',  # ← REMOVE compressor
 ]

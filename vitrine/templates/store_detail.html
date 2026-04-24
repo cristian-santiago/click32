@@ -27,12 +27,10 @@
     </button>
     <span class="tb-title">{{ store.name }}</span>
     <div class="tb-actions">
-      <button class="tb-btn" title="Notificações">
-        <i class="fas fa-bell"></i>
-        <span class="tb-dot"></span>
-      </button>
+
       <button class="tb-btn" id="btnMais" title="Mais opções">
         <i class="fas fa-ellipsis-vertical"></i>
+        
       </button>
     </div>
   </div>
@@ -52,13 +50,17 @@
   <!-- popup menu -->
   <div class="popup-menu" id="popupMenu">
     <div class="popup-item" data-action="faq">
-      <i class="fas fa-circle-question"></i>Perguntas Frequentes
+       <i class="fas fa-question-circle"></i><a href="{% url 'faq' %}">Perguntas frequentes
+            </a>
     </div>
     <div class="popup-item" data-action="anuncio">
-      <i class="fas fa-bullhorn"></i>Anunciar aqui
+      <i class="fas fa-bullhorn"></i><a href="{% url 'anuncie' %}">Anunciar aqui</a>
+    </div>
+    <div class="popup-item" data-action="feedback">
+      <i class="fas fa-comment"></i>Feedback
     </div>
     <div class="popup-item" data-action="about">
-      <i class="fas fa-circle-info"></i>Sobre o app
+      <i class="fas fa-circle-info"></i><a href="{% url 'sobre' %}">Sobre o app</a>
     </div>
   </div>
 </div>
@@ -180,11 +182,11 @@
         <div class="store-header-left">
 
           <div class="store-badges">
-            {% if store.is_verified %}
+            
             <span class="store-badge primary">
               <i class="fas fa-circle-check"></i> Verificado
             </span>
-            {% endif %}
+            
           </div>
 
           <div class="store-title">{{ store.name }}</div>
@@ -216,7 +218,7 @@
 
         </div>
 
-        <button class="store-share-btn" id="shareBtn"
+        <button class="store-share-btn" id="shareButton"
                 data-store-id="{{ store.id }}"
                 data-store-name="{{ store.name|escapejs }}"
                 data-store-url="{{ request.scheme }}://{{ request.get_host }}/{{ store.slug }}/">
@@ -255,9 +257,6 @@
         </div>
         {% endif %}
       </div>
-
-      <!-- divisória -->
-      <div class="panel-divider"></div>
 
       <!-- social icons -->
       <div class="social-row">
@@ -398,6 +397,44 @@
   </div><!-- /main -->
 
 </div><!-- /shell -->
+<nav class="bottom-nav" id="bottomNav">
+  <div class="nav-item" data-tab="home" role="button"> 
+  <div class="nav-icon-wrap">
+     <a href="{% url 'home' %}" {% if not request.GET.tag %}active{% endif %}">
+          <span class="icon">{% icon_home %}</span>
+      </a>
+  </div>
+</div>
+
+<div class="nav-item" data-tab="notifications" role="button">
+  <div class="nav-icon-wrap">
+    <span class="nav-dot"></span>
+    <span class="icon">{% icon_notification %}</span>
+  </div>
+</div>
+
+<div class="nav-item sb-download hidden" data-tab="download" id="installBtn" role="button" aria-label="Instalar aplicativo">
+  <div class="nav-icon-wrap">
+    <span class="icon">{% icon_download %}</span>
+  </div>
+</div>
+
+<div class="nav-item share-trigger" role="button"
+     data-store-id="{{ store.id }}"
+     data-store-name="{{ store.name|escapejs }}"
+     data-store-url="{{ request.scheme }}://{{ request.get_host }}/{{ store.slug }}/">
+  <div class="nav-icon-wrap">
+    <span class="icon">{% icon_share %}</span>    
+  </div>
+</div>
+
+<div class="nav-item" data-tab="info" role="button">
+  <div class="nav-icon-wrap">
+    <span class="icon">{% icon_info %}</span>
+  </div>
+</div>
+       
+</nav>
 <!-- ── Modal de Encarte ────────────────────────────────── -->
 <div class="flyer-modal" id="flyerModal" style="display: none;" role="dialog" aria-modal="true" aria-label="Encarte da loja">
     <div class="flyer-modal-content">

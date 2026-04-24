@@ -27,10 +27,6 @@
         <i class="fas fa-location-dot tb-location-icon"></i>
         <span class="tb-location-text">Km32, Nova Iguaçu</span>
       </div>
-      <button class="tb-btn" title="Notificações">
-        <i class="fas fa-bell"></i>
-        <span class="tb-dot"></span>
-      </button>
       <button class="tb-btn" title="Mais opções" id="btnMais">
         <i class="fas fa-ellipsis-vertical"></i>
       </button>
@@ -53,7 +49,7 @@
 
     <ul class="sb-menu">
 
-      <!-- download — só aparece colapsado -->
+      <!-- download — só aparece colapsado 
         <li class="sb-item  sb-download " >
             
             <a href="#" hidden id="installBtn" class="sb-row"  aria-label="Instalar aplicativo">
@@ -63,16 +59,16 @@
             
        
         </li>
+         /download -->
 
-
-      <!-- início -->
+      <!-- início 
       <li class="sb-item">
         <a href="{% url 'home' %}" class="sb-row {% if not request.GET.tag %}active{% endif %}">
           <span class="icon">{% icon_home %}</span>
           <span class="sb-label">Início</span>
         </a>
       </li>
-
+    -->
       <!-- categorias dinâmicas do admin -->
       {% for category in category_tags %}
         {% if category.tags %}
@@ -212,14 +208,54 @@
 
   </div><!-- /main -->
 <div class="feed-fade-mask-bottom"></div>
-    <div class="app-footer"></div>
+    
 </div><!-- /shell -->
+<nav class="bottom-nav" id="bottomNav">
+  <div class="nav-item" data-tab="home" role="button"> 
+  <div class="nav-icon-wrap">
+     <a href="{% url 'home' %}" {% if not request.GET.tag %}active{% endif %}>
+          <span class="icon">{% icon_home %}</span>
+      </a>
+  </div>
+</div>
 
+<div class="nav-item" data-tab="notifications" role="button">
+  <div class="nav-icon-wrap">
+    <span class="nav-dot"></span>
+    <span class="icon">{% icon_notification %}</span>
+  </div>
+</div>
+
+<div class="nav-item sb-download hidden" data-tab="download" id="installBtn" role="button" aria-label="Instalar aplicativo">
+  <div class="nav-icon-wrap">
+    <span class="icon">{% icon_download %}</span>
+  </div>
+</div>
+
+<div class="nav-item share-trigger" 
+     data-tab="share" 
+     role="button"
+     data-share-type="home"
+     data-store-name="Nome do App"
+     data-store-url="{{ request.scheme }}://{{ request.get_host }}/">
+  <div class="nav-icon-wrap">
+    <span class="icon">{% icon_share %}</span>
+  </div>
+</div>
+
+<div class="nav-item" data-tab="info" role="button">
+  <div class="nav-icon-wrap">
+    <span class="icon">{% icon_info %}</span>
+  </div>
+</div>
+       
+</nav>
 {% endblock %}
 
 {% block extra_js %}
 
 {{ block.super }}
 <script src="{% static 'js/new_home.js' %}?v={{ STATIC_VERSION }}"></script>
+<script src="{% static 'js/share_modal.js' %}?v={{ STATIC_VERSION }}"></script>
 
 {% endblock %}

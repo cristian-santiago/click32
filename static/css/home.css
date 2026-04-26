@@ -14,7 +14,7 @@
   --sb-text: #ecf0f1;
   --sb-muted: #bdc3c7;
   --sb-dropdown: #34495e;
-
+  --sb-h: 115px;
 
 
   --bg: #f2f3f7;
@@ -72,7 +72,7 @@ html, body {
   display: flex;
   flex-direction: column;
   z-index: 2000;
-  height: calc(100dvh - 115px);
+  height: calc(100dvh - var(--sb-h));
   overflow: hidden;
   transition: width .35s ease;
   position: relative;

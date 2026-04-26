@@ -1,0 +1,452 @@
+/* =============================================
+   notification_modal.css — Click32
+   Modal de notificações · Bottom Sheet
+   ============================================= */
+
+/* ── Variáveis locais ── */
+:root {
+  --notif-radius: 22px;
+  --notif-handle-h: 32px;
+  --notif-duration: 400ms;
+  --notif-ease: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ── Overlay ── */
+.notif-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 17, 23, 0.30);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--notif-duration) var(--notif-ease);
+}
+
+.notif-overlay.notif-overlay--visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Modal ── */
+.notif-modal {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: calc(100% - 20px);
+  max-width: 480px;
+  height: 64vh;
+  min-height: 380px;
+
+  background: var(--surface, #ffffff);
+  border-radius: var(--notif-radius) var(--notif-radius) 0 0;
+
+  box-shadow:
+    0 -2px 0 rgba(26, 86, 240, 0.18),
+    0 -8px 32px rgba(15, 17, 23, 0.16),
+    0 -1px 0 rgba(0, 0, 0, 0.04);
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 2001;
+
+  transition: transform var(--notif-duration) var(--notif-ease);
+  will-change: transform;
+}
+
+.notif-modal--open {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Handle — só a pill, sem chevron ── */
+.notif-handle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--notif-handle-h);
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: grab;
+  padding: 0;
+  position: relative;
+}
+
+.notif-handle:active {
+  cursor: grabbing;
+}
+
+.notif-handle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--surface-2, #e8eaf2);
+  transition: width 0.2s, background 0.2s;
+}
+
+.notif-handle:hover::before {
+  width: 52px;
+  background: #c8cbda;
+}
+
+.notif-handle:focus-visible::before {
+  background: var(--accent, #1a56f0);
+  width: 52px;
+}
+
+.notif-arrow {
+  display: none;
+}
+
+/* ── Divider abaixo do handle ── */
+.notif-divider {
+  flex-shrink: 0;
+  height: 1px;
+  background: var(--border, rgba(0, 0, 0, 0.07));
+}
+
+.notif-handle + .notif-header {
+  border-top: none;
+}
+
+/* ── Cabeçalho ── */
+.notif-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 12px;
+}
+
+.notif-header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.notif-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-1, #0f1117);
+  letter-spacing: -0.03em;
+  margin: 0;
+  line-height: 1;
+  font-family: inherit;
+}
+
+.notif-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-3, #9499ad);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ── Lista ── */
+.notif-list {
+  list-style: none;
+  margin: 0;
+  padding: 2px 0 6px;
+  overflow-y: auto;
+  flex: 1;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.notif-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Item ── */
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 20px 14px 18px;
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.12s;
+}
+
+.notif-item:active {
+  background: var(--surface-2, #e8eaf2);
+}
+
+/* Separador nativo — começa depois do avatar */
+.notif-item + .notif-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 82px;
+  right: 0;
+  height: 1px;
+  background: var(--border, rgba(0, 0, 0, 0.06));
+}
+
+.notif-item + .notif-item {
+  border-top: none;
+}
+
+
+/* ── Avatar ── */
+.notif-avatar-wrap {
+  flex-shrink: 0;
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+.notif-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.18),
+    0 0 0 2px rgba(255, 255, 255, 0.9);
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.notif-item:active .notif-avatar {
+  transform: scale(0.93);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.14);
+}
+
+.notif-avatar--live {
+  outline: 2.5px solid transparent;
+  outline-offset: 2px;
+  animation: notif-live-ring 2.4s ease-in-out infinite;
+}
+
+@keyframes notif-live-ring {
+  0%, 100% { outline-color: rgba(168, 85, 247, 0.75); }
+  50%       { outline-color: rgba(236, 72, 153, 0.9); }
+}
+
+.notif-avatar-letter {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+  line-height: 1;
+  font-family: inherit;
+}
+
+/* ── Badge tipo ── */
+.notif-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -5px;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 5px;
+  border-radius: 99px;
+  border: 2px solid var(--surface, #fff);
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.notif-badge--new   { background: var(--accent, #1a56f0); color: #fff; }
+.notif-badge--flyer { background: #a855f7; color: #fff; }
+.notif-badge--info  { background: #06b6d4; color: #fff; }
+.notif-badge--promo { background: #10b981; color: #fff; }
+
+/* ── Conteúdo texto ── */
+.notif-content {
+  flex: 1;
+  min-width: 0;
+  padding-top: 3px;
+}
+
+.notif-text {
+  margin: 0 0 5px;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--text-2, #5a5f72);
+}
+
+.notif-text strong {
+  color: var(--text-1, #0f1117);
+  font-weight: 700;
+}
+
+.notif-time {
+  font-size: 0.72rem;
+  color: var(--text-3, #9499ad);
+  font-weight: 500;
+  display: block;
+  letter-spacing: 0.01em;
+}
+
+/* ── Ponto não lido ── */
+.notif-unread-dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent, #1a56f0);
+  margin-top: 12px;
+  animation: notif-dot-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes notif-dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26, 86, 240, 0.30); }
+  50%       { box-shadow: 0 0 0 4px rgba(26, 86, 240, 0.06); }
+}
+
+/* ── Rodapé ── */
+.notif-footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px 22px;
+  border-top: 1px solid var(--border, rgba(0, 0, 0, 0.07));
+  flex-wrap: wrap;
+}
+
+/* "Marcar como lido" — lado esquerdo */
+.notif-mark-read {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-3, #9499ad);
+  background: transparent;
+  border: none;
+  padding: 6px 0;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.notif-mark-read::before {
+  content: '✔✔';
+  font-size: 0.7rem;
+  letter-spacing: -3px;
+  color: var(--text-3, #9499ad);
+  transition: color 0.15s;
+  line-height: 1;
+  padding-right: 2px;
+}
+
+.notif-mark-read:hover,
+.notif-mark-read:hover::before {
+  color: var(--accent, #1a56f0);
+}
+
+.notif-mark-read:focus-visible {
+  outline: 2px solid var(--accent, #1a56f0);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* "Ver todas" — lado direito */
+.notif-see-all {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  background: var(--accent, #1a56f0);
+  border: none;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.notif-see-all:hover {
+  opacity: 0.88;
+}
+
+.notif-see-all:active {
+  transform: scale(0.97);
+  opacity: 0.95;
+}
+
+.notif-see-all:focus-visible {
+  outline: 2px solid var(--accent, #1a56f0);
+  outline-offset: 3px;
+}
+
+/* Tela pequena — empilha e centraliza */
+@media (max-width: 320px) {
+  .notif-footer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .notif-see-all {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.notif-see-all:hover {
+  opacity: 0.88;
+}
+
+.notif-see-all:active {
+  transform: scale(0.97);
+  opacity: 0.95;
+}
+
+.notif-see-all:focus-visible {
+  outline: 2px solid var(--accent, #1a56f0);
+  outline-offset: 3px;
+}
+
+/* ── Animação de entrada dos itens ── */
+.notif-modal--open .notif-item {
+  animation: notif-item-in 0.38s var(--notif-ease) both;
+}
+
+.notif-modal--open .notif-item:nth-child(1) { animation-delay: 0.07s; }
+.notif-modal--open .notif-item:nth-child(2) { animation-delay: 0.13s; }
+.notif-modal--open .notif-item:nth-child(3) { animation-delay: 0.18s; }
+.notif-modal--open .notif-item:nth-child(4) { animation-delay: 0.22s; }
+
+@keyframes notif-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Redução de movimento ── */
+@media (prefers-reduced-motion: reduce) {
+  .notif-modal,
+  .notif-overlay,
+  .notif-item,
+  .notif-unread-dot,
+  .notif-avatar--live {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}

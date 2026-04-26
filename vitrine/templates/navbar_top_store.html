@@ -1,0 +1,29 @@
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-top">
+    <button class="tb-back" title="Voltar" onclick="history.back()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <span class="tb-title">{{ store.name }}</span>
+    <div class="tb-actions">
+
+      <button class="tb-btn" id="btnMais" title="Mais opções">
+        <i class="fas fa-ellipsis-vertical"></i>
+        
+      </button>
+    </div>
+  </div>
+
+   <!-- tags dinâmicas da loja -->
+  {% if store.tags.exists %}
+  <div class="toolbar-tags">
+    {% for tag in store.tags.all %}
+      <span class="tag-item">{{ tag.name }}</span>
+      {% if not forloop.last %}
+        <span class="tag-separator"></span>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</div>

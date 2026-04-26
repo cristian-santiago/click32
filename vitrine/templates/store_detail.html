@@ -3,67 +3,16 @@
 {% load frontend_tags %}
 
 {% block extra_css %}
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="{% static 'css/new_ui.css' %}?v={{ STATIC_VERSION }}">
-<link rel="stylesheet" href="{% static 'css/flyer_modal.css' %}?v={{ STATIC_VERSION }}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
+<link rel="stylesheet" href="{% static 'css/store_detail.css' %}?v={{ STATIC_VERSION }}">
+<link rel="stylesheet" href="{% static 'css/navbar_top_store.css' %}?v={{ STATIC_VERSION }}">
 {% endblock %}
 
+{% block toolbar_top %} {% include 'navbar_top_store.html' %} {% endblock %}
 {% block content %}
 
 <!-- OVERLAY -->
 <div class="sb-overlay" id="sbOverlay"></div>
-
-<!-- TOOLBAR -->
-<div class="toolbar">
-  <div class="toolbar-top">
-    <button class="tb-back" title="Voltar" onclick="history.back()">
-      <i class="fas fa-chevron-left"></i>
-    </button>
-    <span class="tb-title">{{ store.name }}</span>
-    <div class="tb-actions">
-
-      <button class="tb-btn" id="btnMais" title="Mais opções">
-        <i class="fas fa-ellipsis-vertical"></i>
-        
-      </button>
-    </div>
-  </div>
-
-  <!-- tags dinâmicas da loja -->
-  {% if store.tags.exists %}
-  <div class="toolbar-tags">
-    {% for tag in store.tags.all %}
-      <span class="tag-item">{{ tag.name }}</span>
-      {% if not forloop.last %}
-        <span class="tag-separator"></span>
-      {% endif %}
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  <!-- popup menu -->
-  <div class="popup-menu" id="popupMenu">
-    <div class="popup-item" data-action="faq">
-       <i class="fas fa-question-circle"></i><a href="{% url 'faq' %}">Perguntas frequentes
-            </a>
-    </div>
-    <div class="popup-item" data-action="anuncio">
-      <i class="fas fa-bullhorn"></i><a href="{% url 'anuncie' %}">Anunciar aqui</a>
-    </div>
-    <div class="popup-item" data-action="feedback">
-      <i class="fas fa-comment"></i>Feedback
-    </div>
-    <div class="popup-item" data-action="about">
-      <i class="fas fa-circle-info"></i><a href="{% url 'sobre' %}">Sobre o app</a>
-    </div>
-  </div>
-</div>
+ 
 
 <div class="shell">
 
@@ -80,7 +29,9 @@
 
     <ul class="sb-menu">
 
-      <!-- download — só aparece colapsado -->
+    
+      <!-- 
+      
       <li class="sb-item sb-download">
         <a href="#" hidden id="installBtn" class="sb-row" aria-label="Instalar aplicativo">
           <span class="icon">{% icon_download %}</span>
@@ -88,13 +39,15 @@
         </a>
       </li>
 
-      <!-- início -->
+       
       <li class="sb-item">
         <a href="{% url 'home' %}" class="sb-row">
           <span class="icon">{% icon_home %}</span>
           <span class="sb-label">Início</span>
         </a>
       </li>
+    -->
+    
 
       <!-- categorias dinâmicas do admin -->
       {% for category in category_tags %}
@@ -397,44 +350,7 @@
   </div><!-- /main -->
 
 </div><!-- /shell -->
-<nav class="bottom-nav" id="bottomNav">
-  <div class="nav-item" data-tab="home" role="button"> 
-  <div class="nav-icon-wrap">
-     <a href="{% url 'home' %}" {% if not request.GET.tag %}active{% endif %}">
-          <span class="icon">{% icon_home %}</span>
-      </a>
-  </div>
-</div>
 
-<div class="nav-item" data-tab="notifications" role="button">
-  <div class="nav-icon-wrap">
-    <span class="nav-dot"></span>
-    <span class="icon">{% icon_notification %}</span>
-  </div>
-</div>
-
-<div class="nav-item sb-download hidden" data-tab="download" id="installBtn" role="button" aria-label="Instalar aplicativo">
-  <div class="nav-icon-wrap">
-    <span class="icon">{% icon_download %}</span>
-  </div>
-</div>
-
-<div class="nav-item share-trigger" role="button"
-     data-store-id="{{ store.id }}"
-     data-store-name="{{ store.name|escapejs }}"
-     data-store-url="{{ request.scheme }}://{{ request.get_host }}/{{ store.slug }}/">
-  <div class="nav-icon-wrap">
-    <span class="icon">{% icon_share %}</span>    
-  </div>
-</div>
-
-<div class="nav-item" data-tab="info" role="button">
-  <div class="nav-icon-wrap">
-    <span class="icon">{% icon_info %}</span>
-  </div>
-</div>
-       
-</nav>
 <!-- ── Modal de Encarte ────────────────────────────────── -->
 <div class="flyer-modal" id="flyerModal" style="display: none;" role="dialog" aria-modal="true" aria-label="Encarte da loja">
     <div class="flyer-modal-content">
@@ -461,20 +377,18 @@
 
 {% endblock %}
 
+
 {% block extra_js %}
 {{ block.super }}
 
-<script>const CSRF_TOKEN = '{{ csrf_token }}';</script>
-
-<!-- reutiliza o mesmo JS da new_ui -->
-<script src="{% static 'js/new_ui.js' %}?v={{ STATIC_VERSION }}"></script>
-
+    <script>const CSRF_TOKEN = '{{ csrf_token }}';</script>
+    <script src="{% static 'js/store_detail.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/description_scroll.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/share_modal.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/flyer_modal.js' %}?v={{ STATIC_VERSION }}"></script>
-    <script src="{% static 'js/carousel_store_detail.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/phone_click.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/url_removal.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/social_links.js' %}?v={{ STATIC_VERSION }}"></script>
+    
 
 {% endblock %}

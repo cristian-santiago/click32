@@ -1,0 +1,142 @@
+  
+  <!-- =============================================
+     NOTIFICATION MODAL — Click32
+     Inclua no seu HTML onde preferir.
+     Chame via: openNotificationModal()
+     ============================================= -->
+ 
+<!-- Overlay -->
+<div class="notif-overlay" id="notifOverlay" aria-hidden="true"></div>
+ 
+<!-- Modal -->
+<aside class="notif-modal" id="notifModal" role="dialog" aria-modal="true" aria-label="Notificações">
+ 
+  <!-- Handle / Botão fechar -->
+  <div class="notif-handle" id="notifClose" aria-label="Fechar notificações">
+    <svg class="notif-arrow" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 4L20 20L38 4" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+ 
+  <div class="notif-divider"></div>
+
+  <!-- Cabeçalho -->
+  <header class="notif-header">
+    <div class="notif-header-left">
+      <h2 class="notif-title">Novidades</h2>
+      <span class="notif-subtitle">do seu bairro</span>
+    </div>  
+  </header>
+ 
+  <!-- Lista de notificações -->
+  <ul class="notif-list" id="notifList" role="list">
+ 
+    
+    <li class="notif-item " role="listitem">
+      <div class="notif-avatar-wrap">
+        <div class="notif-avatar notif-avatar--live" style="background: linear-gradient(135deg,#f6a823,#f05c22);">
+          <span class="notif-avatar-letter">P</span>
+        </div>
+        
+      </div>
+      <div class="notif-content">
+        <p class="notif-text">
+          <strong>Padaria do João</strong> está no Click32, confira mais!
+        </p>
+        <time class="notif-time" datetime="2025-04-24T08:00">Agora mesmo</time>
+      </div>
+      <div class="notif-unread-dot" aria-hidden="true"></div>
+    </li>
+ 
+    
+    <li class="notif-item " role="listitem">
+      <div class="notif-avatar-wrap">
+        <div class="notif-avatar notif-avatar--live" style="background: linear-gradient(135deg,#a855f7,#ec4899);">
+          <span class="notif-avatar-letter">A</span>
+        </div>
+        
+      </div>
+      <div class="notif-content">
+        <p class="notif-text">
+          <strong>Salão da Ana</strong> compartilhou um novo flyer.
+        </p>
+        <time class="notif-time" datetime="2025-04-24T07:45">Há 15 min</time>
+      </div>
+      <div class="notif-unread-dot" aria-hidden="true"></div>
+    </li>
+ 
+    
+    <li class="notif-item" role="listitem">
+      <div class="notif-avatar-wrap">
+        <div class="notif-avatar " style="background: linear-gradient(135deg,#06b6d4,#3b82f6);">
+          <span class="notif-avatar-letter">P</span>
+        </div>
+       
+      </div>
+      <div class="notif-content">
+        <p class="notif-text ">
+          <strong>Loja do Pedro</strong> está atendendo em novos horários.
+        </p>
+        <time class="notif-time" datetime="2025-04-23T18:00">Ontem, 18h</time>
+      </div>
+    </li>
+ 
+    
+    <li class="notif-item" role="listitem">
+      <div class="notif-avatar-wrap">
+        <div class="notif-avatar" style="background: linear-gradient(135deg,#10b981,#059669);">
+          <span class="notif-avatar-letter">M</span>
+        </div>
+        
+      </div>
+      <div class="notif-content">
+        <p class="notif-text">
+          <strong>Mercadinho da Maria</strong> adicionou uma nova promoção da semana.
+        </p>
+        <time class="notif-time" datetime="2025-04-23T12:00">Ontem, 12h</time>
+      </div>
+    </li>
+
+
+        <li class="notif-item " role="listitem">
+      <div class="notif-avatar-wrap">
+        <div class="notif-avatar notif-avatar--live" style="background: linear-gradient(135deg,#a855f7,#ec4899);">
+          <span class="notif-avatar-letter">A</span>
+        </div>
+        
+      </div>
+      <div class="notif-content">
+        <p class="notif-text">
+          <strong>Salão da Ana</strong> compartilhou um novo flyer.
+        </p>
+        <time class="notif-time" datetime="2025-04-24T07:45">Há 15 min</time>
+      </div>
+      <div class="notif-unread-dot" aria-hidden="true"></div>
+    </li>
+ 
+    
+    <li class="notif-item" role="listitem">
+      <div class="notif-avatar-wrap">
+        <div class="notif-avatar " style="background: linear-gradient(135deg,#06b6d4,#3b82f6);">
+          <span class="notif-avatar-letter">P</span>
+        </div>
+       
+      </div>
+      <div class="notif-content">
+        <p class="notif-text ">
+          <strong>Loja do Pedro</strong> está atendendo em novos horários.
+        </p>
+        <time class="notif-time" datetime="2025-04-23T18:00">Ontem, 18h</time>
+      </div>
+    </li>
+ 
+  </ul>
+ 
+  <!-- Rodapé -->
+<footer class="notif-footer">
+  <button class="notif-mark-read" id="notifMarkAll">Marcar como visto</button>
+  <div class="notif-footer-divider"></div>
+  <button class="notif-see-all">Todas as notificações</button>
+</footer>
+ 
+</aside>

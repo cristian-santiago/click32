@@ -1,0 +1,99 @@
+:root {
+  --sb-collapsed: 40px;
+  --sb-expanded: 160px;
+  --sb-bg: #2c3e50;
+  --sb-hover: #34495e;
+  --sb-text: #ecf0f1;
+  --sb-muted: #bdc3c7;
+  --sb-dropdown: #34495e;
+
+/* toolbar height update */
+  --toolbar-h: 48px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+  --font: 'Plus Jakarta Sans', sans-serif;
+
+  --bg: #f2f3f7;
+  --surface: #ffffff;
+  --surface-2: #f7f8fa;
+  --border: rgba(0,0,0,0.07);
+  --text-1: #0f1117;
+  --text-2: #5a5f72;
+  --text-3: #9499ad;
+  --accent: #1a56f0;
+  --accent-soft: #eaefff;
+  --shadow-card: 0 2px 12px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.06);
+}
+/* ══════════════════════════════
+   TOOLBAR
+══════════════════════════════ */
+  .toolbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    z-index: 100;
+    box-shadow: 0 2px 0 var(--border);
+    position: relative;
+    
+   
+  }
+
+  .toolbar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    min-height: 48px;
+  }
+
+  /* logo */
+
+
+  .tb-logo{
+  
+  display: flex;
+  align-items: center;
+  }
+
+
+
+  /* lado direito — localização + ações */
+  .tb-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .tb-location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: 4px;
+  }
+  .tb-location-icon {
+    font-size: 11px;
+    color: var(--accent);
+  }
+  .tb-location-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-2);
+    white-space: nowrap;
+  }
+
+
+
+.tb-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.tb-btn {
+  width: 32px; height: 32px; border-radius: 10px; border: none;
+  background: transparent; color: var(--text-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; cursor: pointer; position: relative;
+  transition: background .15s, transform .1s;
+}
+.tb-btn:active { transform: scale(0.9); background: var(--surface-2); }

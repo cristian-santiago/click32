@@ -1,0 +1,41 @@
+{% load frontend_tags %}
+<nav class="bottom-nav" id="bottomNav">
+  <div class="nav-item" data-tab="home" role="button"> 
+  <div class="nav-icon-wrap">
+     <a href="{% url 'home' %}" {% if not request.GET.tag %}active{% endif %}>
+          <span class="icon">{% icon_home %}</span>
+      </a>
+  </div>
+</div>
+
+<div class="nav-item" data-tab="notifications" role="button">
+  <div class="nav-icon-wrap">
+    <span class="nav-dot"></span>
+    <span class="icon">{% icon_notification %}</span>
+  </div>
+</div>
+
+<div class="nav-item sb-download hidden" data-tab="download" id="installBtn" role="button" aria-label="Instalar aplicativo">
+  <div class="nav-icon-wrap">
+    <span class="icon">{% icon_download %}</span>
+  </div>
+</div>
+
+<div class="nav-item share-trigger" 
+     data-tab="share" 
+     role="button"
+     data-share-type="home"
+     data-store-name="Nome do App"
+     data-store-url="{{ request.scheme }}://{{ request.get_host }}/">
+  <div class="nav-icon-wrap">
+    <span class="icon">{% icon_share %}</span>
+  </div>
+</div>
+
+<div class="nav-item" data-tab="info" role="button">
+  <div class="nav-icon-wrap">
+    <span class="icon">{% icon_info %}</span>
+  </div>
+</div>
+       
+</nav>

@@ -4,35 +4,18 @@
 
 {% block extra_css %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="{% static 'css/new_home.css' %}?v={{ STATIC_VERSION }}">
+
+<link rel="stylesheet" href="{% static 'css/home.css' %}?v={{ STATIC_VERSION }}">
 
 {% endblock %}
+
 
 {% block content %}
 
 <!-- OVERLAY -->
 <div class="sb-overlay" id="sbOverlay"></div>
 
-<!-- TOOLBAR -->
-<div class="toolbar">
-  <div class="toolbar-top">
-    <div class="tb-logo">
-      {% icon_logo_dark %}
-    </div>
-    <div class="tb-right">
-      <div class="tb-location">
-        <i class="fas fa-location-dot tb-location-icon"></i>
-        <span class="tb-location-text">Km32, Nova Iguaçu</span>
-      </div>
-      <button class="tb-btn" title="Mais opções" id="btnMais">
-        <i class="fas fa-ellipsis-vertical"></i>
-      </button>
-    </div>
-  </div>
-</div>
+
 
 <div class="shell">
 
@@ -210,52 +193,14 @@
 <div class="feed-fade-mask-bottom"></div>
     
 </div><!-- /shell -->
-<nav class="bottom-nav" id="bottomNav">
-  <div class="nav-item" data-tab="home" role="button"> 
-  <div class="nav-icon-wrap">
-     <a href="{% url 'home' %}" {% if not request.GET.tag %}active{% endif %}>
-          <span class="icon">{% icon_home %}</span>
-      </a>
-  </div>
-</div>
 
-<div class="nav-item" data-tab="notifications" role="button">
-  <div class="nav-icon-wrap">
-    <span class="nav-dot"></span>
-    <span class="icon">{% icon_notification %}</span>
-  </div>
-</div>
-
-<div class="nav-item sb-download hidden" data-tab="download" id="installBtn" role="button" aria-label="Instalar aplicativo">
-  <div class="nav-icon-wrap">
-    <span class="icon">{% icon_download %}</span>
-  </div>
-</div>
-
-<div class="nav-item share-trigger" 
-     data-tab="share" 
-     role="button"
-     data-share-type="home"
-     data-store-name="Nome do App"
-     data-store-url="{{ request.scheme }}://{{ request.get_host }}/">
-  <div class="nav-icon-wrap">
-    <span class="icon">{% icon_share %}</span>
-  </div>
-</div>
-
-<div class="nav-item" data-tab="info" role="button">
-  <div class="nav-icon-wrap">
-    <span class="icon">{% icon_info %}</span>
-  </div>
-</div>
-       
-</nav>
 {% endblock %}
+
 
 {% block extra_js %}
 
 {{ block.super }}
-<script src="{% static 'js/new_home.js' %}?v={{ STATIC_VERSION }}"></script>
+<script src="{% static 'js/home.js' %}?v={{ STATIC_VERSION }}"></script>
 <script src="{% static 'js/share_modal.js' %}?v={{ STATIC_VERSION }}"></script>
 
 {% endblock %}

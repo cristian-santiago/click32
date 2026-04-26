@@ -5,6 +5,10 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/store_detail.css' %}?v={{ STATIC_VERSION }}">
 <link rel="stylesheet" href="{% static 'css/navbar_top_store.css' %}?v={{ STATIC_VERSION }}">
+<link rel="stylesheet" href="{% static 'css/flyer_modal.css' %}?v={{ STATIC_VERSION }}">
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 {% endblock %}
 
 {% block toolbar_top %} {% include 'navbar_top_store.html' %} {% endblock %}

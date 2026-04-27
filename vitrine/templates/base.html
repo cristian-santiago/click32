@@ -53,6 +53,19 @@
 <script src="{% static 'js/notification_modal.js' %}?v={{ STATIC_VERSION }}"></script>
 <script src="{% static 'js/popup_menu.js' %}?v={{ STATIC_VERSION }}"></script>
 
+<script>
+  window.addEventListener('load', () => {
+    document.documentElement.style.setProperty(
+      '--real-vh', window.innerHeight + 'px'
+    );
+  });
+  window.addEventListener('resize', () => {
+    document.documentElement.style.setProperty(
+      '--real-vh', window.innerHeight + 'px'
+    );
+  });
+</script>
+
 {% block extra_js %}{% endblock %}
 
 </body>

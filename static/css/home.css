@@ -41,8 +41,7 @@ html, body {
 
 .shell {
   display: flex;
-  flex: 1;
-  min-height: 0; 
+  height: var(--real-vh, 100dvh);
   overflow: hidden;
 }
 
@@ -75,7 +74,7 @@ html, body {
   display: flex;
   flex-direction: column;
   z-index: 2000;
-  height: calc(100dvh - var(--sb-h));
+  height: calc(var(--real-vh, 100dvh) - var(--sb-h));
   overflow: hidden;
   transition: width .35s ease;
   position: relative;
@@ -619,7 +618,7 @@ html, body {
 /* compensar o bottom-nav no scroll-area */
 .store-list,
 .store-list-filter {
-  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+  padding-bottom: calc(35px + env(safe-area-inset-bottom));
 }
 
 

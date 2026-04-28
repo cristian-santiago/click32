@@ -21,54 +21,16 @@ html {
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     background: var(--light);
     color: var(--navy);
     width: 100%;
     max-width: 100vw;
     overflow-x: hidden;
-    padding-top: 48px;
+   
 }
 
-/* ── TOOLBAR ── */
-.toolbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(44, 62, 80, 0.97);
-    /*backdrop-filter: blur(8px);*/
-    z-index: 1000;
-    height: 49px;
-}
 
-.toolbar-container {
-    max-width: 720px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    height: 100%;
-    align-items: center;
-}
-
-.toolbar-container a {
-    color: #d1e8f0;
-    text-decoration: none;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    transition: color 0.2s, background 0.2s;
-}
-
-.toolbar-container a:hover {
-    color: var(--cyan);
-    background: rgba(0, 204, 255, 0.1);
-}
 
 /* ── CONTAINER ── */
 .container {
@@ -318,15 +280,7 @@ body {
 .contact-link.instagram i { color: #f58529; }
 .contact-link.email i { color: var(--cyan); }
 
-/* ── FOOTER ── */
-footer {
-    background: #1a2838;
-    color: rgba(255, 255, 255, 0.5);
-    text-align: center;
-    padding: 20px 16px;
-    font-size: 0.82rem;
-    font-weight: 300;
-}
+
 
 /* ── RESPONSIVE 768px+ ── */
 @media (min-width: 768px) {
@@ -358,8 +312,6 @@ footer {
 
 /* ── RESPONSIVE 320px ── */
 @media (max-width: 320px) {
-    .toolbar-container { gap: 16px; }
-    .toolbar-container a { font-size: 0.9rem; width: 28px; height: 28px; }
     .page-header h1 { font-size: 1.5rem; }
     .faq-tab span { display: none; }
     .faq-tab i { font-size: 1rem; }

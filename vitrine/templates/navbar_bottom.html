@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<div class="nav-item sb-download hidden" data-tab="download" id="installBtn" role="button" aria-label="Instalar aplicativo">
+<div class="nav-item bounce hidden" data-tab="download" id="installBtn" role="button" aria-label="Instalar aplicativo">
   <div class="nav-icon-wrap">
     <span class="icon">{% icon_download %}</span>
   </div>
@@ -34,7 +34,9 @@
 
 <div class="nav-item" data-tab="info" role="button">
   <div class="nav-icon-wrap">
-    <span class="icon">{% icon_info %}</span>
+      <a href="{% url 'sobre' %}" title="Sobre">
+        {% icon_info %}
+      </a>
   </div>
 </div>
        

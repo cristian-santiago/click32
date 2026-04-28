@@ -87,15 +87,15 @@
 
     <div class="sb-footer">
       <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!"
-         target="_blank" rel="noopener noreferrer" title="Anúncios">
-        <i class="fas fa-bullhorn fa-beat-fade"></i>
+         target="_blank" rel="noopener noreferrer" title="Anúncios" class="bounce">
+        {% icon_advertise %}
       </a>
       <a href="https://www.instagram.com/click32.app"
          target="_blank" rel="noopener noreferrer" title="Instagram">
         {% icon_instagram %}
       </a>
-      <a href="{% url 'faq' %}" title="Sobre">
-        {% icon_info %}
+      <a href="{% url 'faq' %}" title="FAQ">
+        {% icon_faq %}
       </a>
     </div>
 

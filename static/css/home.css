@@ -131,9 +131,7 @@ html, body {
   
 }
 
-.sb-download .icon {
-  animation: bounce 0.8s infinite;
-}
+
 
 .hidden {
   display: none !important;

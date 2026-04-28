@@ -1,32 +1,36 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Seleciona todos os elementos que podem compartilhar
     var shareTriggers = document.querySelectorAll('#shareButton, .share-trigger');
     
     if (!shareTriggers.length) return;
     
     function handleShare(event) {
         var element = event.currentTarget;
-        var shareType = element.getAttribute('data-share-type');
-        var storeId = element.getAttribute('data-store-id');
-        var storeName = element.getAttribute('data-store-name');
-        var storeUrl = element.getAttribute('data-store-url');
+
+        // ─── REGRA DE CONTEXTO ───────────────────────────────────────
+        // Se existe #shareButton na página (store_detail), qualquer
+        // botão de share usa os dados da loja — inclusive o nav.
+        var storeShareBtn = document.getElementById('shareButton');
+        var sourceEl = (storeShareBtn && element !== storeShareBtn)
+            ? storeShareBtn   // nav clicado dentro de store_detail → redireciona para dados da loja
+            : element;        // clicado no próprio botão da loja, ou em outra página
+        // ─────────────────────────────────────────────────────────────
+
+        var storeId   = sourceEl.getAttribute('data-store-id');
+        var storeName = sourceEl.getAttribute('data-store-name');
+        var storeUrl  = sourceEl.getAttribute('data-store-url');
         
-        // Se não tem URL definida, usa a URL atual
         if (!storeUrl) {
             storeUrl = window.location.href;
         }
         
-        // Decodifica URL se estiver escapada
         if (storeUrl && storeUrl.includes('\\u')) {
             storeUrl = decodeURIComponent(storeUrl);
         }
         
-        // Remove parâmetros para URL limpa
         if (storeUrl) {
             storeUrl = storeUrl.split('?')[0].split('#')[0];
         }
         
-        // Só faz tracking se for uma loja (se tiver storeId)
         if (storeId) {
             fetch('/track-share/' + storeId + '/', {
                 method: 'POST',
@@ -34,38 +38,31 @@ document.addEventListener('DOMContentLoaded', function() {
                     'X-CSRFToken': getCSRFToken(),
                     'Content-Type': 'application/json',
                 }
-            }).catch(function(error) {
+            }).catch(function() {
                 console.log('Erro no tracking, mas continua...');
             });
         }
         
-        // Define título e texto baseado no tipo
         var title = storeName || 'Confira este app';
-        var text = storeName ? 'Confira esta loja: ' + storeName : 'Dê uma olhada neste app!';
+        var text  = storeName
+            ? 'Confira esta loja: ' + storeName
+            : 'Dê uma olhada neste app!';
         
-        // 2. Compartilhamento
         if (navigator.share && storeUrl) {
-            navigator.share({
-                title: title,
-                text: text,
-                url: storeUrl
-            }).catch(function(err) {
-                if (err.name !== 'AbortError') {
-                    console.log('Erro no compartilhamento:', err);
-                }
-            });
+            navigator.share({ title: title, text: text, url: storeUrl })
+                .catch(function(err) {
+                    if (err.name !== 'AbortError') console.log('Erro no compartilhamento:', err);
+                });
         } else if (storeUrl) {
             prompt("Copie o link:", storeUrl);
         }
     }
     
-    // Adiciona evento a todos os elementos
     shareTriggers.forEach(function(trigger) {
         trigger.addEventListener('click', handleShare);
     });
 });
 
-// Função CSRF (mantém igual)
 function getCSRFToken() {
     var name = 'csrftoken';
     var cookieValue = null;

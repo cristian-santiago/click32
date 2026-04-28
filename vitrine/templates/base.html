@@ -37,16 +37,21 @@
     );
   </script>
 <script>
-    document.addEventListener('click', e => {
-      const link = e.target.closest('a');
-      if (!link || !link.href || link.target === '_blank') return;
-      if (!document.startViewTransition) return;
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a');
+    if (!link || !link.href || link.target === '_blank') return;
+    if (link.href.startsWith('#')) return;
 
-      e.preventDefault();
-      document.startViewTransition(() => {
-        window.location.href = link.href;
-      });
-    });
+    const sk = document.getElementById('skeletonScreen');
+    if (!sk) return;
+
+    e.preventDefault();
+    sk.classList.add('visible');
+
+    setTimeout(() => {
+      window.location.href = link.href;
+    }, 200);
+  });
 </script>
 
   {% block extra_css %}  
@@ -55,6 +60,17 @@
   <title>{% block title %}Click32{% endblock %}</title>
 </head>
 <body>
+
+  <div class="skeleton-screen" id="skeletonScreen">
+  <div class="sk-shell">
+    <div class="sk-sidebar"></div>
+    <div class="sk-main">
+      <div class="sk-block skeleton"></div>
+      <div class="sk-block skeleton"></div>
+      <div class="sk-block skeleton"></div>
+    </div>
+  </div>
+</div>
 
 {% block toolbar_top %}
     {% include 'navbar_top_geral.html' %}
@@ -70,6 +86,7 @@
 <script src="{% static 'js/active_session.js' %}?v={{ STATIC_VERSION }}"></script>
 <script src="{% static 'js/notification_modal.js' %}?v={{ STATIC_VERSION }}"></script>
 <script src="{% static 'js/popup_menu.js' %}?v={{ STATIC_VERSION }}"></script>
+<script src="{% static 'js/share_modal.js' %}?v={{ STATIC_VERSION }}"></script>
 
 <script>
   window.addEventListener('resize', () => {
@@ -80,5 +97,7 @@
 </script>
 
 {% block extra_js %}{% endblock %}
+
+
 
 </body>

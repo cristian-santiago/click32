@@ -1,16 +1,84 @@
-/* base.css */
-@keyframes slide-in {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-@keyframes slide-out {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(-100%); opacity: 0; }
+/* ══════════════════════════════
+   SKELETON SCREEN
+══════════════════════════════ */
+.skeleton {
+  background: linear-gradient(90deg, #e2e5f0 25%, #eceef5 50%, #e2e5f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 12px;
 }
 
-::view-transition-new(root) {
-  animation: slide-in 0.28s ease;
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
-::view-transition-old(root) {
-  animation: slide-out 0.28s ease;
+
+.skeleton-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: var(--bg, #f2f3f7);
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--toolbar-h, 48px);
+  padding-bottom: var(--nav-h, 55px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.skeleton-screen.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.sk-shell {
+  display: flex;
+  flex: 1;
+  padding: 0 4px;
+  gap: 8px;
+  min-height: 0;
+}
+
+.sk-sidebar {
+  width: 40px;
+  flex-shrink: 0;
+  background: var(--sb-bg, #2c3e50);
+  border-radius: 10px;
+  margin: 10px 0 8px 5px;
+  opacity: 0.15;
+}
+
+.sk-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 8px 0 4px;
+}
+
+.sk-block {
+  border-radius: 18px;
+  flex: 1;
+}
+
+
+/*  */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html, body {
+  overscroll-behavior: none;
+}
+
+
+/* ICON BOUNCE */
+
+.bounce {
+  animation: bounce 0.8s infinite;
 }

@@ -381,45 +381,98 @@ body {
   flex-direction: column;
   border-radius: var(--radius-card);
   margin: 0 12px 2px;
-
 }
+
 .info-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 8px;
-  padding: 10px 14px 6px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 10px 10px 10px;
 }
 
 .info-chip {
   background: var(--surface-2);
-  border-radius: 12px;
-  padding: 7px 9px;
-  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 7px 6px;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
-.info-chip.address {
-  grid-column: 1 / -1; 
-  margin-top: 2px;
-}
+
 .info-chip-label {
-  font-size: 9px; font-weight: 700;
-  letter-spacing: .07em; text-transform: uppercase;
-  color: var(--text-3); margin-bottom: 2px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 3px;
 }
+
 .info-chip-value {
-  font-size: 11px; font-weight: 600;
-  color: var(--text-1); line-height: 1.3;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.3;
+}
+
+/* endereço — fora do grid, linha própria */
+.address-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0px 10px 10px;
+  margin-bottom: 10px;
+}
+
+.address-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.address-icon svg {
+  width: 14px;
+  height: 14px;
+  color: var(--text-3);
+}
+
+.address-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.address-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 2px;
+}
+
+.address-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.3;
 }
 
 .panel-divider {
   height: 1px;
   background: var(--border);
-  margin: 0 14px;
+  margin: 10px 10px 0;
 }
 
 .social-row {
   display: flex; align-items: center; justify-content: center;
   gap: 6px; flex-wrap: wrap; padding-bottom: 5px;
- 
 }
 
 .social-item {

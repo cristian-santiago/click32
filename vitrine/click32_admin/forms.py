@@ -7,6 +7,7 @@ from django.utils.html import strip_tags
 from django.template.defaultfilters import filesizeformat
 from vitrine.models import Store, Tag, Category, StoreOpeningHour
 from django_ckeditor_5.widgets import CKEditor5Widget
+import re
 class MaxFileSizeValidator:
     def __init__(self, max_size):
         self.max_size = max_size
@@ -89,11 +90,40 @@ class GroupForm(forms.ModelForm):
         fields = ['name', 'permissions']
 
 
+class StoreOpeningHourForm(forms.ModelForm):
+    class Meta:
+        model  = StoreOpeningHour
+        fields = ('day_range', 'time_open', 'time_close')
+        widgets = {
+            'day_range':  forms.TextInput(attrs={'class': 'hour-input'}),
+            'time_open':  forms.TimeInput(attrs={'type': 'time', 'class': 'hour-input'}),
+            'time_close': forms.TimeInput(attrs={'type': 'time', 'class': 'hour-input'}),
+        }
+        help_texts = {
+            'day_range':  'Ex: Seg-Sex, Sábado, Dom/Fer',
+            'time_close': 'Deixe vazio para 24h',
+        }
+
+    def clean(self):
+        cleaned = super().clean()
+        day   = cleaned.get('day_range', '').strip()
+        t_open = cleaned.get('time_open')
+
+        if day and not t_open:
+            raise ValidationError('Preencha o horário de abertura.')
+        if t_open and not day:
+            raise ValidationError('Preencha o período (ex: Seg-Sex).')
+
+        return cleaned
+
+    def has_changed(self):
+        return bool(self.data.get(self.add_prefix('day_range'), '').strip())
+
 StoreOpeningHourFormSet = inlineformset_factory(
     Store,
     StoreOpeningHour,
-    fields=('day_range', 'time_range'),
-    extra=1,
+    form=StoreOpeningHourForm,
+    extra=3,      # sempre 3 cards
     max_num=3,
-    can_delete=True
+    can_delete=False  # sem checkbox de excluir
 )

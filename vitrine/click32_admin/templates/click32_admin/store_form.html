@@ -8,84 +8,106 @@
 
 {% block content %}
 <main class="store-form">
-  <h1>{% if store %}Editar Loja: {{ store.name }}{% else %}Criar nova loja{% endif %}</h1>
 
-  <form method="post" enctype="multipart/form-data" class="admin-form" id="store-form">
+  <h1>{% if store %}Editar Loja: {{ store.name }}{% else %}Nova Loja{% endif %}</h1>
+
+  {% if form.errors or formset.errors %}
+  <div class="form-errors">
+    <ul>
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <li><strong>Erro:</strong> {{ error }}</li>
+      {% endfor %}
+      {% for fform in formset %}
+        {% for field in fform %}
+          {% for error in field.errors %}
+            <li><strong>Horário — {{ field.label }}:</strong> {{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data" id="store-form">
     {% csrf_token %}
-    {% if form.errors or formset.errors %}
-      <div class="form-errors">
-        <ul>
-          {% for field in form %}
-            {% for error in field.errors %}
-              <li><strong>{{ field.label }}:</strong> {{ error }}</li>
-            {% endfor %}
-          {% endfor %}
-          {% for error in form.non_field_errors %}
-            <li><strong>Erro:</strong> {{ error }}</li>
-          {% endfor %}
-          {% for form in formset %}
-            {% for field in form %}
-              {% for error in field.errors %}
-                <li><strong>{{ field.label }}:</strong> {{ error }}</li>
-              {% endfor %}
-            {% endfor %}
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
 
+    <!-- ══ INFORMAÇÕES PRINCIPAIS ══ -->
     <section>
       <h2>Informações principais</h2>
-      <div class="form-row">{{ form.name.label_tag }} {{ form.name }}</div>
-      <div class="form-row">{{ form.description.label_tag }} {{ form.description }}</div>
-      <div class="form-row">{{ form.address.label_tag }} {{ form.address }}</div>
-      <div class="form-row">{{ form.highlight.label_tag }} {{ form.highlight }}</div>
-      <div class="form-row">{{ form.is_vip.label_tag }} {{ form.is_vip }}</div>
-      <div class="form-row">{{ form.is_deactivated.label_tag }} {{ form.is_deactivated }}</div>
+      <div class="section-card">
+        <div class="field">
+          {{ form.name.label_tag }}
+          {{ form.name }}
+        </div>
+        <div class="field">
+          {{ form.description.label_tag }}
+          {{ form.description }}
+        </div>
+        <div class="field">
+          {{ form.address.label_tag }}
+          {{ form.address }}
+        </div>
+        <div class="grid-2">
+          <div class="field checkbox-field">
+            {{ form.highlight }}
+            {{ form.highlight.label_tag }}
+          </div>
+          <div class="field checkbox-field">
+            {{ form.is_vip }}
+            {{ form.is_vip.label_tag }}
+          </div>
+          <div class="field checkbox-field">
+            {{ form.is_deactivated }}
+            {{ form.is_deactivated.label_tag }}
+          </div>
+        </div>
+      </div>
     </section>
 
+    <!-- ══ HORÁRIOS ══ -->
     <section>
-      <h3>Horários de Funcionamento</h3>
+      <h2>Horários de Funcionamento</h2>
       {{ formset.management_form }}
-      <div id="opening-hours-container">
-        {% for form in formset %}
-          <div class="opening-hour-form">
-            {{ form.id }}
-            <div class="form-row">
-              {{ form.day_range.label_tag }} {{ form.day_range }}
-            </div>
-            <div class="form-row">
-              {{ form.time_range.label_tag }} {{ form.time_range }}
-            </div>
-            {% if form.instance.pk %}
-              <div class="delete-checkbox">
-                {{ form.DELETE }}
-                <label for="{{ form.DELETE.id_for_label }}">Excluir</label>
-              </div>
-            {% endif %}
+      <div class="hours-grid">
+        {% for hform in formset %}
+        <div class="hour-card">
+          {{ hform.id }}
+          <span class="card-title">Período {{ forloop.counter }}</span>
+          {% if hform.errors %}
+            <div class="form-errors">{{ hform.errors }}</div>
+          {% endif %}
+          <div class="hour-field">
+            <label>Período</label>
+            {{ hform.day_range }}
+            <small>Ex: Seg-Sex, Sábado, Dom/Fer</small>
           </div>
-        {% empty %}
-          <div class="opening-hour-form">
-            <div class="form-row">
-              <label for="id_form-0-day_range">Dias</label>
-              <input type="text" name="form-0-day_range" id="id_form-0-day_range" class="form-control">
-            </div>
-            <div class="form-row">
-              <label for="id_form-0-time_range">Horário</label>
-              <input type="text" name="form-0-time_range" id="id_form-0-time_range" class="form-control">
-            </div>
+          <div class="hour-field">
+            <label>Abre</label>
+            {{ hform.time_open }}
           </div>
+          <div class="hour-field">
+            <label>Fecha</label>
+            {{ hform.time_close }}
+            <small>Vazio = 24h</small>
+          </div>
+          <button type="button" class="btn-clear-hour">Limpar</button>
+        </div>
         {% endfor %}
       </div>
-      <button type="button" id="add-opening-hour">Adicionar Horário</button>
     </section>
 
+    <!-- ══ TAGS ══ -->
     <section>
       <h2>Tags</h2>
       <div class="tags-container">
-        <div>
+        <div class="tags-col">
           <label for="available-tags">Disponíveis</label>
-          <select id="available-tags" multiple size="10">
+          <select id="available-tags" multiple>
             {% for tag in form.fields.tags.queryset %}
               {% if store and tag not in store.tags.all %}
                 <option value="{{ tag.id }}">{{ tag.name }}</option>
@@ -96,14 +118,14 @@
           </select>
         </div>
 
-        <div class="tags-buttons">
-          <button type="button" onclick="addTag()">→</button>
-          <button type="button" onclick="removeTag()">←</button>
+        <div class="tags-arrows">
+          <button type="button" onclick="addTag()" title="Adicionar">→</button>
+          <button type="button" onclick="removeTag()" title="Remover">←</button>
         </div>
 
-        <div>
+        <div class="tags-col">
           <label for="selected-tags">Selecionadas</label>
-          <select id="selected-tags" name="tags" multiple size="10">
+          <select id="selected-tags" name="tags" multiple>
             {% if store %}
               {% for tag in store.tags.all %}
                 <option value="{{ tag.id }}" selected>{{ tag.name }}</option>
@@ -114,167 +136,156 @@
       </div>
     </section>
 
+    <!-- ══ CONTATOS ══ -->
     <section>
       <h2>Contatos</h2>
-      <div class="form-row">{{ form.whatsapp_link_1.label_tag }} {{ form.whatsapp_link_1 }}</div>
-      <div class="form-row">{{ form.whatsapp_link_2.label_tag }} {{ form.whatsapp_link_2 }}</div>
-      <div class="form-row">{{ form.phone_link.label_tag }} {{ form.phone_link }}</div>
-      <div class="form-row">{{ form.instagram_link.label_tag }} {{ form.instagram_link }}</div>
-      <div class="form-row">{{ form.facebook_link.label_tag }} {{ form.facebook_link }}</div>
-      <div class="form-row">{{ form.youtube_link.label_tag }} {{ form.youtube_link }}</div>
-      <div class="form-row">{{ form.x_link.label_tag }} {{ form.x_link }}</div>
-      <div class="form-row">{{ form.google_maps_link.label_tag }} {{ form.google_maps_link }}</div>
-      <div class="form-row">{{ form.ifood_link.label_tag }} {{ form.ifood_link }}</div>
-      <div class="form-row">{{ form.anota_ai_link.label_tag }} {{ form.anota_ai_link }}</div>
+      <div class="section-card">
+        <div class="grid-2">
+          <div class="field">{{ form.whatsapp_link_1.label_tag }} {{ form.whatsapp_link_1 }}</div>
+          <div class="field">{{ form.whatsapp_link_2.label_tag }} {{ form.whatsapp_link_2 }}</div>
+          <div class="field">{{ form.phone_link.label_tag }} {{ form.phone_link }}</div>
+          <div class="field">{{ form.instagram_link.label_tag }} {{ form.instagram_link }}</div>
+          <div class="field">{{ form.facebook_link.label_tag }} {{ form.facebook_link }}</div>
+          <div class="field">{{ form.youtube_link.label_tag }} {{ form.youtube_link }}</div>
+          <div class="field">{{ form.x_link.label_tag }} {{ form.x_link }}</div>
+          <div class="field">{{ form.google_maps_link.label_tag }} {{ form.google_maps_link }}</div>
+          <div class="field">{{ form.ifood_link.label_tag }} {{ form.ifood_link }}</div>
+          <div class="field">{{ form.anota_ai_link.label_tag }} {{ form.anota_ai_link }}</div>
+        </div>
+      </div>
     </section>
 
-    <section>
-      <div class="qr-code-section" style="margin-top: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
-    <h3>QR Code da Loja</h3>
-    
+    <!-- ══ QR CODE ══ -->
     {% if store %}
-        <!-- URL para gerar/visualizar QR Code -->
-        <p>
-            <strong>URL do QR Code:</strong><br>
-            <small>{{ request.scheme }}://{{ request.get_host }}{% url 'store_detail_by_uuid' store.qr_uuid %}</small>
-        </p>
-        
-        <!-- Preview do QR Code -->
-        <div style="margin: 15px 0;">
-            <img id="qrCodePreview" 
-                 src="{% url 'click32_admin:generate_qr_code' store.qr_uuid %}" 
-                 alt="QR Code de {{ store.name }}"
-                 style="max-width: 250px; border: 1px solid #ccc; padding: 10px; background: white;">
-        </div>
-        
-        <!-- Botões de ação -->
-          <a href="{% url 'click32_admin:generate_qr_code' store.qr_uuid %}?download=1" 
-            class="btn btn-secondary"
-            target="_blank">
+    <section>
+      <h2>QR Code</h2>
+      <div class="qr-card">
+        <img src="{% url 'click32_admin:generate_qr_code' store.qr_uuid %}"
+             alt="QR Code de {{ store.name }}"
+             id="qrCodePreview">
+        <div class="qr-info">
+          <p><strong>URL do QR Code</strong></p>
+          <small>{{ request.scheme }}://{{ request.get_host }}{% url 'store_detail_by_uuid' store.qr_uuid %}</small>
+          <a href="{% url 'click32_admin:generate_qr_code' store.qr_uuid %}?download=1"
+             class="btn-secondary" target="_blank">
             Baixar PNG
           </a>
-    {% else %}
-        <p class="text-muted">Salve a loja primeiro para gerar o QR Code.</p>
-    {% endif %}
-</div>
+        </div>
+      </div>
     </section>
+    {% endif %}
 
+    <!-- ══ IMAGENS ══ -->
     <section>
       <h2>Imagens e Encarte</h2>
       <div class="image-grid">
         {% for campo in imagens %}
           {% with form|get_field:campo as field %}
-            <div class="form-row">
-              {{ field.label_tag }} {{ field }}
-              {% if store|get_field_url:campo %}
-                <div class="image-preview">
-                  {% if campo == 'flyer_pdf' %}
-                    <a href="{{ store|get_field_url:campo }}" target="_blank">Visualizar Encarte (PDF)</a>
-                    <div class="delete-checkbox">
-                      <input type="checkbox" id="{{ campo }}-clear_id" name="{{ campo }}-clear">
-                      <label for="{{ campo }}-clear_id">Remover Encarte</label>
-                    </div>
-                  {% else %}
-                    <img src="{{ store|get_field_url:campo }}" width="200">
-                    <div class="delete-checkbox">
-                      <input type="checkbox" id="{{ campo }}-clear_id" name="{{ campo }}-clear">
-                      <label for="{{ campo }}-clear_id">Remover Imagem</label>
-                    </div>
-                  {% endif %}
-                </div>
-              {% endif %}
-            </div>
+          <div class="image-card">
+            <label>{{ field.label }}</label>
+            {% if store|get_field_url:campo %}
+              <div class="preview">
+                {% if campo == 'flyer_pdf' %}
+                  <a href="{{ store|get_field_url:campo }}" target="_blank" class="btn-secondary">
+                    Ver Encarte PDF
+                  </a>
+                {% else %}
+                  <img src="{{ store|get_field_url:campo }}" alt="{{ field.label }}">
+                {% endif %}
+              </div>
+              <div class="clear-row">
+                <input type="checkbox" id="{{ campo }}-clear_id" name="{{ campo }}-clear">
+                <label for="{{ campo }}-clear_id">
+                  {% if campo == 'flyer_pdf' %}Remover Encarte{% else %}Remover Imagem{% endif %}
+                </label>
+              </div>
+            {% endif %}
+            {{ field }}
+          </div>
           {% endwith %}
         {% endfor %}
       </div>
     </section>
 
+    <!-- ══ ACTIONS ══ -->
     <div class="form-actions">
       <button type="submit" class="btn-primary">Salvar</button>
     </div>
+
   </form>
 
   {% if store %}
-    <form action="{% url 'click32_admin:store_delete' store.pk %}" method="post"
-          onsubmit="return confirm('Tem certeza que deseja excluir esta loja?');"
-          style="display: inline-block; margin-top: 1rem;">
-      {% csrf_token %}
+  <form action="{% url 'click32_admin:store_delete' store.pk %}" method="post"
+        onsubmit="return confirm('Tem certeza que deseja excluir esta loja?');">
+    {% csrf_token %}
+    <div class="form-actions">
       <button type="submit" class="btn-danger">Excluir Loja</button>
-    </form>
+    </div>
+  </form>
   {% endif %}
+
 </main>
 
 <script src="{% static 'js/qr_code.js' %}"></script>
-
 <script>
 
-
-  // Desativa Ctrl+A nos selects de tags
-  document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && (event.key === 'a' || event.key === 'A')) {
-      const activeElement = document.activeElement;
-      if (activeElement.id === 'available-tags' || activeElement.id === 'selected-tags') {
-        event.preventDefault();
-      }
-    }
+/* ── HOURS CLEAR ── */
+document.querySelectorAll('.btn-clear-hour').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.closest('.hour-card');
+    card.querySelectorAll('input[type="text"], input[type="time"]').forEach(input => {
+      input.value = '';
+    });
   });
+});
 
-  // Controla a seleção nos selects
-  ['available-tags', 'selected-tags'].forEach(selectId => {
-    const select = document.getElementById(selectId);
-    if (select) {
-      select.addEventListener('mousedown', function(event) {
-        const clickedOption = event.target;
-        if (clickedOption.tagName !== 'OPTION') return;
-        event.preventDefault();
-        if (event.ctrlKey) {
-          clickedOption.selected = !clickedOption.selected;
-        } else {
-          Array.from(select.options).forEach(option => {
-            option.selected = (option === clickedOption) ? !option.selected : false;
-          });
-        }
-        select.focus();
-        const changeEvent = new Event('change');
-        select.dispatchEvent(changeEvent);
-      });
+/* ── TAGS ── */
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && (e.key === 'a' || e.key === 'A')) {
+    const el = document.activeElement;
+    if (el.id === 'available-tags' || el.id === 'selected-tags') e.preventDefault();
+  }
+});
+
+['available-tags', 'selected-tags'].forEach(id => {
+  const select = document.getElementById(id);
+  if (!select) return;
+  select.addEventListener('mousedown', e => {
+    const opt = e.target;
+    if (opt.tagName !== 'OPTION') return;
+    e.preventDefault();
+    if (e.ctrlKey) {
+      opt.selected = !opt.selected;
+    } else {
+      Array.from(select.options).forEach(o => o.selected = o === opt ? !o.selected : false);
     }
+    select.focus();
+    select.dispatchEvent(new Event('change'));
   });
+});
 
-  // Função para adicionar tags
-  function addTag() {
-    const available = document.getElementById('available-tags');
-    const selected = document.getElementById('selected-tags');
-    if (available && selected) {
-      Array.from(available.selectedOptions).forEach(option => {
-        available.removeChild(option);
-        selected.appendChild(option);
-        option.selected = true;
-      });
-      Array.from(available.options).forEach(option => {
-        option.selected = false;
-      });
-    }
-  }
+function addTag() {
+  const avail = document.getElementById('available-tags');
+  const sel   = document.getElementById('selected-tags');
+  Array.from(avail.selectedOptions).forEach(opt => {
+    avail.removeChild(opt);
+    sel.appendChild(opt);
+    opt.selected = true;
+  });
+  Array.from(avail.options).forEach(o => o.selected = false);
+}
 
-  // Função para remover tags
-  function removeTag() {
-    const available = document.getElementById('available-tags');
-    const selected = document.getElementById('selected-tags');
-    if (available && selected) {
-      Array.from(selected.selectedOptions).forEach(option => {
-        selected.removeChild(option);
-        available.appendChild(option);
-        option.selected = false;
-      });
-      Array.from(selected.options).forEach(option => {
-        option.selected = true;
-      });
-    }
-  }
-;
+function removeTag() {
+  const avail = document.getElementById('available-tags');
+  const sel   = document.getElementById('selected-tags');
+  Array.from(sel.selectedOptions).forEach(opt => {
+    sel.removeChild(opt);
+    avail.appendChild(opt);
+    opt.selected = false;
+  });
+  Array.from(sel.options).forEach(o => o.selected = true);
+}
+
 </script>
 {% block extra_js %}{{ form.media }}{% endblock %}
 {% endblock %}
-
-

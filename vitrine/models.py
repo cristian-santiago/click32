@@ -1,9 +1,11 @@
 from django.db import models
+from datetime import datetime
 from django.utils.text import slugify
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
 from django.conf import settings
 import uuid
+import re
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
@@ -24,6 +26,7 @@ def store_image_path(instance, filename):
     return f"stores/{store_slug}/{filename}"
 
 class Store(models.Model):
+
     qr_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     @property
     def qr_code_url(self):
@@ -74,14 +77,28 @@ class Store(models.Model):
     ])
     def __str__(self):
         return self.name
+    @property
+    def is_open(self):
+        return any(hour.is_active_now for hour in self.opening_hours.all())
+
+
 
 class StoreOpeningHour(models.Model):
-    store = models.ForeignKey('Store', on_delete=models.CASCADE, related_name='opening_hours')
-    day_range = models.CharField(max_length=50)  # Ex: "Seg–Sex", "Sáb", "Dom"
-    time_range = models.CharField(max_length=50) # Ex: "09h–19h"
+    store      = models.ForeignKey('Store', on_delete=models.CASCADE, related_name='opening_hours')
+    day_range  = models.CharField(max_length=20)
+    time_open  = models.TimeField(default='09:00')
+    time_close = models.TimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.day_range} {self.time_range}"
+        close = self.time_close or '24h'
+        return f"{self.day_range} {self.time_open}–{close}"
+
+    @property
+    def is_active_now(self):
+        now = datetime.now()
+        if self.time_close is None:
+            return True
+        return self.time_open <= now.time() <= self.time_close
 
 class ClickTrack(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicktrack', null=True, blank=True)

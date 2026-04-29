@@ -138,51 +138,56 @@
 
       <!-- STORE HEADER -->
       <div class="store-header">
-        <div class="store-header-left">
 
-          <div class="store-badges">
-            
-            <span class="store-badge primary">
-              <i class="fas fa-circle-check"></i> Verificado
-            </span>
-            
-          </div>
+            {% if store.tags.exists %}
+        <div class="store-tags-line">
+          {% for tag in store.tags.all %}
+            {{ tag.name }}{% if not forloop.last %} · {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
 
-          <div class="store-title">{{ store.name }}</div>
-
-          <div class="store-meta">
-            {% if store.is_open %}
-            <div class="store-status">
-              <div class="store-status-dot"></div>
-              Aberto agora
-            </div>
-            {% else %}
-            <div class="store-status store-status--closed">
-              <div class="store-status-dot store-status-dot--closed"></div>
-              Fechado
-            </div>
-            {% endif %}
-
-            {% if store.rating %}
-            <span style="color:var(--text-3);font-size:11px">·</span>
-            <div class="store-rating">
-              <i class="fas fa-star"></i>
-              {{ store.rating }}
-              {% if store.rating_count %}
-              <span style="font-weight:400;color:var(--text-3)">({{ store.rating_count }})</span>
-              {% endif %}
-            </div>
-            {% endif %}
-          </div>
-
+        <!-- linha 2: badge + nome + share -->
+        <div class="store-title-line">          
+           <div class="store-title-group">
+              <span class="store-title">{{ store.name }}</span>
+              <i class="fas fa-circle-check store-badge-icon"></i>
+           </div>
+          <button class="store-share-btn" id="shareButton"
+                  data-store-id="{{ store.id }}"
+                  data-store-name="{{ store.name|escapejs }}"
+                  data-store-url="{{ request.scheme }}://{{ request.get_host }}/{{ store.slug }}/">
+            <i class="fas fa-share-nodes"></i>
+          </button>
         </div>
 
-        <button class="store-share-btn" id="shareButton"
-                data-store-id="{{ store.id }}"
-                data-store-name="{{ store.name|escapejs }}"
-                data-store-url="{{ request.scheme }}://{{ request.get_host }}/{{ store.slug }}/">
-          <i class="fas fa-share-nodes"></i>
-        </button>
+        <!-- linha 3: status + rating -->
+         
+        <div class="store-meta">
+          {% if store.is_open %}
+          <div class="store-status">
+            <div class="store-status-dot"></div>
+            Aberto agora
+          </div>
+          {% else %}
+          <div class="store-status store-status--closed">
+            
+            Fechado
+          </div>
+          {% endif %}
+
+          {% if store.rating %}
+          <span style="color:var(--text-3);font-size:11px">·</span>
+          <div class="store-rating">
+            <i class="fas fa-star"></i>
+            {{ store.rating }}
+            {% if store.rating_count %}
+            <span style="font-weight:400;color:var(--text-3)">({{ store.rating_count }})</span>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
       </div>
 
       <!-- DESCRIPTION -->
@@ -201,14 +206,16 @@
     <div class="bottom-panel" id="bottomPanel">
 
         <!-- horários -->
-  <div class="info-row">
-    {% for hour in store.opening_hours.all %}
-    <div class="info-chip">
-      <div class="info-chip-label">{{ hour.day_range }}</div>
-      <div class="info-chip-value">{{ hour.time_range }}</div>
+<div class="info-row">
+  {% for hour in store.opening_hours.all %}
+  <div class="info-chip">
+    <div class="info-chip-label">{{ hour.day_range }}</div>
+    <div class="info-chip-value">
+      {{ hour.time_open|time:"G\hi" }}–{% if hour.time_close %}{{ hour.time_close|time:"G\hi" }}{% else %}24h{% endif %}
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
+</div>
 
   <!-- endereço -->
   {% if store.address %}

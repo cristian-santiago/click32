@@ -269,43 +269,114 @@ body {
 ═══════════════════════════════ */
 .store-header {
   margin: 10px 12px 0;
-  background: var(--surface); border-radius: var(--radius-card);
-  padding: 14px 16px 12px; box-shadow: var(--shadow-card);
-  display: flex; align-items: flex-start;
-  justify-content: space-between; gap: 10px;
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  padding: 14px 16px 12px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   flex-shrink: 0;
 }
-.store-header-left { flex: 1; min-width: 0; }
 
-.store-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 7px; }
-.store-badge {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 10px; font-weight: 600;
-  padding: 3px 8px; border-radius: var(--radius-pill);
+/* linha 1 — tags contextuais */
+.store-tags-line {
+  font-size: 10px;
+  font-style: italic;
+  color: var(--text-3);
+  letter-spacing: 0.01em;
+  line-height: 1;
 }
-.store-badge.primary { background: var(--accent-soft); color: var(--accent-text); }
-.store-badge.cat { background: #f0f1f5; color: #4a4f6a; }
-.store-badge i { font-size: 9px; }
+
+/* linha 2 — badge + título + share */
+.store-title-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.store-badge-icon {
+  color: var(--accent);
+  font-size: 13px;
+  flex-shrink: 0;
+  line-height: 1;
+}
 
 .store-title {
-  font-size: 17px; font-weight: 700; color: var(--text-1);
-  letter-spacing: -0.02em; line-height: 1.25;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
 }
-.store-meta { display: flex; align-items: center; gap: 6px; margin-top: 5px; }
-.store-status { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; color: #16a34a; }
-.store-status-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: pulseDot 2s infinite; }
-@keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
-.store-rating { display: flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; color: var(--text-2); }
-.store-rating i { color: #f59e0b; font-size: 10px; }
+
+.store-title-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 0; 
+}
+
 .store-share-btn {
-  width: 36px; height: 36px; border-radius: 12px;
-  border: 1px solid var(--border); background: var(--surface-2); color: var(--text-2);
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-2);
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; cursor: pointer; flex-shrink: 0;
+  font-size: 12px; cursor: pointer; flex-shrink: 0;
   transition: background .15s, color .15s, transform .1s;
 }
-.store-share-btn:active { transform: scale(0.9); background: var(--accent-soft); color: var(--accent); }
+.store-share-btn:active {
+  transform: scale(0.9);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* linha 3 — status */
+.store-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.store-status {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 500; color: #16a34a;
+}
+
+.store-status--closed {
+  color: var(--text-3);
+}
+
+.store-status-dot {
+  width: 6px; height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulseDot 2s infinite;
+}
+
+.store-status-dot--closed {
+  background: var(--text-3);
+  animation: none;
+}
+
+@keyframes pulseDot {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:.5; transform:scale(.8); }
+}
+
+.store-rating {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 11px; font-weight: 600; color: var(--text-2);
+}
+.store-rating i { color: #f59e0b; font-size: 10px; }
 
 /* ═══════════════════════════════
    DESCRIPTION CARD
@@ -384,9 +455,10 @@ body {
 }
 
 .info-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  gap: 35px;
   padding: 10px 10px 10px;
 }
 

@@ -497,3 +497,69 @@
   .tags-arrows { flex-direction: row; justify-content: center; }
   .qr-card { flex-direction: column; align-items: flex-start; }
 }
+
+
+
+.verify-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+ 
+.verify-status--ok {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+ 
+.verify-status--pending {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+}
+ 
+.verify-icon {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+ 
+.verify-status--ok .verify-icon     { color: #16a34a; }
+.verify-status--pending .verify-icon { color: #d97706; }
+ 
+.verify-status strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #0f1117;
+  margin-bottom: 2px;
+}
+ 
+.verify-status small {
+  font-size: 0.78rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+ 
+.verify-hint {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+ 
+.btn-verify {
+  padding: 10px 20px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+ 
+.btn-verify:hover  { background: #15803d; }
+.btn-verify:active { background: #166534; }

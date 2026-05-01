@@ -42,6 +42,7 @@ urlpatterns = [
     path('track-click/<int:store_id>/<str:element_type>/', views.track_click, name='track_click'),
     path('track-share/<int:store_id>/', views.track_share, name='track_share'),
     path('track-pwa-click/', views.track_pwa_click, name='track_pwa_click'),
+    path('api/notificacoes/', views.notificacoes_ativas, name='notificacoes_ativas'),
 
     path('log-debug/', views.log_debug, name='log_debug'),
     path("service-worker.js", views.service_worker, name="service_worker"),

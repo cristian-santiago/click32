@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django_ratelimit.decorators import ratelimit
 from django.core.cache import cache
-from .models import Store, ClickTrack, ClickTrackDaily, Category, ShareTrack, PWADownloadClick, ActiveSession
+from .models import Store, ClickTrack, ClickTrackDaily, Category, ShareTrack, PWADownloadClick, ActiveSession, StoreNotification
 import pdf2image
 import glob
 import hashlib
@@ -964,3 +964,91 @@ def active_users_count(request):
     except Exception as e:
         logger.error(f"Error in active_users_count - Error: {str(e)}")
         return JsonResponse({'error': f'Erro interno: {str(e)}'}, status=500)
+
+
+def notificacoes_ativas(request):
+    """
+    Retorna as notificações ativas em JSON para o modal do PWA.
+    Sem autenticação — dados são públicos por design.
+    """
+    agora = timezone.now()
+ 
+    notificacoes = (
+        StoreNotification.objects
+        .filter(expira_em__gt=agora)
+        .select_related('store')
+        .order_by('-criada_em')
+    )
+ 
+    data = []
+    for n in notificacoes:
+        # Avatar: usa a inicial do nome da loja
+        inicial = n.store.name[0].upper() if n.store.name else '?'
+
+        avatar_url = None
+        if n.store.main_banner:
+            avatar_url = n.store.main_banner.url
+ 
+        # Tempo relativo simples
+        diff = agora - n.criada_em
+        if diff.total_seconds() < 60:
+            tempo = "Agora mesmo"
+        elif diff.total_seconds() < 3600:
+            minutos = int(diff.total_seconds() // 60)
+            tempo = f"Há {minutos} min"
+        elif diff.days == 0:
+            horas = int(diff.total_seconds() // 3600)
+            tempo = f"Há {horas}h"
+        elif diff.days == 1:
+            tempo = f"Ontem, {n.criada_em.strftime('%Hh')}"
+        else:
+            tempo = n.criada_em.strftime('%d/%m')
+ 
+        # Texto da notificação por elemento
+        textos = {
+            'nova_loja':    "está no Click32, confira mais!",
+            'encarte':      "compartilhou um novo encarte.",
+            'whatsapp_1':   "atualizou o WhatsApp.",
+            'whatsapp_2':   "adicionou um novo WhatsApp.",
+            'telefone':     "atualizou o telefone.",
+            'instagram':    "está no Instagram, siga agora!",
+            'facebook':     "está no Facebook, siga agora!",
+            'x':            "está no X, siga agora!",
+            'youtube':      "está no YouTube, confira!",
+            'anota_ai':     "está no Anota Aí, peça agora!",
+            'ifood':        "está no iFood, peça agora!",
+            'google_maps':  "atualizou a localização.",
+            'endereco':     "está em um novo endereço.",
+        }
+ 
+        # Badge por elemento
+        badges = {
+            'nova_loja':   'novo',
+            'encarte':     'encarte',
+            'whatsapp_1':  'contato',
+            'whatsapp_2':  'contato',
+            'telefone':    'contato',
+            'instagram':   'social',
+            'facebook':    'social',
+            'x':           'social',
+            'youtube':     'social',
+            'anota_ai':    'delivery',
+            'ifood':       'delivery',
+            'google_maps': 'local',
+            'endereco':    'local',
+        }
+ 
+        data.append({
+            'id':          n.id,
+            'store_slug':  n.store.slug,
+            'store_name':  n.store.name,
+            'inicial':     inicial,
+            'elemento':    n.elemento,
+            'texto':       textos.get(n.elemento, f"{n.store.name} tem novidades!"),
+            'badge':       badges.get(n.elemento, 'info'),
+            'tempo':       tempo,
+            'criada_em':   n.criada_em.isoformat(),
+            'avatar_url': avatar_url,
+        })
+ 
+    return JsonResponse({'notificacoes': data, 'total': len(data)})

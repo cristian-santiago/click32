@@ -175,6 +175,9 @@
     </section>
     {% endif %}
 
+
+    
+
     <!-- ══ IMAGENS ══ -->
     <section>
       <h2>Imagens e Encarte</h2>
@@ -213,6 +216,54 @@
     </div>
 
   </form>
+
+  {% if store %}
+  <!-- ══ VERIFICAÇÃO ══ -->
+  <section>
+    <h2>Verificação</h2>
+    <div class="section-card">
+      {% if store.is_verified %}
+        <div class="verify-status verify-status--ok">
+          <span class="verify-icon">✓</span>
+          <div>
+            <strong>Loja verificada</strong>
+            <small>Verificada em {{ store.verified_at|date:"d/m/Y \à\s H\hi" }}</small>
+          </div>
+        </div>
+        <p class="verify-hint">
+          A partir desta data, alterações nos campos notificáveis disparam 
+          notificações globais respeitando o período de delay de cada elemento.
+        </p>
+      {% else %}
+        <div class="verify-status verify-status--pending">
+          <span class="verify-icon">○</span>
+          <div>
+            <strong>Aguardando verificação</strong>
+            <small>
+              Esta loja está visível no app mas ainda não possui o selo de verificada
+              e não dispara notificações.
+            </small>
+          </div>
+        </div>
+        <p class="verify-hint">
+          Verifique os dados com o lojista antes de confirmar. 
+          Ao verificar, o selo aparece no perfil e a notificação 
+          <em>"Nova Loja"</em> é disparada globalmente.
+        </p>
+        <form 
+          action="{% url 'click32_admin:store_verify' store.pk %}" 
+          method="post"
+          onsubmit="return confirm('Confirmar verificação de {{ store.name }}? Isso disparará uma notificação global.');"
+        >
+          {% csrf_token %}
+          <button type="submit" class="btn-verify">
+            Verificar e notificar
+          </button>
+        </form>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
 
   {% if store %}
   <form action="{% url 'click32_admin:store_delete' store.pk %}" method="post"

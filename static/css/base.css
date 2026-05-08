@@ -74,6 +74,7 @@
 
 html, body {
   overscroll-behavior: none;
+  font-family: var(--font, 'Plus Jakarta Sans', sans-serif);
 }
 
 

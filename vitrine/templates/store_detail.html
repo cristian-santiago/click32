@@ -233,139 +233,148 @@
   </div>
   {% endif %}
 
-      <!-- social icons -->
-      <div class="social-row">
+<!-- social icons -->
+<div class="social-row">
 
-        {% if store.whatsapp_link_1 %}
-        <a class="social-item" href="{{ store.whatsapp_link_1 }}"
-           target="_blank" rel="noopener noreferrer"
-           title="WhatsApp"
-           data-store-id="{{ store.id }}"
-           data-link-type="whatsapp_link_1">
-          <div class="social-icon">
-            <img src="{% static 'icons/whatsapp_icon_1.webp' %}" alt="WhatsApp" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.whatsapp_link_1 %}
+  <a class="social-item" href="{{ store.whatsapp_link_1 }}"
+     target="_blank" rel="noopener noreferrer"
+     title="WhatsApp"
+     data-store-id="{{ store.id }}"
+     data-link-type="whatsapp_link_1"
+     data-track-url="{% url 'track_click' store.id 'whatsapp_link_1' %}">
+    <div class="social-icon">
+      <img src="{% static 'icons/whatsapp_icon_1.webp' %}" alt="WhatsApp" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.whatsapp_link_2 %}
-        <a class="social-item" href="{{ store.whatsapp_link_2 }}"
-           target="_blank" rel="noopener noreferrer"
-           title="WhatsApp 2"
-           data-store-id="{{ store.id }}"
-           data-link-type="whatsapp_link_2">
-          <div class="social-icon">
-            <img src="{% static 'icons/whatsapp_icon_2.webp' %}" alt="WhatsApp 2" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.whatsapp_link_2 %}
+  <a class="social-item" href="{{ store.whatsapp_link_2 }}"
+     target="_blank" rel="noopener noreferrer"
+     title="WhatsApp 2"
+     data-store-id="{{ store.id }}"
+     data-link-type="whatsapp_link_2"
+     data-track-url="{% url 'track_click' store.id 'whatsapp_link_2' %}">
+    <div class="social-icon">
+      <img src="{% static 'icons/whatsapp_icon_2.webp' %}" alt="WhatsApp 2" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.phone_link %}
-        <a class="social-item phone-link" href="#"
-           title="Telefone"
-           data-track-url="{% url 'track_click' store.id 'phone_link' %}"
-           data-phone="{{ store.phone_link|escapejs }}">
-          <div class="social-icon">
-            <img src="{% static 'icons/phone_icon.webp' %}" alt="Telefone" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.phone_link %}
+  <a class="social-item phone-link" href="#"
+     title="Telefone"
+     data-track-url="{% url 'track_click' store.id 'phone_link' %}"
+     data-phone="{{ store.phone_link|escapejs }}">
+    <div class="social-icon">
+      <img src="{% static 'icons/phone_icon.webp' %}" alt="Telefone" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.instagram_link %}
-        <a class="social-item" href="{{ store.instagram_link }}"
-           target="_blank" rel="noopener noreferrer"
-           title="Instagram"
-           data-store-id="{{ store.id }}"
-           data-link-type="instagram_link">
-          <div class="social-icon">
-            <img src="{% static 'icons/instagram_icon.webp' %}" alt="Instagram" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.instagram_link %}
+  <a class="social-item" href="{{ store.instagram_link }}"
+     target="_blank" rel="noopener noreferrer"
+     title="Instagram"
+     data-store-id="{{ store.id }}"
+     data-link-type="instagram_link"
+     data-track-url="{% url 'track_click' store.id 'instagram_link' %}">
+    <div class="social-icon">
+      <img src="{% static 'icons/instagram_icon.webp' %}" alt="Instagram" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.youtube_link %}
-        <a class="social-item" href="{{ store.youtube_link }}"
-           target="_blank" rel="noopener noreferrer"
-           title="YouTube"
-           data-store-id="{{ store.id }}"
-           data-link-type="youtube_link">
-          <div class="social-icon">
-            <img src="{% static 'icons/youtube_icon.webp' %}" alt="YouTube" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.youtube_link %}
+  <a class="social-item" href="{{ store.youtube_link }}"
+     target="_blank" rel="noopener noreferrer"
+     title="YouTube"
+     data-store-id="{{ store.id }}"
+     data-link-type="youtube_link"
+     data-track-url="{% url 'track_click' store.id 'youtube_link' %}">
+    <div class="social-icon">
+      <img src="{% static 'icons/youtube_icon.webp' %}" alt="YouTube" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.facebook_link %}
-        <a class="social-item" href="{{ store.facebook_link }}"
-           target="_blank" rel="noopener noreferrer"
-           title="Facebook"
-           data-store-id="{{ store.id }}"
-           data-link-type="facebook_link">
-          <div class="social-icon">
-            <img src="{% static 'icons/facebook_icon.webp' %}" alt="Facebook" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.facebook_link %}
+  <a class="social-item" href="{{ store.facebook_link }}"
+     target="_blank" rel="noopener noreferrer"
+     title="Facebook"
+     data-store-id="{{ store.id }}"
+     data-link-type="facebook_link"
+     data-track-url="{% url 'track_click' store.id 'facebook_link' %}">
+    <div class="social-icon">
+      <img src="{% static 'icons/facebook_icon.webp' %}" alt="Facebook" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.x_link %}
-        <a class="social-item" href="{{ store.x_link }}"
-           target="_blank" rel="noopener noreferrer"
-           title="X (Twitter)"
-           data-store-id="{{ store.id }}"
-           data-link-type="x_link">
-          <div class="social-icon">
-            <img src="{% static 'icons/x_icon.webp' %}" alt="X" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.x_link %}
+  <a class="social-item" href="{{ store.x_link }}"
+     target="_blank" rel="noopener noreferrer"
+     title="X (Twitter)"
+     data-store-id="{{ store.id }}"
+     data-link-type="x_link"
+     data-track-url="{% url 'track_click' store.id 'x_link' %}">
+    <div class="social-icon">
+      <img src="{% static 'icons/x_icon.webp' %}" alt="X" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.google_maps_link %}
-        <a class="social-item" href="{{ store.google_maps_link }}"
-           target="_blank" rel="noopener noreferrer"
-           title="Google Maps"
-           data-store-id="{{ store.id }}"
-           data-link-type="google_maps_link">
-          <div class="social-icon">
-            <img src="{% static 'icons/google_maps_icon.webp' %}" alt="Google Maps" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.google_maps_link %}
+  <a class="social-item" href="{{ store.google_maps_link }}"
+     target="_blank" rel="noopener noreferrer"
+     title="Google Maps"
+     data-store-id="{{ store.id }}"
+     data-link-type="google_maps_link"
+     data-track-url="{% url 'track_click' store.id 'google_maps_link' %}">
+    <div class="social-icon">
+      <img src="{% static 'icons/google_maps_icon.webp' %}" alt="Google Maps" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.anota_ai_link %}
-        <a class="social-item" href="{{ store.anota_ai_link }}"
-           target="_blank" rel="noopener noreferrer"
-           title="Anota Aí"
-           data-store-id="{{ store.id }}"
-           data-link-type="anota_ai_link">
-          <div class="social-icon">
-            <img src="{% static 'icons/anota_ai_icon.webp' %}" alt="Anota Aí" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.anota_ai_link %}
+  <a class="social-item" href="{{ store.anota_ai_link }}"
+     target="_blank" rel="noopener noreferrer"
+     title="Anota Aí"
+     data-store-id="{{ store.id }}"
+     data-link-type="anota_ai_link"
+     data-track-url="{% url 'track_click' store.id 'anota_ai_link' %}">
+    <div class="social-icon">
+      <img src="{% static 'icons/anota_ai_icon.webp' %}" alt="Anota Aí" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.ifood_link %}
-        <a class="social-item" href="{{ store.ifood_link }}"
-           target="_blank" rel="noopener noreferrer"
-           title="iFood"
-           data-store-id="{{ store.id }}"
-           data-link-type="ifood_link">
-          <div class="social-icon">
-            <img src="{% static 'icons/ifood_icon.webp' %}" alt="iFood" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.ifood_link %}
+  <a class="social-item" href="{{ store.ifood_link }}"
+     target="_blank" rel="noopener noreferrer"
+     title="iFood"
+     data-store-id="{{ store.id }}"
+     data-link-type="ifood_link"
+     data-track-url="{% url 'track_click' store.id 'ifood_link' %}">
+    <div class="social-icon">
+      <img src="{% static 'icons/ifood_icon.webp' %}" alt="iFood" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-        {% if store.flyer_pdf %}
-        <a class="social-item open-flyer-modal" href="#"
-           title="Ver encarte"
-           data-store-id="{{ store.id }}">
-          <div class="social-icon">
-            <img src="{% static 'icons/flyer_icon.webp' %}" alt="Encarte" loading="lazy">
-          </div>
-        </a>
-        {% endif %}
+  {% if store.flyer_pdf %}
+  <a class="social-item open-flyer-modal" href="#"
+     title="Ver encarte"
+     data-store-id="{{ store.id }}">
+    <div class="social-icon">
+      <img src="{% static 'icons/flyer_icon.webp' %}" alt="Encarte" loading="lazy">
+    </div>
+  </a>
+  {% endif %}
 
-      </div><!-- /social-row -->
+</div><!-- /social-row -->
 
     </div><!-- /bottom-panel -->
 

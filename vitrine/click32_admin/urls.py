@@ -35,6 +35,7 @@ urlpatterns = [
     path('stores/create/', views.store_create, name='store_create'),
     path('stores/<int:store_id>/edit/', views.store_edit, name='store_edit'),
     path('stores/<int:store_id>/delete/', views.store_delete, name='store_delete'),
+    path('stores/<int:store_id>/verify/', views.store_verify, name='store_verify'),
     
     # Tags URL
     path('tags/', views.tag_list, name='tag_list'),
@@ -56,6 +57,14 @@ urlpatterns = [
     path('api/timeline-data/', views.timeline_data_api, name='timeline_data_api'),
     path('api/monthly-report/<int:store_id>/', views.monthly_report_api, name='monthly_report_api'),
     path('api/monthly-report/<int:store_id>/view/', views.monthly_report_view, name='monthly_report_view'),
+   
+
+    
+ 
+ 
+
+ 
+
    
    
 ]

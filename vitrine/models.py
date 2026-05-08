@@ -60,6 +60,8 @@ class Store(models.Model):
     highlight = models.BooleanField(default=False)
     is_vip = models.BooleanField(default=False)
     is_deactivated = models.BooleanField(default=False)
+    is_verified  = models.BooleanField(default=False, verbose_name="Verificada")
+    verified_at  = models.DateTimeField(null=True, blank=True, verbose_name="Verificada em")
     tags = models.ManyToManyField(Tag, blank=True)
     # Links 
     whatsapp_link_1 = models.URLField("WhatsApp_1", blank=True, null=True)
@@ -197,3 +199,79 @@ class ClickTrackDaily(models.Model):
     def __str__(self):
         store_name = self.store.name if self.store else 'No Store'
         return f"{store_name} - {self.element_type} - {self.date} - {self.click_count} clicks"
+
+
+class StoreNotification(models.Model):
+ 
+    ELEMENTO_CHOICES = [
+        ('nova_loja',   'Nova Loja'),
+        ('encarte',     'Encarte'),
+        ('whatsapp_1',  'WhatsApp 1'),
+        ('whatsapp_2',  'WhatsApp 2'),
+        ('telefone',    'Telefone'),
+        ('instagram',   'Instagram'),
+        ('facebook',    'Facebook'),
+        ('x',           'X'),
+        ('youtube',     'YouTube'),
+        ('anota_ai',    'Anota Aí'),
+        ('ifood',       'iFood'),
+        ('google_maps', 'Google Maps'),
+        ('endereco',    'Endereço'),
+    ]
+ 
+    # Delay em dias por elemento — consultado na lógica de disparo
+    ELEMENTO_DELAY = {
+        'nova_loja':   0,
+        'encarte':     6,
+        'whatsapp_1':  30,
+        'whatsapp_2':  30,
+        'telefone':    30,
+        'instagram':   20,
+        'facebook':    20,
+        'x':           20,
+        'youtube':     20,
+        'anota_ai':    20,
+        'ifood':       20,
+        'google_maps': 30,
+        'endereco':    30,
+    }
+ 
+    # Quantos dias a notificação fica visível no modal
+    VISIBILIDADE_DIAS = 15
+ 
+    store      = models.ForeignKey(
+                    Store,
+                    on_delete=models.CASCADE,
+                    related_name='notifications',
+                    verbose_name="Loja"
+                 )
+    elemento   = models.CharField(
+                    max_length=20,
+                    choices=ELEMENTO_CHOICES,
+                    verbose_name="Elemento"
+                 )
+    criada_em  = models.DateTimeField(auto_now_add=True, verbose_name="Criada em")
+    expira_em  = models.DateTimeField(verbose_name="Expira em")
+ 
+    class Meta:
+        ordering = ['-criada_em']
+        verbose_name = "Notificação"
+        verbose_name_plural = "Notificações"
+        indexes = [
+            models.Index(fields=['store', 'elemento', 'criada_em']),
+            models.Index(fields=['expira_em']),
+        ]
+ 
+    def __str__(self):
+        return f"{self.store.name} · {self.get_elemento_display()} · {self.criada_em.strftime('%d/%m/%Y')}"
+ 
+    @property
+    def ativa(self):
+        return timezone.now() < self.expira_em
+ 
+    def save(self, *args, **kwargs):
+        # Calcula expira_em automaticamente se não foi definido
+        if not self.expira_em:
+            from datetime import timedelta
+            self.expira_em = timezone.now() + timedelta(days=self.VISIBILIDADE_DIAS)
+        super().save(*args, **kwargs)

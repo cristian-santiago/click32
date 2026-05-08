@@ -19,7 +19,7 @@ import shutil
 import logging
 import json
 from .forms import StoreForm, TagForm, CategoryForm, GroupForm, StoreOpeningHourFormSet
-from vitrine.models import Store, Tag, Category, ShareTrack, PWADownloadClick
+from vitrine.models import Store, Tag, Category, ShareTrack, PWADownloadClick, StoreNotification
 from vitrine.views import cleanup_flyer_files
 import qrcode
 import qrcode.image.svg
@@ -29,6 +29,56 @@ from django.conf import settings
 from .functions import get_session_metrics, get_site_metrics, get_clicks_data, get_store_count, get_total_clicks_by_link_type, get_global_clicks, get_profile_accesses, get_heatmap_data, get_timeline_data, get_comparison_data, get_store_highlight_data, get_engagement_rate, get_dashboard_data
 
 logger = logging.getLogger(__name__)
+
+CAMPOS_NOTIFICAVEIS = {
+    'flyer_pdf':       'encarte',
+    'whatsapp_link_1': 'whatsapp_1',
+    'whatsapp_link_2': 'whatsapp_2',
+    'phone_link':      'telefone',
+    'instagram_link':  'instagram',
+    'facebook_link':   'facebook',
+    'x_link':          'x',
+    'youtube_link':    'youtube',
+    'anota_ai_link':   'anota_ai',
+    'ifood_link':      'ifood',
+    'google_maps_link':'google_maps',
+    'address':         'endereco',
+}
+
+def dispara_notificacao(store, elemento):
+    """
+    Cria uma StoreNotification para a loja e elemento informados,
+    respeitando as regras de delay e visibilidade.
+ 
+    Regras:
+    - 'nova_loja' sempre dispara (é chamado apenas uma vez, na verificação).
+    - Para os demais elementos:
+        * Se nunca houve notificação desse elemento nessa loja → dispara.
+        * Se já houve → só dispara se passou o delay desde a última.
+    - Não compara valor antigo com novo; o gatilho é o campo ter sido
+      tocado após o delay expirar.
+    """
+    delay_dias = StoreNotification.ELEMENTO_DELAY.get(elemento, 30)
+ 
+    if elemento != 'nova_loja':
+        ultima = (
+            StoreNotification.objects
+            .filter(store=store, elemento=elemento)
+            .order_by('-criada_em')
+            .first()
+        )
+        if ultima:
+            proxima_permitida = ultima.criada_em + timedelta(days=delay_dias)
+            if timezone.now() < proxima_permitida:
+                # Ainda dentro do delay — não notifica
+                return None
+ 
+    notificacao = StoreNotification(store=store, elemento=elemento)
+    notificacao.save()
+    logger.info(
+        f"[Notificação] '{elemento}' criada — Loja: {store.name} (ID {store.id})"
+    )
+    return notificacao
 
 # Decorador personalizado para verificar permissões
 def check_permission(permission_check, login_url='/admin/login/'):
@@ -164,6 +214,14 @@ def store_edit(request, store_id):
         old_slug = store.slug
         logger.info(f"Store edit accessed - Store: {store.name}, ID: {store_id}, User: {request.user}")
 
+        # ── Captura estado antigo dos campos notificáveis ──
+        # Deve ser a primeira coisa após carregar o objeto
+        estado_anterior = {}
+        for campo in CAMPOS_NOTIFICAVEIS.keys():
+            val = getattr(store, campo)
+            estado_anterior[campo] = val.name if hasattr(val, 'name') else (val or '')
+
+
         if request.method == "POST":
             form = StoreForm(request.POST, request.FILES, instance=store)
             formset = StoreOpeningHourFormSet(request.POST, instance=store)
@@ -243,6 +301,31 @@ def store_edit(request, store_id):
                             cleanup_flyer_files(store_id)
                 
                 new_store.save()
+
+                # ── Notificações por campo alterado ──
+                # Só processa se a loja está verificada
+                if new_store.is_verified:
+                    for campo, elemento in CAMPOS_NOTIFICAVEIS.items():
+                        valor_antigo = estado_anterior[campo]
+                        valor_novo   = getattr(new_store, campo)
+
+                        if hasattr(valor_novo, 'name'):
+                            valor_novo = valor_novo.name or ''
+                        else:
+                            valor_novo = valor_novo or ''
+
+                        campo_era_vazio  = not valor_antigo
+                        campo_foi_tocado = valor_antigo != valor_novo
+                        campo_foi_limpo  = valor_antigo and not valor_novo
+
+                        if campo_foi_limpo:
+                            continue
+                        if campo_era_vazio and valor_novo:
+                            dispara_notificacao(new_store, elemento)
+                        elif campo_foi_tocado and valor_novo:
+                            dispara_notificacao(new_store, elemento)
+
+
                 formset.save()
                 
                 logger.info(f"Store updated successfully - Store: {new_store.name}, Slug: {new_store.slug}, ID: {store_id}, User: {request.user}")
@@ -307,6 +390,43 @@ def store_delete(request, store_id):
     except Exception as e:
         logger.error(f"Error in store_delete - Store ID: {store_id}, User: {request.user}, Error: {str(e)}", exc_info=True)
         raise
+
+
+@check_permission(lambda u: u.is_superuser)
+@require_POST
+def store_verify(request, store_id):
+    """
+    Marca a loja como verificada e dispara a notificação 'nova_loja'.
+    Idempotente: se já estiver verificada, não faz nada.
+    """
+    try:
+        store = get_object_or_404(Store, pk=store_id)
+ 
+        if store.is_verified:
+            logger.info(
+                f"[Verificação] Loja já verificada — {store.name} (ID {store_id})"
+            )
+            return redirect('click32_admin:store_edit', store_id=store_id)
+ 
+        store.is_verified = True
+        store.verified_at = timezone.now()
+        store.save(update_fields=['is_verified', 'verified_at'])
+ 
+        dispara_notificacao(store, 'nova_loja')
+ 
+        logger.info(
+            f"[Verificação] Loja verificada — {store.name} (ID {store_id}), User: {request.user}"
+        )
+        return redirect('click32_admin:store_edit', store_id=store_id)
+ 
+    except Exception as e:
+        logger.error(
+            f"[Verificação] Erro — Store ID: {store_id}, User: {request.user}, Error: {str(e)}",
+            exc_info=True
+        )
+        raise
+
+
 
 @check_permission(lambda u: u.is_superuser)
 def clicks_dashboard(request):

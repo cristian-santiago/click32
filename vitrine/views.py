@@ -1052,3 +1052,6 @@ def notificacoes_ativas(request):
         })
  
     return JsonResponse({'notificacoes': data, 'total': len(data)})
+
+def notification_page(request):
+    return render(request, 'notif_page.html')

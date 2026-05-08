@@ -27,6 +27,7 @@ urlpatterns = [
     path('store/uuid/<uuid:qr_uuid>/', views.store_detail_by_uuid, name='store_detail_by_uuid'),
     path('store/<int:store_id>/flyer/', views.view_flyer, name='view_flyer'),
     path('fetch-flyer-pages/<int:store_id>/', views.fetch_flyer_pages, name='fetch_flyer_pages'),
+    path('notificacoes/', views.notification_page, name='notification_page'),
     
     # Páginas estáticas
     path('anuncie/', views.advertise, name='anuncie'),

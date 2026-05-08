@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/notif_page.css' %}?v={{ STATIC_VERSION }}">
+{% endblock %}
+
+{% block toolbar_top %}
+    
+{% endblock %}
+
+{% block content %}
+
+<div class="notif-page">
+
+  <!-- ── Header ── -->
+  <header class="notif-page-header">
+    <button class="notif-page-back" id="notifPageBack" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <h1 class="notif-page-title">Notificações</h1>
+    <button class="notif-page-mark-all" id="notifPageMarkAll">Marcar todas</button>
+  </header>
+
+  <!-- ── Conteúdo ── -->
+  <main class="notif-page-main" id="notifPageMain">
+    <!-- preenchido pelo JS -->
+  </main>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/notification.js' %}?v={{ STATIC_VERSION }}"></script>
+{% endblock %}

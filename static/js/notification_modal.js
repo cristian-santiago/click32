@@ -315,6 +315,14 @@
   }
 
   /* ── Eventos ── */
+
+  const seeAllBtn = modal.querySelector('.notif-see-all');
+  if (seeAllBtn) {
+    seeAllBtn.addEventListener('click', () => {
+      closeNotificationModal();
+      window.location.href = '/notificacoes/';
+    });
+  }
   if (navTrigger) {
     navTrigger.addEventListener('click', () => {
       isOpen ? closeNotificationModal() : openNotificationModal();
@@ -326,9 +334,9 @@
 
   if (markAllBtn) markAllBtn.addEventListener('click', markAllRead);
 
-  modal.addEventListener('touchstart', onTouchStart, { passive: true });
-  modal.addEventListener('touchmove',  onTouchMove,  { passive: true });
-  modal.addEventListener('touchend',   onTouchEnd);
+  closeBtn.addEventListener('touchstart', onTouchStart, { passive: true });
+  closeBtn.addEventListener('touchmove',  onTouchMove,  { passive: true });
+  closeBtn.addEventListener('touchend',   onTouchEnd);
 
   if (list) list.addEventListener('click', onItemClick);
 

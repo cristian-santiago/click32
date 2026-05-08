@@ -1,15 +1,9 @@
-// social_tracking.js - Tracking silencioso para links sociais
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('a.social-link[data-store-id]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            const storeId = this.getAttribute('data-store-id');
-            const linkType = this.getAttribute('data-link-type');
-            
-            // Tracking silencioso (não bloqueia navegação)
+document.querySelectorAll('a.social-item[data-store-id]').forEach(link => {
+    link.addEventListener('click', function(e) {
+        const trackUrl = this.getAttribute('data-track-url');
+        if (trackUrl) {
             const trackingPixel = new Image();
-            trackingPixel.src = `/track-click/${storeId}/${linkType}/`;
-            
-            // Comportamento normal do link (abre em nova aba/app)
-        });
+            trackingPixel.src = trackUrl; // pega do template, não hardcoded
+        }
     });
 });

@@ -134,12 +134,20 @@
   }
 
   /* ── Atualiza o nav dot ── */
-  function atualizaNavDot(notificacoes, vistas) {
-    if (!navDot) return;
-    const temNova = notificacoes.some(n => !vistas.includes(n.id));
-    navDot.style.opacity    = temNova ? '1' : '0';
-    navDot.style.transition = 'opacity 0.3s';
+ function atualizaNavDot(notificacoes, vistas) {
+  const navDot = document.querySelector('[data-tab="notifications"] .nav-dot');
+  if (!navDot) return;
+  const temNova = notificacoes.some(n => !getVistas().includes(n.id));
+  
+  navDot.style.opacity    = temNova ? '1' : '0'; // ← estava faltando
+  navDot.style.transition = 'opacity 0.3s';
+  
+  if (markAllBtn) {
+    markAllBtn.style.opacity       = temNova ? '1' : '0.3';
+    markAllBtn.style.pointerEvents = temNova ? 'auto' : 'none';
+    markAllBtn.style.color         = '';
   }
+}
 
   /* ── Busca e renderiza ── */
   async function carregaNotificacoes() {
@@ -166,6 +174,10 @@
 
       if (notificacoes.length === 0) {
         list.innerHTML = renderVazio();
+          if (markAllBtn) {
+          markAllBtn.style.opacity       = '0.3';
+          markAllBtn.style.pointerEvents = 'none';
+        }
         return;
       }
 
@@ -231,12 +243,12 @@
     todasVistas(ids);
     atualizaNavDot([], []);
 
-    markAllBtn.textContent = 'Tudo visto ✓';
-    markAllBtn.style.color = '#059669';
-    setTimeout(() => {
-      markAllBtn.textContent = 'Marcar como visto';
-      markAllBtn.style.color = '';
-    }, 2000);
+  markAllBtn.style.color = '#059669';
+  setTimeout(() => {
+    markAllBtn.style.color         = '';
+    markAllBtn.style.opacity       = '0.3';
+    markAllBtn.style.pointerEvents = 'none';
+  }, 1000);
   }
 
   /* ── Clique num item → navega para a loja ── */
@@ -264,10 +276,15 @@
     }
 
     // Navega após fechar o modal
-    setTimeout(() => {
-      closeNotificationModal();
-      window.location.href = `/${slug}/`;
-    }, 180);
+setTimeout(() => {
+  document.body.style.overflow = '';
+  const sk = document.getElementById('skeletonScreen');
+  if (sk) sk.classList.add('visible');
+  setTimeout(() => {
+    window.location.href = `/${slug}/`;
+  }, 200);
+}, 180);
+
   }
 
   /* ── Drag to dismiss (touch) ── */
@@ -323,11 +340,12 @@
       window.location.href = '/notificacoes/';
     });
   }
-  if (navTrigger) {
-    navTrigger.addEventListener('click', () => {
-      isOpen ? closeNotificationModal() : openNotificationModal();
-    });
-  }
+if (navTrigger) {
+  navTrigger.addEventListener('click', () => {
+    if (window.location.pathname === '/notificacoes/') return;
+    isOpen ? closeNotificationModal() : openNotificationModal();
+  });
+}
 
   overlay.addEventListener('click', closeNotificationModal);
   closeBtn.addEventListener('click', closeNotificationModal);

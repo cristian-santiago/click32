@@ -3,14 +3,14 @@
    Página completa de notificações (últimos 30 dias)
    ============================================= */
 
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
-  const API_URL     = '/api/notificacoes/?periodo=30';
+  const API_URL    = '/api/notificacoes/?periodo=30';
   const STORAGE_KEY = 'click32_notif_vistas';
-  const main        = document.getElementById('notifPageMain');
-  const backBtn     = document.getElementById('notifPageBack');
-  const markAllBtn  = document.getElementById('notifPageMarkAll');
+  const main       = document.getElementById('notifPageMain');
+  const backBtn    = document.getElementById('notifPageBack');
+  const markAllBtn = document.getElementById('notifPageMarkAll');
 
   if (!main) return;
 
@@ -31,10 +31,18 @@
   }
 
   function todasVistas(ids) {
-    window.dispatchEvent(new CustomEvent('notif:todas-vistas'));
     const vistas = getVistas();
     ids.forEach(id => { if (!vistas.includes(id)) vistas.push(id); });
     salvaVistas(vistas);
+    window.dispatchEvent(new CustomEvent('notif:todas-vistas'));
+  }
+
+  /* ── Estado do botão marcar todas ── */
+  function atualizaBotaoMarkAll() {
+    if (!markAllBtn) return;
+    const temNaoVista = main.querySelector('.notif-page-item--unread');
+    markAllBtn.style.opacity      = temNaoVista ? '1' : '0.3';
+    markAllBtn.style.pointerEvents = temNaoVista ? 'auto' : 'none';
   }
 
   /* ── Cores por badge ── */
@@ -50,10 +58,10 @@
 
   /* ── Agrupa notificações por período ── */
   function agrupa(notificacoes) {
-    const agora   = new Date();
-    const hoje    = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
-    const ontem   = new Date(hoje); ontem.setDate(hoje.getDate() - 1);
-    const semana  = new Date(hoje); semana.setDate(hoje.getDate() - 7);
+    const agora  = new Date();
+    const hoje   = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+    const ontem  = new Date(hoje); ontem.setDate(hoje.getDate() - 1);
+    const semana = new Date(hoje); semana.setDate(hoje.getDate() - 7);
 
     const grupos = { hoje: [], ontem: [], semana: [], antigas: [] };
 
@@ -123,10 +131,10 @@
   function renderTudo(notificacoes, vistas) {
     const grupos = agrupa(notificacoes);
     const html = [
-      renderGrupo('Hoje',          grupos.hoje,    vistas),
-      renderGrupo('Ontem',         grupos.ontem,   vistas),
-      renderGrupo('Essa semana',   grupos.semana,  vistas),
-      renderGrupo('Mais antigas',  grupos.antigas, vistas),
+      renderGrupo('Hoje',         grupos.hoje,    vistas),
+      renderGrupo('Ontem',        grupos.ontem,   vistas),
+      renderGrupo('Essa semana',  grupos.semana,  vistas),
+      renderGrupo('Mais antigas', grupos.antigas, vistas),
     ].join('');
 
     return html || renderVazio();
@@ -180,7 +188,12 @@
       setTimeout(() => dot.remove(), 250);
     }
 
-    setTimeout(() => { window.location.href = `/${slug}/`; }, 120);
+    const sk = document.getElementById('skeletonScreen');
+    if (sk) sk.classList.add('visible');
+
+    setTimeout(() => {
+      window.location.href = `/${slug}/`;
+    }, 200);
   }
 
   /* ── Marcar todas ── */
@@ -206,18 +219,24 @@
     });
 
     todasVistas(ids);
+
+    // Apaga nav dot
     const navDot = document.querySelector('[data-tab="notifications"] .nav-dot');
     if (navDot) {
-    navDot.style.opacity    = '0';
-    navDot.style.transition = 'opacity 0.3s';
+      navDot.style.opacity    = '0';
+      navDot.style.transition = 'opacity 0.3s';
     }
+
+    atualizaBotaoMarkAll();
+
     if (markAllBtn) {
-      markAllBtn.textContent = 'Tudo visto ✓';
-      markAllBtn.style.color = '#059669';
-      setTimeout(() => {
-        markAllBtn.textContent = 'Marcar todas';
-        markAllBtn.style.color = '';
-      }, 2000);
+        markAllBtn.textContent = 'Marcar como lidas';
+        markAllBtn.style.color = '#059669';
+        setTimeout(() => {
+        markAllBtn.style.opacity       = '0.3';
+        markAllBtn.style.pointerEvents = 'none';
+        markAllBtn.style.color         = '';
+        }, 1000);
     }
   }
 
@@ -238,6 +257,7 @@
       salvaVistas(vistas.filter(id => idsAtivos.includes(id)));
 
       main.innerHTML = renderTudo(notificacoes, getVistas());
+      atualizaBotaoMarkAll();
 
     } catch (err) {
       console.error('[Click32] Erro ao carregar notificações:', err);
@@ -260,4 +280,4 @@
   /* ── Init ── */
   carrega();
 
-})();
+});

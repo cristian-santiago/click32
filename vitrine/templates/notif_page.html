@@ -1,35 +1,48 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load frontend_tags %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/notif_page.css' %}?v={{ STATIC_VERSION }}">
 {% endblock %}
 
 {% block toolbar_top %}
-    
+<div class="toolbar">
+  <div class="toolbar-top">
+    <button class="tb-back" title="Voltar" id="notifPageBack">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <span class="tb-title">Notificações</span>
+    <button class="tb-btn notif-markall-text" id="notifPageMarkAll">
+    <span class="tb-title-btn">
+        Marcar como lidas
+    </span>
+  
+</button>
+    <div class="tb-actions">
+      <button class="tb-btn" id="btnMais" title="Mais opções">
+        <i class="fas fa-ellipsis-vertical"></i>
+      </button>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
 
-<div class="notif-page">
+<div class="shell">
 
-  <!-- ── Header ── -->
-  <header class="notif-page-header">
-    <button class="notif-page-back" id="notifPageBack" aria-label="Voltar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-           stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
-    </button>
-    <h1 class="notif-page-title">Notificações</h1>
-    <button class="notif-page-mark-all" id="notifPageMarkAll">Marcar todas</button>
-  </header>
+  <!-- ── Main ── -->
+  <div class="main">
 
-  <!-- ── Conteúdo ── -->
-  <main class="notif-page-main" id="notifPageMain">
-    <!-- preenchido pelo JS -->
-  </main>
+    <!-- quem scrolla são as notificações, não a página -->
+    <div class="scroll-area" id="scrollArea">
+      <div class="notif-feed" id="notifPageMain">
+        <!-- preenchido pelo JS -->
+      </div>
+    </div>
+
+  </div>
 
 </div>
 

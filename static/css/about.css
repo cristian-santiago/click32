@@ -52,14 +52,6 @@ body {
     border: 1px solid rgba(0, 204, 255, 0.25);
 }
 
-/* ── HIDDEN ── */
-.hidden {
-    display: none !important;
-}
-
-
-
-
 /* ── HERO ── */
 .hero {
     min-height: calc(100vh - 48px);

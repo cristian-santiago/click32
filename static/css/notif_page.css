@@ -3,7 +3,9 @@
    Página completa de notificações
    ============================================= */
 
-
+.hidden {
+    display: none !important;
+}
 
 html, body {
   height: 100%;

@@ -52,36 +52,28 @@
         </a>
       </li>
     -->
-      <!-- categorias dinâmicas do admin -->
-      {% for category in category_tags %}
-        {% if category.tags %}
-          <!-- tem dropdown -->
-          <li class="sb-item has-dropdown">
-            <div class="sb-row" role="button">
-              <span class="icon">{% icon_by_name category.icon %}</span>
-              <span class="sb-label">{{ category.name }}</span>
-            </div>
-            <ul class="sb-dropdown">
-              {% for tag in category.tags %}
-                <li>
-                  <a href="{% url 'home' %}?tag={{ tag|urlencode }}"
-                     class="{% if request.GET.tag == tag %}active{% endif %}">
-                    {{ tag }}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          </li>
-        {% else %}
-          <!-- sem dropdown -->
-          <li class="sb-item">
-            <a href="{% url 'home' %}?tag={{ category.name|urlencode }}" class="sb-row {% if request.GET.tag == category.name %}active{% endif %}">
-              <span class="icon">{% icon_by_name category.icon %}</span>
-              <span class="sb-label">{{ category.name }}</span>
-            </a>
-          </li>
-        {% endif %}
+{% for category in category_tags %}
+  <li class="sb-item has-dropdown {% if request.GET.tag in category.tags or category.name == active_category %}open{% endif %}">
+    <div class="sb-row {% if request.GET.tag in category.tags or category.name == active_category %}active{% endif %}" 
+         role="button"
+         data-category="{{ category.name }}"
+         data-filter-url="{% url 'home' %}?tag={{ category.name|urlencode }}">
+      <span class="icon">{% icon_by_name category.icon %}</span>
+      <span class="sb-label">{{ category.name }}</span>
+    </div>
+    <ul class="sb-dropdown">
+      {% for tag in category.tags %}
+        <li>
+          <a href="{% url 'home' %}?tag={{ tag|urlencode }}"
+             class="{% if request.GET.tag == tag %}active{% elif request.GET.tag in category.tags %}active-parent{% endif %}"
+             data-tag="{{ tag }}">
+            {{ tag }}
+          </a>
+        </li>
       {% endfor %}
+    </ul>
+  </li>
+{% endfor %}
 
     </ul>
 
@@ -152,15 +144,37 @@
         <div class="vip-dots" id="vipDots"></div>
       </div>
 
-      <div class="section-header">
-        <span class="section-title">Em destaque</span>
-      </div>
+
 
       <div class="feed-fade-mask"></div>
 
     </div>
     {% endif %}
 
+<div class="section-header">
+    {% if selected_tag %}
+        <div class="breadcrumb">
+            {% if active_category and active_category != selected_tag %}
+                {# É uma tag com categoria (ex: Comidas > Pizzaria) #}
+                <a href="{% url 'home' %}?tag={{ active_category|urlencode }}" class="breadcrumb-category-2">
+                    {{ active_category }}
+                </a>
+                <span class="breadcrumb-separator">
+    <i class="fas fa-chevron-right"></i>
+</span>
+                <span class="breadcrumb-tag">{{ selected_tag }}</span>
+            {% elif active_category == selected_tag %}
+                {# É uma categoria (ex: Comidas) #}
+                <span class="breadcrumb-category">{{ selected_tag }}</span>
+            {% else %}
+                {# É uma tag sem categoria #}
+                <span class="breadcrumb-tag">{{ selected_tag }}</span>
+            {% endif %}
+        </div>
+    {% else %}
+        <span class="section-title">Em destaque</span>
+    {% endif %}
+</div>
     <!-- SCROLL AREA -->
     <div class="scroll-area" id="scrollArea">
 

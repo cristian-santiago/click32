@@ -333,13 +333,14 @@ setTimeout(() => {
 
   /* ── Eventos ── */
 
-  const seeAllBtn = modal.querySelector('.notif-see-all');
-  if (seeAllBtn) {
-    seeAllBtn.addEventListener('click', () => {
-      closeNotificationModal();
-      window.location.href = '/notificacoes/';
-    });
-  }
+const seeAllBtn = modal.querySelector('.notif-see-all');
+if (seeAllBtn) {
+  seeAllBtn.addEventListener('click', () => {
+    seeAllBtn.blur(); // ← tira o foco antes de fechar
+    closeNotificationModal();
+    window.location.href = '/notificacoes/';
+  });
+}
 if (navTrigger) {
   navTrigger.addEventListener('click', () => {
     if (window.location.pathname === '/notificacoes/') return;

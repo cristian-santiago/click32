@@ -151,7 +151,9 @@
         <div class="store-title-line">          
            <div class="store-title-group">
               <span class="store-title">{{ store.name }}</span>
+              {% if store.is_verified %}
               <i class="fas fa-circle-check store-badge-icon"></i>
+              {% endif %}
            </div>
           <button class="store-share-btn" id="shareButton"
                   data-store-id="{{ store.id }}"
@@ -205,33 +207,39 @@
     <!-- BOTTOM PANEL -->
     <div class="bottom-panel" id="bottomPanel">
 
-        <!-- horários -->
+<!-- horários -->
 <div class="info-row">
+  <div class="info-row-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  </div>
   {% for hour in store.opening_hours.all %}
   <div class="info-chip">
     <div class="info-chip-label">{{ hour.day_range }}</div>
     <div class="info-chip-value">
-      {{ hour.time_open|time:"G\hi" }}–{% if hour.time_close %}{{ hour.time_close|time:"G\hi" }}{% else %}24h{% endif %}
+      {{ hour.time_open|time:"G\:i" }}–{% if hour.time_close %}{{ hour.time_close|time:"G\:i" }}{% else %}24h{% endif %}
     </div>
   </div>
   {% endfor %}
 </div>
 
-  <!-- endereço -->
-  {% if store.address %}
-  <div class="address-row">
-    <div class="address-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-        <circle cx="12" cy="10" r="3"/>
-      </svg>
-    </div>
-    <div class="address-body">
-      <div class="address-label">Endereço</div>
-      <div class="address-value">{{ store.address }}</div>
-    </div>
+<!-- endereço -->
+{% if store.address %}
+<div class="address-row">
+  <div class="address-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+      <circle cx="12" cy="10" r="3"/>
+    </svg>
   </div>
-  {% endif %}
+  <div class="address-body">
+    <div class="address-label">Endereço</div>
+    <div class="address-value">{{ store.address }}</div>
+  </div>
+</div>
+{% endif %}
 
 <!-- social icons -->
 <div class="social-row">

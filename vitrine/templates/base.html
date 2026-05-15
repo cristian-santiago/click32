@@ -94,9 +94,25 @@
       '--real-vh', window.innerHeight + 'px'
     );
   });
+
+const path = window.location.pathname;
+
+const tabMap = {
+  'home':  el => path === '/' || path.startsWith('/home'),
+  'notifications': el => path.startsWith('/notificacoes') ,
+  'share': el => path.match(/^\/[^/]+\/$/) && path !== '/' && !path.startsWith('/sobre')  && !path.startsWith('/notificacoes'),
+  'info':  el => path.includes('/sobre'),
+  // adiciona rotas conforme crescer
+};
+
+document.querySelectorAll('.nav-item[data-tab]').forEach(item => {
+  const check = tabMap[item.dataset.tab];
+  if (check && check(item)) item.classList.add('active');
+});
 </script>
 
 {% block extra_js %}{% endblock %}
+
 
 
 

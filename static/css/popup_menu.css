@@ -36,7 +36,7 @@
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: 0 8px 32px rgba(0,0,0,.14), 0 2px 8px rgba(0,0,0,.08);
-  z-index: 500; overflow: hidden; min-width: 190px;
+  z-index: 2000; overflow: hidden; min-width: 190px;
   transform-origin: top right; transform: scale(0.88);
   opacity: 0; pointer-events: none;
   transition: transform .18s cubic-bezier(.4,0,.2,1), opacity .15s;

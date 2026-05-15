@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django_ratelimit.decorators import ratelimit
 from django.core.cache import cache
-from .models import Store, ClickTrack, ClickTrackDaily, Category, ShareTrack, PWADownloadClick, ActiveSession, StoreNotification
+from .models import Store, ClickTrack, ClickTrackDaily, Category, ShareTrack, PWADownloadClick, ActiveSession, StoreNotification, Tag
 import pdf2image
 import glob
 import hashlib
@@ -139,40 +139,60 @@ def get_tag_groups():
 def home(request):
     try:
         selected_tag = request.GET.get('tag')
+        active_category = None
         stores_vip = None
         stores_deactivated = None
 
+        print(f"SELECTED_TAG: '{selected_tag}'")
         logger.info(f"Home page accessed - Tag: {selected_tag or 'None'}")
 
-        # SEM CACHE - Busca sempre do banco
         all_stores = Store.objects.filter(is_deactivated=False)
         stores_deactivated = list(Store.objects.filter(is_deactivated=True))
 
-        if selected_tag:
+        if selected_tag and selected_tag.strip():
+            # PRIMEIRO: Verifica se o parâmetro é uma CATEGORIA
             category = Category.objects.filter(name=selected_tag).first()
             if category:
-                filtered_stores = all_stores.filter(tags__in=category.tags.all()).distinct()
-                logger.debug(f"Filtered by category - Category: {selected_tag}, Stores: {filtered_stores.count()}")
+                # É uma categoria - pega todas as tags da categoria
+                active_category = selected_tag
+                tags_from_category = category.tags.all()
+                filtered_stores = all_stores.filter(tags__in=tags_from_category).distinct()
+                print(f"FILTERED BY CATEGORY: {selected_tag}, Tags: {tags_from_category.count()}, Stores: {filtered_stores.count()}")
             else:
-                filtered_stores = all_stores.filter(tags__name=selected_tag).distinct()
-                logger.debug(f"Filtered by tag - Tag: {selected_tag}, Stores: {filtered_stores.count()}")
+                # SEGUNDO: Verifica se é uma TAG
+                tag_obj = Tag.objects.filter(name=selected_tag).first()
+                if tag_obj:
+                    # CORREÇÃO: Pega as categorias da tag através do related_name 'categories'
+                    categories_for_tag = tag_obj.categories.all()  # ← CORREÇÃO AQUI
+                    if categories_for_tag.exists():
+                        active_category = categories_for_tag.first().name
+                    else:
+                        active_category = None
+                    
+                    filtered_stores = all_stores.filter(tags=tag_obj).distinct()
+                    print(f"FILTERED BY TAG: {selected_tag}, Category: {active_category}, Stores: {filtered_stores.count()}")
+                else:
+                    # Não encontrou nem categoria nem tag
+                    filtered_stores = all_stores.none()
+                    active_category = None
+                    print(f"NO CATEGORY OR TAG FOUND FOR: {selected_tag}")
 
+            # Ordena as lojas
             highlights = list(filtered_stores.filter(highlight=True))
             non_highlights = list(filtered_stores.filter(highlight=False))
             random.shuffle(highlights)
             random.shuffle(non_highlights)
             stores = highlights + non_highlights
-            logger.debug(f"Stores shuffled with tag - Highlights: {len(highlights)}, Regular: {len(non_highlights)}")
+            print(f"STORES COUNT AFTER FILTER: {len(stores)}")
+            
         else:
             stores_vip = list(all_stores.filter(is_vip=True)[:10])
             stores = list(all_stores)
-            logger.debug(f"All stores loaded - VIP: {len(stores_vip)}, Total: {len(stores)}")
+            print(f"NO FILTER - All stores: {len(stores)}")
             
-            # Shuffle apenas se não for tag específica
             if stores_vip:
                 random.shuffle(stores_vip)
             random.shuffle(stores)
-            logger.debug(f"Stores shuffled - VIP: {len(stores_vip) if stores_vip else 0}, Total: {len(stores)}")
 
         context = {
             'stores': stores,
@@ -180,9 +200,9 @@ def home(request):
             'stores_deactivated': stores_deactivated,
             'category_tags': get_category_tags(),
             'selected_tag': selected_tag,
+            'active_category': active_category,
         }
 
-        # Rastreia clique na home
         if not selected_tag:
             track_click(request, element_type='home_access')
 
@@ -191,13 +211,16 @@ def home(request):
 
     except Exception as e:
         logger.error(f"Error rendering home page - Error: {str(e)}")
-        # Fallback seguro em caso de erro
+        print(f"ERROR: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return render(request, 'home.html', {
             'stores': [],
             'stores_vip': [],
             'stores_deactivated': [],
             'category_tags': get_category_tags(),
             'selected_tag': None,
+            'active_category': None,
         })
 #@cache_page(60 * 60 * 24)   # 24 horas
 

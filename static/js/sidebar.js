@@ -1,278 +1,145 @@
-/* Inicialização da URL base */
-const homeUrl = window.homeUrl || "/";
+// sidebar.js - Componente independente
+(function() {
+  'use strict';
 
-/* Configuração inicial do evento DOMContentLoaded */
-document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.getElementById('sidebar');
-  const toggleBtn = document.getElementById('toggleBtn');
-  const overlay = document.getElementById('overlay');
-  const isMobile = window.innerWidth <= 768;
-  const isExpanded = localStorage.getItem('sidebar-expanded') === 'true';
+  const toggle  = document.getElementById('sbToggle');
+  const overlay = document.getElementById('sbOverlay');
 
-  if (!sidebar || !toggleBtn || !overlay) {
-    return;
+  if (!sidebar || !toggle) return;
+
+  function openSB() {
+    sidebar.classList.add('expanded');
+    if (overlay) overlay.classList.add('visible');
+  }
+  
+  function closeSB() {
+    sidebar.classList.remove('expanded');
+    if (overlay) overlay.classList.remove('visible');
   }
 
-  if (!isMobile && isExpanded) {
-    sidebar.classList.remove('collapsed');
-    overlay.style.display = 'block';
-  } else {
-    sidebar.classList.add('collapsed'); 
-    overlay.style.display = 'none';
+  toggle.addEventListener('click', () =>
+    sidebar.classList.contains('expanded') ? closeSB() : openSB()
+  );
+  
+  if (overlay) {
+    overlay.addEventListener('click', closeSB);
   }
 
-  const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
-  if (lastOpenDropdown && !sidebar.classList.contains('collapsed')) {
-    openDropdown(lastOpenDropdown);
-  }
-
-  // Verifica se há uma tag na URL e ativa a animação do ícone correspondente
-  const urlParams = new URLSearchParams(window.location.search);
-  const activeTag = urlParams.get('tag');
-  if (activeTag) {
-    // Procura o header cujo data-dropdown corresponde à tag ativa
-    document.querySelectorAll('.menu-header').forEach(header => {
-      const headerGroup = header.getAttribute('data-dropdown');
-      if (headerGroup === activeTag) {
-        const icon = header.querySelector('.category-icon');
-        if (icon) {
-          // Remove animação de todos e ativa no correto
-          document.querySelectorAll('.category-icon').forEach(i => {
-            i.classList.remove('fa-beat-fade');
-          });
-          icon.classList.add('fa-beat-fade');
-        }
-      }
+  // Função para remover todas as classes active e open
+  function resetAllSidebarStates() {
+    sidebar.querySelectorAll('.sb-item.open').forEach(el => {
+      el.classList.remove('open');
+      const drop = el.querySelector('.sb-dropdown');
+      if (drop) drop.style.maxHeight = '0';
+    });
+    sidebar.querySelectorAll('.sb-row.active, .sb-dropdown a.active').forEach(el => {
+      el.classList.remove('active');
     });
   }
 
-  /* GESTOS DE DESLIZAR PARA SIDEBAR */
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let isSwiping = false;
+  // Clique nos items com dropdown
+  sidebar.querySelectorAll('.sb-row[role="button"]').forEach(row => {
+    row.addEventListener('click', (e) => {
+      const item = row.closest('.sb-item');
+      const isExpanded = sidebar.classList.contains('expanded');
+      const isOpen = item.classList.contains('open');
+      const filterUrl = row.dataset.filterUrl;
 
-  document.addEventListener('touchstart', (e) => {
-    if (document.getElementById('flyerModal')?.classList.contains('show')) return;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    isSwiping = true;
-  }, { passive: true });
-
-  document.addEventListener('touchmove', (e) => {
-    if (document.getElementById('flyerModal')?.classList.contains('show')) return;
-    if (!isSwiping) return;
-    
-    const touchCurrentX = e.touches[0].clientX;
-    const touchCurrentY = e.touches[0].clientY;
-    const diffX = Math.abs(touchCurrentX - touchStartX);
-    const diffY = Math.abs(touchCurrentY - touchStartY);
-    
-    // SÓ interfere se o sidebar estiver ABERTO
-    if (!sidebar.classList.contains('collapsed')) {
-      if (diffX > diffY && diffX > 10) {
-        e.preventDefault();
-      }
-    }
-  }, { passive: false });
-
-  document.addEventListener('touchend', (e) => {
-    if (document.getElementById('flyerModal')?.classList.contains('show')) return;
-    if (!isSwiping) return;
-    
-    const touchEndX = e.changedTouches[0].clientX;
-    const swipeDistance = touchEndX - touchStartX;
-    const swipeThreshold = 50;
-    
-    // Swipe para direita na borda esquerda - ABRIR
-    if (swipeDistance > swipeThreshold && touchStartX < 60) {
-      if (sidebar.classList.contains('collapsed')) {
-        sidebar.classList.remove('collapsed');
-        overlay.style.display = 'block';
-        localStorage.setItem('sidebar-expanded', 'true');
-        
-        const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
-        if (lastOpenDropdown) {
-          openDropdown(lastOpenDropdown);
-        }
-      }
-    }
-    
-    // Swipe para esquerda - FECHAR (apenas se começou no sidebar)
-    if (swipeDistance < -swipeThreshold && touchStartX < 160) {
-      if (!sidebar.classList.contains('collapsed')) {
-        sidebar.classList.add('collapsed');
-        overlay.style.display = 'none';
-        localStorage.setItem('sidebar-expanded', 'false');
-        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-      }
-    }
-    
-    isSwiping = false;
-  }, { passive: true });
-
-  /* Evento de clique no botão de alternância */
-  toggleBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    sidebar.classList.toggle('collapsed');
-    const isNowExpanded = !sidebar.classList.contains('collapsed');
-    localStorage.setItem('sidebar-expanded', isNowExpanded);
-    overlay.style.display = isNowExpanded ? 'block' : 'none';
-
-    if (isNowExpanded) {
-      const lastOpenDropdown = localStorage.getItem('sidebar-last-dropdown');
-      if (lastOpenDropdown) {
-        openDropdown(lastOpenDropdown);
-      }
-    }
-  });
-
-  /* Evento de clique no overlay */
-  overlay.addEventListener('click', () => {
-    collapseSidebar();
-    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-  });
-
-  /* Evento de clique nos cabeçalhos do menu */
-  document.querySelectorAll('.menu-header').forEach(header => {
-    const icon = header.querySelector('.category-icon');
-    
-    header.addEventListener('click', (e) => {
-      // Primeiro: remove animação de todos os ícones
-      document.querySelectorAll('.category-icon').forEach(i => {
-        i.classList.remove('fa-beat-fade');
-      });
-      
-      // Depois: adiciona animação no ícone clicado (se existir)
-      if (icon) {
-        icon.classList.add('fa-beat-fade');
-      }
-
-      // Lógica original do menu
-      const group = header.getAttribute('data-dropdown');
-      if (!group) {
+      // COLAPSADO: filtra pela categoria
+      if (!isExpanded && filterUrl) {
+        window.location.href = filterUrl;
         return;
       }
 
-      if (sidebar.classList.contains('collapsed')) {
-        e.preventDefault();
-        e.stopPropagation();
-        localStorage.setItem('sidebar-last-dropdown', group);
-        window.location.href = homeUrl + '?tag=' + encodeURIComponent(group);
-      } else {
-        const dropdown = header.nextElementSibling;
-        const isOpen = dropdown.classList.contains('open');
-        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-        if (!isOpen) {
-          dropdown.classList.add('open');
-          localStorage.setItem('sidebar-last-dropdown', group);
+      // EXPANDIDO: toggle dropdown
+      if (isExpanded) {
+        // Se tem dropdown
+        if (item.querySelector('.sb-dropdown')) {
+          // Fecha todos os outros dropdowns
+          sidebar.querySelectorAll('.sb-item.open').forEach(el => {
+            if (el !== item) {
+              el.classList.remove('open');
+              const drop = el.querySelector('.sb-dropdown');
+              if (drop) drop.style.maxHeight = '0';
+              const parentRow = el.querySelector('.sb-row');
+              if (parentRow) parentRow.classList.remove('active');
+            }
+          });
+
+          // Toggle do dropdown clicado
+          if (!isOpen) {
+            item.classList.add('open');
+            const drop = item.querySelector('.sb-dropdown');
+            if (drop) drop.style.maxHeight = drop.scrollHeight + 'px';
+            row.classList.add('active');
+          } else {
+            item.classList.remove('open');
+            const drop = item.querySelector('.sb-dropdown');
+            if (drop) drop.style.maxHeight = '0';
+            row.classList.remove('active');
+          }
         } else {
-          localStorage.removeItem('sidebar-last-dropdown');
-          // Se fechou o dropdown, remove a animação
-          if (icon) {
-            icon.classList.remove('fa-beat-fade');
+          // Sem dropdown: reseta e redireciona
+          resetAllSidebarStates();
+          row.classList.add('active');
+          if (filterUrl) {
+            window.location.href = filterUrl;
           }
         }
       }
     });
   });
 
-  /* Evento de clique nos itens do dropdown */
-  document.querySelectorAll('.dropdown-item').forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const dropdown = item.closest('.dropdown');
-      if (!dropdown) {
-        return;
+  // Fecha sidebar ao clicar em tag (dropdown item)
+  sidebar.querySelectorAll('.sb-dropdown a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Marca o link como active
+      sidebar.querySelectorAll('.sb-dropdown a.active').forEach(el => {
+        el.classList.remove('active');
+      });
+      link.classList.add('active');
+      
+      // Remove active da categoria pai
+      const parentItem = link.closest('.sb-item');
+      if (parentItem) {
+        const parentRow = parentItem.querySelector('.sb-row');
+        if (parentRow) parentRow.classList.remove('active');
       }
-      const header = dropdown.previousElementSibling;
-      if (!header) {
-        return;
-      }
-      const group = header.getAttribute('data-dropdown');
-      if (!group) {
-        return;
-      }
-      localStorage.setItem('sidebar-last-dropdown', group);
-      collapseSidebar();
+      
+      // Fecha o sidebar após clicar
+      setTimeout(() => {
+        closeSB();
+      }, 150);
     });
   });
 
-  /* Evento de clique fora da sidebar em dispositivos móveis */
-  document.addEventListener('click', (e) => {
-    if (isMobile && !sidebar.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target) && !e.target.closest('.menu-header')) {
-      collapseSidebar();
-      document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-    }
-  });
-});
-
-/* Função para abrir um dropdown */
-function openDropdown(group) {
-  const escapedGroup = CSS.escape(group);
-  const target = document.querySelector(`[data-dropdown="${escapedGroup}"]`);
-  if (target) {
-    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-    target.nextElementSibling.classList.add('open');
+  // Marca o item ativo baseado na URL atual
+  function setActiveFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentTag = urlParams.get('tag');
     
-    // Quando abre via localStorage, ativa a animação do ícone correspondente
-    const icon = target.querySelector('.category-icon');
-    if (icon) {
-      document.querySelectorAll('.category-icon').forEach(i => {
-        i.classList.remove('fa-beat-fade');
-      });
-      icon.classList.add('fa-beat-fade');
-    }
+    if (!currentTag) return;
+    
+    sidebar.querySelectorAll('.sb-row, .sb-dropdown a').forEach(el => {
+      const href = el.getAttribute('href');
+      if (href && href.includes(`?tag=${encodeURIComponent(currentTag)}`)) {
+        el.classList.add('active');
+        
+        // Se for item de dropdown, abre o pai
+        if (el.closest('.sb-dropdown')) {
+          const parentItem = el.closest('.sb-item');
+          if (parentItem && !parentItem.classList.contains('open')) {
+            parentItem.classList.add('open');
+            const drop = parentItem.querySelector('.sb-dropdown');
+            if (drop) drop.style.maxHeight = drop.scrollHeight + 'px';
+            const parentRow = parentItem.querySelector('.sb-row');
+            if (parentRow) parentRow.classList.add('active');
+          }
+        }
+      }
+    });
   }
-}
 
-/* Função para colapsar a sidebar */
-function collapseSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  sidebar.classList.add('collapsed');
-  overlay.style.display = 'none';
-  localStorage.setItem('sidebar-expanded', 'false');
-}
-
-/* Função para controlar o bloqueio de scroll */
-function shouldBlockScroll(el, deltaY) {
-  const scrollTop = el.scrollTop;
-  const scrollHeight = el.scrollHeight;
-  const clientHeight = el.clientHeight;
-
-  const isScrollingDown = deltaY > 0;
-  const isScrollingUp = deltaY < 0;
-
-  const atTop = scrollTop === 0;
-  const atBottom = scrollTop + clientHeight >= scrollHeight;
-
-  return (isScrollingDown && atBottom) || (isScrollingUp && atTop);
-}
-
-/* Configuração de eventos de scroll no menu */
-const scrollContainer = document.querySelector('.menu');
-
-if (scrollContainer) {
-  // Mouse scroll
-  scrollContainer.addEventListener('wheel', function(e) {
-    if (shouldBlockScroll(this, e.deltaY)) {
-      e.preventDefault();
-    }
-  }, { passive: false });
-
-  // Touch scroll
-  let touchStartY = 0;
-  scrollContainer.addEventListener('touchstart', function(e) {
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
-
-  scrollContainer.addEventListener('touchmove', function(e) {
-    const currentY = e.touches[0].clientY;
-    const deltaY = touchStartY - currentY;
-
-    if (shouldBlockScroll(this, deltaY)) {
-      e.preventDefault();
-    }
-  }, { passive: false });
-}
+  setActiveFromURL();
+})();

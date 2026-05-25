@@ -1,0 +1,25 @@
+{
+  "bairros": [
+    {
+      "id": "km32",
+      "nome": "Km 32",
+      "subdominio": "#",
+      "status": "ativo",
+      "descricao": "Baixada Fluminense"
+    },
+    {
+      "id": "Senador Camará",
+      "nome": "Senador Camará",
+      "subdominio": "#",
+      "status": "ativo",
+      "descricao": "Centro comercial"
+    },
+    {
+      "id": "teste",
+      "nome": "Bairro Teste",
+      "subdominio": "#",
+      "status": "ativo",
+      "descricao": "Bairro para testes"
+    }
+  ]
+}

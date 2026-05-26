@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Escolha seu bairro - Click32{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/bairros.css' %}?v={{ STATIC_VERSION }}">
+{% endblock %}
+
+{% block content %}
+<div class="bairros-container">
+    <div class="bairros-header">
+        <h1>Escolha seu bairro</h1>
+        <p class="bairros-subtitle">
+            Você está em <strong>{{ bairro_atual.nome }}</strong>
+        </p>
+    </div>
+
+    <div class="bairros-grid">
+        {% for bairro in todos_bairros %}
+            <div class="bairro-card {% if bairro.id == bairro_atual.id %}card-atual{% endif %} {% if bairro.status == 'em_breve' %}card-breve{% endif %}">
+                
+                <div class="card-icon">
+                    {% if bairro.id == bairro_atual.id %}
+                        <i class="fas fa-check-circle"></i>
+                    {% elif bairro.status == 'em_breve' %}
+                        <i class="fas fa-clock"></i>
+                    {% else %}
+                        <i class="fas fa-store"></i>
+                    {% endif %}
+                </div>
+                
+                <h3 class="card-nome">{{ bairro.nome }}</h3>
+                
+                {% if bairro.descricao %}
+                    <p class="card-descricao">{{ bairro.descricao }}</p>
+                {% endif %}
+                
+                <div class="card-status">
+                    {% if bairro.id == bairro_atual.id %}
+                        <span class="status-badge status-atual">
+                            <i class="fas fa-location-dot"></i> Você está aqui
+                        </span>
+                    {% elif bairro.status == 'em_breve' %}
+                        <span class="status-badge status-breve">
+                            <i class="fas fa-hourglass-half"></i> Em breve
+                        </span>
+                    {% else %}
+                        <a href="http://{{ bairro.subdominio }}" class="btn-acessar">
+                            Acessar <i class="fas fa-arrow-right"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="bairros-empty">
+                <p>Nenhum bairro disponível no momento.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/bairros.js' %}?v={{ STATIC_VERSION }}"></script>
+{% endblock %}

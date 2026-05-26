@@ -25,6 +25,7 @@
   --text-2: #5a5f72;
   --text-3: #9499ad;
   --accent: #1a56f0;
+  --badge: #3b82f6;
   --accent-soft: #eaefff;
   --shadow-card: 0 2px 12px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.06);
 }
@@ -61,272 +62,160 @@ html, body {
   
 }
 
+/* ══════════════════════════════
+   STORE CARD (banner) - NOVO LAYOUT
+══════════════════════════════ */
+
+/* Overlay escuro para garantir legibilidade do texto */
+.store-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.4) 100%);
+  border-radius: var(--radius-card);
+  pointer-events: none;
+}
+
+/* Informações do card (nome + selo + tags) */
+.store-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+
+/* Linha 1: Nome + selo */
+.store-card-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.store-card-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 30px);
+}
+
+.store-card-verified {
+  color: var(--badge);
+  font-size: 11px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+/* Linha 2: Tags */
+.store-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.store-card-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255,255,255,0.15);
+  pointer-events: none;
+}
+
+/* Ajuste para o card ter position relative (já tem) */
+.store-card {
+  position: relative;
+}
 
 
 
 /* ══════════════════════════════
-   SIDEBAR
+   VIP CAROUSEL - NOVO PADRÃO (igual aos cards normais)
 ══════════════════════════════ */
-.sidebar {
-  width: var(--sb-collapsed);
-  flex-shrink: 0;
-  background: var(--sb-bg);
-  color: var(--sb-text);
+
+/* Mantém o overlay existente, mas ajusta o conteúdo */
+.vip-slide-meta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 10px 10px;
   display: flex;
   flex-direction: column;
-  z-index: 2000;
-  height: calc(var(--real-vh, 100dvh) - var(--sb-h));
-  overflow: hidden;
-  transition: width .35s ease;
-  position: relative;
-  left: 5px;
-  top: 10px;
-  border-radius: 10px;
-}
-
-.sidebar.expanded { 
-  width: var(--sb-expanded); 
-  overflow-y: auto; 
-}
-
-.sidebar::-webkit-scrollbar { display: none; }
-
-.sb-toggle {
-  width: 40px; height: 40px;
-  flex-shrink: 0; align-self: center;
-  background: none; border: none; cursor: pointer;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 4px; padding: 8px;
-  margin: 6px 0 2px;
-}
-
-.sidebar.expanded .sb-toggle { align-self: flex-end; margin-right: 0; }
-
-.sb-toggle span {
-  display: block; width: 21px; height: 3px;
-  background: var(--sb-text); border-radius: 2px;
-  transition: transform .24s, opacity .2s;
-}
-
-.sidebar.expanded .sb-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-.sidebar.expanded .sb-toggle span:nth-child(2) { opacity: 0; }
-.sidebar.expanded .sb-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-.sb-menu { 
-  list-style: none; 
-  flex: 1; 
-  overflow-y: auto; 
-  overflow-x: hidden; 
-  scrollbar-width: none;  
-  padding: 0; /* Remove padding padrão */
-  margin: 0; /* Remove margin padrão */
-}
-
-.sb-menu::-webkit-scrollbar { display: none; }
-.sb-item { position: relative; }
-
-.sb-logo {
-  display: flex;
-  justify-content: center;  
-  height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: height .35s ease, opacity .25s ease;
-}
-
-.sidebar.expanded .sb-logo {
-  height: 48px; 
-  opacity: 1;
-  display: flex;
-  justify-content: center;
-}
-
-/* CORREÇÃO PRINCIPAL - Garantir que o sb-row ocupe toda largura */
-.sb-row {
-  display: flex; 
-  align-items: center;
-  height: 48px; 
-  padding: 0; 
-  gap: 0;
-  cursor: pointer; 
-  color: var(--sb-text);
-  text-decoration: none; 
-  white-space: nowrap;
-  overflow: hidden; 
-  transition: background .15s;
-  width: 100%; /* Garante largura total */
-  position: relative; /* Para posicionamento */
-}
-
-/* Quando sidebar está expandido */
-.sidebar.expanded .sb-row {
-  padding: 0 8px 0 0; /* Remove padding left, mantém right */
-  justify-content: flex-start;
-  gap: 10px;
-  width: 100%; /* Força largura total */
-}
-
-/* Quando NÃO está expandido (colapsado) */
-.sidebar:not(.expanded) .sb-row {
-  justify-content: center;
-  padding: 0;
-}
-
-/* CORREÇÃO DO HOVER E ACTIVE - Garantir que cubra todo o espaço */
-.sb-row:hover { 
-  background: var(--sb-hover); 
-  width: 100%; 
-}
-
-.sb-row.active { 
-  background: rgba(255,255,255,0.1);
-  width: 100%; /* Força largura total quando ativo */
-}
-
-/* Ajuste do ícone */
-.sb-row .icon {
-  font-size: 1.3rem;
-  width: 40px; 
-  flex-shrink: 0;
-  text-align: center;
-  color: var(--sb-muted);
-  transition: all .2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Ícone quando colapsado */
-.sidebar:not(.expanded) .sb-row .icon {
-  margin: 0; /* Centralizado */
-}
-
-/* Ícone quando expandido */
-.sidebar.expanded .sb-row .icon { 
-  width: 24px;  
-  margin-left: 12px; /* Ajuste para alinhar */
-}
-
-/* Label */
-.sb-label {
-  font-size: 0.83rem;
-  font-weight: 500;
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: opacity .25s .2s ease, transform .25s .2s ease;
+  gap: 4px;
   pointer-events: none;
-  flex: 1;
+}
+
+/* Linha 1: Nome + selo */
+.vip-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.vip-store-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 30px);
 }
 
-.sidebar.expanded .sb-label {
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity .15s ease, transform .15s ease;
-}
-
-/* Dropdown */
-.sb-dropdown {
-  list-style: none; 
-  background: var(--sb-dropdown);
-  max-height: 0; 
-  overflow: hidden;
-  transition: max-height .32s cubic-bezier(.4,0,.2,1);
-  margin: 0;
-  padding: 0;
-}
-
-.sidebar:not(.expanded) .sb-dropdown { display: none; }
-.sb-item.open .sb-dropdown { max-height: 500px; }
-
-/* CORREÇÃO DOS ITENS DO DROPDOWN - Para ocupar toda largura */
-.sb-dropdown li {
-  width: 100%;
-}
-
-.sb-dropdown li a {
-  display: block; 
-  padding: 9px 12px 9px 42px;
-  font-size: 0.8rem; 
-  color: var(--sb-text); 
-  opacity: 0.8;
-  text-decoration: none; 
-  transition: background .15s, opacity .15s;
-  width: 100%; /* Garante largura total */
-  box-sizing: border-box; /* Inclui padding na largura */
-}
-
-/* Ajuste do padding quando expandido */
-.sidebar.expanded .sb-dropdown li a {
-  padding: 9px 12px 9px 46px; /* Ajuste fino */
-}
-
-.sb-dropdown li a:hover { 
-  background: var(--sb-hover); 
-  opacity: 1; 
-}
-
-.sb-dropdown li a.active-parent {
-  background: var(--sb-hover);
-  opacity: 0.9;
-}
-
-.sb-dropdown li a.active {
-  background: rgba(255,255,255,0.06);
-  color: #fff;
-  opacity: 1;
-  font-weight: 600;
-  width: 100%; /* Garante largura total */
-}
-
-.sb-dropdown li a.active:hover {
-  background: rgba(255,255,255,0.06);
-}
-
-.sb-item.has-dropdown.open > .sb-row { 
-  background: var(--sb-hover); 
-}
-
-.sb-footer {
+.vip-verified {
+  color: #3b82f6;
+  font-size: 14px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
   flex-shrink: 0;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  display: flex; 
-  justify-content: space-evenly; 
+}
+
+/* Linha 2: Tags (usando o mesmo estilo do card normal) */
+.vip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Reaproveita o .store-card-tag ou cria um específico */
+.vip-tag {
+  display: inline-flex;
   align-items: center;
-  padding: 10px 4px;
-  opacity: 0; 
-  pointer-events: none; 
-  transition: opacity .18s;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255,255,255,0.15);
+  pointer-events: none;
 }
 
-.sidebar.expanded .sb-footer { 
-  opacity: 1; 
-  pointer-events: auto; 
+/* Remove o estilo antigo do vip-badge se existir conflito */
+.vip-badge {
+  display: none; /* ou remove do HTML */
 }
 
-.sb-footer a {
-  color: var(--sb-muted); 
-  font-size: 1.2rem; 
-  text-decoration: none;
-  width: 32px; 
-  height: 32px; 
-  display: flex; 
-  align-items: center;
-  justify-content: center; 
-  border-radius: 8px;
-  transition: color .15s, background .15s;
-}
 
-.sb-footer a:hover { 
-  color: var(--sb-text); 
-  background: rgba(255,255,255,.08); 
-}
 
-.fa-beat-fade { 
-  color: #00ccff !important; 
-}
 /* ══════════════════════════════
    MAIN
 ══════════════════════════════ */
@@ -452,14 +341,14 @@ html, body {
 
 .vip-slide-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to bottom, transparent 35%, rgba(0,0,0,.55) 100%);
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.55) 100%);
   border-radius: var(--radius-card);
   pointer-events: none;
 }
 
 .vip-slide-meta {
   position: absolute;
-  bottom: 10px; left: 12px; right: 12px;
+  bottom: 0; left: 0;
   display: flex; flex-direction: column; gap: 3px;
   pointer-events: none;
 }
@@ -720,20 +609,7 @@ html, body {
 
 
 
-.store-card-tag {
-  position: absolute;
-  bottom: 8px; right: 10px;
-  font-size: 9px;
-  font-weight: 600;
-  color: rgba(255,255,255,.9);
-  background: rgba(0,0,0,.22);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  padding: 2px 9px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(255,255,255,.15);
-  pointer-events: none;
-}
+
 
 /* ══════════════════════════════
    BOTTOM NAV (mobile)

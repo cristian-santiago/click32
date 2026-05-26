@@ -1,0 +1,204 @@
+:root {
+    --primary-color: #3498db;    /* Azul padrão */
+    --success-color: #27ae60;    /* Verde para atual */
+    --gray-color: #95a5a6;       /* Cinza para em breve */
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+}
+/* CONTAINER PRINCIPAL */
+.bairros-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1rem 2rem;
+}
+
+/* CABEÇALHO */
+.bairros-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+}
+
+.bairros-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary, #2c3e50);
+    margin-bottom: 0.5rem;
+}
+
+.bairros-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary, #7f8c8d);
+}
+
+.bairros-subtitle strong {
+    color: var(--primary-color, #3498db);
+    font-weight: 600;
+}
+
+/* GRID DE CARDS */
+.bairros-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+/* Tablet: 2 colunas */
+@media (min-width: 600px) {
+    .bairros-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+/* Desktop: 3 colunas */
+@media (min-width: 900px) {
+    .bairros-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* CARD BASE */
+.bairro-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+}
+
+.bairro-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* CARD DO BAIRRO ATUAL (DESTAQUE) */
+.card-atual {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e8f4fd 100%);
+    border: 2px solid #3498db;
+    position: relative;
+}
+
+.card-atual::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #3498db;
+    border-radius: 1rem 1rem 0 0;
+}
+
+/* CARD EM BREVE */
+.card-breve {
+    opacity: 0.7;
+    background: #f8f9fa;
+}
+
+/* ÍCONE DO CARD */
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.card-atual .card-icon {
+    color: #27ae60;
+}
+
+.card-breve .card-icon {
+    color: #95a5a6;
+}
+
+.bairro-card:not(.card-atual):not(.card-breve) .card-icon {
+    color: #3498db;
+}
+
+/* NOME DO BAIRRO */
+.card-nome {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+/* DESCRIÇÃO */
+.card-descricao {
+    font-size: 0.875rem;
+    color: #7f8c8d;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+/* STATUS / BOTÃO */
+.card-status {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+}
+
+.status-atual {
+    background: #27ae60;
+    color: white;
+    width: 100%;
+    justify-content: center;
+}
+
+.status-breve {
+    background: #95a5a6;
+    color: white;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-acessar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    padding: 0.625rem 1rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: background 0.2s ease;
+}
+
+.btn-acessar:hover {
+    background: #2980b9;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-acessar i {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.btn-acessar:hover i {
+    transform: translateX(3px);
+}
+
+/* ESTADO VAZIO */
+.bairros-empty {
+    text-align: center;
+    padding: 3rem;
+    color: #95a5a6;
+    grid-column: 1 / -1;
+}

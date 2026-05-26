@@ -19,80 +19,7 @@
 
 <div class="shell">
 
-  <!-- ══════════ SIDEBAR ══════════ -->
-  <aside class="sidebar" id="sidebar">
-
-    <button class="sb-toggle" id="sbToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-
-    <div class="sb-logo">
-      {% icon_logo_white %}
-    </div>
-
-    <ul class="sb-menu">
-
-      <!-- download — só aparece colapsado 
-        <li class="sb-item  sb-download " >
-            
-            <a href="#" hidden id="installBtn" class="sb-row"  aria-label="Instalar aplicativo">
-            <span class="icon">{% icon_download %}</span>
-            <span class="sb-label">Instalar App</span>
-        </a>
-            
-       
-        </li>
-         /download -->
-
-      <!-- início 
-      <li class="sb-item">
-        <a href="{% url 'home' %}" class="sb-row {% if not request.GET.tag %}active{% endif %}">
-          <span class="icon">{% icon_home %}</span>
-          <span class="sb-label">Início</span>
-        </a>
-      </li>
-    -->
-{% for category in category_tags %}
-  <li class="sb-item has-dropdown {% if request.GET.tag in category.tags or category.name == active_category %}open{% endif %}">
-    <div class="sb-row {% if request.GET.tag in category.tags or category.name == active_category %}active{% endif %}" 
-         role="button"
-         data-category="{{ category.name }}"
-         data-filter-url="{% url 'home' %}?tag={{ category.name|urlencode }}">
-      <span class="icon">{% icon_by_name category.icon %}</span>
-      <span class="sb-label">{{ category.name }}</span>
-    </div>
-    <ul class="sb-dropdown">
-      {% for tag in category.tags %}
-        <li>
-          <a href="{% url 'home' %}?tag={{ tag|urlencode }}"
-             class="{% if request.GET.tag == tag %}active{% elif request.GET.tag in category.tags %}active-parent{% endif %}"
-             data-tag="{{ tag }}">
-            {{ tag }}
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </li>
-{% endfor %}
-
-    </ul>
-
-    <div class="sb-footer">
-      <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!"
-         target="_blank" rel="noopener noreferrer" title="Anúncios" class="bounce">
-        {% icon_advertise %}
-      </a>
-      <a href="https://www.instagram.com/click32.app"
-         target="_blank" rel="noopener noreferrer" title="Instagram">
-        {% icon_instagram %}
-      </a>
-      <a href="{% url 'faq' %}" title="FAQ">
-        {% icon_faq %}
-      </a>
-    </div>
-
-  </aside>
-
+  {% include 'sidebar.html' %}
   <!-- ══════════ MAIN ══════════ -->
   <div class="main">
 
@@ -111,29 +38,38 @@
                     <img src="{{ store.main_banner.url }}" alt="{{ store.name }}" loading="lazy">
                     <div class="vip-slide-overlay"></div>
                     <div class="vip-slide-meta">
+                      <div class="vip-name-row">
+                        <span class="vip-store-name">{{ store.name }}</span>
+                        {% if store.is_verified %}
+                          <i class="fas fa-circle-check vip-verified"></i>
+                        {% endif %}
+                      </div>
                       {% if store.tags.exists %}
-                        <div class="vip-badge">
+                        <div class="vip-tags">
                           {% for tag in store.tags.all %}
-                            {{ tag.name }}{% if not forloop.last %} · {% endif %}
+                            <span class="vip-tag">{{ tag.name }}</span>
+                           
                           {% endfor %}
                         </div>
                       {% endif %}
-                      <div class="vip-store-name">{{ store.name }}</div>
                     </div>
                   </a>
                 </div>
               {% endif %}
             {% endfor %}
 
-            <!-- banner anúncio — sempre por último -->
+            <!-- banner anúncio — mantém como estava ou segue padrão? -->
             <div class="vip-slide">
               <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!"
-                 target="_blank" rel="noopener noreferrer" class="vip-slide-inner">
+                target="_blank" rel="noopener noreferrer" class="vip-slide-inner">
                 <img src="{% static 'ad_banner.jpeg' %}" alt="Anuncie aqui" loading="lazy">
                 <div class="vip-slide-overlay"></div>
                 <div class="vip-slide-meta">
-                  <div class="vip-badge vip-badge-ad">
-                    <i class="fas fa-bullhorn"></i> Anuncie aqui
+                  <div class="vip-name-row">
+                    <span class="vip-store-name">Anuncie aqui</span>
+                  </div>
+                  <div class="vip-tags">
+                    <span class="vip-tag">📢 Destaque sua loja</span>
                   </div>
                 </div>
               </a>
@@ -178,25 +114,37 @@
     <!-- SCROLL AREA -->
     <div class="scroll-area" id="scrollArea">
 
-      <div class="store-feed {% if request.GET.tag %}store-list-filter{% else %}store-list{% endif %}" id="storeFeed">
+<div class="store-feed {% if request.GET.tag %}store-list-filter{% else %}store-list{% endif %}" id="storeFeed">
 
-        {% for store in stores %}
-          {% if store.main_banner %}
-            <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="store-card">
-              <div class="store-card-img-wrap">
-                <img src="{{ store.main_banner.url }}" alt="{{ store.name }}" loading="lazy">
-              </div>
-              {% if store.tags.exists %}
-                <div class="store-card-tag">
-                  {% for tag in store.tags.all %}
-                    {{ tag.name }}{% if not forloop.last %} · {% endif %}
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </a>
+  {% for store in stores %}
+    {% if store.main_banner %}
+      <a href="{% url 'store_detail_by_id' store.id %}?element_type=main_banner" class="store-card">
+        <div class="store-card-img-wrap">
+          <img src="{{ store.main_banner.url }}" alt="{{ store.name }}" loading="lazy">
+        </div>
+        <!-- Overlay escuro -->
+        <div class="store-card-overlay"></div>
+        <!-- Informações -->
+        <div class="store-card-info">
+          <div class="store-card-name-row">
+            <span class="store-card-name">{{ store.name }}</span>
+            {% if store.is_verified %}
+              <i class="fas fa-circle-check store-card-verified"></i>
+            {% endif %}
+          </div>
+          {% if store.tags.exists %}
+            <div class="store-card-tags">
+              {% for tag in store.tags.all %}
+                <span class="store-card-tag">{{ tag.name }}</span>
+              {% endfor %}
+            </div>
           {% endif %}
-        {% endfor %}
+        </div>
+      </a>
+    {% endif %}
+  {% endfor %}
 
+</div>
       </div>
 
     </div><!-- /scroll-area -->

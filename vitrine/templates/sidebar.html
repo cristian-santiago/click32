@@ -1,0 +1,56 @@
+{% load frontend_tags %}
+
+<!-- OVERLAY -->
+<div class="sb-overlay" id="sbOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+  <button class="sb-toggle" id="sbToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="sb-logo">
+    {% icon_logo_white %}
+  </div>
+
+  <ul class="sb-menu">
+    {% for category in category_tags %}
+      <li class="sb-item has-dropdown {% if request.GET.tag in category.tags or category.name == active_category %}open{% endif %}">
+        <div class="sb-row {% if request.GET.tag in category.tags or category.name == active_category %}active{% endif %}" 
+             role="button"
+             data-category="{{ category.name }}"
+             data-filter-url="{% url 'home' %}?tag={{ category.name|urlencode }}">
+          <span class="icon">{% icon_by_name category.icon %}</span>
+          <span class="sb-label">{{ category.name }}</span>
+        </div>
+        <ul class="sb-dropdown">
+          {% for tag in category.tags %}
+            <li>
+              <a href="{% url 'home' %}?tag={{ tag|urlencode }}"
+                 class="{% if request.GET.tag == tag %}active{% elif request.GET.tag in category.tags %}active-parent{% endif %}"
+                 data-tag="{{ tag }}">
+                {{ tag }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="sb-footer">
+    <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!"
+       target="_blank" rel="noopener noreferrer" title="Anúncios" class="bounce">
+      {% icon_advertise %}
+    </a>
+    <a href="https://www.instagram.com/click32.app"
+       target="_blank" rel="noopener noreferrer" title="Instagram">
+      {% icon_instagram %}
+    </a>
+    <a href="{% url 'faq' %}" title="FAQ">
+      {% icon_faq %}
+    </a>
+  </div>
+
+</aside>

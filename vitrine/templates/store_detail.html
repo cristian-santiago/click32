@@ -20,88 +20,7 @@
 
 <div class="shell">
 
-
-
-  <!-- ══════════ SIDEBAR (idêntica à home) ══════════ -->
-  <aside class="sidebar" id="sidebar">
-
-    <button class="sb-toggle" id="sbToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-
-    <div class="sb-logo">
-      {% icon_logo_white %}
-    </div>
-
-    <ul class="sb-menu">
-
-    
-      <!-- 
-      
-      <li class="sb-item sb-download">
-        <a href="#" hidden id="installBtn" class="sb-row" aria-label="Instalar aplicativo">
-          <span class="icon">{% icon_download %}</span>
-          <span class="sb-label">Instalar App</span>
-        </a>
-      </li>
-
-       
-      <li class="sb-item">
-        <a href="{% url 'home' %}" class="sb-row">
-          <span class="icon">{% icon_home %}</span>
-          <span class="sb-label">Início</span>
-        </a>
-      </li>
-    -->
-    
-
-      <!-- categorias dinâmicas do admin -->
-      {% for category in category_tags %}
-        {% if category.tags %}
-          <!-- tem dropdown -->
-          <li class="sb-item has-dropdown">
-            <div class="sb-row" role="button">
-              <span class="icon">{% icon_by_name category.icon %}</span>
-              <span class="sb-label">{{ category.name }}</span>
-            </div>
-            <ul class="sb-dropdown">
-              {% for tag in category.tags %}
-                <li>
-                  <a href="{% url 'home' %}?tag={{ tag|urlencode }}">
-                    {{ tag }}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          </li>
-        {% else %}
-          <!-- sem dropdown -->
-          <li class="sb-item">
-            <a href="{% url 'home' %}?tag={{ category.name|urlencode }}" class="sb-row">
-              <span class="icon">{% icon_by_name category.icon %}</span>
-              <span class="sb-label">{{ category.name }}</span>
-            </a>
-          </li>
-        {% endif %}
-      {% endfor %}
-
-    </ul>
-
-    <div class="sb-footer">
-      <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20minha%20loja%20no%20Click32!"
-         target="_blank" rel="noopener noreferrer" title="Anúncios">
-        <i class="fas fa-bullhorn fa-beat-fade"></i>
-      </a>
-      <a href="https://www.instagram.com/click32.app"
-         target="_blank" rel="noopener noreferrer" title="Instagram">
-        {% icon_instagram %}
-      </a>
-      <a href="{% url 'faq' %}" title="Sobre">
-        {% icon_info %}
-      </a>
-    </div>
-
-  </aside>
+{% include 'sidebar.html' %}
 
   <!-- ══════════ MAIN ══════════ -->
   <div class="main">
@@ -422,8 +341,7 @@
 
     <script>const CSRF_TOKEN = '{{ csrf_token }}';</script>
     <script src="{% static 'js/store_detail.js' %}?v={{ STATIC_VERSION }}"></script>
-    <script src="{% static 'js/description_scroll.js' %}?v={{ STATIC_VERSION }}"></script>
-    
+    <script src="{% static 'js/description_scroll.js' %}?v={{ STATIC_VERSION }}"></script>    
     <script src="{% static 'js/flyer_modal.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/phone_click.js' %}?v={{ STATIC_VERSION }}"></script>
     <script src="{% static 'js/url_removal.js' %}?v={{ STATIC_VERSION }}"></script>

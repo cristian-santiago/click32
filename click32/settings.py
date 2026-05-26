@@ -30,6 +30,24 @@ CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_origins]
 # WhatsApp number
 WHATSAPP_NUMBER = os.environ.get('WHATSAPP_NUMBER', '9999999999')
 
+# ==================== BAIRROS CONFIG ====================
+
+# Identificação do bairro atual (vem do .env)
+BAIRRO_ID = os.getenv('BAIRRO_ID', 'km32')
+BAIRRO_NOME = os.getenv('BAIRRO_NOME', 'Km 32')
+
+# Carrega a lista de todos os bairros do arquivo JSON
+import json
+from pathlib import Path
+
+BAIRROS_JSON_PATH = BASE_DIR / 'bairros.json'
+
+try:
+    with open(BAIRROS_JSON_PATH, 'r', encoding='utf-8') as f:
+        BAIRROS_DATA = json.load(f)
+        TODOS_BAIRROS = BAIRROS_DATA.get('bairros', [])
+except FileNotFoundError:
+    TODOS_BAIRROS = []  # Fallback caso arquivo não exista
 # ==================== APPLICATION ====================
 
 INSTALLED_APPS = [

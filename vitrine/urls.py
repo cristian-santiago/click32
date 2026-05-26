@@ -34,6 +34,8 @@ urlpatterns = [
     path('sobre/', views.about, name='sobre'),
     path('faq/', views.faq, name='faq'),
     path('flyer-landing/', views.flyer_landing, name='flyer_landing'),
+    path('feedback/', views.feedback, name='feedback'),
+    path('bairros/', views.bairros, name='bairros'),
 
     
     # APIs

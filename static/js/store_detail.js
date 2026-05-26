@@ -1,38 +1,7 @@
 (function () {
   'use strict';
 
-  /* ══════════════════════════════
-     SIDEBAR
-  ══════════════════════════════ */
-  const sidebar = document.getElementById('sidebar');
-  const toggle  = document.getElementById('sbToggle');
-  const overlay = document.getElementById('sbOverlay');
-
-  function openSB() {
-    sidebar.classList.add('expanded');
-    overlay.classList.add('visible');
-  }
-  function closeSB() {
-    sidebar.classList.remove('expanded');
-    overlay.classList.remove('visible');
-    sidebar.querySelectorAll('.sb-item.open').forEach(el => el.classList.remove('open'));
-  }
-
-  toggle.addEventListener('click', () =>
-    sidebar.classList.contains('expanded') ? closeSB() : openSB()
-  );
-  overlay.addEventListener('click', closeSB);
-
-  sidebar.querySelectorAll('.sb-row[role="button"]').forEach(row => {
-    row.addEventListener('click', () => {
-      if (!sidebar.classList.contains('expanded')) { openSB(); return; }
-      const item   = row.closest('.sb-item');
-      const isOpen = item.classList.contains('open');
-      sidebar.querySelectorAll('.sb-item.open').forEach(el => el.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
-  });
-
+  
   
   /* ══════════════════════════════
      HERO CAROUSEL

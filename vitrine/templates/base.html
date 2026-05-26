@@ -24,6 +24,7 @@
   <link rel="icon" href="{% static 'icons/icon-384x384.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="384x384">
   <link rel="icon" href="{% static 'icons/icon-512x512.webp' %}?v={{ STATIC_VERSION }}" type="image/png" sizes="512x512">
   <link rel="stylesheet" href="{% static 'css/base.css' %}?v={{ STATIC_VERSION }}">
+  <link rel="stylesheet" href="{% static 'css/sidebar.css' %}?v={{ STATIC_VERSION }}">  <!-- NOVO -->
   <link rel="stylesheet" href="{% static 'css/main_toolbar.css' %}?v={{ STATIC_VERSION }}">
   <link rel="stylesheet" href="{% static 'css/notification_modal.css' %}?v={{ STATIC_VERSION }}">
   <link rel="stylesheet" href="{% static 'css/nav_bottom.css' %}?v={{ STATIC_VERSION }}"> 
@@ -87,6 +88,7 @@
 <script src="{% static 'js/notification_modal.js' %}?v={{ STATIC_VERSION }}"></script>
 <script src="{% static 'js/popup_menu.js' %}?v={{ STATIC_VERSION }}"></script>
 <script src="{% static 'js/share_modal.js' %}?v={{ STATIC_VERSION }}"></script>
+<script src="{% static 'js/sidebar.js' %}?v={{ STATIC_VERSION }}"></script> 
 
 <script>
   window.addEventListener('resize', () => {
@@ -102,7 +104,6 @@ const tabMap = {
   'notifications': el => path.startsWith('/notificacoes') ,
   'share': el => path.match(/^\/[^/]+\/$/) && path !== '/' && !path.startsWith('/sobre')  && !path.startsWith('/notificacoes'),
   'info':  el => path.includes('/sobre'),
-  // adiciona rotas conforme crescer
 };
 
 document.querySelectorAll('.nav-item[data-tab]').forEach(item => {
@@ -113,7 +114,5 @@ document.querySelectorAll('.nav-item[data-tab]').forEach(item => {
 
 {% block extra_js %}{% endblock %}
 
-
-
-
 </body>
+</html>

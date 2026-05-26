@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/feedback.css' %}?v={{ STATIC_VERSION }}">
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO COM FORM INTEGRADO -->
+<section class="feedback-hero">
+    <div class="feedback-hero-shapes" aria-hidden="true">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+    
+    <div class="container">
+        
+        <!-- Header -->
+        <div class="feedback-hero-header">
+            <div class="feedback-badge">
+                <i class="fas fa-comment-dots"></i>
+                <span>Sua opinião importa</span>
+            </div>
+            <h1>Ajude o <span class="highlight">Click32</span> a melhorar</h1>
+            <p>Compartilhe sua experiência com o Click32. Cada feedback nos ajuda a construir um app melhor para o bairro.</p>
+        </div>
+
+        <!-- Form Wrap -->
+        <div class="feedback-form-wrap" id="feedbackForm">
+            
+            <!-- Avaliação por estrelas -->
+            <div class="feedback-rating-block">
+                <label class="feedback-label">O que você achou do Click32?</label>
+                <div class="star-rating" id="starRating">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+            </div>
+
+            <!-- Categoria -->
+            <div class="feedback-field">
+                <label class="feedback-label">Tipo de feedback</label>
+                <div class="feedback-category-grid" id="categoryGrid">
+                    <button type="button" class="category-btn" data-category="suggestion">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Sugestão</span>
+                    </button>
+                    <button type="button" class="category-btn" data-category="praise">
+                        <i class="fas fa-heart"></i>
+                        <span>Elogio</span>
+                    </button>
+                    <button type="button" class="category-btn" data-category="problem">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Problema</span>
+                    </button>
+                    <button type="button" class="category-btn" data-category="other">
+                        <i class="fas fa-ellipsis-h"></i>
+                        <span>Outro</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Campo de texto -->
+            <div class="feedback-field">
+                <label class="feedback-label">Conte-nos mais</label>
+                <textarea 
+                    id="feedbackText" 
+                    class="feedback-textarea" 
+                    placeholder="Descreva seu feedback aqui. Seja específico — isso nos ajuda a entender melhor."
+                    rows="5"
+                ></textarea>
+                <div class="char-count">
+                    <span id="charCount">0</span>/500
+                </div>
+            </div>
+
+            <!-- Botão enviar -->
+            <button type="button" class="feedback-submit-btn" id="submitBtn">
+                <span>Enviar feedback</span>
+                <i class="fas fa-paper-plane"></i>
+            </button>
+
+        </div>
+
+        <!-- Confirmação (hidden inicialmente) -->
+        <div class="feedback-success" id="feedbackSuccess">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Feedback recebido!</h3>
+            <p>Obrigado por nos ajudar a melhorar o Click32.</p>
+            <button type="button" class="feedback-back-btn" id="backBtn">
+                <i class="fas fa-arrow-left"></i>
+                Enviar outro feedback
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- Info adicional (opcional - pode remover se quiser mais enxuto) -->
+<section class="feedback-info-section">
+    <div class="container">
+        <div class="feedback-info-grid">
+            <div class="info-card">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Anônimo</h4>
+                <p>Não coletamos informações pessoais.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-bolt"></i>
+                <h4>Resposta rápida</h4>
+                <p>Bugs críticos têm prioridade.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-heart"></i>
+                <h4>Construído com você</h4>
+                <p>Cada feedback conta.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/feedback.js' %}?v={{ STATIC_VERSION }}"></script>
+{% endblock %}

@@ -371,13 +371,19 @@ def flyer_landing(request):
     """View para página de destino do flyer (exemplo)"""
     return render(request, 'flyer_landing.html')
 
-def new_ui(request):
-    """View para nova interface (exemplo)"""
-    return render(request, 'new_ui.html')
+def feedback(request):
+    """View para página de feedback (exemplo)"""
+    return render(request, 'feedback.html')
 
-def new_home(request):
-    """View para nova interface (exemplo)"""
-    return render(request, 'new_home.html')
+def bairros(request):
+    context = {
+        'bairro_atual': {
+            'id': settings.BAIRRO_ID,
+            'nome': settings.BAIRRO_NOME,
+        },
+        'todos_bairros': settings.TODOS_BAIRROS,  # vem do JSON
+    }
+    return render(request, 'bairros.html', context)
 
 def _track_daily_click(store, element_type):
     """Grava ou incrementa o contador diário em ClickTrackDaily."""

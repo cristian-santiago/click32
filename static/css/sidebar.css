@@ -1,0 +1,283 @@
+/* ══════════════════════════════════════════
+   SIDEBAR — Componente unificado
+   Extraído do home.css (versão mais atualizada)
+   ══════════════════════════════════════════ */
+
+/* ══════════════════════════════
+   OVERLAY
+══════════════════════════════ */
+.sb-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.32);
+  z-index: 1999;
+  backdrop-filter: blur(1px);
+}
+.sb-overlay.visible {
+  display: block;
+}
+
+/* ══════════════════════════════
+   SIDEBAR
+══════════════════════════════ */
+.sidebar {
+  width: var(--sb-collapsed);
+  flex-shrink: 0;
+  background: var(--sb-bg);
+  color: var(--sb-text);
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+  height: calc(var(--real-vh, 100dvh) - var(--sb-h));
+  overflow: hidden;
+  transition: width .35s ease;
+  position: relative;
+  left: 5px;
+  top: 10px;
+  border-radius: 10px;
+}
+
+.sidebar.expanded { 
+  width: var(--sb-expanded); 
+  overflow-y: auto; 
+}
+
+.sidebar::-webkit-scrollbar { display: none; }
+
+.sb-toggle {
+  width: 40px; height: 40px;
+  flex-shrink: 0; align-self: center;
+  background: none; border: none; cursor: pointer;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px; padding: 8px;
+  margin: 6px 0 2px;
+}
+
+.sidebar.expanded .sb-toggle { align-self: flex-end; margin-right: 0; }
+
+.sb-toggle span {
+  display: block; width: 21px; height: 3px;
+  background: var(--sb-text); border-radius: 2px;
+  transition: transform .24s, opacity .2s;
+}
+
+.sidebar.expanded .sb-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.sidebar.expanded .sb-toggle span:nth-child(2) { opacity: 0; }
+.sidebar.expanded .sb-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.sb-menu { 
+  list-style: none; 
+  flex: 1; 
+  overflow-y: auto; 
+  overflow-x: hidden; 
+  scrollbar-width: none;  
+  padding: 0;
+  margin: 0;
+}
+
+.sb-menu::-webkit-scrollbar { display: none; }
+.sb-item { position: relative; }
+
+.sb-logo {
+  display: flex;
+  justify-content: center;  
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: height .35s ease, opacity .25s ease;
+}
+
+.sidebar.expanded .sb-logo {
+  height: 48px; 
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* CORREÇÃO PRINCIPAL - Garantir que o sb-row ocupe toda largura */
+.sb-row {
+  display: flex; 
+  align-items: center;
+  height: 48px; 
+  padding: 0; 
+  gap: 0;
+  cursor: pointer; 
+  color: var(--sb-text);
+  text-decoration: none; 
+  white-space: nowrap;
+  overflow: hidden; 
+  transition: background .15s;
+  width: 100%;
+  position: relative;
+}
+
+/* Quando sidebar está expandido */
+.sidebar.expanded .sb-row {
+  padding: 0 8px 0 0;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Quando NÃO está expandido (colapsado) */
+.sidebar:not(.expanded) .sb-row {
+  justify-content: center;
+  padding: 0;
+}
+
+/* CORREÇÃO DO HOVER E ACTIVE */
+.sb-row:hover { 
+  background: var(--sb-hover); 
+  width: 100%; 
+}
+
+.sb-row.active { 
+  background: rgba(255,255,255,0.1);
+  width: 100%;
+}
+
+/* Ajuste do ícone */
+.sb-row .icon {
+  font-size: 1.3rem;
+  width: 40px; 
+  flex-shrink: 0;
+  text-align: center;
+  color: var(--sb-muted);
+  transition: all .2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ícone quando colapsado */
+.sidebar:not(.expanded) .sb-row .icon {
+  margin: 0;
+}
+
+/* Ícone quando expandido */
+.sidebar.expanded .sb-row .icon { 
+  width: 24px;  
+  margin-left: 12px;
+}
+
+/* Label */
+.sb-label {
+  font-size: 0.83rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity .25s .2s ease, transform .25s .2s ease;
+  pointer-events: none;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.expanded .sb-label {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+/* Dropdown */
+.sb-dropdown {
+  list-style: none; 
+  background: var(--sb-dropdown);
+  max-height: 0; 
+  overflow: hidden;
+  transition: max-height .32s cubic-bezier(.4,0,.2,1);
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar:not(.expanded) .sb-dropdown { display: none; }
+.sb-item.open .sb-dropdown { max-height: 500px; }
+
+/* CORREÇÃO DOS ITENS DO DROPDOWN */
+.sb-dropdown li {
+  width: 100%;
+}
+
+.sb-dropdown li a {
+  display: block; 
+  padding: 9px 12px 9px 42px;
+  font-size: 0.8rem; 
+  color: var(--sb-text); 
+  opacity: 0.8;
+  text-decoration: none; 
+  transition: background .15s, opacity .15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ajuste do padding quando expandido */
+.sidebar.expanded .sb-dropdown li a {
+  padding: 9px 12px 9px 46px;
+}
+
+.sb-dropdown li a:hover { 
+  background: var(--sb-hover); 
+  opacity: 1; 
+}
+
+.sb-dropdown li a.active-parent {
+  background: var(--sb-hover);
+  opacity: 0.9;
+}
+
+.sb-dropdown li a.active {
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  opacity: 1;
+  font-weight: 600;
+  width: 100%;
+}
+
+.sb-dropdown li a.active:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.sb-item.has-dropdown.open > .sb-row { 
+  background: var(--sb-hover); 
+}
+
+.sb-footer {
+  flex-shrink: 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; 
+  justify-content: space-evenly; 
+  align-items: center;
+  padding: 10px 4px;
+  opacity: 0; 
+  pointer-events: none; 
+  transition: opacity .18s;
+}
+
+.sidebar.expanded .sb-footer { 
+  opacity: 1; 
+  pointer-events: auto; 
+}
+
+.sb-footer a {
+  color: var(--sb-muted); 
+  font-size: 1.2rem; 
+  text-decoration: none;
+  width: 32px; 
+  height: 32px; 
+  display: flex; 
+  align-items: center;
+  justify-content: center; 
+  border-radius: 8px;
+  transition: color .15s, background .15s;
+}
+
+.sb-footer a:hover { 
+  color: var(--sb-text); 
+  background: rgba(255,255,255,.08); 
+}
+
+.fa-beat-fade { 
+  color: #00ccff !important; 
+}

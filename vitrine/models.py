@@ -97,10 +97,26 @@ class StoreOpeningHour(models.Model):
 
     @property
     def is_active_now(self):
-        now = datetime.now()
+        from datetime import time
+        
         if self.time_close is None:
             return True
-        return self.time_open <= now.time() <= self.time_close
+        
+        now = timezone.now().time()
+        
+        # Função local para converter string para time
+        def to_time(val):
+            if isinstance(val, time):
+                return val
+            if isinstance(val, str):
+                parts = val.split(':')
+                return time(int(parts[0]), int(parts[1]) if len(parts) > 1 else 0)
+            return val
+        
+        time_open = to_time(self.time_open)
+        time_close = to_time(self.time_close)
+        
+        return time_open <= now <= time_close
 
 class ClickTrack(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='clicktrack', null=True, blank=True)
@@ -275,3 +291,41 @@ class StoreNotification(models.Model):
             from datetime import timedelta
             self.expira_em = timezone.now() + timedelta(days=self.VISIBILIDADE_DIAS)
         super().save(*args, **kwargs)
+
+
+class Feedback(models.Model):
+    RATING_CHOICES = [(1, '1★'), (2, '2★'), (3, '3★'), (4, '4★'), (5, '5★')]
+    CATEGORY_CHOICES = [
+        ('suggestion', 'Sugestão'),
+        ('praise', 'Elogio'),
+        ('problem', 'Problema'),
+        ('other', 'Outro'),
+    ]
+    
+    rating = models.IntegerField(choices=RATING_CHOICES)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    message = models.TextField(max_length=500)
+    
+    # CORREÇÃO: Referência para ActiveSession
+    session = models.ForeignKey(
+        'ActiveSession',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='feedbacks'
+    )
+    user_agent = models.TextField(blank=True)
+    
+    # Metadados
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_spam = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['created_at']),
+            models.Index(fields=['session', 'created_at']),
+        ]
+    
+    def __str__(self):
+        return f"{self.get_category_display()} - {self.rating}★ - {self.created_at.strftime('%d/%m/%Y')}"

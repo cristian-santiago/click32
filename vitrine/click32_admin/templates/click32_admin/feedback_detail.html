@@ -1,0 +1,113 @@
+<!-- vitrine/click32_admin/templates/click32_admin/feedback_detail.html -->
+
+{% extends 'click32_admin/base.html' %}
+{% load static %}
+
+{% block title %}Feedback #{{ feedback.id }} - Click32 Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">
+            <i class="fas fa-comment-dots"></i> Feedback #{{ feedback.id }}
+        </h1>
+        <a href="{% url 'click32_admin:feedback_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Card Principal -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Avaliação -->
+                    <div class="mb-4">
+                        <label class="text-muted">Avaliação</label>
+                        <div class="fs-4">
+                            {% for i in "12345"|make_list %}
+                                {% if forloop.counter <= feedback.rating %}
+                                    <i class="fas fa-star text-warning"></i>
+                                {% else %}
+                                    <i class="far fa-star text-muted"></i>
+                                {% endif %}
+                            {% endfor %}
+                            <span class="ms-2 fs-6 text-muted">{{ feedback.rating }}/5</span>
+                        </div>
+                    </div>
+
+                    <!-- Categoria -->
+                    <div class="mb-4">
+                        <label class="text-muted">Categoria</label>
+                        <div>
+                            <span class="badge 
+                                {% if feedback.category == 'praise' %}bg-success
+                                {% elif feedback.category == 'problem' %}bg-danger
+                                {% elif feedback.category == 'suggestion' %}bg-info
+                                {% else %}bg-secondary{% endif %} fs-6">
+                                {{ feedback.get_category_display }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Mensagem -->
+                    <div class="mb-4">
+                        <label class="text-muted">Mensagem</label>
+                        <div class="p-3 bg-light rounded">
+                            {{ feedback.message|linebreaks }}
+                        </div>
+                    </div>
+
+                    <!-- Metadados -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="text-muted">Sessão</label>
+                            <div>
+                                <code>{{ feedback.session.session_id }}</code>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted">Data/Hora</label>
+                            <div>{{ feedback.created_at|date:"d/m/Y H:i:s" }}</div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label class="text-muted">User Agent</label>
+                            <div class="small text-muted">{{ feedback.user_agent|default:"-" }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted">Spam?</label>
+                            <div>
+                                {% if feedback.is_spam %}
+                                    <span class="badge bg-danger">Sim</span>
+                                {% else %}
+                                    <span class="badge bg-success">Não</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Ações</h6>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-outline-danger w-100 mb-2">
+                        <i class="fas fa-flag"></i> Marcar como Spam
+                    </button>
+                    <button class="btn btn-outline-success w-100">
+                        <i class="fas fa-check"></i> Marcar como Lido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

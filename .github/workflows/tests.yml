@@ -1,6 +1,6 @@
 # .github/workflows/tests.yml
 
-name:  Testes Automáticos
+name: Testes Automaticos
 
 on:
   pull_request:
@@ -18,7 +18,7 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: test_pass
+          POSTGRES_PASSWORD: test_pass_123
           POSTGRES_DB: test_db
         ports:
           - 5432:5432
@@ -29,21 +29,21 @@ jobs:
           --health-retries 5
 
     steps:
-      - name:  Baixar código
+      - name: Baixar codigo
         uses: actions/checkout@v3
 
-      - name:  Configurar Python
+      - name: Configurar Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
           cache: 'pip'
 
-      - name:  Instalar dependências
+      - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name:  Configurar variáveis de ambiente
+      - name: Configurar .env
         run: |
           echo "DEBUG=False" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
@@ -53,20 +53,20 @@ jobs:
           echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env
           echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env
 
-      - name:  Rodar migrations
+      - name: Rodar migrations
         run: |
           python manage.py makemigrations vitrine
           python manage.py migrate
 
-      - name:  Rodar testes
+      - name: Rodar testes
         run: |
           python manage.py test vitrine.tests -v 2
 
-      - name:  Sucesso
+      - name: Sucesso
         if: success()
-        run: echo "🎉 Testes passaram! Pode fazer o merge."
+        run: echo "Testes passaram! Pode fazer o merge."
 
-      - name:  Falha
+      - name: Falha
         if: failure()
         run: |
           echo "Testes falharam! Corrija antes de fazer o merge."

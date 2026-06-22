@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" href="{% static 'icons/icon-180x180.png' %}" sizes="180x180">
     <link rel="manifest" href="{% static 'manifest.json' %}">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; script-src 'self'; connect-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com https://ka-f.fontawesome.com; script-src 'self'; connect-src 'self';"> 
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="theme-color" content="#2c3e50">
     <meta name="mobile-web-app-capable" content="yes">
@@ -18,7 +18,7 @@
     <meta name="apple-mobile-web-app-title" content="Click32">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Encarte digital para o seu negócio no KM32. QR Code exclusivo, sem complicação.">
+    <meta name="description" content="Encarte digital para o seu negócio no KM32. Transforme seu cardápio, catálogo ou flyer em material digital.">
 
     <title>Encarte Digital — Click32</title>
 
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <!-- ══ HERO ══ -->
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-bg" aria-hidden="true">
             <div class="hero-shape s1"></div>
@@ -70,9 +70,9 @@
                     <h1>Seu encarte,<br><span class="highlight">agora digital.</span></h1>
                     <p>Disponível pelo celular, com um toque. Sem complicação.</p>
                     <div class="hero-pills">
-                        <span><i class="fas fa-check"></i> QR Code exclusivo</span>
                         <span><i class="fas fa-check"></i> A gente configura tudo</span>
-                        <span><i class="fas fa-check"></i> Sem taxa por venda</span>
+                        <span><i class="fas fa-check"></i> Atualiza quando quiser</span>
+                        <span><i class="fas fa-check"></i> Seu cliente vê na hora</span>
                     </div>
                 </div>
 
@@ -80,7 +80,6 @@
                 <div class="hero-visual reveal reveal-delay">
                     <div class="phones-group">
 
-                        <!-- TELEFONE ESQUERDA (atrás) -->
                         <div class="phone-mockup phone-mockup--side phone-mockup--left">
                             <div class="phone-screen">
                                 <div class="phone-punch"></div>
@@ -90,7 +89,6 @@
                             </div>
                         </div>
 
-                        <!-- TELEFONE CENTRAL (frente) -->
                         <div class="phone-mockup phone-mockup--main">
                             <div class="phone-screen">
                                 <div class="phone-punch"></div>
@@ -103,7 +101,6 @@
                             <div class="phone-btn phone-btn--vol-down"></div>
                         </div>
 
-                        <!-- TELEFONE DIREITA (atrás) -->
                         <div class="phone-mockup phone-mockup--side phone-mockup--right">
                             <div class="phone-screen">
                                 <div class="phone-punch"></div>
@@ -133,7 +130,7 @@
         </div>
     </section>
 
-    <!-- ══ COMO FUNCIONA ══ -->
+    <!-- COMO FUNCIONA -->
     <section class="how-section" id="como-funciona">
         <div class="container">
             <div class="section-label reveal">Simples assim</div>
@@ -143,27 +140,27 @@
                     <div class="step-num">01</div>
                     <div class="step-icon"><i class="fas fa-paper-plane"></i></div>
                     <h3>Você nos envia o material</h3>
-                    <p>Imagem, PDF — o que tiver. Manda pelo WhatsApp e pronto.</p>
+                    <p>Imagem, PDF ou o que tiver. Manda pelo WhatsApp.</p>
                 </div>
                 <div class="step-arrow reveal" aria-hidden="true"><i class="fas fa-arrow-right"></i></div>
                 <div class="step-card reveal">
                     <div class="step-num">02</div>
                     <div class="step-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
                     <h3>A gente sobe no seu perfil</h3>
-                    <p>Configuramos tudo. Você não precisa de login, painel ou conhecimento técnico.</p>
+                    <p>Transformamos seu material em um encarte digital. Você não precisa fazer nada.</p>
                 </div>
                 <div class="step-arrow reveal" aria-hidden="true"><i class="fas fa-arrow-right"></i></div>
                 <div class="step-card reveal">
                     <div class="step-num">03</div>
                     <div class="step-icon"><i class="fas fa-mobile-screen"></i></div>
-                    <h3>Cliente acessa pelo link ou QR</h3>
-                    <p>Um toque e está vendo tudo. Entra em contato direto com você.</p>
+                    <h3>Cliente acessa e vê tudo</h3>
+                    <p>Um toque e está vendo seu cardápio, catálogo ou promoções. Entra em contato direto.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ══ POR SEGMENTO ══ -->
+    <!-- PARA QUE TIPO DE NEGÓCIO -->
     <section class="segments-section" id="segmentos">
         <div class="container">
             <div class="section-label light reveal">Para o seu negócio</div>
@@ -176,7 +173,7 @@
                     <div class="segment-icon"><i class="fas fa-burger"></i></div>
                     <div class="segment-body">
                         <h3>Lanchonetes</h3>
-                        <p>Aquele encarte com as promoções da semana que você imprime? Agora ele também é digital. O cliente vê, escolhe e já entra em contato direto pelo WhatsApp. Sem intermediário, sem taxa.</p>
+                        <p>Aquele encarte com as promoções da semana que você imprime? Agora ele também é digital. O cliente vê, escolhe e já entra em contato direto pelo WhatsApp.</p>
                         <div class="segment-tags">
                             <span>Promoções da semana</span>
                             <span>Combos</span>
@@ -189,7 +186,7 @@
                     <div class="segment-icon"><i class="fas fa-pills"></i></div>
                     <div class="segment-body">
                         <h3>Farmácias</h3>
-                        <p>Seu encarte de ofertas sempre foi impresso. Agora ele também é digital. O cliente vê os produtos e promoções pelo celular e entra em contato direto. Você ainda aparece nas categorias certas para quem procura no bairro.</p>
+                        <p>Seu encarte de ofertas sempre foi impresso. Agora ele também é digital. O cliente vê os produtos e promoções pelo celular.</p>
                         <div class="segment-tags">
                             <span>Ofertas semanais</span>
                             <span>Produtos em promoção</span>
@@ -201,7 +198,7 @@
                     <div class="segment-icon"><i class="fas fa-shirt"></i></div>
                     <div class="segment-body">
                         <h3>Lojas de Roupa</h3>
-                        <p>Aquela coleção nova ou liquidação de fim de estação? Seu encarte digital chega antes do cliente vir até você.</p>
+                        <p>Aquela coleção nova ou liquidação de fim de estação? Seu encarte digital chega antes do cliente. Ele vê, escolhe e vai até você.</p>
                         <div class="segment-tags">
                             <span>Lançamento de coleção</span>
                             <span>Liquidação</span>
@@ -229,97 +226,111 @@
         </div>
     </section>
 
-    <!-- ══ DIFERENCIAIS ══ -->
-    <section class="diff-section" id="diferenciais">
+    <!-- VANTAGENS DO ENCARTE DIGITAL -->
+    <section class="diff-section" id="vantagens">
         <div class="container">
-            <div class="section-label reveal">Por que funciona</div>
-            <h2 class="reveal">Tudo que você precisa.<br>Nada que você não precisa.</h2>
+            <div class="section-label reveal">Vantagens</div>
+            <h2 class="reveal">Por que ter um encarte digital?</h2>
             <div class="diff-grid">
                 <div class="diff-card reveal">
-                    <div class="diff-icon"><i class="fas fa-qrcode"></i></div>
-                    <h3>QR Code exclusivo</h3>
-                    <p>Cada anunciante tem seu próprio QR, gerado automaticamente. Imprime e coloca onde quiser — porta, balcão, encarte físico.</p>
+                    <div class="diff-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <h3>Nós fazemos todo o trabalho</h3>
+                    <p>Você envia o material. A gente converte, organiza e disponibiliza no seu perfil.</p>
                 </div>
                 <div class="diff-card reveal">
-                    <div class="diff-icon"><i class="fas fa-share-nodes"></i></div>
-                    <h3>Link compartilhável</h3>
-                    <p>Envia por WhatsApp, Instagram, ou coloca na bio. O cliente acessa de onde estiver.</p>
+                    <div class="diff-icon"><i class="fas fa-sync-alt"></i></div>
+                    <h3>Atualiza quando quiser</h3>
+                    <p>Mudou o preço? Nova promoção? É só avisar que a gente atualiza.</p>
                 </div>
                 <div class="diff-card reveal">
-                    <div class="diff-icon"><i class="fas fa-hands"></i></div>
-                    <h3>A gente cuida de tudo</h3>
-                    <p>Você envia o material, a gente sobe. Sem login, sem painel, sem complicação.</p>
+                    <div class="diff-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Visualização em tela cheia</h3>
+                    <p>O cliente abre e vê tudo no celular. Navega página por página.</p>
                 </div>
                 <div class="diff-card reveal">
-                    <div class="diff-icon"><i class="fas fa-circle-xmark"></i></div>
-                    <h3>Sem taxa por venda</h3>
-                    <p>O cliente entra em contato direto com você. Zero comissão, zero intermediário.</p>
-                </div>
-                <div class="diff-card reveal">
-                    <div class="diff-icon"><i class="fas fa-crosshairs"></i></div>
-                    <h3>Aparece na categoria certa</h3>
-                    <p>Seu negócio aparece para quem procura no bairro, na categoria certa, na hora certa.</p>
-                </div>
-                <div class="diff-card reveal">
-                    <div class="diff-icon"><i class="fas fa-shield-halved"></i></div>
-                    <h3>Perfil validado por nós</h3>
-                    <p>Tudo que está no Click32 foi verificado antes de ir ao ar. Confiável para o cliente, seguro para você.</p>
+                    <div class="diff-icon"><i class="fas fa-comment-dots"></i></div>
+                    <h3>Contato direto</h3>
+                    <p>Viu o que gostou? Um toque e já entra em contato com você. Sem intermediário.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ══ MOCKUP VISUAL ══ -->
-    <section class="visual-section">
-        <div class="container">
-            <div class="visual-inner">
-                <div class="visual-copy reveal">
-                    <div class="section-label">Como fica no app</div>
-                    <h2>O cliente vê tudo<br>com um toque.</h2>
-                    <p>Seu encarte fica disponível direto no seu perfil no Click32. O cliente abre, visualiza página por página, e entra em contato na hora — sem sair do app.</p>
-                    <ul class="visual-list">
-                        <li><i class="fas fa-check-circle"></i> Acesso pelo perfil ou pelo QR Code</li>
-                        <li><i class="fas fa-check-circle"></i> Visualização em tela cheia no celular</li>
-                        <li><i class="fas fa-check-circle"></i> Contato direto com um toque</li>
-                    </ul>
-                </div>
-                <div class="visual-screens reveal reveal-delay">
-                    <!-- TELA 1: perfil com ícone encarte -->
-                    <div class="screen-card screen-back">
-                        <div class="screen-label">Perfil no app</div>
-                        <!-- Substituir pela imagem real: screenshot do perfil -->
-                        <div class="screen-img-placeholder">
-                            <i class="fas fa-mobile-screen-button"></i>
-                            <span>Screenshot do perfil</span>
-                        </div>
+<!-- COMO FICA NO APP -->
+<section class="visual-section">
+    <div class="container">
+        <div class="visual-inner">
+            <div class="visual-copy reveal">
+                <div class="section-label">Como fica no app</div>
+                <h2>O cliente vê tudo<br>com um toque.</h2>
+                <p>Seu encarte digital fica disponível no seu perfil do Click32. O cliente abre, visualiza página por página e entra em contato na hora.</p>
+                <ul class="visual-list">
+                    <li><i class="fas fa-check-circle"></i> Acesso pelo ícone do encarte no seu perfil</li>
+                    <li><i class="fas fa-check-circle"></i> Navegação página por página</li>
+                    <li><i class="fas fa-check-circle"></i> Contato direto com um toque</li>
+                </ul>
+            </div>
+            <div class="visual-images reveal reveal-delay">
+                <div class="visual-image-wrapper">
+                    <img src="{% static 'flyer_location.png' %}"
+                         alt="Ícone do encarte digital no perfil"
+                         class="visual-location-img">
+                    <div class="visual-arrow">
+                        <i class="fas fa-chevron-down"></i>
                     </div>
-                    <!-- TELA 2: encarte aberto -->
-                    <div class="screen-card screen-front">
-                        <div class="screen-label highlight-label">Encarte aberto</div>
-                        <!-- Substituir pela imagem real: screenshot do encarte aberto -->
-                        <div class="screen-img-placeholder">
-                            <i class="fas fa-file-image"></i>
-                            <span>Screenshot do encarte</span>
+
+                    <!-- CARROSSEL 3D -->
+                    <div class="phone-carousel" id="phoneCarousel">
+                        <div class="carousel-stage">
+                            <img src="{% static 'phone_example_2.webp' %}"
+                                 class="phone-card card-center"
+                                 data-index="0"
+                                 alt="Encarte digital no celular">
+                            <img src="{% static 'phone_example_3.webp' %}"
+                                 class="phone-card card-right"
+                                 data-index="1"
+                                 alt="Encarte digital no celular">
+                            <img src="{% static 'phone_example_1.png' %}"
+                                 class="phone-card card-left"
+                                 data-index="2"
+                                 alt="Encarte digital no celular">
+                        </div>
+
+                        <!-- Controles -->
+                        <button class="carousel-btn carousel-prev" id="prevBtn" aria-label="Anterior">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="carousel-btn carousel-next" id="nextBtn" aria-label="Próximo">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+                        <!-- Progresso sutil -->
+                        <div class="carousel-progress" id="carouselProgress">
+                            <span class="progress-bar active"></span>
+                            <span class="progress-bar"></span>
+                            <span class="progress-bar"></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ══ DEPOIMENTO ══ -->
+    <!-- DEPOIMENTO (COMENTADO ATÉ TER UM REAL) -->
+    <!--
     <section class="testimonial-section">
         <div class="container">
             <div class="testimonial-card reveal">
                 <div class="quote-mark">"</div>
                 <blockquote>Agora meus clientes veem as ofertas pelo celular antes de vir à loja. Já chegam sabendo o que querem.</blockquote>
                 <cite>— Anunciante do KM32</cite>
-                <!-- Substituir pelo depoimento real assim que disponível -->
             </div>
         </div>
     </section>
+    -->
 
-    <!-- ══ CTA FINAL ══ -->
+    <!-- CTA FINAL -->
     <section class="cta-section" id="contato">
         <div class="container">
             <div class="cta-inner reveal">
@@ -328,7 +339,7 @@
                     <span>Comece agora</span>
                 </div>
                 <h2>Pronto para digitalizar<br>seu encarte?</h2>
-                <p>Fala com a gente. A gente configura tudo — você só precisa enviar o material.</p>
+                <p>Fala com a gente. Nós configuramos tudo. Você só precisa enviar o material.</p>
                 <div class="cta-links">
                     <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20meu%20encarte%20digital%20no%20Click32!"
                        class="cta-link whatsapp"

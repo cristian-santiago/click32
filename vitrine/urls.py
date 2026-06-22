@@ -35,6 +35,7 @@ urlpatterns = [
     path('faq/', views.faq, name='faq'),
     path('flyer-landing/', views.flyer_landing, name='flyer_landing'),
     path('feedback/', views.feedback, name='feedback'),
+    path('feedback/', views.feedback_page, name='feedback_page'),
     path('bairros/', views.bairros, name='bairros'),
 
     
@@ -46,6 +47,7 @@ urlpatterns = [
     path('track-share/<int:store_id>/', views.track_share, name='track_share'),
     path('track-pwa-click/', views.track_pwa_click, name='track_pwa_click'),
     path('api/notificacoes/', views.notificacoes_ativas, name='notificacoes_ativas'),
+    path('api/feedback/', views.submit_feedback, name='submit_feedback'),
 
     path('log-debug/', views.log_debug, name='log_debug'),
     path("service-worker.js", views.service_worker, name="service_worker"),

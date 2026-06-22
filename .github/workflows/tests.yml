@@ -1,0 +1,74 @@
+# .github/workflows/tests.yml
+
+name:  Testes Automáticos
+
+on:
+  pull_request:
+    branches: [dev, staging]
+  push:
+    branches: [dev, staging]
+
+jobs:
+  test:
+    name: Rodar Testes Django
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_pass
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name:  Baixar código
+        uses: actions/checkout@v3
+
+      - name:  Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name:  Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name:  Configurar variáveis de ambiente
+        run: |
+          echo "DEBUG=False" >> .env
+          echo "SECRET_KEY=teste123456789" >> .env
+          echo "DATABASE_URL=postgres://test_user:test_pass@localhost:5432/test_db" >> .env
+          echo "POSTGRES_DB=test_db" >> .env
+          echo "POSTGRES_USER=test_user" >> .env
+          echo "POSTGRES_PASSWORD=test_pass" >> .env
+          echo "POSTGRES_HOST=localhost" >> .env
+          echo "POSTGRES_PORT=5432" >> .env
+
+      - name:  Rodar migrations
+        run: |
+          python manage.py makemigrations vitrine
+          python manage.py migrate
+
+      - name:  Rodar testes
+        run: |
+          python manage.py test vitrine.tests -v 2
+
+      - name:  Sucesso
+        if: success()
+        run: echo "🎉 Testes passaram! Pode fazer o merge."
+
+      - name:  Falha
+        if: failure()
+        run: |
+          echo "Testes falharam! Corrija antes de fazer o merge."
+          exit 1

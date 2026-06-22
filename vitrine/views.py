@@ -7,7 +7,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 from django_ratelimit.decorators import ratelimit
 from django.core.cache import cache
-from .models import Store, ClickTrack, ClickTrackDaily, Category, ShareTrack, PWADownloadClick, ActiveSession, StoreNotification, Tag
+from .models import Store, ClickTrack, ClickTrackDaily, Category, ShareTrack, PWADownloadClick, ActiveSession, StoreNotification, Tag, Feedback
+from .click32_admin.forms import FeedbackForm
 import pdf2image
 import glob
 import hashlib
@@ -429,7 +430,7 @@ def track_click(request, store_id=None, element_type=None):
                     last_clicked=timezone.now()
                 )
             logger.info("Click tracked: Home Access")
-            return None
+            return HttpResponse(status=200)
 
         store = Store.objects.get(id=store_id)
 
@@ -1084,3 +1085,81 @@ def notificacoes_ativas(request):
 
 def notification_page(request):
     return render(request, 'notif_page.html')
+
+
+def submit_feedback(request):
+    """
+    Endpoint para receber feedbacks dos usuários
+    """
+    try:
+        # Parse do JSON
+        data = json.loads(request.body)
+        
+        # Pega session_id do header
+        session_uuid = request.headers.get('X-Session-ID')
+        
+        # Busca ou cria sessão
+        session = None
+        if session_uuid:
+            try:
+                session = ActiveSession.objects.get(session_id=session_uuid)
+                session.last_activity = timezone.now()
+                session.save()
+            except ActiveSession.DoesNotExist:
+                session = ActiveSession.objects.create()
+        else:
+            # Se não tem session_id, cria uma nova
+            session = ActiveSession.objects.create()
+        
+        # Anti-spam: verifica último feedback da mesma sessão
+        if session:
+            last_feedback = Feedback.objects.filter(
+                session=session
+            ).order_by('-created_at').first()
+            
+            if last_feedback:
+                time_diff = timezone.now() - last_feedback.created_at
+                if time_diff.total_seconds() < 10:
+                    logger.warning(f"Feedback muito rápido - Session: {session.session_id}")
+                    return JsonResponse({
+                        'error': 'Aguarde alguns segundos antes de enviar outro feedback'
+                    }, status=429)
+        
+        # Validação com Form
+        form = FeedbackForm(data)
+        
+        if not form.is_valid():
+            logger.warning(f"Feedback inválido - Session: {session.session_id}, Errors: {form.errors}")
+            return JsonResponse({
+                'error': 'Dados inválidos',
+                'details': form.errors
+            }, status=400)
+        
+        # Salva o feedback
+        feedback = form.save(commit=False)
+        feedback.session = session
+        feedback.user_agent = request.META.get('HTTP_USER_AGENT', '')
+        feedback.save()
+        
+        logger.info(f"Feedback recebido - ID: {feedback.id}, Session: {session.session_id}")
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Feedback recebido com sucesso! Obrigado!',
+            'feedback_id': feedback.id
+        }, status=201)
+        
+    except json.JSONDecodeError:
+        logger.error(f"JSON inválido no feedback")
+        return JsonResponse({'error': 'Dados inválidos'}, status=400)
+    except Exception as e:
+        logger.error(f"Erro ao processar feedback - Error: {str(e)}")
+        return JsonResponse({'error': 'Erro interno'}, status=500)
+
+
+def feedback_page(request):
+    """Página de feedback"""
+    context = {
+        'category_tags': get_category_tags(),
+    }
+    return render(request, 'feedback.html', context)

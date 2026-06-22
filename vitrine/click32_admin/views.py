@@ -18,8 +18,9 @@ import os
 import shutil
 import logging
 import json
+from django.db import models
 from .forms import StoreForm, TagForm, CategoryForm, GroupForm, StoreOpeningHourFormSet
-from vitrine.models import Store, Tag, Category, ShareTrack, PWADownloadClick, StoreNotification
+from vitrine.models import Store, Tag, Category, ShareTrack, PWADownloadClick, StoreNotification, Feedback, ActiveSession
 from vitrine.views import cleanup_flyer_files
 import qrcode
 import qrcode.image.svg
@@ -1096,3 +1097,45 @@ def generate_qr_code(request, qr_uuid):
             return response
     except Store.DoesNotExist:
         raise Http404("Loja não encontrada")
+
+@check_permission(lambda u: u.is_superuser)
+def feedback_list(request):
+    """Lista todos os feedbacks"""
+    from vitrine.models import Feedback
+    from django.db import models  # ← Import aqui também
+    
+    feedbacks = Feedback.objects.select_related('session').all().order_by('-created_at')
+    
+    # Estatísticas
+    total = feedbacks.count()
+    avg_rating = feedbacks.aggregate(avg=models.Avg('rating'))['avg'] or 0
+    
+    # Feedbacks por categoria
+    categories = {}
+    for cat, label in Feedback.CATEGORY_CHOICES:
+        categories[label] = feedbacks.filter(category=cat).count()
+    
+    context = {
+        'feedbacks': feedbacks,
+        'total': total,
+        'avg_rating': round(avg_rating, 1),
+        'categories': categories,
+    }
+    
+    logger.info(f"Feedback list accessed - User: {request.user}, Total: {total}")
+    return render(request, 'click32_admin/feedback_list.html', context)
+
+
+@check_permission(lambda u: u.is_superuser)
+def feedback_detail(request, feedback_id):
+    """Visualiza um feedback específico"""
+    from vitrine.models import Feedback
+    
+    feedback = get_object_or_404(Feedback, id=feedback_id)
+    
+    context = {
+        'feedback': feedback,
+    }
+    
+    logger.info(f"Feedback detail accessed - User: {request.user}, ID: {feedback_id}")
+    return render(request, 'click32_admin/feedback_detail.html', context)

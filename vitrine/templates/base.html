@@ -61,6 +61,11 @@
   <title>{% block title %}Click32{% endblock %}</title>
 </head>
 <body>
+  <script>
+    if (window.location.hash === '#connect') {
+        document.body.classList.add('no-skeleton');
+    }
+</script>
 
   <div class="skeleton-screen" id="skeletonScreen">
   <div class="sk-shell">
@@ -72,7 +77,11 @@
     </div>
   </div>
 </div>
-
+<style>
+    .no-skeleton .skeleton-screen {
+        display: none !important;
+    }
+</style>
 {% block toolbar_top %}
     {% include 'navbar_top_geral.html' %}
 {% endblock %}

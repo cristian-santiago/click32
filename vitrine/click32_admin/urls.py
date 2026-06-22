@@ -49,6 +49,10 @@ urlpatterns = [
     path('categories/<int:category_id>/edit/', views.category_edit, name='category_edit'),
     path('categories/<int:category_id>/delete/', views.category_delete, name='category_delete'),
 
+    # Feedback
+    path('feedback/', views.feedback_list, name='feedback_list'),
+    path('feedback/<int:feedback_id>/', views.feedback_detail, name='feedback_detail'),
+
     # QR Code Generation
     path('generate-qr-code/<uuid:qr_uuid>/', views.generate_qr_code, name='generate_qr_code'),
     

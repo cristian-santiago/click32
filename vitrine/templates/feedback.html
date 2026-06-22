@@ -3,6 +3,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/feedback.css' %}?v={{ STATIC_VERSION }}">
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 {% endblock %}
 
 {% block content %}
@@ -23,7 +24,7 @@
                 <span>Sua opinião importa</span>
             </div>
             <h1>Ajude o <span class="highlight">Click32</span> a melhorar</h1>
-            <p>Compartilhe sua experiência com o Click32. Cada feedback nos ajuda a construir um app melhor para o bairro.</p>
+            <p>Compartilhe sua experiência. Cada feedback nos ajuda a construir um app melhor.</p>
         </div>
 
         <!-- Form Wrap -->
@@ -66,12 +67,12 @@
 
             <!-- Campo de texto -->
             <div class="feedback-field">
-                <label class="feedback-label">Conte-nos mais</label>
+                <label class="feedback-label">Descreva seu feedback</label>
                 <textarea 
                     id="feedbackText" 
                     class="feedback-textarea" 
-                    placeholder="Descreva seu feedback aqui. Seja específico — isso nos ajuda a entender melhor."
-                    rows="5"
+                    placeholder="Descreva seu feedback aqui."
+                    rows="4"
                 ></textarea>
                 <div class="char-count">
                     <span id="charCount">0</span>/500
@@ -95,14 +96,14 @@
             <p>Obrigado por nos ajudar a melhorar o Click32.</p>
             <button type="button" class="feedback-back-btn" id="backBtn">
                 <i class="fas fa-arrow-left"></i>
-                Enviar outro feedback
+                Enviar outro
             </button>
         </div>
 
     </div>
 </section>
 
-<!-- Info adicional (opcional - pode remover se quiser mais enxuto) -->
+<!-- Info adicional + CTA Final (segunda tela) -->
 <section class="feedback-info-section">
     <div class="container">
         <div class="feedback-info-grid">
@@ -113,13 +114,53 @@
             </div>
             <div class="info-card">
                 <i class="fas fa-bolt"></i>
-                <h4>Resposta rápida</h4>
-                <p>Bugs críticos têm prioridade.</p>
+                <h4>Atenção total</h4>
+                <p>Lemos todos os feedbacks com cuidado.</p>
             </div>
             <div class="info-card">
                 <i class="fas fa-heart"></i>
                 <h4>Construído com você</h4>
                 <p>Cada feedback conta.</p>
+            </div>
+        </div>
+
+        
+    </div>
+</section>
+<!-- CTA Footer -->
+<section class="connect-section" id="connect">
+    <div class="container">
+        <div class="connect-inner">
+            <div class="connect-text">
+                <h2>Precisa de uma resposta?</h2>
+                <p>Se seu feedback precisa de retorno, fale conosco diretamente pelos canais abaixo.</p>
+            </div>
+            <div class="connect-links">
+                <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Olá! Gostaria de dar meu feedback sobre o Click32."
+                   class="connect-link whatsapp"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Contato por WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="link-title">WhatsApp</span>
+                    <span class="link-sub">Fale conosco</span>
+                </a>
+                <a href="https://www.instagram.com/click32.app"
+                   class="connect-link instagram"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Nosso Instagram">
+                    <i class="fab fa-instagram"></i>
+                    <span class="link-title">Instagram</span>
+                    <span class="link-sub">@click32.app</span>
+                </a>
+                <a href="mailto:{{ settings.CONTACT_EMAIL|default:'click32.contato@gmail.com' }}?subject=Feedback%20sobre%20o%20Click32&body=Olá! Gostaria de compartilhar meu feedback."
+                   class="connect-link email"
+                   aria-label="Enviar email">
+                    <i class="fas fa-envelope"></i>
+                    <span class="link-title">E-mail</span>
+                    <span class="link-sub">Prefere escrever?</span>
+                </a>
             </div>
         </div>
     </div>

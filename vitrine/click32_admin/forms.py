@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 from django.utils.html import strip_tags
 from django.template.defaultfilters import filesizeformat
-from vitrine.models import Store, Tag, Category, StoreOpeningHour
+from vitrine.models import Store, Tag, Category, StoreOpeningHour, Feedback
 from django_ckeditor_5.widgets import CKEditor5Widget
 import re
 class MaxFileSizeValidator:
@@ -127,3 +127,27 @@ StoreOpeningHourFormSet = inlineformset_factory(
     max_num=3,
     can_delete=False  # sem checkbox de excluir
 )
+
+class FeedbackForm(forms.ModelForm):
+    """Formulário para validação de feedback"""
+    
+    class Meta:
+        model = Feedback
+        fields = ['rating', 'category', 'message']
+        widgets = {
+            'rating': forms.NumberInput(attrs={'min': 1, 'max': 5}),
+            'category': forms.Select(),
+            'message': forms.Textarea(attrs={'maxlength': 500}),
+        }
+    
+    def clean_message(self):
+        message = self.cleaned_data.get('message', '').strip()
+        if len(message) < 3:
+            raise forms.ValidationError("Mensagem muito curta (mínimo 3 caracteres)")
+        return message
+    
+    def clean_rating(self):
+        rating = self.cleaned_data.get('rating')
+        if rating not in [1, 2, 3, 4, 5]:
+            raise forms.ValidationError("Avaliação inválida")
+        return rating

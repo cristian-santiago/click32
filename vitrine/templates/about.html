@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load static %} 
 
-    {% block extra_css %}
+{% block extra_css %}
 
  
     <link rel="stylesheet" href="{% static 'css/about.css' %}?v={{ STATIC_VERSION }}">
 
   
-    {% endblock %}
+{% endblock %}
 
 
 {% block content %}  
@@ -21,41 +21,41 @@
         <div class="hero-content">
             <div class="hero-badge">
                 <i class="fas fa-info-circle"></i>
-                <span>Sobre o Click32</span>
+                <span>Conheça o Click32</span>
             </div>
-            <h1>O bairro tem muito mais<br><span class="highlight">do que você imagina.</span></h1>
-            <p>O Click32 reúne tudo que existe no Km32 — comércios, serviços e profissionais — em um só lugar. Fácil de achar, fácil de usar, sem precisar perguntar em grupos.</p>
+            <h1>O bairro tem muito mais.<br><span class="highlight">Você só não viu ainda.</span></h1>
+            <p>O Click32 reúne os melhores comércios, serviços e profissionais do Km32 em um só lugar. Fácil de achar, fácil de usar. Sem precisar perguntar em grupos.</p>
             <div class="hero-ctas">
                 <a href="{% url 'home' %}" class="cta-primary">Explorar o Km32 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
                 <a href="#" id="installBtn" class="cta-secondary hidden" aria-label="Instalar aplicativo">
-                    Baixar o app <i class="fas fa-download" aria-hidden="true"></i>
+                    Instalar o app <i class="fas fa-download" aria-hidden="true"></i>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- O QUE É -->
+    <!-- COMO FUNCIONA -->
     <section class="section">
         <div class="container">
-            <div class="section-label">O que é o Click32</div>
+            <div class="section-label">Como funciona</div>
             <h2>Um endereço digital para o seu bairro.</h2>
-            <p>O Click32 é um app para descobrir o que o Km32 tem a oferecer. Cada negócio, profissional ou serviço cadastrado tem seu próprio perfil — com contatos, localização e tudo mais para você chegar até quem precisa, sem rodeios.</p>
+            <p>O Click32 é um app para descobrir tudo que o Km32 tem a oferecer. Cada negócio, profissional ou serviço tem um perfil completo — com contatos, localização e a informação certa para você agir sem rodeios.</p>
             <p>Sem cadastro, sem login. Você abre, navega e encontra.</p>
             <div class="cards">
                 <div class="card">
                     <i class="fas fa-comments"></i>
                     <h3>Contato direto</h3>
-                    <p>WhatsApp, Instagram, telefone, localização — tudo no perfil, com um toque você já está falando com quem precisa.</p>
+                    <p>WhatsApp, Instagram, telefone, localização. Um toque e você já fala com quem precisa.</p>
                 </div>
                 <div class="card">
                     <i class="fas fa-file-image"></i>
-                    <h3>Encarte digital</h3>
-                    <p>Alguns perfis disponibilizam um encarte digital — acesse com um toque e veja o que o anunciante tem para mostrar, na hora.</p>
+                    <h3>Materiais digitais</h3>
+                    <p>Cardápios, catálogos, portfólios — se o negócio tiver um encarte digital, você acessa direto do perfil.</p>
                 </div>
                 <div class="card">
                     <i class="fas fa-shield-alt"></i>
                     <h3>Tudo verificado</h3>
-                    <p>Nenhum perfil entra no ar sem passar pela nossa validação. O que você vê aqui é real e confiável.</p>
+                    <p>Nenhum perfil entra no ar sem validação. O que você vê aqui é real e confiável.</p>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
                     <div class="timeline-icon"><i class="fas fa-bolt"></i></div>
                     <div>
                         <h3>Tudo num lugar só</h3>
-                        <p>Chega de procurar contato em grupo de WhatsApp, no Google ou numa indicação que pode estar desatualizada. Está tudo aqui.</p>
+                        <p>Nada de grupos de WhatsApp, Google ou indicações desatualizadas. Tudo que você precisa está aqui.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
@@ -91,8 +91,8 @@
                 <div class="timeline-item">
                     <div class="timeline-icon"><i class="fas fa-hand-holding-heart"></i></div>
                     <div>
-                        <h3>O bairro ganha junto</h3>
-                        <p>Cada vez que você encontra e usa um serviço daqui, o Km32 fica mais forte. É simples assim.</p>
+                        <h3>Fortalecer o bairro</h3>
+                        <p>Cada vez que você encontra e usa um serviço daqui, o Km32 fica mais forte. Você ganha, o bairro ganha.</p>
                     </div>
                 </div>
             </div>
@@ -102,8 +102,8 @@
     <!-- CTA FINAL -->
     <section class="section section-cta">
         <div class="container">
-            <h2>Faz parte do Km32?<br>Então o Click32 é seu.</h2>
-            <p>Seja para encontrar um serviço ou para colocar o seu negócio no mapa — o Click32 está aqui para isso.</p>
+            <h2>Você faz parte do Km32?<br>Então o Click32 é seu.</h2>
+            <p>Para encontrar serviços ou colocar seu negócio no mapa. O Click32 está aqui para isso.</p>
             <div class="cards">
                 <a href="{% url 'home' %}" class="card card-link">
                     <i class="fas fa-compass"></i>
@@ -118,9 +118,8 @@
                 <a href="{% url 'home' %}" class="card card-link">
                     <i class="fas fa-share-nodes"></i>
                     <h3>Compartilhe com o bairro</h3>
-                    <p>Encontrou algo útil? Manda para quem precisa.</p>
-                
-
+                    <p>Encontrou algo útil? Compartilhe com quem também precisa.</p>
+                </a>
 
                 <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}"
                    class="card card-link"
@@ -137,13 +136,8 @@
    
 {% endblock %}
 
-
-
 {% block extra_js %}
     {{ block.super }}
     <script src="{% static 'js/about.js' %}?v={{ STATIC_VERSION }}"></script>
     
 {% endblock %}
-
-
-

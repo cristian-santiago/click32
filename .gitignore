@@ -15,6 +15,10 @@ __pycache__/
 *.swp
 *.swo
 
+#copy
+copy-content/
+*.md
+
 # DB e logs (desenvolvimento)
 db.sqlite3
 *.sqlite3

@@ -1,0 +1,117 @@
+<!-- vitrine/click32_admin/templates/click32_admin/feedback_list.html -->
+
+{% extends 'click32_admin/base.html' %}
+{% load static %}
+
+{% block title %}Feedbacks - Click32 Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">
+            <i class="fas fa-comment-dots"></i> Feedbacks
+        </h1>
+        <span class="badge bg-primary">{{ total }} total</span>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h6 class="card-title">Total</h6>
+                    <h3>{{ total }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <h6 class="card-title">Média de Estrelas</h6>
+                    <h3>{{ avg_rating }} ★</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h6 class="card-title">Elogios</h6>
+                    <h3>{{ categories.Elogio|default:0 }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h6 class="card-title">Problemas</h6>
+                    <h3>{{ categories.Problema|default:0 }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Avaliação</th>
+                            <th>Categoria</th>
+                            <th>Mensagem</th>
+                            <th>Data</th>
+                            <th>Sessão</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for feedback in feedbacks %}
+                        <tr>
+                            <td>{{ feedback.id }}</td>
+                            <td>
+                                {% for i in "12345"|make_list %}
+                                    {% if forloop.counter <= feedback.rating %}
+                                        <i class="fas fa-star text-warning"></i>
+                                    {% else %}
+                                        <i class="far fa-star text-muted"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <span class="badge 
+                                    {% if feedback.category == 'praise' %}bg-success
+                                    {% elif feedback.category == 'problem' %}bg-danger
+                                    {% elif feedback.category == 'suggestion' %}bg-info
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ feedback.get_category_display }}
+                                </span>
+                            </td>
+                            <td>{{ feedback.message|truncatechars:50 }}</td>
+                            <td>{{ feedback.created_at|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                <span class="text-muted small">{{ feedback.session.session_id|truncatechars:8 }}</span>
+                            </td>
+                            <td>
+                                <a href="{% url 'click32_admin:feedback_detail' feedback.id %}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <i class="fas fa-inbox fa-2x text-muted mb-2"></i>
+                                <p class="text-muted">Nenhum feedback recebido ainda.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

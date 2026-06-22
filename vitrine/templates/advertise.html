@@ -2,12 +2,12 @@
 
 {% load static %}
 
-    {% block extra_css %}
+{% block extra_css %}
    
     <link rel="stylesheet" href="{% static 'css/advertise.css' %}?v={{ STATIC_VERSION }}">
 
     
-    {% endblock %}
+{% endblock %}
 
 {% block content %}
     <!-- HERO -->
@@ -23,8 +23,8 @@
                 <i class="fas fa-bullhorn"></i>
                 <span>Anuncie no Click32</span>
             </div>
-                <h1>Seu negócio existe.<br><span class="highlight">Agora precisa ser encontrado.</span></h1>
-                <p>Todo dia, moradores do Km32 procuram por quem oferece o que você tem — e não te encontram. O Click32 muda isso.</p>
+                <h1>Seu negócio existe.<br><span class="highlight">Está na hora de ser encontrado.</span></h1>
+                <p>Todo dia, moradores do Km32 procuram exatamente o que você oferece e não te encontram. O Click32 muda isso.</p>
                 <div class="hero-ctas">
                     <a href="#connect" class="cta-primary">Quero meu perfil no Click32<i class="fas fa-rocket" aria-hidden="true"></i></a>
                     <a href="{% url 'home' %}" class="cta-secondary">Explorar o app <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
@@ -55,18 +55,18 @@
             <div class="problem-grid">
                 <div class="problem-card">
                     <div class="problem-icon"><i class="fas fa-search"></i></div>
-                    <p>Alguém aqui no bairro precisava exatamente do que você faz — pesquisou, não te encontrou, e foi para outra pessoa.</p>
+                    <p>Alguém no bairro precisava exatamente do que você faz. Pesquisou, não te achou e foi para outra pessoa.</p>
                 </div>
                 <div class="problem-card">
                     <div class="problem-icon"><i class="fab fa-whatsapp"></i></div>
-                    <p>Alguém pediu indicação no grupo do condomínio. Ninguém te marcou — porque ninguém lembrava do seu contato na hora.</p>
+                    <p>Alguém pediu indicação no grupo do condomínio. Ninguém te lembrou porque ninguém tinha seu contato à mão.</p>
                 </div>
                 <div class="problem-card">
                     <div class="problem-icon"><i class="fa fa-map-location-dot"></i></div>
-                    <p>Você tem qualidade, tem disponibilidade, tem preço justo. O que falta é aparecer para quem está a dois quarteirões de você.</p>
+                    <p>Você tem qualidade, disponibilidade, preço justo. O que falta é aparecer para quem está a dois quarteirões.</p>
                 </div>
             </div>
-            <p class="problem-conclusion">O Km32 tem movimento, tem gente, tem quem precise do que você oferece. O que faltava era um lugar onde tudo isso se encontrasse.</p>
+            <p class="problem-conclusion">O Km32 tem movimento, gente e quem precise do que você oferece. O que faltava era um lugar onde tudo isso se encontrasse.</p>
         </div>
     </section>
 
@@ -76,17 +76,17 @@
             <div class="vision-content">
                 <div class="vision-text">
                     <div class="section-label">A solução</div>
-                    <h2>Seu perfil digital. No lugar certo, para as pessoas certas.</h2>
-                    <p>O Click32 é o diretório do Km32. Um endereço digital reunindo tudo que existe aqui — e conectando diretamente quem oferece com quem procura, dentro do bairro.</p>
-                    <p>Você tem um perfil com tudo que o cliente precisa para te encontrar e entrar em contato: WhatsApp, Instagram, localização, telefone e muito mais — tudo num clique, sem intermediário.</p>
-                    <p>E ainda recebe um <strong>QR Code exclusivo</strong> do seu perfil, gerado automaticamente. Coloca no cartão de visita, na fachada, onde quiser — quem escanear cai direto no seu perfil.</p>
+                    <h2>Seu perfil digital. No Km32, para quem mora no Km32.</h2>
+                    <p>O Click32 é o diretório do Km32. Um endereço digital que reúne o que existe aqui. Conecta diretamente quem oferece com quem procura, dentro do bairro.</p>
+                    <p>Você tem um perfil com tudo que o cliente precisa para te encontrar: WhatsApp, Instagram, localização, telefone. Tudo num clique, sem intermediário.</p>
+                    <p>E ainda recebe um QR Code exclusivo do seu perfil, gerado automaticamente. Coloque no cartão de visita, na fachada, onde quiser. Quem escanear vai direto para o seu perfil.</p>
                     <a href="#connect" class="cta-inline">Quero meu perfil agora <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="vision-stats">
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-id-card"></i></div>
                         <h3>Perfil completo</h3>
-                        <p>Todos os seus contatos reunidos num só lugar. O cliente clica e já fala com você.</p>
+                        <p>Todos os seus contatos num só lugar. Um clique e o cliente já fala com você.</p>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-qrcode"></i></div>
@@ -96,7 +96,7 @@
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-map-marked-alt"></i></div>
                         <h3>Visibilidade local</h3>
-                        <p>Você aparece para quem mora do lado — sem disputar espaço com negócios de outro bairro.</p>
+                        <p>Você aparece para quem mora do lado. Sem disputar espaço com negócios de outro bairro.</p>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@
         <div class="container">
             <div class="section-label light">Para quem é</div>
             <h2>Se você oferece algo, tem espaço aqui.</h2>
-            <p class="forwhom-subtitle">Não importa se você tem uma loja, um ateliê, um diploma ou só as mãos e o ofício. Se alguém no Km32 pode precisar do que você faz, você pode estar no Click32.</p>
+            <p class="forwhom-subtitle">Não importa se você tem loja, ateliê, diploma ou só seu ofício. Se alguém no Km32 pode precisar de você, você pode estar no Click32.</p>
             <div class="forwhom-grid">
                 <div class="forwhom-item">
                     <i class="fas fa-store"></i>
@@ -165,7 +165,7 @@
                     <div class="step-number">02</div>
                     <div class="step-content">
                         <h3>Montamos tudo</h3>
-                        <p>Criamos seu perfil com seus contatos, redes sociais, localização e o que mais precisar. Você não precisa fazer nada além de passar as informações.</p>
+                        <p>Criamos seu perfil com seus contatos, redes sociais e localização. Você só precisa passar as informações. Nós fazemos o resto.</p>
                     </div>
                 </div>
                 <div class="step-divider" aria-hidden="true"><i class="fas fa-chevron-down"></i></div>
@@ -189,17 +189,17 @@
                 <div class="power-card">
                     <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                     <h3>Só o Km32, do começo ao fim</h3>
-                    <p>Você não compete com negócio de outro bairro aqui. Quem abre o Click32 está procurando algo perto — e você aparece.</p>
+                    <p>Aqui você compete apenas com negócios do bairro. Quem abre o Click32 está procurando perto e você aparece.</p>
                 </div>
                 <div class="power-card">
                     <i class="fas fa-bolt" aria-hidden="true"></i>
                     <h3>Um clique, contato direto</h3>
-                    <p>WhatsApp, redes sociais, localização — tudo no seu perfil. Sem o cliente precisar garimpar seu contato em outro lugar.</p>
+                    <p>WhatsApp, redes sociais, localização. Tudo no seu perfil. Sem o cliente precisar buscar seu contato em outro lugar.</p>
                 </div>
                 <div class="power-card">
                     <i class="fas fa-mobile-alt" aria-hidden="true"></i>
                     <h3>No celular de quem mora aqui</h3>
-                    <p>O Click32 pode ser instalado como app direto no celular dos usuários — sem loja de aplicativos, sem complicação.</p>
+                    <p>O Click32 pode ser instalado como app direto no celular dos usuários. Sem loja de aplicativos, sem complicação.</p>
                 </div>
                 <div class="power-card">
                     <i class="fas fa-shield-alt" aria-hidden="true"></i>
@@ -210,18 +210,20 @@
         </div>
     </section>
 
-    <!-- ENCARTE DIGITAL (extra, tom leve) -->
+    <!-- ENCARTE DIGITAL -->
     <section class="flyer-section">
         <div class="container">
             <div class="flyer-inner">
                 <div class="flyer-text">
                     <div class="section-label">Bônus do perfil</div>
-                    <h2>Tem um cardápio? Uma tabela de preços? Um flyer?</h2>
-                    <p>Seu perfil no Click32 pode ter um <strong>encarte digital</strong> — um espaço para você disponibilizar qualquer material visual que o cliente queira ver. Cardápio, preços, promoções, o que fizer sentido para o seu negócio. Simples, sempre disponível, sem depender de grupo de WhatsApp.</p>
+                    <h2>Tem cardápio, tabela de preços ou flyer?</h2>
+                    <p>Seu perfil pode ter um encarte digital, um espaço para qualquer material que o cliente queira ver. Cardápio, preços, promoções, o que fizer sentido. Simples, disponível, sem depender de grupo de WhatsApp.</p>
                 </div>
-                <div class="flyer-visual">
+               <div class="flyer-visual">
                     <div class="flyer-demo">
-                        <i class="fas fa-file-image"></i>
+                        <div class="flyer-icon-wrapper">
+                            <img src="{% static 'icons/flyer_icon.webp' %}" alt="Encarte Digital">
+                        </div>
                         <span>Encarte Digital</span>
                         <small>Disponível no perfil da loja</small>
                     </div>
@@ -238,7 +240,7 @@
             <div class="proof-banner">
                 <i class="fas fa-quote-left" aria-hidden="true"></i>
                 <blockquote>
-                    "Antes eu mandava o endereço no WhatsApp e torcia para a pessoa achar. Agora mando o link do meu perfil — ela já vê tudo que precisa e fala comigo na hora."
+                    "Antes eu mandava o endereço no WhatsApp e torcia para a pessoa achar. Agora mando o link do meu perfil. Ela já vê tudo que precisa e fala comigo na hora."
                 </blockquote>
                 <cite>— Anunciante do Km32</cite>
             </div>
@@ -252,8 +254,8 @@
             <div class="resident-content">
                 <div class="resident-text">
                     <div class="section-label">Para quem mora aqui</div>
-                    <h2>Tudo que o Km32 tem a oferecer — em um só lugar.</h2>
-                    <p>Precisa de um serviço, quer conhecer um comércio novo ou está procurando alguém de confiança perto de você? Abre o Click32 e encontra — sem perguntar em grupo, sem depender de sorte.</p>
+                    <h2>É para quem mora aqui também.</h2>
+                    <p>Precisa de um serviço ou quer conhecer um comércio novo? Abre o Click32 e encontra, sem perguntar em grupos.</p>
                     <a href="{% url 'home' %}" class="cta-secondary">Explorar o Km32 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
                 </div>
                 <div class="resident-highlights">
@@ -289,14 +291,14 @@
                         <i class="fas fa-circle-question"></i>
                         <span>Preciso ter site, redes sociais ou CNPJ?</span>
                     </div>
-                    <p>Não. O Click32 funciona de forma independente. Se você tiver Instagram, WhatsApp ou qualquer outro contato, colocamos no perfil. Se não tiver nada além do telefone, também funciona.</p>
+                    <p>Não. Se você tiver Instagram, WhatsApp ou qualquer outro contato, colocamos no perfil. Se não tiver nada além do telefone, também funciona.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <i class="fas fa-circle-question"></i>
                         <span>Quanto tempo leva para meu perfil estar no ar?</span>
                     </div>
-                    <p>Em poucos minutos após o contato. Cuidamos de toda a criação — você só precisa passar as informações.</p>
+                    <p>Em poucos minutos após o contato. Cuidamos de toda a criação. Você só precisa passar as informações.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
@@ -310,7 +312,7 @@
                         <i class="fas fa-circle-question"></i>
                         <span>Quem pode anunciar?</span>
                     </div>
-                    <p>Qualquer pessoa que tenha um serviço, um espaço ou um negócio para divulgar no Km32. De loja a profissional autônomo — se você atende aqui, pode estar aqui.</p>
+                    <p>Qualquer pessoa que tenha um serviço, um espaço ou um negócio para divulgar no Km32. De loja a profissional autônomo. Se você atende aqui, pode estar aqui.</p>
                 </div>
             </div>
         </div>
@@ -322,10 +324,10 @@
             <div class="connect-inner">
                 <div class="connect-text">
                     <h2>Pronto para ser encontrado?</h2>
-                    <p>Fale com conosco. Nós criamos, configuramos e colocamos seu perfil no ar — você só precisa aparecer para o bairro.</p>
+                    <p>Fale conosco. Nós criamos, configuramos e colocamos seu perfil no ar. Você só precisa aparecer para o bairro.</p>
                 </div>
                 <div class="connect-links">
-                    <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Quero%20anunciar%20no%20Click32!"
+                    <a href="https://wa.me/{{ settings.WHATSAPP_NUMBER|default:'5521910363456' }}?text=Olá! Gostaria de anunciar no Click32."
                        class="connect-link whatsapp"
                        target="_blank"
                        rel="noopener noreferrer"
@@ -359,4 +361,5 @@
 {% block extra_js %}
     {{ block.super }}
     <script src="{% static 'js/advertise.js' %}?v={{ STATIC_VERSION }}"></script>
+    
 {% endblock %}
